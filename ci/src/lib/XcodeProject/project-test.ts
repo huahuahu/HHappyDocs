@@ -2,14 +2,14 @@
 
 import { spawn} from "child_process";
 import { Project, Platform } from "./ProjectName";
-import { IOS_DESTINATION } from "../Constants/constants";
+import { IOS_DESTINATION, WORKSPACE_NAME } from "../Constants/constants";
 
 
 export async function test_project(project: Project, platforms?: Platform[]) : Promise<number> { 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return new Promise((resolve, _) => {
     
-    const workspace = "MonoProjects";
+    const workspace = WORKSPACE_NAME;
     const platfromsToBuild = platforms ?? project.supportedPlatforms
     console.log(`build ${project.name} for ${platfromsToBuild.join(', ')}`)
     let commands: string[] = []

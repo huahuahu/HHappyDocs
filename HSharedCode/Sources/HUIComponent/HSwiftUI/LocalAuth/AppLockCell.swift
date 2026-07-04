@@ -1,6 +1,6 @@
 //
 //  AppLockCell.swift
-//  ClipboardInspector
+//  HUIComponent
 //
 //  Created by tigerguo on 2023/4/16.
 //

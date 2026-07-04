@@ -1,0 +1,19 @@
+schemaVersion: 1
+enabledWorkflows:
+  - coverage
+  - debugging
+  - simulator
+  - swift-package
+  - ui-automation
+  - utilities
+  - xcode-ide
+debug: true
+sentryDisabled: false
+setupPreferences:
+  platforms:
+    - iOS
+sessionDefaults:
+  projectPath: MonoRepos/HDiary/HDiary.xcodeproj
+  scheme: HDiary
+  simulatorId: A044BA15-7770-48E6-8E28-E2123A772ACD
+  simulatorName: hdiary 17pro

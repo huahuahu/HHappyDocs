@@ -20,8 +20,8 @@ Just search previous version
 1. 更新截图
 2. 更新 What's New in This Version
 3. 更新 build
-4. check support url   
-应该是 https://www.libaiapp.com  
+4. check support url
+应该是 HDiary 的 support URL，例如 `websites/hdiary/index.html` 对应的线上地址。
 这个网站应该可以访问
 5. Don't Add for review
 

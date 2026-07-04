@@ -20,7 +20,7 @@ import Foundation
 //    }
 //  }
 //
-//  static let apppNameForLocation = "ios.tigerhuahuahu.libai"
+//  static let appNameForLocation = "ios.tigerhuahuahu.hdiary"
 // }
 
 public protocol HLocationOpener {

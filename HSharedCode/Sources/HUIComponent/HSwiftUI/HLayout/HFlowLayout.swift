@@ -1,6 +1,6 @@
 //
 //  HFlowLayout.swift
-//  Libai (iOS)
+//  HUIComponent
 //
 //  Created by huahuahu on 2022/8/27.
 //

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Our Apps</title>
+    <title>HDiary</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,25 +40,21 @@
     </style>
     <script>
         window.onload = function() {
-            var userLang = navigator.language || navigator.userLanguage; 
+            var userLang = navigator.language || navigator.userLanguage;
             var messageElement = document.getElementById('message');
 
-            if(userLang.startsWith('zh')) {
+            if (userLang.startsWith('zh')) {
                 messageElement.innerHTML = `
-                    <h1>应用</h1>
+                    <h1>快乐日记</h1>
                     <ul>
                         <li><a href="hdiary/index.html">快乐日记</a></li>
-                        <li><a href="hdoc/index.html">健康记录</a></li>
-                        <!-- 在此处添加更多应用 -->
                     </ul>
                 `;
             } else {
                 messageElement.innerHTML = `
-                    <h1>All Apps</h1>
+                    <h1>HDiary</h1>
                     <ul>
                         <li><a href="hdiary/index.html">HDiary</a></li>
-                        <li><a href="hdoc/index.html">Health Doc</a></li>
-                        <!-- Add more apps here -->
                     </ul>
                 `;
             }

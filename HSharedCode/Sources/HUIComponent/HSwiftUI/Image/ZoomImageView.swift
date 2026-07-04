@@ -1,6 +1,6 @@
 //
 //  ZoomImageView.swift
-//  Libai
+//  HUIComponent
 //
 //  Created by huahuahu on 2022/2/5.
 //

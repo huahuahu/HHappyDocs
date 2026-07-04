@@ -14,6 +14,6 @@
 	],
 	"workspace": "MonoProjects.xcworkspace",
 	"build_root": "build",
-	"scheme": "HDoc",
+	"scheme": "HDiary",
 	"kind": "xcode"
 }

@@ -1,7 +1,7 @@
-// HDoc TestFlight Build Configuration
-// This file configures Xcode to use Automatic signing for Distribution
+// HDiary TestFlight Build Configuration
+// This file configures Xcode to use Automatic signing for Distribution.
 
 CODE_SIGN_IDENTITY = Apple Distribution
 CODE_SIGN_STYLE = Automatic
 DEVELOPMENT_TEAM = F29WG8477A
-// Let Xcode automatically manage provisioning profiles for distribution
+// Let Xcode automatically manage provisioning profiles for distribution.

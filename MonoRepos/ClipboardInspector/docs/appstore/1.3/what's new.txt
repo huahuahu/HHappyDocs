@@ -1,3 +1,0 @@
-可以不请求权限展示剪切板部分信息
-
-Show clipboard info without requestion permisson

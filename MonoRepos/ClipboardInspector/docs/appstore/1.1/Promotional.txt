@@ -1,5 +1,0 @@
-剪切板调试工具。
-
-
-## English
-A pasteboard debug tool

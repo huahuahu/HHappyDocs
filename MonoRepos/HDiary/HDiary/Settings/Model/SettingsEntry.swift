@@ -1,6 +1,6 @@
 //
 //  SettingsEntry.swift
-//  ClipboardInspector
+//  HDiary
 //
 //  Created by tigerguo on 2023/4/2.
 //

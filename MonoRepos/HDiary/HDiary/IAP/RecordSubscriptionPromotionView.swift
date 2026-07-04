@@ -1,6 +1,6 @@
 //
 //  RecordSubscriptionPromotionView.swift
-//  HDoc
+//  HDiary
 //
 //  Created by tigerguo on 2024/1/17.
 //

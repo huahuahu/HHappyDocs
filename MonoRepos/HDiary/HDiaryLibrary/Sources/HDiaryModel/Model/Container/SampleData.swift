@@ -30,7 +30,7 @@
       }
       Task {
         do {
-          try SampleDataHandler.inMemoryDataHandler.insertSampleData()
+          try await SampleDataHandler.inMemoryDataHandler.insertSampleData()
         }
         catch {
           Log.data.error("Failed to insert sample data to inMemory container: \(error)")

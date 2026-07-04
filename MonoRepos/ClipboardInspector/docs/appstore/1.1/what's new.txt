@@ -1,8 +1,0 @@
-支持身份验证
-支持应用内用户反馈
-优化预览
-
-
-Support user identity verification 
-Support In-App feedback
-Improve preview user experience
