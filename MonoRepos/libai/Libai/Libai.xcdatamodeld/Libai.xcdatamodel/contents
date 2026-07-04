@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G513" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CDAnnal" representedClassName=".CDAnnal" syncable="YES">
+        <attribute name="age" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isDeletedInCloud" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String"/>
+        <relationship name="locations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDLocation" inverseName="annals" inverseEntity="CDLocation"/>
+        <relationship name="poems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDPoem" inverseName="annal" inverseEntity="CDPoem"/>
+    </entity>
+    <entity name="CDEmpire" representedClassName=".CDEmpire" syncable="YES">
+        <attribute name="birthYear" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="deathYear" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isDeletedInCloud" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="personalName" attributeType="String" defaultValueString=""/>
+        <attribute name="reignFrom" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="reignUntil" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="templeName" attributeType="String" defaultValueString=""/>
+        <relationship name="eras" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDEra" inverseName="empire" inverseEntity="CDEra"/>
+    </entity>
+    <entity name="CDEra" representedClassName=".CDEra" syncable="YES">
+        <attribute name="endYear" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isDeletedInCloud" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="startYear" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="empire" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDEmpire" inverseName="eras" inverseEntity="CDEmpire"/>
+    </entity>
+    <entity name="CDLocation" representedClassName=".CDLocation" syncable="YES">
+        <attribute name="currentName" attributeType="String" defaultValueString=""/>
+        <attribute name="displayName" attributeType="String" defaultValueString=""/>
+        <attribute name="isDeletedInCloud" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="uniqueName" attributeType="String" defaultValueString=""/>
+        <relationship name="annals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDAnnal" inverseName="locations" inverseEntity="CDAnnal"/>
+        <relationship name="poems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDPoem" inverseName="locations" inverseEntity="CDPoem"/>
+    </entity>
+    <entity name="CDLocationComment" representedClassName="CDLocationComment" syncable="YES">
+        <attribute name="content" attributeType="String" defaultValueString=""/>
+        <attribute name="date" attributeType="Date" defaultDateTimeInterval="230027160" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="String" defaultValueString=""/>
+        <attribute name="locationUniqueName" attributeType="String" defaultValueString=""/>
+    </entity>
+    <entity name="CDPoem" representedClassName=".CDPoem" syncable="YES">
+        <attribute name="age" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="appreciation" optional="YES" attributeType="String"/>
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="genre" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isDeletedInCloud" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="plainChinese" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="annal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDAnnal" inverseName="poems" inverseEntity="CDAnnal"/>
+        <relationship name="locations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDLocation" inverseName="poems" inverseEntity="CDLocation"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDTag" inverseName="poems" inverseEntity="CDTag"/>
+    </entity>
+    <entity name="CDTag" representedClassName=".CDTag" syncable="YES">
+        <attribute name="isDeletedInCloud" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <relationship name="poems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDPoem" inverseName="tags" inverseEntity="CDPoem"/>
+    </entity>
+    <configuration name="publicCloud" usedWithCloudKit="YES">
+        <memberEntity name="CDLocation"/>
+        <memberEntity name="CDEra"/>
+        <memberEntity name="CDTag"/>
+        <memberEntity name="CDEmpire"/>
+        <memberEntity name="CDAnnal"/>
+        <memberEntity name="CDPoem"/>
+    </configuration>
+</model>

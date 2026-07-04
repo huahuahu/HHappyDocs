@@ -1,0 +1,530 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "An Error Occurred" : {
+      "comment" : "Generic error title displayed when an unexpected error occurs in the application",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发生错误"
+          }
+        }
+      }
+    },
+    "Basic Info" : {
+      "comment" : "Title for basic information section",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基本信息"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "comment" : "Title for Cancel",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消"
+          }
+        }
+      }
+    },
+    "Close" : {
+      "comment" : "Text shown to user when user can delete photo from displaying\nTitle for Close",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭"
+          }
+        }
+      }
+    },
+    "Date Time Digitized" : {
+      "comment" : "Title for Date Time Digitized, Date Time Digitized is a photo's metadata, 2025-03-07 12:00:00 for example.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数字化日期和时间"
+          }
+        }
+      }
+    },
+    "Date Time Original" : {
+      "comment" : "Title for Date Time Original, Date Time Original is a photo's metadata, 2025-03-07 12:00:00 for example.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始日期和时间"
+          }
+        }
+      }
+    },
+    "Dimensions" : {
+      "comment" : "Title for Dimensions, Dimensions is a photo's metadata, 1920x1080 for example.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尺寸"
+          }
+        }
+      }
+    },
+    "Edit Metadata" : {
+      "comment" : "Title for edit metadata button",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑元信息"
+          }
+        }
+      }
+    },
+    "Exif Editor" : {
+      "comment" : "App name for Editor",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑图片信息"
+          }
+        }
+      }
+    },
+    "Exif Viewer" : {
+      "comment" : "App name for Viewer",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看图片信息"
+          }
+        }
+      }
+    },
+    "Failed to create album" : {
+      "comment" : "Title for failed to create album",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建相簿失败"
+          }
+        }
+      }
+    },
+    "Failed to load photo" : {
+      "comment" : "Text shown to user when failed to load photo",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加载图片失败"
+          }
+        }
+      }
+    },
+    "Failed to remove metadata" : {
+      "comment" : "Title for failed to remove metadata",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除元数据失败"
+          }
+        }
+      }
+    },
+    "Failed to remove metadata with error code %1$lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to remove metadata with error code %1$lld."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除元数据失败，错误代码 %1$lld。"
+          }
+        }
+      }
+    },
+    "Failed to save without metadata" : {
+      "comment" : "Title for failed to save without metadata",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无元数据保存失败"
+          }
+        }
+      }
+    },
+    "File Name" : {
+      "comment" : "Title for file name, fine name is a photo's metadata",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件名"
+          }
+        }
+      }
+    },
+    "Height" : {
+      "comment" : "Title for Height, Height is a photo's metadata, 1080 for example.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "宽度"
+          }
+        }
+      }
+    },
+    "Image saved successfully." : {
+      "comment" : "Message shown when image is successfully saved without metadata",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片保存成功。"
+          }
+        }
+      }
+    },
+    "Info" : {
+      "comment" : "Title for info button to show metadata's description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Info"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "详情"
+          }
+        }
+      }
+    },
+    "Location" : {
+      "comment" : "Title for Location, Location is a photo's metadata.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置"
+          }
+        }
+      }
+    },
+    "Name of the photo" : {
+      "comment" : "Description of file name. This is to tell user what file name is.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片文件名"
+          }
+        }
+      }
+    },
+    "No Photo Permission" : {
+      "comment" : "Title for no photo permission",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无照片访问权限"
+          }
+        }
+      }
+    },
+    "PicPeek Edits" : {
+      "comment" : "Name of the album where edited images are stored",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "元图鉴"
+          }
+        }
+      }
+    },
+    "Please allow photo access in settings." : {
+      "comment" : "Message for failed to create album\nMessage for no photo permission",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在设置中允许照片访问权限。"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "comment" : "Title for Save",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存"
+          }
+        }
+      }
+    },
+    "Save Success" : {
+      "comment" : "Title for successful operation",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存成功"
+          }
+        }
+      }
+    },
+    "Save Without Metadata" : {
+      "comment" : "Button title for saving image without metadata",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无元数据保存"
+          }
+        }
+      }
+    },
+    "Select photos" : {
+      "comment" : "Title for Photo Picker to select photos",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择图片"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "comment" : "Title for Settings",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置"
+          }
+        }
+      }
+    },
+    "Share" : {
+      "comment" : "Title for Share",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享"
+          }
+        }
+      }
+    },
+    "Share with Metadata" : {
+      "comment" : "Title for share with metadata",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "带元数据分享"
+          }
+        }
+      }
+    },
+    "Share without Metadata" : {
+      "comment" : "Title for share without metadata",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无元数据分享"
+          }
+        }
+      }
+    },
+    "Size" : {
+      "comment" : "Title for  Size, Size is a photo's metadata, 2.3MB for example.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大小"
+          }
+        }
+      }
+    },
+    "testString" : {
+      "comment" : "String for testing",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "测试"
+          }
+        }
+      }
+    },
+    "The date and time when the original image data was generated. For a digital still camera, the date and time the picture was taken are recorded." : {
+      "comment" : "Description of Date Time Original. This is to tell user what Date Time Original is.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始图像数据生成的日期和时间。对于数码静态相机，记录的是照片拍摄的日期和时间。"
+          }
+        }
+      }
+    },
+    "The dateTimeDigitized field in an image’s EXIF metadata refers to the date and time when the image was converted into a digital format. This timestamp is recorded when a physical photograph is scanned or a film photo is digitized, marking the moment the image transitioned from an analog to a digital representation. If the image was taken directly with a digital camera, this field may be identical to the original date and time of capture." : {
+      "comment" : "Description of Date Time Digitized. This is to tell user what Date Time Digitized is.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数字化日期和时间字段在图片的 EXIF 元数据中指的是图像被转换为数字格式的日期和时间。这个时间戳记录了照片被扫描或胶片照片被数字化的时刻，标志着图像从模拟格式转变为数字格式。如果图像是直接用数码相机拍摄的，则该字段的时间可能与原始拍摄时间相同。"
+          }
+        }
+      }
+    },
+    "The dimensions of an image refer to the number of pixels along its horizontal (X-axis) and vertical (Y-axis) directions. The X dimension represents the image’s width, while the Y dimension represents its height. Together, these values determine the image’s resolution and clarity." : {
+      "comment" : "Description of Dimensions. This is to tell user what Dimensions is.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片的尺寸是指其在水平方向（X 轴）和垂直方向（Y 轴）上的像素数量，X 维度表示图片的宽度，Y 维度表示图片的高度，这两个数值共同决定了图片的分辨率和清晰度。"
+          }
+        }
+      }
+    },
+    "The height of an image refers to the number of pixels along its vertical (Y-axis) direction. It determines the image’s resolution and clarity." : {
+      "comment" : "Description of Height. This is to tell user what Height is.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片的高度是指其在垂直方向（Y 轴）上的像素数量。它决定了图片的分辨率和清晰度。"
+          }
+        }
+      }
+    },
+    "The location field in an image’s EXIF metadata refers to the location where the image was taken. This field is recorded when the image is captured with a device that has GPS capabilities, such as a smartphone or digital camera. The location data is stored as latitude and longitude coordinates, which can be used to pinpoint the exact spot where the photo was taken." : {
+      "comment" : "Description of Location. This is to tell user what Location is.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片的 EXIF 元数据中的位置字段记录了拍摄地点。当使用具有 GPS 功能的设备（如智能手机或数码相机）拍摄时，该字段会被记录。位置数据以经纬度坐标存储，可用于精确定位照片拍摄的具体位置。"
+          }
+        }
+      }
+    },
+    "The size of an image refers to the amount of space it takes up on your storage device. The size is measured in bytes, kilobytes (KB), megabytes (MB), gigabytes (GB), or terabytes (TB)." : {
+      "comment" : "Description of Size. This is to tell user what Size is.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片的大小是指它在存储设备上占用的空间。大小的单位通常以字节（Bytes）、千字节（KB）、兆字节（MB）、千兆字节（GB）或太字节（TB）来表示。"
+          }
+        }
+      }
+    },
+    "The width of an image refers to the number of pixels along its horizontal (X-axis) direction. It determines the image’s resolution and clarity." : {
+      "comment" : "Description of Width. This is to tell user what Width is.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片的宽度是指其在水平方向（X 轴）上的像素数量。它决定了图片的分辨率和清晰度。"
+          }
+        }
+      }
+    },
+    "Width" : {
+      "comment" : "Title for Width, Width is a photo's metadata, 1920 for example.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高度"
+          }
+        }
+      }
+    },
+    "畅享更多功能：\n• 编辑图像元信息\n• 一键分享无元信息图像\n• 更多高级功能敬请期待" : {
+      "comment" : "Description for Pro features",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enjoy more features:\n• Edit image metadata\n• One-click share without metadata\n• More advanced features coming soon"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "畅享更多功能：\n• 编辑图像元信息\n• 一键分享无元信息图像\n• 更多高级功能敬请期待"
+          }
+        }
+      }
+    },
+    "立即获取 Pro" : {
+      "comment" : "Button label for purchasing Pro version",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get Pro"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即获取 Pro"
+          }
+        }
+      }
+    },
+    "解锁 Pro 版本" : {
+      "comment" : "Title for unlocking Pro version",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock Pro Version"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解锁 Pro 版本"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

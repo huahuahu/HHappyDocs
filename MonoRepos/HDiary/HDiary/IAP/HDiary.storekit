@@ -1,0 +1,139 @@
+{
+  "identifier" : "02C3BB19",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6470147729",
+    "_developerTeamID" : "F29WG8477A",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 731741556.889992,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21462545",
+      "localizations" : [
+
+      ],
+      "name" : "HDiary unlimited moments",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "6.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6479206486",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "User can record unlimited records",
+              "displayName" : "Unlimited moments",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "用户可以记录无限乐事",
+              "displayName" : "无乐事数目限制",
+              "locale" : "zh_CN"
+            }
+          ],
+          "productID" : "hdiary_unlimited_moments_1y_699",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "hdiary_monthly_unlimited_moments",
+          "subscriptionGroupID" : "21462545",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6479206298",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "用户可以记录无限乐事",
+              "displayName" : "无乐事数目限制",
+              "locale" : "zh_CN"
+            },
+            {
+              "description" : "User can record unlimited records",
+              "displayName" : "Unlimited moments",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "hdiary_unlimited_moments_1m_99",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "hdiary_yearly_unlimited_moments",
+          "subscriptionGroupID" : "21462545",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

@@ -1,0 +1,68 @@
+# Xcode
+# Build, test, and archive an Xcode workspace on macOS.
+# Add steps that install certificates, test, sign, and distribute an app, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/xcode
+
+trigger:
+  - main
+
+pool:
+  vmImage: "macOS-15"
+
+stages:
+  - stage: Check
+    jobs:
+      - job: Setup
+        displayName: "Setup"
+        steps:
+          - script: |
+              sudo xcode-select -s /Applications/Xcode_16.app && \
+              xcodebuild -version && \
+              xcrun simctl list
+            displayName: "Check environment"
+
+          - script: |
+              make ios-lint-check
+            displayName: "lint file"
+
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '20.x'
+            displayName: 'Install Node.js'
+
+          - script: |
+              make ios-build TARGET=HDiary
+            displayName: "Build HDiary"
+
+          - script: |
+              make ios-test TARGET=HDiary
+            displayName: "test HDiary"
+
+          - script: |
+              make ios-build TARGET=HDoc
+            displayName: "Build HDoc"
+
+          - script: |
+              make ios-test TARGET=HDoc
+            displayName: "test HDoc"
+
+
+          - script: |
+              make ios-test TARGET=Libai
+            displayName: "Test Libai"
+
+          # - script: |
+          #     make ios-test TARGET=Libai
+          #   displayName: "test Libai"
+          
+          - script: |
+              make ios-build TAEGET=ClipboardInspector
+            displayName: "Build Clipboard Inspector"
+
+          # - script: |
+          #     make ios-test TAEGET=ClipboardInspector
+          #   displayName: "Test Clipboard Inspector"
+
+          - script: |
+              make ios-build TAEGET=Learn
+            displayName: "build Learn"

@@ -1,0 +1,10 @@
+//
+//  clipboard.debug.config.xcconfig
+//  ClipboardInspector
+//
+//  Created by tigerguo on 2023/7/8.
+//
+#include "./Base.xcconfig"
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974

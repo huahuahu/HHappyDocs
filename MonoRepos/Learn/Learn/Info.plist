@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CoreSpotlightActions</key>
+	<array>
+		<dict>
+			<key>CoreSpotlightActionIdentifier</key>
+			<string>Custom Action 2</string>
+			<key>CoreSpotlightActionSymbolImage</key>
+			<string>rectangle.and.pencil.and.ellipsis</string>
+			<key>CoreSpotlightActionTitle</key>
+			<string>CS_ACTION_2</string>
+		</dict>
+		<dict>
+			<key>CoreSpotlightActionIdentifier</key>
+			<string>Custom Action 1</string>
+			<key>CoreSpotlightActionSymbolImage</key>
+			<string>ellipsis.curlybraces</string>
+			<key>CoreSpotlightActionTitle</key>
+			<string>CS_ACTION_1</string>
+		</dict>
+	</array>
+	<key>CoreSpotlightContinuation</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+</dict>
+</plist>

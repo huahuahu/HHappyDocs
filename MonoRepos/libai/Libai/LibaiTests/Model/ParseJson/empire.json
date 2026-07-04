@@ -1,0 +1,50 @@
+[
+    {
+        "templeName": "武则天",
+        "personalName": "武曌",
+        "reignFrom": 690,
+        "reignUntil": 705,
+        "birthYear": 624,
+        "deathYear": 705
+    },
+    {
+        "templeName": "中宗",
+        "personalName": "李显",
+        "reignFrom": 705,
+        "reignUntil": 710,
+        "birthYear": 656,
+        "deathYear": 710
+    },
+    {
+        "templeName": "睿宗",
+        "personalName": "李旦",
+        "reignFrom": 710,
+        "reignUntil": 712,
+        "birthYear": 662,
+        "deathYear": 716
+    },
+    {
+        "templeName": "玄宗",
+        "personalName": "李隆基",
+        "reignFrom": 712,
+        "reignUntil": 756,
+        "birthYear": 685,
+        "deathYear": 763
+    },
+    {
+        "templeName": "肃宗",
+        "personalName": "李亨",
+        "reignFrom": 756,
+        "reignUntil": 762,
+        "birthYear": 711,
+        "deathYear": 762
+    },
+    {
+        "templeName": "代宗",
+        "personalName": "李豫",
+        "reignFrom": 762,
+        "reignUntil": 779,
+        "birthYear": 726,
+        "deathYear": 779
+    }
+]

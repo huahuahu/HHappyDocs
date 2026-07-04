@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:MonoRepos/AppStoreArtWork/AppStoreArtWork.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MonoRepos/ExifViewer/ExifViewer.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MonoRepos/HDoc/HDoc.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:HSharedCode">
+   </FileRef>
+   <FileRef
+      location = "group:MonoRepos/HDiary/HDiary.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MonoRepos/Learn/Learn.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MonoRepos/libai/Libai/Libai.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MonoRepos/HAgility/HAgility.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MonoRepos/ClipboardInspector/ClipboardInspector.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+</Workspace>

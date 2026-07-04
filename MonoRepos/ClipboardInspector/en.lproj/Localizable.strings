@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  ClipboardInspector
+
+  Created by tigerguo on 2023/3/17.
+  
+*/
+"tabbar.settings" = "Settings";
+
+"home" = "Home";
+
+
+"section.inspect" = "Inspect";
+
+"inspector.entry.native.content" = "Native Clipboard Content";
+"inspector.entry.native.info" = "Native Clipboard Info";
+"inspector.entry.web" = "Web Clipboard";
+"clearPasteboard.currentInfo" = "Current Info";
+"section.interaction" = "Interaction";
+
+"inspector.native.item %@" = "Item %@";
+"item" = "Item";
+"unknown" = "Unknown";
+
+"utType.description.metainfo" = "Meta Info";
+"utType.description.fileExtension" = "filename extension";
+"utType.description.mimeType" = "MIME type";
+"utType.description.isPublic" = "isPublic";
+"utType.description.referenceURL" = "reference URL";
+"utType.description.supertype" = "super types";
+"utType.description.description" = "description";
+"utType.description.identifier" = "identifier";
+
+"pasteboardItem.representaion.type" = "type";
+"pasteboardItem.representaion.systemDescription" = "system description";
+
+
+"length" = "length";
+"size" = "size";
+"preview" = "Preview";
+
+"permission.localAuthReason" = "Used to restrict unauthorized users from accessing your clipboard data.";
+
+"interaction.clearPasteboard" = "Clear Pasteboard";
+
+"intent.Clear clipboard" = "Clear clipboard";
+"intent.clearClipboard.summary" = "Clear all contents in clipboard";
+"intent.clear success" = "Clear Success!";

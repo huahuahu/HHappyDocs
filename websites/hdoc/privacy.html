@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Privacy Policy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var userLang = navigator.language || navigator.userLanguage;
+            var messageElement = document.getElementById('message');
+
+            if (userLang.startsWith('zh')) {
+                messageElement.innerHTML = `
+                <a href="index.html">首页</a>
+                <h1>健康记录隐私政策</h1>
+                <p>在最基本的层面上，我们重视您的隐私，并在我们的开发中尽最大努力尊重您的隐私。</p>
+
+                <h2>数据收集和使用</h2>
+                <p>我们将您的数据存储在您使用我们应用的设备上，并使用苹果的iCloud在设备之间同步。具体来说，我们使用iCloud的CloudKit部分将数据存储在您的私人iCloud数据库中。我们不会将这些数据存储在我们控制的任何服务器上，并且在任何情况下，除非您明确与我们分享，否则我们不会访问您的任何数据 - 例如，如果您要求我们协助解决支持问题。</p>
+
+                <h2>处理过的数据</h2>
+                <h3>照片</h3>
+                <p>我们只访问您使用iOS系统照片选择器选择的照片。</p>
+                <p>您的照片存储在设备上，并使用苹果的CloudKit技术在您的设备之间同步。作为开发者，我们无法访问您的照片。</p>
+
+                <h2>第三方服务</h2>
+                <p>我们使用苹果的CloudKit来在您的设备之间同步您的数据。您可以在这里查看苹果的隐私政策：<a href="https://www.apple.com/legal/privacy">https://www.apple.com/legal/privacy</a>。</p>
+
+                <h2>联系我们</h2>
+                <p>如果您对我们的隐私政策有任何疑问或疑虑，请通过以下方式与我们联系：</p>
+                <p>邮箱：<a href="mailto:huahuahuapple@outlook.com">huahuahuapple@outlook.com</a></p>
+                `;
+            } else {
+                messageElement.innerHTML = `
+                    <a href="index.html">Home</a>
+                    <h1>Health Doc Privacy Policy</h1>
+                    <p>On the most basic level, we values your privacy and make decisions in our development to respect it to the best of our ability.
+                </p>
+                    <h2>Data Collection and Usage</h2>
+                    
+                    <p>We store your data locally on the devices you use our app on, and sync it across devices using Apple's iCloud. Specifically, we utilize the CloudKit portion of iCloud to store data in your private iCloud database. None of this data is stored on any servers controlled by us, and under no circumstances is any of your data available to us, unless you explicitly share it with us – for instance, if you request assistance in troubleshooting a support issue</p>
+                    <h2>Processed Data</h2>
+                    <h3>Photo</h3>
+
+                    <p>We accesses only the photos you select using the iOS system photo picker.</p>
+                    <p>Your photos are stored on device and synchronized accross your devices using Apple's CloudKit technology. As the developer, we don't have access to your photos.</p>
+
+                <h2> Third Party Services</h2>
+                <p>We use Apple's CloudKit to synchronize your data accross your devices. You can view Apple's privacy policy here: <a href="https://www.apple.com/legal/privacy">https://www.apple.com/legal/privacy</a>.
+                </p>
+
+                    <h2>Contact Us</h2>
+                    <p>If you have any questions or concerns about our privacy policy, please contact us at:</p>
+                    <p>Email: <a href="mailto:huahuahuapple@outlook.com">huahuahuapple@outlook.com</a></p>
+                `;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container" id="message"></div>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Page Not Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var userLang = navigator.language || navigator.userLanguage; 
+            var messageElement = document.getElementById('message');
+
+            if(userLang.startsWith('zh')) {
+                messageElement.innerHTML = `
+                    <h1>页面未找到</h1>
+                    <p>抱歉，我们找不到您要找的页面。</p>
+                    <a href="index.html">返回首页</a>
+                `;
+            } else {
+                messageElement.innerHTML = `
+                    <h1>Page Not Found</h1>
+                    <p>Sorry, we couldn't find the page you're looking for.</p>
+                    <a href="index.html">Return to Home</a>
+                `;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container" id="message"></div>
+</body>
+</html>

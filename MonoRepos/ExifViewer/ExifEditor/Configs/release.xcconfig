@@ -1,0 +1,11 @@
+//
+//  release.xcconfig
+//  HDiary
+//
+//  Created by tigerguo on 2024/4/12.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include "./base.xcconfig"
+

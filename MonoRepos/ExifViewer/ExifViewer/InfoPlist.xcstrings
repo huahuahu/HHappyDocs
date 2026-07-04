@@ -1,0 +1,42 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "This app allows users to view and manage the metadata (EXIF) of images, providing insights into photo details such as shooting time, location, camera settings, and more.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PicPeek"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "元图鉴"
+          }
+        }
+      }
+    },
+    "CFBundleName" : {
+      "comment" : "This app allows users to view and manage the metadata (EXIF) of images, providing insights into photo details such as shooting time, location, camera settings, and more.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PicPeek"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "元图鉴"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

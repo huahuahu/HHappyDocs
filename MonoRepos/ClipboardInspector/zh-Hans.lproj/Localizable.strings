@@ -1,0 +1,50 @@
+/* 
+  Localizable.strings
+  ClipboardInspector
+
+  Created by tigerguo on 2023/3/17.
+  
+*/
+"tabbar.settings" = "设置";
+
+"home" = "主页";
+
+"section.inspect" = "查看";
+
+"inspector.entry.native.content" = "原生剪切板内容";
+"inspector.entry.native.info" = "原生剪切板信息";
+"inspector.entry.web" = "网页剪切板";
+
+"clearPasteboard.currentInfo" = "当前信息";
+
+"section.interaction" = "交互";
+
+"inspector.native.item %@" = "项目 %@";
+
+"item" = "项目";
+
+"unknown" = "未知";
+
+
+"utType.description.metainfo" = "元信息";
+"utType.description.fileExtension" = "文件扩展名";
+"utType.description.mimeType" = "媒体类型";
+"utType.description.isPublic" = "是否公开";
+"utType.description.referenceURL" = "参考URL";
+"utType.description.supertype" = "父类型";
+"utType.description.description" = "描述";
+"utType.description.identifier" = "标识符";
+
+"pasteboardItem.representaion.systemDescription" = "系统描述";
+"pasteboardItem.representaion.type" = "类型";
+"length" = "长度";
+"size" = "大小";
+
+"preview" = "预览";
+
+"permission.localAuthReason" = "用来限制未经授权的用户访问剪切板数据。";
+"interaction.clearPasteboard" = "清空剪切板";
+
+"intent.Clear clipboard" = "清空剪切板";
+"intent.clearClipboard.summary" = "清空剪切板的所有内容";
+"intent.clear success" = "清空完成！";

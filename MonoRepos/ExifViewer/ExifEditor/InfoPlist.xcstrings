@@ -1,0 +1,78 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "This app allows users to view and manage the metadata (EXIF) of images, providing insights into photo details such as shooting time, location, camera settings, and more. Besides, it offers advanced features for editing, modifying, and managing image metadata, catering to users who require in-depth control over their photo information.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PicPeek+"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "元图鉴+"
+          }
+        }
+      }
+    },
+    "CFBundleName" : {
+      "comment" : "This app allows users to view and manage the metadata (EXIF) of images, providing insights into photo details such as shooting time, location, camera settings, and more. Besides, it offers advanced features for editing, modifying, and managing image metadata, catering to users who require in-depth control over their photo information.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PicPeek+"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "元图鉴+"
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryAddUsageDescription" : {
+      "comment" : "// 相册权限用途说明（用于保存无元数据图片到相册）",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Required to save edited photos to your library"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要相册权限以保存编辑后的照片"
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryUsageDescription" : {
+      "comment" : "// 相册权限用途说明（用于保存无元数据图片到指定相册）",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Required to save edited photos to your library"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要相册权限以保存编辑后的照片"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -1,0 +1,82 @@
+--swiftversion 5.3
+
+
+## Formatting Rules
+--enable elseOnSameLine
+--enable modifierOrder
+--enable numberFormatting
+--enable preferForLoop
+--enable semicolons
+--enable sortImports
+--enable unusedArguments
+--enable wrapArguments
+# Swiftlint and swiftformat slightly disagree here.
+# --enable indent
+# Capitalize known acronyms
+# --acronyms
+# --enable blockComments
+
+## Disabled Rules
+--disable andOperator
+--disable extensionAccessControl
+--disable hoistPatternLet
+--disable initCoderUnavailable
+--disable preferKeyPath
+--disable redundantClosure
+--disable redundantFileprivate
+--disable redundantParens
+--disable redundantReturn
+--disable redundantSelf
+--disable redundantType
+--disable redundantVoidReturnType
+--disable specifiers
+--disable trailingclosures
+--disable unusedArguments
+--disable wrapArguments
+--disable wrapMultilineStatementBraces
+
+## Number delimitation (readability)
+# E.g., 123456789 -> 123_456_789.
+--binarygrouping 4,0
+# A threshold >4 ensures that years aren't delimited, e.g., 2_022.
+--decimalgrouping 3,5
+--octalgrouping 4,0
+# A threshold >6 ensures that hex colors aren't delimited, e.g., 0xFF_FFFF.
+--hexgrouping 4,7
+
+## Enabled Rules Config
+--allman false
+--closingparen balanced
+--commas always
+--conflictmarkers reject
+--elseposition next-line
+--empty void
+--exponentcase lowercase
+--exponentgrouping disabled
+--fractiongrouping disabled
+--fragment false
+--guardelse auto
+--header ignore
+--hexliteralcase uppercase
+--ifdef indent
+--importgrouping testable-top
+--indent 2
+--indentcase false
+--linebreaks lf
+--maxwidth none
+--modifierorder public,internal,internal(set),private,private(set),static,weak
+--nospaceoperators
+--operatorfunc spaced
+--self remove
+--selfrequired
+--semicolons never
+--stripunusedargs closure-only
+--tabwidth unspecified
+--trimwhitespace always
+--wraparguments before-first
+--wrapcollections before-first
+--wrapconditions after-first
+--wrapparameters preserve
+--xcodeindentation disabled
+# hoistPatternLet
+# --patternlet inline

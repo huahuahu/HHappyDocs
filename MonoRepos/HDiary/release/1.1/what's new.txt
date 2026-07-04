@@ -1,0 +1,6 @@
+- Can set daily reminder
+- Add sensory feedback for user interaction
+
+
+- 可以设置每日通知
+- 为用户操作增加触感反馈

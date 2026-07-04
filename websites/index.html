@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Our Apps</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var userLang = navigator.language || navigator.userLanguage; 
+            var messageElement = document.getElementById('message');
+
+            if(userLang.startsWith('zh')) {
+                messageElement.innerHTML = `
+                    <h1>应用</h1>
+                    <ul>
+                        <li><a href="hdiary/index.html">快乐日记</a></li>
+                        <li><a href="hdoc/index.html">健康记录</a></li>
+                        <!-- 在此处添加更多应用 -->
+                    </ul>
+                `;
+            } else {
+                messageElement.innerHTML = `
+                    <h1>All Apps</h1>
+                    <ul>
+                        <li><a href="hdiary/index.html">HDiary</a></li>
+                        <li><a href="hdoc/index.html">Health Doc</a></li>
+                        <!-- Add more apps here -->
+                    </ul>
+                `;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container" id="message"></div>
+</body>
+</html>

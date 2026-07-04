@@ -1,0 +1,58 @@
+{
+  "configurations" : [
+    {
+      "id" : "2A0F8737-2D36-44A8-9AF4-10D0B649B8E0",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-com.apple.CoreData.ConcurrencyDebug 1 "
+      },
+      {
+        "argument" : "-com.apple.CoreData.SQLDebug 1 "
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:HDiary.xcodeproj",
+      "identifier" : "60A4E1FB2A3DDCE1000E68A0",
+      "name" : "HDiary"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:HDiary.xcodeproj",
+        "identifier" : "60A4E20F2A3DDCE3000E68A0",
+        "name" : "HDiaryTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:HDiaryLibrary",
+        "identifier" : "HDiaryConstantsTests",
+        "name" : "HDiaryConstantsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:HDiaryLibrary",
+        "identifier" : "HDiaryIAPTests",
+        "name" : "HDiaryIAPTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:HDiaryLibrary",
+        "identifier" : "HDiaryModelTests",
+        "name" : "HDiaryModelTests"
+      }
+    }
+  ],
+  "version" : 1
+}
