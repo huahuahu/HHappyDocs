@@ -25,7 +25,9 @@ struct AllTagsView: View {
         }
         .onDelete(perform: deleteItems)
       } footer: {
-        totalTagCountView
+        if viewState.shouldShowTotalTagCount {
+          totalTagCountView
+        }
       }
     }
     .scrollIndicatorsFlash(onAppear: true)
@@ -81,6 +83,10 @@ struct AllTagsView: View {
 
   private var sortedTags: [Tag] {
     tagSortOrder.sortTags(tags)
+  }
+
+  private var viewState: AllTagsViewState {
+    AllTagsViewState(totalTagCount: tags.count)
   }
 
   private func deleteItems(offsets: IndexSet) {
