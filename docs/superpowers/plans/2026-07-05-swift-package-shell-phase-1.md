@@ -253,6 +253,7 @@ git commit -m "fix: raise package macos platform" -m "Co-authored-by: Copilot Ap
 - Modify: `HDiaryLibrary/Package.swift`
 - Move: `HDiaryLibrary/Sources/HDiaryModel/ModelOperation/StartupDataMaintenanceService.swift` -> `HDiaryLibrary/Sources/HDiaryServices/StartupDataMaintenanceService.swift`
 - Move: `HDiaryLibrary/Tests/HDiaryModelTests/StartupDataMaintenanceServiceTests.swift` -> `HDiaryLibrary/Tests/HDiaryServicesTests/StartupDataMaintenanceServiceTests.swift`
+- Modify: `HDiaryLibrary/Sources/HDiaryModel/Model/Container/ModelContainer.swift`
 
 **Interfaces:**
 - Consumes:
@@ -262,6 +263,7 @@ git commit -m "fix: raise package macos platform" -m "Co-authored-by: Copilot Ap
   - `HDiaryModel.Schema.hDiaryScheme`
   - `HDiaryConstants.Log`
   - `SwiftData.ModelContext`
+  - `SwiftData.Schema.hDiaryScheme`
 - Produces:
   - `public struct StartupDataMaintenanceService`
   - `public func runLoggingFailures(in modelContext: ModelContext, deletedMomentRetention: TimeInterval = 60 * 60 * 24 * 30)`
@@ -282,13 +284,13 @@ git mv HDiaryLibrary/Tests/HDiaryModelTests/StartupDataMaintenanceServiceTests.s
 Replace the import block at the top of `HDiaryLibrary/Tests/HDiaryServicesTests/StartupDataMaintenanceServiceTests.swift` with:
 
 ```swift
-#if os(iOS)
-
-  @testable import HDiaryServices
-  import HDiaryModel
-  import SwiftData
-  import XCTest
+@testable import HDiaryServices
+import HDiaryModel
+import SwiftData
+import XCTest
 ```
+
+Remove the trailing `#endif` at the end of `HDiaryLibrary/Tests/HDiaryServicesTests/StartupDataMaintenanceServiceTests.swift`.
 
 Add the `HDiaryServices` product, target, and test target to `HDiaryLibrary/Package.swift`:
 
@@ -340,17 +342,55 @@ git mv HDiaryLibrary/Sources/HDiaryModel/ModelOperation/StartupDataMaintenanceSe
 Update the import block at the top of `HDiaryLibrary/Sources/HDiaryServices/StartupDataMaintenanceService.swift` to:
 
 ```swift
-#if os(iOS)
-
-  import Foundation
-  import HDiaryConstants
-  import HDiaryModel
-  import SwiftData
+import Foundation
+import HDiaryConstants
+import HDiaryModel
+import SwiftData
 ```
 
-Keep the existing `StartupDataMaintenanceService` type and method bodies unchanged.
+Remove the trailing `#endif` at the end of `HDiaryLibrary/Sources/HDiaryServices/StartupDataMaintenanceService.swift`.
 
-- [ ] **Step 4: Run package tests to verify the moved service passes**
+Inside `migrateLegacyImages(in:)`, keep legacy thumbnail generation on UIKit-capable platforms by changing:
+
+```swift
+          image.updateThumbnail()
+```
+
+to:
+
+```swift
+          #if canImport(UIKit)
+            image.updateThumbnail()
+          #endif
+```
+
+- [ ] **Step 4: Make the SwiftData schema available to package-host tests**
+
+In `HDiaryLibrary/Sources/HDiaryModel/Model/Container/ModelContainer.swift`, move `Schema.hDiaryScheme` outside the iOS-only container guard. The top of the file must become:
+
+```swift
+//
+//  ICloudContainer.swift
+//  HDiary
+//
+//  Created by tigerguo on 2023/6/17.
+//
+
+import Foundation
+import SwiftData
+
+extension Schema {
+  static let hDiaryScheme = Schema([Tag.self, Moment.self, MediaItem.self, Participant.self])
+}
+
+#if os(iOS)
+
+  import HDiaryConstants
+```
+
+Keep `HDiaryContainer`, `localContainer`, `iCloudContainer`, and `getCurrentContainer()` inside `#if os(iOS)`.
+
+- [ ] **Step 5: Run package tests to verify the moved service passes**
 
 Run:
 
@@ -358,9 +398,9 @@ Run:
 swift test --package-path HDiaryLibrary --filter StartupDataMaintenanceServiceTests
 ```
 
-Expected: PASS for all `StartupDataMaintenanceServiceTests`.
+Expected: PASS for all `StartupDataMaintenanceServiceTests`; the output must show those tests were executed, not `0 tests`.
 
-- [ ] **Step 5: Run all package tests**
+- [ ] **Step 6: Run all package tests**
 
 Run:
 
@@ -370,12 +410,12 @@ swift test --package-path HDiaryLibrary
 
 Expected: PASS for `HDiaryConstantsTests`, `HDiaryModelTests`, `HDiarySearchTests`, `HDiaryIAPTests`, and `HDiaryServicesTests`.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 Run:
 
 ```bash
-git add HDiaryLibrary/Package.swift HDiaryLibrary/Sources/HDiaryServices/StartupDataMaintenanceService.swift HDiaryLibrary/Tests/HDiaryServicesTests/StartupDataMaintenanceServiceTests.swift
+git add HDiaryLibrary/Package.swift HDiaryLibrary/Sources/HDiaryServices/StartupDataMaintenanceService.swift HDiaryLibrary/Tests/HDiaryServicesTests/StartupDataMaintenanceServiceTests.swift HDiaryLibrary/Sources/HDiaryModel/Model/Container/ModelContainer.swift
 git add -u HDiaryLibrary/Sources/HDiaryModel/ModelOperation/StartupDataMaintenanceService.swift HDiaryLibrary/Tests/HDiaryModelTests/StartupDataMaintenanceServiceTests.swift
 git commit -m "refactor: move startup maintenance into services package" -m "Co-authored-by: Copilot App <223556219+Copilot@users.noreply.github.com>"
 ```
