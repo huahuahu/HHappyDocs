@@ -1,0 +1,13 @@
+#include "./base.xcconfig"
+
+ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor
+ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground
+CODE_SIGN_ENTITLEMENTS = HDiaryWidgetExtension.entitlements
+INFOPLIST_FILE = HDiaryWidget/Info.plist
+INFOPLIST_KEY_CFBundleDisplayName = HDiaryWidget
+INFOPLIST_KEY_NSHumanReadableCopyright =
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @executable_path/../../Frameworks
+PRODUCT_NAME = $(TARGET_NAME)
+SDKROOT = iphoneos
+SKIP_INSTALL = YES
+SWIFT_EMIT_LOC_STRINGS = YES

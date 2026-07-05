@@ -1,0 +1,2 @@
+#include "./release.xcconfig"
+#include "./ui-tests.xcconfig"

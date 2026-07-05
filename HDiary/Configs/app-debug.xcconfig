@@ -1,0 +1,4 @@
+#include "./debug.xcconfig"
+#include "./app.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.tiger.suzhou.HDiary-Debug
