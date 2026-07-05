@@ -58,6 +58,7 @@
 **Files:**
 - Modify: `HDiaryLibrary/Package.swift`
 - Modify: `HSharedCode/Package.swift`
+- Modify: `HDiaryLibrary/Sources/HDiaryConstants/AppConstants/AppConstants.swift`
 
 **Interfaces:**
 - Consumes:
@@ -66,7 +67,8 @@
   - Xcode 26.6 / Swift 6.3.3 support for macOS 26.0 string platform versions
 - Produces:
   - `HDiaryLibrary` and `HSharedCode` declare `.macOS("26.0")`.
-  - `UserPreferences` can compile on macOS SwiftPM hosts without changing its iOS behavior.
+  - `AppConstants.groupName` and `UserDefaults.hDiaryShared` are available to macOS SwiftPM compilation.
+  - `UserPreferences` can compile on macOS SwiftPM hosts without changing its iOS runtime behavior.
 
 - [ ] **Step 1: Verify the baseline failure**
 
@@ -104,7 +106,57 @@ with:
   platforms: [.iOS(.v17), .macOS("26.0")],
 ```
 
-- [ ] **Step 3: Verify the package baseline is restored**
+- [ ] **Step 3: Make shared app group defaults compile on macOS**
+
+In `HDiaryLibrary/Sources/HDiaryConstants/AppConstants/AppConstants.swift`, move the `Foundation` import, `AppConstants.groupName`, `AppConstants.cloudKitContainerIdentifier`, and `UserDefaults.hDiaryShared` outside the iOS-only guard while keeping app runtime-only values under `#if os(iOS)`. The resulting file must be:
+
+```swift
+//
+//  AppConstants.swift
+//  HDiary
+//
+//  Created by tigerguo on 2023/7/13.
+//
+
+import Foundation
+
+public enum AppConstants {
+  public static let groupName = "group.com.tiger.suzhou.HDiary"
+  public static let cloudKitContainerIdentifier = "iCloud.com.tigerhuahuahu.suzhou.hdiary"
+
+  #if os(iOS)
+    public static let appName = String(localized: "CFBundleDisplayName", table: "InfoPlist")
+    public static let privacyUrl = "https://app.tigerpro.org/hdiary/privacy.html"
+
+    public static let groupContainerURL: URL = FileManager.default.containerURL(
+      forSecurityApplicationGroupIdentifier: Self.groupName)!
+  #endif
+}
+
+#if os(iOS)
+
+  public extension AppConstants {
+    enum IAP {
+      public static let freeRecordNumber = 50
+    }
+  }
+
+#endif
+
+public extension UserDefaults {
+  static let hDiaryShared = UserDefaults(suiteName: AppConstants.groupName)
+}
+
+#if os(iOS)
+
+  public enum HDiaryIntentKind: String {
+    case moment = "Moment"
+  }
+
+#endif
+```
+
+- [ ] **Step 4: Verify the package baseline is restored**
 
 Run:
 
@@ -114,12 +166,12 @@ GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all H
 
 Expected: PASS, or no `UserPreferences.swift` compile errors. If a different pre-existing package error appears, report it as DONE_WITH_CONCERNS with the exact error.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 5: Commit**
 
 Run:
 
 ```bash
-git add HDiaryLibrary/Package.swift HSharedCode/Package.swift
+git add HDiaryLibrary/Package.swift HSharedCode/Package.swift HDiaryLibrary/Sources/HDiaryConstants/AppConstants/AppConstants.swift
 git commit -m "fix: raise package macos platform" -m "Co-authored-by: Copilot App <223556219+Copilot@users.noreply.github.com>"
 ```
 
