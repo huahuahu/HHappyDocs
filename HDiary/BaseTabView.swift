@@ -21,13 +21,10 @@ struct BaseTabView: View {
     return descriptor
   }()
 
-  @Environment(\.modelContext) private var modelContext
-  @Environment(\.undoManager) private var undoManager
   @Environment(HDiaryRoute.self) private var appRoute
   @Environment(UserPreferences.self) private var userPreferences
 
   @Query private var moments: [Moment]
-  @State private var hasPerformedStartupTask = false
 
   init() {
     _moments = Query(Self.firstMomentQuery)
@@ -45,15 +42,6 @@ struct BaseTabView: View {
         .tag(HDiaryTab.setting)
     }
     .sensoryFeedback(.selection, trigger: appRoute.selectedTab)
-    .onAppear {
-      guard !hasPerformedStartupTask else {
-        return
-      }
-      hasPerformedStartupTask = true
-      Log.common.info("Performing startup task")
-      StartupDataMaintenanceService().runLoggingFailures(in: modelContext)
-      modelContext.undoManager = undoManager
-    }
   }
 
   @ViewBuilder
