@@ -442,33 +442,29 @@ git commit -m "refactor: move startup maintenance into services package" -m "Co-
 Create `HDiaryLibrary/Tests/HDiaryServicesTests/DeepLinkTests.swift`:
 
 ```swift
-#if os(iOS)
+@testable import HDiaryServices
+import XCTest
 
-  @testable import HDiaryServices
-  import XCTest
+final class DeepLinkTests: XCTestCase {
+  func testAddMomentURLUsesStableSchemeHostAndPath() throws {
+    let url = try XCTUnwrap(DeepLink.getAddMomentUrl())
 
-  final class DeepLinkTests: XCTestCase {
-    func testAddMomentURLUsesStableSchemeHostAndPath() throws {
-      let url = try XCTUnwrap(DeepLink.getAddMomentUrl())
-
-      XCTAssertEqual(url.scheme, "hdiarydl")
-      XCTAssertEqual(url.host(percentEncoded: false), "moment")
-      XCTAssertEqual(url.path(percentEncoded: false), "/add")
-      XCTAssertEqual(url.absoluteString, "hdiarydl://moment/add")
-    }
-
-    func testMomentHostRawValueMatchesExistingAppRoutes() {
-      XCTAssertEqual(DeepLink.Host.moment.rawValue, "moment")
-      XCTAssertEqual(DeepLink.Host.library.rawValue, "library")
-      XCTAssertEqual(DeepLink.Host.setting.rawValue, "setting")
-    }
-
-    func testMomentTargetRawValueMatchesExistingAddRoute() {
-      XCTAssertEqual(DeepLink.MomentTarget.add.rawValue, "add")
-    }
+    XCTAssertEqual(url.scheme, "hdiarydl")
+    XCTAssertEqual(url.host(percentEncoded: false), "moment")
+    XCTAssertEqual(url.path(percentEncoded: false), "/add")
+    XCTAssertEqual(url.absoluteString, "hdiarydl://moment/add")
   }
 
-#endif
+  func testMomentHostRawValueMatchesExistingAppRoutes() {
+    XCTAssertEqual(DeepLink.Host.moment.rawValue, "moment")
+    XCTAssertEqual(DeepLink.Host.library.rawValue, "library")
+    XCTAssertEqual(DeepLink.Host.setting.rawValue, "setting")
+  }
+
+  func testMomentTargetRawValueMatchesExistingAddRoute() {
+    XCTAssertEqual(DeepLink.MomentTarget.add.rawValue, "add")
+  }
+}
 ```
 
 - [ ] **Step 2: Run the new tests to verify they fail**
@@ -486,33 +482,29 @@ Expected: FAIL with `cannot find 'DeepLink' in scope`.
 Create `HDiaryLibrary/Sources/HDiaryServices/DeepLink.swift`:
 
 ```swift
-#if os(iOS)
+import Foundation
 
-  import Foundation
+public enum DeepLink {
+  public static let scheme = "hdiarydl"
 
-  public enum DeepLink {
-    public static let scheme = "hdiarydl"
-
-    public enum Host: String, RawRepresentable {
-      case moment
-      case library
-      case setting
-    }
-
-    public enum MomentTarget: String, RawRepresentable {
-      case add
-    }
-
-    public static func getAddMomentUrl() -> URL? {
-      var urlComponents = URLComponents()
-      urlComponents.scheme = Self.scheme
-      urlComponents.host = Self.Host.moment.rawValue
-      urlComponents.path = "/\(MomentTarget.add.rawValue)"
-      return urlComponents.url
-    }
+  public enum Host: String, RawRepresentable {
+    case moment
+    case library
+    case setting
   }
 
-#endif
+  public enum MomentTarget: String, RawRepresentable {
+    case add
+  }
+
+  public static func getAddMomentUrl() -> URL? {
+    var urlComponents = URLComponents()
+    urlComponents.scheme = Self.scheme
+    urlComponents.host = Self.Host.moment.rawValue
+    urlComponents.path = "/\(MomentTarget.add.rawValue)"
+    return urlComponents.url
+  }
+}
 ```
 
 - [ ] **Step 4: Run the deep link tests to verify they pass**
