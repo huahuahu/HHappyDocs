@@ -11,6 +11,7 @@
 		601EEFB02B9D3E1B0073BA37 /* HDiaryConstants in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFAF2B9D3E1B0073BA37 /* HDiaryConstants */; };
 		601EEFB22B9D645E0073BA37 /* HDiaryIAP in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFB12B9D645E0073BA37 /* HDiaryIAP */; };
 		60F100002E00000100000001 /* HDiarySearch in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100012E00000100000001 /* HDiarySearch */; };
+		60F200002E01000100000001 /* HDiaryServices in Frameworks */ = {isa = PBXBuildFile; productRef = 60F200012E01000100000001 /* HDiaryServices */; };
 		604403962A638A240001960E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		6050DD622B24331700CE3230 /* HMedia in Frameworks */ = {isa = PBXBuildFile; productRef = 6050DD612B24331700CE3230 /* HMedia */; };
 		6072D3A52A6161DB0020B7AF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6072D3A42A6161DB0020B7AF /* WidgetKit.framework */; };
@@ -150,6 +151,7 @@
 			files = (
 				601EEFB22B9D645E0073BA37 /* HDiaryIAP in Frameworks */,
 				60F100002E00000100000001 /* HDiarySearch in Frameworks */,
+				60F200002E01000100000001 /* HDiaryServices in Frameworks */,
 				6050DD622B24331700CE3230 /* HMedia in Frameworks */,
 				601EEFAE2B9D3E0E0073BA37 /* HDiaryConstants in Frameworks */,
 				60ABAAFC2A596F7E004F5B8E /* HLocalization in Frameworks */,
@@ -274,6 +276,7 @@
 				60ABAB052A597CFF004F5B8E /* HUIComponent */,
 				60E380232A62666E00F32E2C /* HDiaryModel */,
 				60F100012E00000100000001 /* HDiarySearch */,
+				60F200012E01000100000001 /* HDiaryServices */,
 				6050DD612B24331700CE3230 /* HMedia */,
 				601EEFAD2B9D3E0E0073BA37 /* HDiaryConstants */,
 				601EEFB12B9D645E0073BA37 /* HDiaryIAP */,
@@ -617,6 +620,10 @@
 		60F100012E00000100000001 /* HDiarySearch */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HDiarySearch;
+		};
+		60F200012E01000100000001 /* HDiaryServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HDiaryServices;
 		};
 		6050DD612B24331700CE3230 /* HMedia */ = {
 			isa = XCSwiftPackageProductDependency;

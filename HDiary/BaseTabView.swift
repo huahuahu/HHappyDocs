@@ -8,6 +8,7 @@
 import HDiaryConstants
 import HDiaryModel
 import HDiarySearch
+import HDiaryServices
 import HLocalization
 import Observation
 import SwiftData
