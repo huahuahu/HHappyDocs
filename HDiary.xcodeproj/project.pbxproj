@@ -114,7 +114,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		60F3DCB92CDDF1AF00C05BFB /* HDiary */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (60F3DD222CDDF1AF00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 60F3DD242CDDF1AF00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HDiary; sourceTree = "<group>"; };
-		60F3DD2A2CDDF1C800C05BFB /* HDiaryUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HDiaryUITests; sourceTree = "<group>"; };
+		60F3DD2A2CDDF1C800C05BFB /* HDiaryUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HDiaryLibrary/UITests/HDiaryUITests; sourceTree = "<group>"; };
 		60F3DD372CDDF1CC00C05BFB /* HDiaryWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (60F3DD412CDDF1CC00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HDiaryWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
