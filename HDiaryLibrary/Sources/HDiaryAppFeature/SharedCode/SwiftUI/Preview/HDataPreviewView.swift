@@ -143,7 +143,17 @@ public struct HPreviewItem {
 
 #if DEBUG
   extension HPreviewItem {
-    static let heicDemo = HPreviewItem(data: UIImage(systemName: "photo")?.pngData() ?? Data(), previewType: .pngImage)
+    static let heicDemo = HPreviewItem(data: heicDemoData, previewType: .heicImage)
+
+    private static var heicDemoData: Data {
+      guard let image = UIImage(named: "test1", in: .main, compatibleWith: nil),
+            let data = image.heicData()
+      else {
+        Log.common.error("Can't load test1 preview asset")
+        fatalError("Can't load test1 preview asset")
+      }
+      return data
+    }
   }
 #endif
 
