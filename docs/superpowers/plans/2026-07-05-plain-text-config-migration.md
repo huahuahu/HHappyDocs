@@ -1144,6 +1144,7 @@ Edit `HDiaryLibrary/Package.swift` so:
       dependencies: [
         "HDiarySearch",
         "HDiaryModel",
+        .product(name: "Atomics", package: "swift-atomics"),
       ]
     ),
 ```
