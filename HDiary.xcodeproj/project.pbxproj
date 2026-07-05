@@ -10,8 +10,8 @@
 		601EEFAE2B9D3E0E0073BA37 /* HDiaryConstants in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFAD2B9D3E0E0073BA37 /* HDiaryConstants */; };
 		601EEFB02B9D3E1B0073BA37 /* HDiaryConstants in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFAF2B9D3E1B0073BA37 /* HDiaryConstants */; };
 		601EEFB22B9D645E0073BA37 /* HDiaryIAP in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFB12B9D645E0073BA37 /* HDiaryIAP */; };
+		60F100002E00000100000001 /* HDiarySearch in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100012E00000100000001 /* HDiarySearch */; };
 		604403962A638A240001960E /* (null) in Resources */ = {isa = PBXBuildFile; };
-		604DC3242DB3992A0088ACF9 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = 604DC3232DB3992A0088ACF9 /* Atomics */; };
 		6050DD622B24331700CE3230 /* HMedia in Frameworks */ = {isa = PBXBuildFile; productRef = 6050DD612B24331700CE3230 /* HMedia */; };
 		6072D3A52A6161DB0020B7AF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6072D3A42A6161DB0020B7AF /* WidgetKit.framework */; };
 		6072D3A72A6161DB0020B7AF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6072D3A62A6161DB0020B7AF /* SwiftUI.framework */; };
@@ -148,8 +148,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				604DC3242DB3992A0088ACF9 /* Atomics in Frameworks */,
 				601EEFB22B9D645E0073BA37 /* HDiaryIAP in Frameworks */,
+				60F100002E00000100000001 /* HDiarySearch in Frameworks */,
 				6050DD622B24331700CE3230 /* HMedia in Frameworks */,
 				601EEFAE2B9D3E0E0073BA37 /* HDiaryConstants in Frameworks */,
 				60ABAAFC2A596F7E004F5B8E /* HLocalization in Frameworks */,
@@ -273,11 +273,11 @@
 				60ABAB032A597846004F5B8E /* HFoundation */,
 				60ABAB052A597CFF004F5B8E /* HUIComponent */,
 				60E380232A62666E00F32E2C /* HDiaryModel */,
+				60F100012E00000100000001 /* HDiarySearch */,
 				6050DD612B24331700CE3230 /* HMedia */,
 				601EEFAD2B9D3E0E0073BA37 /* HDiaryConstants */,
 				601EEFB12B9D645E0073BA37 /* HDiaryIAP */,
 				60E099272D93D3C800493EF6 /* SFSafeSymbols */,
-				604DC3232DB3992A0088ACF9 /* Atomics */,
 			);
 			productName = HDiary;
 			productReference = 60A4E1FC2A3DDCE1000E68A0 /* HDiary.app */;
@@ -363,7 +363,6 @@
 			mainGroup = 60A4E1F32A3DDCE1000E68A0;
 			packageReferences = (
 				60E099262D93D3B800493EF6 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
-				604DC3222DB3981B0088ACF9 /* XCRemoteSwiftPackageReference "swift-atomics" */,
 			);
 			productRefGroup = 60A4E1FD2A3DDCE1000E68A0 /* Products */;
 			projectDirPath = "";
@@ -592,14 +591,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		604DC3222DB3981B0088ACF9 /* XCRemoteSwiftPackageReference "swift-atomics" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-atomics.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
-			};
-		};
 		60E099262D93D3B800493EF6 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SFSafeSymbols/SFSafeSymbols";
@@ -623,10 +614,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = HDiaryIAP;
 		};
-		604DC3232DB3992A0088ACF9 /* Atomics */ = {
+		60F100012E00000100000001 /* HDiarySearch */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 604DC3222DB3981B0088ACF9 /* XCRemoteSwiftPackageReference "swift-atomics" */;
-			productName = Atomics;
+			productName = HDiarySearch;
 		};
 		6050DD612B24331700CE3230 /* HMedia */ = {
 			isa = XCSwiftPackageProductDependency;

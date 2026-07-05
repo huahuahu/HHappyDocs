@@ -7,6 +7,7 @@
 
 import HDiaryConstants
 import HDiaryModel
+import HDiarySearch
 import HLocalization
 import Observation
 import SwiftData

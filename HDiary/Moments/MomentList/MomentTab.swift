@@ -7,6 +7,7 @@
 
 import HDiaryConstants
 import HDiaryModel
+import HDiarySearch
 import SwiftData
 import SwiftUI
 
