@@ -77,8 +77,6 @@
 		60A4E21A2A3DDCE3000E68A0 /* HDiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HDiaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A4E27B2A3DF197000E68A0 /* HUIComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HUIComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A4E27F2A3DF19E000E68A0 /* HLocalization.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HLocalization.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		60DD39E02CA92E5D008C28AD /* CloudDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDataCell.swift; sourceTree = "<group>"; };
-		60DD39E32CA92F0B008C28AD /* CloudDataEntryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDataEntryScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -209,8 +207,6 @@
 		60DD39E52CA930D3008C28AD /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				60DD39E32CA92F0B008C28AD /* CloudDataEntryScreen.swift */,
-				60DD39E02CA92E5D008C28AD /* CloudDataCell.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";

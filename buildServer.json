@@ -12,7 +12,7 @@
 	"argv": [
 		"/opt/homebrew/bin/xcode-build-server"
 	],
-	"workspace": "MonoProjects.xcworkspace",
+	"project": "HDiary.xcodeproj",
 	"build_root": "build",
 	"scheme": "HDiary",
 	"kind": "xcode"

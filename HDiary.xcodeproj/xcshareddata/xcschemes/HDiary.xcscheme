@@ -79,7 +79,7 @@
          </CommandLineArgument>
       </CommandLineArguments>
       <StoreKitConfigurationFileReference
-         identifier = "../MonoRepos/HDiary/HDiary/IAP/HDiary.storekit">
+         identifier = "../HDiary/IAP/HDiary.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

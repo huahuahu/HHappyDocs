@@ -2,14 +2,14 @@ function testScheme {
     set -e
 
     scheme=$1
-    destinationIOS="platform=iOS Simulator,name=iPhone 14,OS=17.0"
+    destinationIOS="platform=iOS Simulator,name=iPhone 17 Pro"
 
-    workspace="MonoProjects.xcworkspace"
+    project="HDiary.xcodeproj"
 
     xcodebuild \
         clean \
         test \
-        -workspace $workspace \
+        -project $project \
         -scheme $scheme \
         -configuration Debug \
         -destination "$destinationIOS" \

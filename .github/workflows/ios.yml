@@ -1,0 +1,48 @@
+name: iOS
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-and-test:
+    name: Build and test HDiary
+    runs-on: macos-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Select latest Xcode
+        run: |
+          latest_xcode="/Applications/Xcode.app"
+          if [ ! -d "${latest_xcode}" ]; then
+            latest_xcode="$(find /Applications -maxdepth 1 -type d -name 'Xcode*.app' | sort | tail -1)"
+          fi
+          echo "Using ${latest_xcode}"
+          sudo xcode-select -s "${latest_xcode}/Contents/Developer"
+          xcodebuild -version
+          xcrun simctl list devices available
+
+      - name: Build HDiary
+        run: |
+          xcodebuild \
+            -project HDiary.xcodeproj \
+            -scheme HDiary \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            CODE_SIGN_IDENTITY="-" \
+            build
+
+      - name: Test HDiary
+        run: |
+          xcodebuild \
+            clean \
+            test \
+            -project HDiary.xcodeproj \
+            -scheme HDiary \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            CODE_SIGN_IDENTITY="-"

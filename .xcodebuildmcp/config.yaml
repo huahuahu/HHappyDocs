@@ -13,7 +13,7 @@ setupPreferences:
   platforms:
     - iOS
 sessionDefaults:
-  projectPath: MonoRepos/HDiary/HDiary.xcodeproj
+  projectPath: HDiary.xcodeproj
   scheme: HDiary
   simulatorId: A044BA15-7770-48E6-8E28-E2123A772ACD
   simulatorName: hdiary 17pro

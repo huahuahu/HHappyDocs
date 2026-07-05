@@ -3,7 +3,7 @@ function buildScheme {
 
     scheme=$1
     onlyIOS=$2
-    destinationIOS="\"platform=iOS Simulator,name=iPhone 15,OS=17.0\""
+    destinationIOS="\"platform=iOS Simulator,name=iPhone 17 Pro\""
     destinationMac="'platform=macOS,arch=x86_64'"
 
     destination1="-destination $destinationIOS -destination $destinationMac"
@@ -12,8 +12,8 @@ function buildScheme {
         destination1="-destination $destinationIOS"
     fi
     
-    workspace="MonoProjects.xcworkspace"
-    command="xcodebuild -workspace $workspace"
+    project="HDiary.xcodeproj"
+    command="xcodebuild -project $project"
     command="$command -scheme $scheme"
     command="$command -configuration Debug"
     command="$command $destination1"
