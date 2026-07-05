@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		601EEFAE2B9D3E0E0073BA37 /* HDiaryConstants in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFAD2B9D3E0E0073BA37 /* HDiaryConstants */; };
 		601EEFB02B9D3E1B0073BA37 /* HDiaryConstants in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFAF2B9D3E1B0073BA37 /* HDiaryConstants */; };
+		60F100122E00000100000001 /* HDiaryWidgetFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100132E00000100000001 /* HDiaryWidgetFeature */; };
 		601EEFB22B9D645E0073BA37 /* HDiaryIAP in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFB12B9D645E0073BA37 /* HDiaryIAP */; };
 		60F100102E00000100000001 /* HDiaryAppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100112E00000100000001 /* HDiaryAppFeature */; };
 		60F100002E00000100000001 /* HDiarySearch in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100012E00000100000001 /* HDiarySearch */; };
@@ -138,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60F100122E00000100000001 /* HDiaryWidgetFeature in Frameworks */,
 				60E380222A62666300F32E2C /* HDiaryModel in Frameworks */,
 				601EEFB02B9D3E1B0073BA37 /* HDiaryConstants in Frameworks */,
 				6072D3A72A6161DB0020B7AF /* SwiftUI.framework in Frameworks */,
@@ -247,6 +249,7 @@
 			packageProductDependencies = (
 				60E380212A62666300F32E2C /* HDiaryModel */,
 				601EEFAF2B9D3E1B0073BA37 /* HDiaryConstants */,
+				60F100132E00000100000001 /* HDiaryWidgetFeature */,
 			);
 			productName = HDiaryWidgetExtension;
 			productReference = 6072D3A32A6161DB0020B7AF /* HDiaryWidgetExtension.appex */;
@@ -624,6 +627,10 @@
 		60F100112E00000100000001 /* HDiaryAppFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HDiaryAppFeature;
+		};
+		60F100132E00000100000001 /* HDiaryWidgetFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HDiaryWidgetFeature;
 		};
 		6050DD612B24331700CE3230 /* HMedia */ = {
 			isa = XCSwiftPackageProductDependency;

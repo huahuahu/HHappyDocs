@@ -29,6 +29,10 @@ let package = Package(
       name: "HDiaryAppFeature",
       targets: ["HDiaryAppFeature"]
     ),
+    .library(
+      name: "HDiaryWidgetFeature",
+      targets: ["HDiaryWidgetFeature"]
+    ),
 
   ],
   dependencies: [
@@ -120,6 +124,13 @@ let package = Package(
         .product(name: "HMedia", package: "HSharedCode"),
         .product(name: "HUIComponent", package: "HSharedCode"),
         .product(name: "SFSafeSymbols", package: "SFSafeSymbols"),
+      ]
+    ),
+    .target(
+      name: "HDiaryWidgetFeature",
+      dependencies: [
+        "HDiaryConstants",
+        "HDiaryModel",
       ]
     ),
   ]

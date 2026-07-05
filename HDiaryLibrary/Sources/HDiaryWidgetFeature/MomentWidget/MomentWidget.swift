@@ -50,7 +50,7 @@ struct MomentWidgetEntryView: View {
     .padding(.top, participantVerticalPadding)
     .padding(.bottom, participantVerticalPadding)
     .padding(.leading)
-    .background(.accent)
+    .background(Color.accentColor)
     .clipShape(ContainerRelativeShape())
   }
 
@@ -68,7 +68,7 @@ struct MomentWidgetEntryView: View {
               momentView(for: moment)
                 .padding(.vertical, paddingBetweenMoments)
                 .padding(.horizontal)
-                .background(.accent.opacity(0.3))
+                .background(Color.accentColor.opacity(0.3))
                 .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
             }
           }
