@@ -9,6 +9,7 @@ import Foundation
 import HDiaryConstants
 import HDiaryIAP
 import HDiaryModel
+import HDiarySearch
 import HUIComponent
 import Observation
 import SwiftData

@@ -6,6 +6,7 @@
 //
 
 import HDiaryConstants
+import HDiarySearch
 import SwiftUI
 
 @MainActor

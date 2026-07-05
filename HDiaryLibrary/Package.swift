@@ -14,6 +14,10 @@ let package = Package(
       targets: ["HDiaryModel"]
     ),
     .library(
+      name: "HDiarySearch",
+      targets: ["HDiarySearch"]
+    ),
+    .library(
       name: "HDiaryConstants",
       targets: ["HDiaryConstants"]
     ),
@@ -28,6 +32,7 @@ let package = Package(
     // .package(url: /* package url */, from: "1.0.0"),
     .package(name: "HSharedCode", path: "../HSharedCode"),
     .package(url: "https://github.com/apple/swift-algorithms", from: "1.0.0"),
+    .package(url: "https://github.com/apple/swift-atomics.git", from: "1.2.0"),
   ],
 
   targets: [
@@ -43,6 +48,22 @@ let package = Package(
       ],
       resources: [
         .process("Resources"),
+      ]
+    ),
+    .target(
+      name: "HDiarySearch",
+      dependencies: [
+        "HDiaryConstants",
+        "HDiaryModel",
+        .product(name: "Atomics", package: "swift-atomics"),
+      ]
+    ),
+    .testTarget(
+      name: "HDiarySearchTests",
+      dependencies: [
+        "HDiarySearch",
+        "HDiaryModel",
+        .product(name: "Atomics", package: "swift-atomics"),
       ]
     ),
     .testTarget(
