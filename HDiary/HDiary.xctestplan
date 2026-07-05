@@ -25,9 +25,9 @@
   "testTargets": [
     {
       "target": {
-        "containerPath": "container:HDiary.xcodeproj",
-        "identifier": "60A4E20F2A3DDCE3000E68A0",
-        "name": "HDiaryTests"
+        "containerPath": "container:HDiaryLibrary",
+        "identifier": "HDiaryAppFeatureTests",
+        "name": "HDiaryAppFeatureTests"
       }
     },
     {

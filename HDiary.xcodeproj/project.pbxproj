@@ -36,13 +36,6 @@
 			remoteGlobalIDString = 6072D3A22A6161DB0020B7AF;
 			remoteInfo = HDiaryWidgetExtension;
 		};
-		60A4E2112A3DDCE3000E68A0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 60A4E1F42A3DDCE1000E68A0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 60A4E1FB2A3DDCE1000E68A0;
-			remoteInfo = HDiary;
-		};
 		60A4E21B2A3DDCE3000E68A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 60A4E1F42A3DDCE1000E68A0 /* Project object */;
@@ -75,7 +68,6 @@
 		6072D3BB2A6161E90020B7AF /* HDiaryWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HDiaryWidgetExtension.entitlements; sourceTree = "<group>"; };
 		6091A73D2BB3A1BA00D6223E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		60A4E1FC2A3DDCE1000E68A0 /* HDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		60A4E2102A3DDCE3000E68A0 /* HDiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HDiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A4E21A2A3DDCE3000E68A0 /* HDiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HDiaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A4E27B2A3DF197000E68A0 /* HUIComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HUIComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A4E27F2A3DF19E000E68A0 /* HLocalization.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HLocalization.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,13 +96,6 @@
 			);
 			target = 60A4E1FB2A3DDCE1000E68A0 /* HDiary */;
 		};
-		60F3DD232CDDF1AF00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				IAP/HDiary.storekit,
-			);
-			target = 60A4E20F2A3DDCE3000E68A0 /* HDiaryTests */;
-		};
 		60F3DD242CDDF1AF00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -128,8 +113,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		60F3DCB92CDDF1AF00C05BFB /* HDiary */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (60F3DD222CDDF1AF00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 60F3DD232CDDF1AF00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 60F3DD242CDDF1AF00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HDiary; sourceTree = "<group>"; };
-		60F3DD262CDDF1C000C05BFB /* HDiaryTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HDiaryTests; sourceTree = "<group>"; };
+		60F3DCB92CDDF1AF00C05BFB /* HDiary */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (60F3DD222CDDF1AF00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 60F3DD242CDDF1AF00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HDiary; sourceTree = "<group>"; };
 		60F3DD2A2CDDF1C800C05BFB /* HDiaryUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HDiaryUITests; sourceTree = "<group>"; };
 		60F3DD372CDDF1CC00C05BFB /* HDiaryWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (60F3DD412CDDF1CC00C05BFB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HDiaryWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -164,13 +148,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		60A4E20D2A3DDCE3000E68A0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		60A4E2172A3DDCE3000E68A0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -188,7 +165,6 @@
 				604877CF2A6264C400EC2058 /* HDiaryLibrary */,
 				6072D3BB2A6161E90020B7AF /* HDiaryWidgetExtension.entitlements */,
 				60F3DCB92CDDF1AF00C05BFB /* HDiary */,
-				60F3DD262CDDF1C000C05BFB /* HDiaryTests */,
 				60F3DD2A2CDDF1C800C05BFB /* HDiaryUITests */,
 				60F3DD372CDDF1CC00C05BFB /* HDiaryWidget */,
 				60A4E1FD2A3DDCE1000E68A0 /* Products */,
@@ -201,7 +177,6 @@
 			isa = PBXGroup;
 			children = (
 				60A4E1FC2A3DDCE1000E68A0 /* HDiary.app */,
-				60A4E2102A3DDCE3000E68A0 /* HDiaryTests.xctest */,
 				60A4E21A2A3DDCE3000E68A0 /* HDiaryUITests.xctest */,
 				6072D3A32A6161DB0020B7AF /* HDiaryWidgetExtension.appex */,
 			);
@@ -289,27 +264,6 @@
 			productReference = 60A4E1FC2A3DDCE1000E68A0 /* HDiary.app */;
 			productType = "com.apple.product-type.application";
 		};
-		60A4E20F2A3DDCE3000E68A0 /* HDiaryTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 60A4E2272A3DDCE3000E68A0 /* Build configuration list for PBXNativeTarget "HDiaryTests" */;
-			buildPhases = (
-				60A4E20C2A3DDCE3000E68A0 /* Sources */,
-				60A4E20D2A3DDCE3000E68A0 /* Frameworks */,
-				60A4E20E2A3DDCE3000E68A0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				60A4E2122A3DDCE3000E68A0 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				60F3DD262CDDF1C000C05BFB /* HDiaryTests */,
-			);
-			name = HDiaryTests;
-			productName = HDiaryTests;
-			productReference = 60A4E2102A3DDCE3000E68A0 /* HDiaryTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		60A4E2192A3DDCE3000E68A0 /* HDiaryUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60A4E22A2A3DDCE3000E68A0 /* Build configuration list for PBXNativeTarget "HDiaryUITests" */;
@@ -347,10 +301,6 @@
 					60A4E1FB2A3DDCE1000E68A0 = {
 						CreatedOnToolsVersion = 15.0;
 					};
-					60A4E20F2A3DDCE3000E68A0 = {
-						CreatedOnToolsVersion = 15.0;
-						TestTargetID = 60A4E1FB2A3DDCE1000E68A0;
-					};
 					60A4E2192A3DDCE3000E68A0 = {
 						CreatedOnToolsVersion = 15.0;
 						TestTargetID = 60A4E1FB2A3DDCE1000E68A0;
@@ -375,7 +325,6 @@
 			projectRoot = "";
 			targets = (
 				60A4E1FB2A3DDCE1000E68A0 /* HDiary */,
-				60A4E20F2A3DDCE3000E68A0 /* HDiaryTests */,
 				60A4E2192A3DDCE3000E68A0 /* HDiaryUITests */,
 				6072D3A22A6161DB0020B7AF /* HDiaryWidgetExtension */,
 			);
@@ -397,13 +346,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6091A73E2BB3A1BD00D6223E /* PrivacyInfo.xcprivacy in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		60A4E20E2A3DDCE3000E68A0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,13 +373,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		60A4E20C2A3DDCE3000E68A0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		60A4E2162A3DDCE3000E68A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -452,11 +387,6 @@
 			isa = PBXTargetDependency;
 			target = 6072D3A22A6161DB0020B7AF /* HDiaryWidgetExtension */;
 			targetProxy = 6072D3B42A6161DC0020B7AF /* PBXContainerItemProxy */;
-		};
-		60A4E2122A3DDCE3000E68A0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 60A4E1FB2A3DDCE1000E68A0 /* HDiary */;
-			targetProxy = 60A4E2112A3DDCE3000E68A0 /* PBXContainerItemProxy */;
 		};
 		60A4E21C2A3DDCE3000E68A0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -514,22 +444,6 @@
 			};
 			name = Release;
 		};
-		60A4E2282A3DDCE3000E68A0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB /* HDiary */;
-			baseConfigurationReferenceRelativePath = Configs/unit-tests-debug.xcconfig;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		60A4E2292A3DDCE3000E68A0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB /* HDiary */;
-			baseConfigurationReferenceRelativePath = Configs/unit-tests-release.xcconfig;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		60A4E22B2A3DDCE3000E68A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB /* HDiary */;
@@ -572,15 +486,6 @@
 			buildConfigurations = (
 				60A4E2252A3DDCE3000E68A0 /* Debug */,
 				60A4E2262A3DDCE3000E68A0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		60A4E2272A3DDCE3000E68A0 /* Build configuration list for PBXNativeTarget "HDiaryTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				60A4E2282A3DDCE3000E68A0 /* Debug */,
-				60A4E2292A3DDCE3000E68A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

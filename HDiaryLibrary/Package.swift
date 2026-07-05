@@ -133,5 +133,11 @@ let package = Package(
         "HDiaryModel",
       ]
     ),
+    .testTarget(
+      name: "HDiaryAppFeatureTests",
+      dependencies: [
+        "HDiaryAppFeature",
+      ]
+    ),
   ]
 )

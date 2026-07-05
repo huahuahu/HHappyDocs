@@ -1,5 +1,5 @@
 import XCTest
-@testable import HDiary
+@testable import HDiaryAppFeature
 
 final class AllTagsViewTests: XCTestCase {
   func testEmptyTagsDoNotShowTotalTagCount() {
