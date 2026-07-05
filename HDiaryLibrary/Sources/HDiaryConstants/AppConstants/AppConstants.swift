@@ -4,23 +4,19 @@
 //
 //  Created by tigerguo on 2023/7/13.
 //
+#if os(iOS)
 
-import Foundation
+  import Foundation
 
-public enum AppConstants {
-  public static let groupName = "group.com.tiger.suzhou.HDiary"
-  public static let cloudKitContainerIdentifier = "iCloud.com.tigerhuahuahu.suzhou.hdiary"
-
-  #if os(iOS)
+  public enum AppConstants {
+    public static let groupName = "group.com.tiger.suzhou.HDiary"
+    public static let cloudKitContainerIdentifier = "iCloud.com.tigerhuahuahu.suzhou.hdiary"
     public static let appName = String(localized: "CFBundleDisplayName", table: "InfoPlist")
     public static let privacyUrl = "https://app.tigerpro.org/hdiary/privacy.html"
 
     public static let groupContainerURL: URL = FileManager.default.containerURL(
       forSecurityApplicationGroupIdentifier: Self.groupName)!
-  #endif
-}
-
-#if os(iOS)
+  }
 
   public extension AppConstants {
     enum IAP {
@@ -28,13 +24,9 @@ public enum AppConstants {
     }
   }
 
-#endif
-
-public extension UserDefaults {
-  static let hDiaryShared = UserDefaults(suiteName: AppConstants.groupName)
-}
-
-#if os(iOS)
+  public extension UserDefaults {
+    static let hDiaryShared = UserDefaults(suiteName: AppConstants.groupName)
+  }
 
   public enum HDiaryIntentKind: String {
     case moment = "Moment"

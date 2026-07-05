@@ -4,17 +4,15 @@
 //
 //  Created by tigerguo on 2023/6/17.
 //
-
-import Foundation
-import SwiftData
-
-extension Schema {
-  public static let hDiaryScheme = Schema([Tag.self, Moment.self, MediaItem.self, Participant.self])
-}
-
 #if os(iOS)
 
+  import Foundation
   import HDiaryConstants
+  import SwiftData
+
+  extension Schema {
+    static let hDiaryScheme = Schema([Tag.self, Moment.self, MediaItem.self, Participant.self])
+  }
 
   public enum HDiaryContainer {
 //    @MainActor

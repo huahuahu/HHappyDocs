@@ -15,7 +15,7 @@ struct HDiaryApp: App {
 
   var body: some Scene {
     WindowGroup {
-      AppRootView()
+      BaseTabView()
         .withEnvironments()
         .withModelContainer()
     }
