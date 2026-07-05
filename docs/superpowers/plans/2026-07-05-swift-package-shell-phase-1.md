@@ -53,6 +53,78 @@
 
 ---
 
+### Task 0: Restore SwiftPM baseline by declaring the current macOS platform
+
+**Files:**
+- Modify: `HDiaryLibrary/Package.swift`
+- Modify: `HSharedCode/Package.swift`
+
+**Interfaces:**
+- Consumes:
+  - Swift Package platform declaration in `HDiaryLibrary/Package.swift`
+  - Swift Package platform declaration in `HSharedCode/Package.swift`
+  - Xcode 26.6 / Swift 6.3.3 support for macOS 26.0 string platform versions
+- Produces:
+  - `HDiaryLibrary` and `HSharedCode` declare `.macOS("26.0")`.
+  - `UserPreferences` can compile on macOS SwiftPM hosts without changing its iOS behavior.
+
+- [ ] **Step 1: Verify the baseline failure**
+
+Run:
+
+```bash
+GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 swift test --package-path HDiaryLibrary
+```
+
+Expected: FAIL with errors from `HDiaryLibrary/Sources/HDiaryConstants/UserDefaults/UserPreferences.swift` mentioning `ObservationIgnored()` / `ObservationRegistrar` macOS availability or `UserDefaults?.hDiaryShared` missing.
+
+- [ ] **Step 2: Raise Swift Package macOS platform declarations**
+
+In `HDiaryLibrary/Package.swift`, replace:
+
+```swift
+  platforms: [.iOS(.v17), .macOS(.v13)],
+```
+
+with:
+
+```swift
+  platforms: [.iOS(.v17), .macOS("26.0")],
+```
+
+In `HSharedCode/Package.swift`, replace:
+
+```swift
+  platforms: [.iOS(.v17), .macOS(.v13)],
+```
+
+with:
+
+```swift
+  platforms: [.iOS(.v17), .macOS("26.0")],
+```
+
+- [ ] **Step 3: Verify the package baseline is restored**
+
+Run:
+
+```bash
+GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 swift test --package-path HDiaryLibrary
+```
+
+Expected: PASS, or no `UserPreferences.swift` compile errors. If a different pre-existing package error appears, report it as DONE_WITH_CONCERNS with the exact error.
+
+- [ ] **Step 4: Commit**
+
+Run:
+
+```bash
+git add HDiaryLibrary/Package.swift HSharedCode/Package.swift
+git commit -m "fix: raise package macos platform" -m "Co-authored-by: Copilot App <223556219+Copilot@users.noreply.github.com>"
+```
+
+---
+
 ### Task 1: Add `HDiaryServices` and move startup maintenance service
 
 **Files:**
