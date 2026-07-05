@@ -16,6 +16,7 @@
 - 每个任务结束时必须保持 `HDiary` app target 可构建。
 - Package 不能反向依赖 app target；依赖方向保持 `HDiary app / HDiaryWidget -> feature/domain package targets -> HDiaryLibrary targets -> HSharedCode targets`。
 - Swift Package 网络解析命令必须带本地代理环境；如果遇到 SwiftPM bare repository 安全错误，用单次 `GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all` 前缀，不修改全局 Git config。
+- 这些 packages 包含 iOS-oriented SwiftUI/SwiftData 代码；不要用 host macOS `swift test` 作为验收标准。Package test targets 通过 `HDiary` scheme 的 iOS simulator test plan 验证。
 - 任何 XcodeBuildMCP build/test/run 调用前，先调用 `xcodebuildmcp-session_show_defaults`；defaults 缺失或不匹配时，按 `.xcodebuildmcp/config.yaml` 设置绝对 `projectPath`。
 - commit message 必须包含 trailer：`Co-authored-by: Copilot App <223556219+Copilot@users.noreply.github.com>`。
 
@@ -60,6 +61,7 @@
 - Move: `HDiary/Search/Model/SearchViewModel.swift` -> `HDiaryLibrary/Sources/HDiarySearch/SearchViewModel.swift`
 - Delete: `HDiary/Search/Model/SearchableItem.swift` — 当前没有引用，迁移搜索 model 后移除空置文件。
 - Create: `HDiaryLibrary/Tests/HDiarySearchTests/SearchEngineTests.swift` — 验证搜索 engine 使用 in-memory SwiftData container。
+- Modify: `HDiary/HDiary.xctestplan` — 将新增 `HDiarySearchTests` 加入 `HDiary` scheme 使用的 active test plan。
 - Modify: `HDiary/BaseTabView.swift` — 添加 `import HDiarySearch`。
 - Modify: `HDiary/Common/Navigation/AppEnvironments.swift` — 添加 `import HDiarySearch`。
 - Modify: `HDiary/Search/View/SearchModifier.swift` — 添加 `import HDiarySearch`。
@@ -149,17 +151,15 @@ SWIFT_VERSION = 5.0
 DEVELOPMENT_TEAM = F29WG8477A
 ```
 
-- [ ] **Step 4: Verify Swift packages before migration**
+- [ ] **Step 4: Verify package test targets before migration**
 
 Run:
 
 ```bash
-HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all swift test --package-path HDiaryLibrary
-
-HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all swift test --package-path HSharedCode
+HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all /opt/homebrew/bin/xcodebuildmcp simulator test --project-path /Users/tigerguo/git/copilot-worktrees/HHappyDocs/huahuahu-stunning-bassoon/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --output text
 ```
 
-Expected: both commands finish with `Test Suite ... passed`.
+Expected: the `HDiary` scheme test plan discovers `HDiaryConstantsTests`, `HDiaryIAPTests`, and `HDiaryModelTests`, then finishes with zero failures.
 
 - [ ] **Step 5: Verify app build before migration**
 
@@ -847,7 +847,7 @@ Create `HDiaryLibrary/Tests/HDiaryModelTests/StartupDataMaintenanceServiceTests.
 Run:
 
 ```bash
-HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all swift test --package-path HDiaryLibrary --filter StartupDataMaintenanceServiceTests
+HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all /opt/homebrew/bin/xcodebuildmcp simulator test --json '{"projectPath":"/Users/tigerguo/git/copilot-worktrees/HHappyDocs/huahuahu-stunning-bassoon/HDiary.xcodeproj","scheme":"HDiary","simulatorId":"A044BA15-7770-48E6-8E28-E2123A772ACD","extraArgs":["-only-testing:HDiaryModelTests/StartupDataMaintenanceServiceTests"]}' --output text
 ```
 
 Expected: compile fails because `StartupDataMaintenanceService` is not defined.
@@ -1050,7 +1050,7 @@ Then delete the private methods `migrationDB()`, `updateMediaInfo()`, and `clean
 Run:
 
 ```bash
-HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all swift test --package-path HDiaryLibrary --filter StartupDataMaintenanceServiceTests
+HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all /opt/homebrew/bin/xcodebuildmcp simulator test --json '{"projectPath":"/Users/tigerguo/git/copilot-worktrees/HHappyDocs/huahuahu-stunning-bassoon/HDiary.xcodeproj","scheme":"HDiary","simulatorId":"A044BA15-7770-48E6-8E28-E2123A772ACD","extraArgs":["-only-testing:HDiaryModelTests/StartupDataMaintenanceServiceTests"]}' --output text
 ```
 
 Expected: `StartupDataMaintenanceServiceTests` passes.
@@ -1092,6 +1092,7 @@ Expected: one commit containing service extraction, tests, and `BaseTabView` cle
 - Move: `HDiary/Search/Model/SearchViewModel.swift` -> `HDiaryLibrary/Sources/HDiarySearch/SearchViewModel.swift`
 - Delete: `HDiary/Search/Model/SearchableItem.swift`
 - Create: `HDiaryLibrary/Tests/HDiarySearchTests/SearchEngineTests.swift`
+- Modify: `HDiary/HDiary.xctestplan`
 - Modify: `HDiary/BaseTabView.swift`
 - Modify: `HDiary/Common/Navigation/AppEnvironments.swift`
 - Modify: `HDiary/Search/View/SearchModifier.swift`
@@ -1370,19 +1371,35 @@ Create `HDiaryLibrary/Tests/HDiarySearchTests/SearchEngineTests.swift`:
 #endif
 ```
 
-- [ ] **Step 5: Run package resolve and focused tests**
+- [ ] **Step 5: Add `HDiarySearchTests` to the active test plan**
+
+In `HDiary/HDiary.xctestplan`, append this entry to `testTargets` after the `HDiaryModelTests` entry:
+
+```json
+    {
+      "target" : {
+        "containerPath" : "container:HDiaryLibrary",
+        "identifier" : "HDiarySearchTests",
+        "name" : "HDiarySearchTests"
+      }
+    }
+```
+
+Keep the file valid JSON. The `HDiary.xcodeproj/xcshareddata/xcschemes/HDiary.xcscheme` file references `container:HDiary/HDiary.xctestplan`, so this is the active test plan.
+
+- [ ] **Step 6: Run package resolve and focused tests**
 
 Run:
 
 ```bash
 HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all swift package --package-path HDiaryLibrary resolve
 
-HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all swift test --package-path HDiaryLibrary --filter SearchEngineTests
+HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all /opt/homebrew/bin/xcodebuildmcp simulator test --json '{"projectPath":"/Users/tigerguo/git/copilot-worktrees/HHappyDocs/huahuahu-stunning-bassoon/HDiary.xcodeproj","scheme":"HDiary","simulatorId":"A044BA15-7770-48E6-8E28-E2123A772ACD","extraArgs":["-only-testing:HDiarySearchTests/SearchEngineTests"]}' --output text
 ```
 
 Expected: dependency resolution succeeds and `SearchEngineTests` passes.
 
-- [ ] **Step 6: Import `HDiarySearch` from app integration files**
+- [ ] **Step 7: Import `HDiarySearch` from app integration files**
 
 Add `import HDiarySearch` to these files:
 
@@ -1396,7 +1413,7 @@ HDiary/Moments/MomentList/MomentTab.swift
 
 Do not change the SwiftUI view behavior. The existing `SearchViewModel()` calls and `@Environment(SearchViewModel.self)` declarations should remain the same.
 
-- [ ] **Step 7: Wire `HDiarySearch` into the app target and remove direct `Atomics`**
+- [ ] **Step 8: Wire `HDiarySearch` into the app target and remove direct `Atomics`**
 
 In `HDiary.xcodeproj/project.pbxproj`:
 
@@ -1429,7 +1446,7 @@ In `HDiary.xcodeproj/project.pbxproj`:
 
 Remove those IDs from the `PBXBuildFile section`, app Frameworks list, `PBXProject.packageReferences`, app `packageProductDependencies`, `XCRemoteSwiftPackageReference section`, and `XCSwiftPackageProductDependency section`.
 
-- [ ] **Step 8: Resolve Xcode packages and build**
+- [ ] **Step 9: Resolve Xcode packages and build**
 
 Tool call:
 
@@ -1444,22 +1461,22 @@ Tool call:
 
 Expected: app builds and Xcode resolves `HDiarySearch` through local `HDiaryLibrary`.
 
-- [ ] **Step 9: Run full package tests**
+- [ ] **Step 10: Run full package tests through the iOS test plan**
 
 Run:
 
 ```bash
-HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all swift test --package-path HDiaryLibrary
+HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all /opt/homebrew/bin/xcodebuildmcp simulator test --project-path /Users/tigerguo/git/copilot-worktrees/HHappyDocs/huahuahu-stunning-bassoon/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --output text
 ```
 
-Expected: all `HDiaryLibrary` tests pass.
+Expected: the `HDiary` scheme test plan includes `HDiarySearchTests` and all discovered tests pass.
 
-- [ ] **Step 10: Commit search package migration**
+- [ ] **Step 11: Commit search package migration**
 
 Run:
 
 ```bash
-git add HDiaryLibrary/Package.swift HDiaryLibrary/Package.resolved HDiaryLibrary/Sources/HDiarySearch HDiaryLibrary/Tests/HDiarySearchTests HDiary/BaseTabView.swift HDiary/Common/Navigation/AppEnvironments.swift HDiary/Search HDiary/Moments/MomentList/MomentTab.swift HDiary.xcodeproj/project.pbxproj HDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+git add HDiaryLibrary/Package.swift HDiaryLibrary/Package.resolved HDiaryLibrary/Sources/HDiarySearch HDiaryLibrary/Tests/HDiarySearchTests HDiary/HDiary.xctestplan HDiary/BaseTabView.swift HDiary/Common/Navigation/AppEnvironments.swift HDiary/Search HDiary/Moments/MomentList/MomentTab.swift HDiary.xcodeproj/project.pbxproj HDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 git commit -m "refactor: move search model to package" -m "Co-authored-by: Copilot App <223556219+Copilot@users.noreply.github.com>"
 ```
 
@@ -1530,17 +1547,15 @@ find HDiary HDiaryWidget HDiaryLibrary/Sources HSharedCode/Sources -name '*.swif
 
 Expected: `HDiaryLibrary/Sources` count increased by at least 4 files compared with the baseline, and `HDiary` count decreased by at least 4 files.
 
-- [ ] **Step 5: Run final package tests**
+- [ ] **Step 5: Run final package tests through the iOS test plan**
 
 Run:
 
 ```bash
-HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all swift test --package-path HDiaryLibrary
-
-HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all swift test --package-path HSharedCode
+HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all /opt/homebrew/bin/xcodebuildmcp simulator test --project-path /Users/tigerguo/git/copilot-worktrees/HHappyDocs/huahuahu-stunning-bassoon/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --output text
 ```
 
-Expected: both package test suites pass.
+Expected: all discovered tests pass, including `HDiaryConstantsTests`, `HDiaryIAPTests`, `HDiaryModelTests`, and `HDiarySearchTests`.
 
 - [ ] **Step 6: Run final app build**
 
