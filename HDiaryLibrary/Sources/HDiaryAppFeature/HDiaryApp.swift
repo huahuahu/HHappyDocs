@@ -10,8 +10,6 @@ import SwiftData
 import SwiftUI
 
 public struct HDiaryFeatureApp: App {
-  @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
-
   public init() {}
 
   public var body: some Scene {

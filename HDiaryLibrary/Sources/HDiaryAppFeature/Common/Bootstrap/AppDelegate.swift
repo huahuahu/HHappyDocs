@@ -8,10 +8,15 @@
 import Foundation
 import UIKit
 
-final class AppDelegate: NSObject, UIApplicationDelegate {
+public final class AppDelegate: NSObject, UIApplicationDelegate {
   private var singletons = [Any]()
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+
+  public override init() {
+    super.init()
+  }
+
+  public func application(_ application: UIApplication,
+                          didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
     singletons.append(LocalNotificationManager.shared)
     return true
   }
