@@ -1,0 +1,37 @@
+# Xcode
+# Build and test the HDiary Xcode workspace on macOS.
+
+trigger:
+  - main
+
+pool:
+  vmImage: "macOS-15"
+
+stages:
+  - stage: Check
+    jobs:
+      - job: Setup
+        displayName: "Setup"
+        steps:
+          - script: |
+              sudo xcode-select -s /Applications/Xcode_16.app && \
+              xcodebuild -version && \
+              xcrun simctl list
+            displayName: "Check environment"
+
+          - script: |
+              make ios-lint-check
+            displayName: "Lint HDiary"
+
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "20.x"
+            displayName: "Install Node.js"
+
+          - script: |
+              make ios-build TARGET=HDiary
+            displayName: "Build HDiary"
+
+          - script: |
+              make ios-test TARGET=HDiary
+            displayName: "test HDiary"

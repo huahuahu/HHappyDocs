@@ -1,0 +1,10 @@
+这是一个帮助你记录快乐瞬间的应用程序。你可以给快乐瞬间添加标签、参与者、评分和照片。还可以通过图表查看最近的快乐瞬间，并支持小组件。
+
+
+An app that helps you capture joyful moments. You can add tags, participants, ratings, and photos to these happy moments. It allows you to view recent happy moments through charts and also supports widgets.
+
+
+
+
+
+

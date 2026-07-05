@@ -1,0 +1,8 @@
+1. 记录快乐瞬间
+2. 以图表形式查看快乐瞬间
+3. 支持小组件
+
+
+1. Record Joyful Moments
+2. View Joyful Moments in charts
+3. Support Widgets

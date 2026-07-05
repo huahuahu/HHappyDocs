@@ -1,0 +1,9 @@
+- Support gif images
+- Support add multiple images at once
+- Performance improvement
+
+
+
+- 支持Gif
+- 支持一次添加多张图片
+- 性能优化

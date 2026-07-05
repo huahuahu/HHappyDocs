@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Privacy Policy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var userLang = navigator.language || navigator.userLanguage; 
+            var messageElement = document.getElementById('message');
+
+            if(userLang.startsWith('zh')) {
+                messageElement.innerHTML = `
+                    <a href="index.html">首页</a>
+                    <h1>快乐日记 隐私政策</h1>
+                    <p>我们的 iOS 应用程序快乐日记使用 CloudKit，因此不会收集用户的信息。我们尊重并保护所有用户的隐私。</p>
+                    <p>我们的应用程序不会收集您的个人信息，也不会将您的信息分享给第三方。</p>
+                    <p>我们的应用程序可能会收集匿名的使用数据，以帮助我们改进应用程序和我们的服务。</p>
+                    <p>如果您对我们的隐私政策有任何问题或疑虑，请联系我们。</p>
+                `;
+            } else {
+                messageElement.innerHTML = `
+                    <a href="index.html">Home</a>
+                    <h1>HDiary Privacy Policy</h1>
+                    <p>Our iOS app HDiary uses CloudKit, so it doesn't collect user's information. We respect and protect the privacy of all users.</p>
+                    <p>Our app does not collect your personal information, nor does it share your information with third parties.</p>
+                    <p>Our app may collect anonymous usage data to help us improve the app and our services.</p>
+                    <p>If you have any questions or concerns about our privacy policy, please contact us.</p>
+                `;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container" id="message"></div>
+</body>
+</html>

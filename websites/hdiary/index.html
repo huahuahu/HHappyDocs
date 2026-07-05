@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HDiary - Record Your Happy Moments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        .download-button {
+            display: inline-block;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            margin: 20px 0;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var userLang = navigator.language || navigator.userLanguage; 
+            var messageElement = document.getElementById('message');
+
+            if(userLang.startsWith('zh')) {
+                messageElement.innerHTML = `
+                    <h1>欢迎来到快乐日记</h1>
+                    <p>快乐日记是一款 iOS 应用，帮助您记录和记住生活中的快乐时刻。有了快乐日记，您可以轻松捕捉每天的快乐和幸福。您可以随时回顾您的条目并重温那些时刻。快乐日记尊重您的隐私，不会收集任何个人信息。</p>
+                    <a href="https://apps.apple.com/app/6470147729" class="download-button">在 App Store 上下载</a>
+                    <p>阅读我们的<a href="privacy.html">隐私政策</a>。</p>
+                    <p><a href="../index.html">更多应用>></a></p>
+                    <h2>联系我们</h2>
+                    <p>如果您对我们有任何疑问或疑虑，请通过以下方式与我们联系：</p>
+                    <p>邮箱：<a href="mailto:huahuahuapple@outlook.com">huahuahuapple@outlook.com</a></p>
+                `;
+            } else {
+                messageElement.innerHTML = `
+                    <h1>Welcome to HDiary</h1>
+                    <p>HDiary is an iOS app that helps you record and remember the happy moments in your life. With HDiary, you can easily capture joy and happiness every day. You can look back on your entries anytime and relive those moments. HDiary respects your privacy and does not collect any personal information.</p>
+                    <a href="https://apps.apple.com/app/6470147729" class="download-button">Download on the App Store</a>
+                    <p>Read our <a href="privacy.html">Privacy Policy</a>.</p>
+                    <p><a href="../index.html">More Apps>></a></p>
+                    <h2>Contact Us</h2>
+                    <p>If you have any questions or concerns, please contact us at:</p>
+                    <p>Email: <a href="mailto:huahuahuapple@outlook.com">huahuahuapple@outlook.com</a></p>
+                `;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container" id="message"></div>
+</body>
+</html>

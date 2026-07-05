@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git rev-parse --abbrev-ref --symbolic-full-name @{u})",
+      "Bash(xcodebuild:*)",
+      "Bash(chmod:*)",
+      "Bash(echo:*)",
+      "Bash(source:*)",
+      "Bash(./build_and_upload_testflight.sh:*)",
+      "Bash(open:*)"
+    ]
+  }
+}
