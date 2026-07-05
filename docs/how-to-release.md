@@ -6,7 +6,7 @@ Just search previous version
 
 ![](version.png)
 
-## Update materials in appstore folder
+## Update materials in `release/`
 1. Create a new folder named with new version
 2. Copy old version content
 3. Update

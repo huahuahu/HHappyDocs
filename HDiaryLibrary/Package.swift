@@ -26,7 +26,7 @@ let package = Package(
   dependencies: [
     // Dependencies declare other packages that this package depends on.
     // .package(url: /* package url */, from: "1.0.0"),
-    .package(name: "HSharedCode", path: "../../../HSharedCode"),
+    .package(name: "HSharedCode", path: "../HSharedCode"),
     .package(url: "https://github.com/apple/swift-algorithms", from: "1.0.0"),
   ],
 
