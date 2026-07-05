@@ -25,6 +25,10 @@ let package = Package(
       name: "HDiaryIAP",
       targets: ["HDiaryIAP"]
     ),
+    .library(
+      name: "HDiaryServices",
+      targets: ["HDiaryServices"]
+    ),
 
   ],
   dependencies: [
@@ -51,6 +55,13 @@ let package = Package(
       ]
     ),
     .target(
+      name: "HDiaryServices",
+      dependencies: [
+        "HDiaryConstants",
+        "HDiaryModel",
+      ]
+    ),
+    .target(
       name: "HDiarySearch",
       dependencies: [
         "HDiaryConstants",
@@ -71,6 +82,13 @@ let package = Package(
       dependencies: [
         "HDiaryModel",
         .product(name: "HFoundation", package: "HSharedCode"),
+      ]
+    ),
+    .testTarget(
+      name: "HDiaryServicesTests",
+      dependencies: [
+        "HDiaryServices",
+        "HDiaryModel",
       ]
     ),
     .target(
