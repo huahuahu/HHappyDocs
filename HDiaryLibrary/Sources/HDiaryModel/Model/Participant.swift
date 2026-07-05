@@ -7,10 +7,7 @@
 
 import Foundation
 import SwiftData
-
-#if canImport(UIKit)
-  import UIKit
-#endif
+import UIKit
 
 @Model
 public final class Participant {
@@ -43,16 +40,14 @@ public final class Participant {
     self.uuid = UUID()
   }
 
-  #if canImport(UIKit)
-    public func getAvatarImage() -> UIImage {
-      if let avatar {
-        return UIImage(data: avatar) ?? UIImage(resource: .defaultPerson)
-      }
-      else {
-        return UIImage(resource: .defaultPerson)
-      }
+  public func getAvatarImage() -> UIImage {
+    if let avatar {
+      return UIImage(data: avatar) ?? UIImage(resource: .defaultPerson)
     }
-  #endif
+    else {
+      return UIImage(resource: .defaultPerson)
+    }
+  }
 }
 
 extension Participant: Encodable {

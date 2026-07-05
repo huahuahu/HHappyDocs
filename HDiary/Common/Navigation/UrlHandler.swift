@@ -8,7 +8,6 @@
 import Foundation
 import HDiaryConstants
 import HDiaryModel
-import HDiaryServices
 import SwiftUI
 
 protocol UrlHandler {
@@ -44,4 +43,29 @@ final class URLHandlerImpl: UrlHandler {
       }
     }
   }
+}
+
+enum DeepLink {
+  static let scheme = "hdiarydl"
+  enum Host: String, RawRepresentable {
+    case moment
+    case library
+    case setting
+  }
+
+//    enum
+
+  enum MomentTarget: String, RawRepresentable {
+    case add
+  }
+
+  static func getAddMomentUrl() -> URL? {
+    var urlComponents = URLComponents()
+    urlComponents.scheme = Self.scheme
+    urlComponents.host = Self.Host.moment.rawValue
+    urlComponents.path = "/\(MomentTarget.add.rawValue)"
+    return urlComponents.url
+  }
+
+//    static func get
 }
