@@ -59,6 +59,8 @@
 - Modify: `HDiaryLibrary/Package.swift`
 - Modify: `HSharedCode/Package.swift`
 - Modify: `HDiaryLibrary/Sources/HDiaryConstants/AppConstants/AppConstants.swift`
+- Modify: `HDiaryLibrary/Sources/HDiaryModel/Model/Participant.swift`
+- Modify: `HDiaryLibrary/Sources/HDiaryModel/Model/MediaItem.swift`
 
 **Interfaces:**
 - Consumes:
@@ -69,6 +71,7 @@
   - `HDiaryLibrary` and `HSharedCode` declare `.macOS("26.0")`.
   - `AppConstants.groupName` and `UserDefaults.hDiaryShared` are available to macOS SwiftPM compilation.
   - `UserPreferences` can compile on macOS SwiftPM hosts without changing its iOS runtime behavior.
+  - `Participant`, `MediaItem`, and `HappyImage` model storage compile on macOS while UIKit-only image helpers remain available on iOS.
 
 - [ ] **Step 1: Verify the baseline failure**
 
@@ -156,7 +159,74 @@ public extension UserDefaults {
 #endif
 ```
 
-- [ ] **Step 4: Verify the package baseline is restored**
+- [ ] **Step 4: Isolate UIKit-only model helpers**
+
+In `HDiaryLibrary/Sources/HDiaryModel/Model/Participant.swift`, replace:
+
+```swift
+import UIKit
+```
+
+with:
+
+```swift
+#if canImport(UIKit)
+  import UIKit
+#endif
+```
+
+Wrap the avatar image helper so only UIKit-capable platforms compile it:
+
+```swift
+#if canImport(UIKit)
+  public func getAvatarImage() -> UIImage {
+    if let avatar {
+      return UIImage(data: avatar) ?? UIImage(resource: .defaultPerson)
+    }
+    else {
+      return UIImage(resource: .defaultPerson)
+    }
+  }
+#endif
+```
+
+In `HDiaryLibrary/Sources/HDiaryModel/Model/MediaItem.swift`, remove the file-level `#if os(iOS)` / `#endif` wrapper so the model types compile for macOS SwiftPM hosts. Replace the import block with:
+
+```swift
+import Foundation
+import HDiaryConstants
+import SwiftData
+
+#if canImport(UIKit)
+  import HMedia
+  import UIKit
+#endif
+```
+
+Keep `MediaItem`, `HappyImage`, and their `Encodable` conformances available on all platforms. Wrap only the UIKit image helpers inside `HappyImage`:
+
+```swift
+#if canImport(UIKit)
+  public var uiImage: UIImage? {
+    UIImage(data: data)
+  }
+
+  public func updateThumbnail() {
+    if thumbnailData150px == nil {
+      thumbnailData150px = try? UIImage.downsample(imageData: data, to: CGSize(width: 150, height: 150))
+    }
+    if thumbnailData500px == nil {
+      thumbnailData500px = try? UIImage.downsample(imageData: data, to: CGSize(width: 500, height: 500))
+    }
+
+    if thumbnailData1000px == nil {
+      thumbnailData1000px = try? UIImage.downsample(imageData: data, to: CGSize(width: 1000, height: 1000))
+    }
+  }
+#endif
+```
+
+- [ ] **Step 5: Verify the package baseline is restored**
 
 Run:
 
@@ -164,14 +234,14 @@ Run:
 GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.bareRepository GIT_CONFIG_VALUE_0=all HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 swift test --package-path HDiaryLibrary
 ```
 
-Expected: PASS, or no `UserPreferences.swift` compile errors. If a different pre-existing package error appears, report it as DONE_WITH_CONCERNS with the exact error.
+Expected: PASS. The output may still contain existing SwiftPM warnings for package resources or upstream package documentation files, but it must not contain compile errors from `UserPreferences.swift`, `Participant.swift`, or `MediaItem.swift`.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 Run:
 
 ```bash
-git add HDiaryLibrary/Package.swift HSharedCode/Package.swift HDiaryLibrary/Sources/HDiaryConstants/AppConstants/AppConstants.swift
+git add HDiaryLibrary/Package.swift HSharedCode/Package.swift HDiaryLibrary/Sources/HDiaryConstants/AppConstants/AppConstants.swift HDiaryLibrary/Sources/HDiaryModel/Model/Participant.swift HDiaryLibrary/Sources/HDiaryModel/Model/MediaItem.swift
 git commit -m "fix: raise package macos platform" -m "Co-authored-by: Copilot App <223556219+Copilot@users.noreply.github.com>"
 ```
 
