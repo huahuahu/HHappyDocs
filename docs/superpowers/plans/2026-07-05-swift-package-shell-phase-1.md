@@ -400,7 +400,7 @@ swift test --package-path HDiaryLibrary --filter StartupDataMaintenanceServiceTe
 
 Expected: PASS for all `StartupDataMaintenanceServiceTests`; the output must show those tests were executed, not `0 tests`.
 
-- [ ] **Step 6: Run all package tests**
+- [ ] **Step 6: Run package-host tests**
 
 Run:
 
@@ -408,7 +408,7 @@ Run:
 swift test --package-path HDiaryLibrary
 ```
 
-Expected: PASS for `HDiaryConstantsTests`, `HDiaryModelTests`, `HDiarySearchTests`, `HDiaryIAPTests`, and `HDiaryServicesTests`.
+Expected: PASS. On the macOS SwiftPM host, this must execute the cross-platform `HDiaryServicesTests`; existing test files that still start with `#if os(iOS)` may be skipped here and will be covered by Xcode/iOS simulator validation in later tasks.
 
 - [ ] **Step 7: Commit**
 
@@ -525,7 +525,7 @@ swift test --package-path HDiaryLibrary --filter DeepLinkTests
 
 Expected: PASS for all `DeepLinkTests`.
 
-- [ ] **Step 5: Run all package tests after adding deep links**
+- [ ] **Step 5: Run package-host tests after adding deep links**
 
 Run:
 
@@ -533,7 +533,7 @@ Run:
 swift test --package-path HDiaryLibrary
 ```
 
-Expected: PASS for `HDiaryConstantsTests`, `HDiaryModelTests`, `HDiarySearchTests`, `HDiaryIAPTests`, `StartupDataMaintenanceServiceTests`, and `DeepLinkTests`.
+Expected: PASS. On the macOS SwiftPM host, this must execute `StartupDataMaintenanceServiceTests` and `DeepLinkTests`; existing test files that still start with `#if os(iOS)` may be skipped here and will be covered by Xcode/iOS simulator validation in later tasks.
 
 - [ ] **Step 6: Commit**
 
