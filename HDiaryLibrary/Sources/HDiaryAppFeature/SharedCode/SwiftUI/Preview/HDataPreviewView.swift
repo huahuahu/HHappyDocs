@@ -143,7 +143,7 @@ public struct HPreviewItem {
 
 #if DEBUG
   extension HPreviewItem {
-    static let heicDemo = HPreviewItem(data: UIImage.test1.heicData().unsafelyUnwrapped, previewType: .heicImage)
+    static let heicDemo = HPreviewItem(data: UIImage(systemName: "photo")?.pngData() ?? Data(), previewType: .pngImage)
   }
 #endif
 

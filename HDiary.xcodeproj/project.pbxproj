@@ -10,6 +10,7 @@
 		601EEFAE2B9D3E0E0073BA37 /* HDiaryConstants in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFAD2B9D3E0E0073BA37 /* HDiaryConstants */; };
 		601EEFB02B9D3E1B0073BA37 /* HDiaryConstants in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFAF2B9D3E1B0073BA37 /* HDiaryConstants */; };
 		601EEFB22B9D645E0073BA37 /* HDiaryIAP in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFB12B9D645E0073BA37 /* HDiaryIAP */; };
+		60F100102E00000100000001 /* HDiaryAppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100112E00000100000001 /* HDiaryAppFeature */; };
 		60F100002E00000100000001 /* HDiarySearch in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100012E00000100000001 /* HDiarySearch */; };
 		604403962A638A240001960E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		6050DD622B24331700CE3230 /* HMedia in Frameworks */ = {isa = PBXBuildFile; productRef = 6050DD612B24331700CE3230 /* HMedia */; };
@@ -148,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60F100102E00000100000001 /* HDiaryAppFeature in Frameworks */,
 				601EEFB22B9D645E0073BA37 /* HDiaryIAP in Frameworks */,
 				60F100002E00000100000001 /* HDiarySearch in Frameworks */,
 				6050DD622B24331700CE3230 /* HMedia in Frameworks */,
@@ -277,6 +279,7 @@
 				6050DD612B24331700CE3230 /* HMedia */,
 				601EEFAD2B9D3E0E0073BA37 /* HDiaryConstants */,
 				601EEFB12B9D645E0073BA37 /* HDiaryIAP */,
+				60F100112E00000100000001 /* HDiaryAppFeature */,
 				60E099272D93D3C800493EF6 /* SFSafeSymbols */,
 			);
 			productName = HDiary;
@@ -617,6 +620,10 @@
 		60F100012E00000100000001 /* HDiarySearch */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HDiarySearch;
+		};
+		60F100112E00000100000001 /* HDiaryAppFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HDiaryAppFeature;
 		};
 		6050DD612B24331700CE3230 /* HMedia */ = {
 			isa = XCSwiftPackageProductDependency;
