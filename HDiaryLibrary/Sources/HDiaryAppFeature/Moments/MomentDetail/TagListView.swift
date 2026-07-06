@@ -20,7 +20,7 @@ struct TagListView: View {
     HStack(alignment: .firstTextBaseline) {
       Image(systemName: "tag")
         .renderingMode(.original)
-        .foregroundStyle(.accent)
+        .foregroundStyle(Color.accentColor)
       HFlowLayout(itemSpace: horizontalPadding, rowSpace: verticalPadding, horizontalAlignment: .leading) {
         ForEach(tags) { tag in
           NavigationLink(value: HDiaryDestination.tag(tag: tag)) {

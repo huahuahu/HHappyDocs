@@ -30,7 +30,7 @@ extension SettingsView {
             HSafariWebView(
               url: url,
               entersReaderIfAvailable: true,
-              tintColor: .accent
+              tintColor: UIColor(Color.accentColor)
             )
             .ignoresSafeArea()
           }

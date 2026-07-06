@@ -1,23 +1,11 @@
-//
-//  HDiaryApp.swift
-//  HDiary
-//
-//  Created by tigerguo on 2023/6/17.
-//
-
-import HDiaryModel
-import SwiftData
+import HDiaryAppFeature
 import SwiftUI
 
 @main
 struct HDiaryApp: App {
-  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+  @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
 
   var body: some Scene {
-    WindowGroup {
-      BaseTabView()
-        .withEnvironments()
-        .withModelContainer()
-    }
+    HDiaryFeatureApp().body
   }
 }

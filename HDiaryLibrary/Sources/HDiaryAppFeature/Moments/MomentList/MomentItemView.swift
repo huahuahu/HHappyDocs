@@ -41,7 +41,7 @@ struct MomentItemView: View {
   private var bottomView: some View {
     HStack {
       HRatingView(
-        model: HRatingModel(onColor: .accent),
+        model: HRatingModel(onColor: .accentColor),
         rating: .constant(HRating(rawValue: moment.rating))
       )
       .allowsHitTesting(false)

@@ -25,6 +25,14 @@ let package = Package(
       name: "HDiaryIAP",
       targets: ["HDiaryIAP"]
     ),
+    .library(
+      name: "HDiaryAppFeature",
+      targets: ["HDiaryAppFeature"]
+    ),
+    .library(
+      name: "HDiaryWidgetFeature",
+      targets: ["HDiaryWidgetFeature"]
+    ),
 
   ],
   dependencies: [
@@ -33,6 +41,7 @@ let package = Package(
     .package(name: "HSharedCode", path: "../HSharedCode"),
     .package(url: "https://github.com/apple/swift-algorithms", from: "1.0.0"),
     .package(url: "https://github.com/apple/swift-atomics.git", from: "1.2.0"),
+    .package(url: "https://github.com/SFSafeSymbols/SFSafeSymbols", from: "6.2.0"),
   ],
 
   targets: [
@@ -101,6 +110,33 @@ let package = Package(
       name: "HDiaryIAPTests",
       dependencies: [
         "HDiaryIAP",
+      ]
+    ),
+    .target(
+      name: "HDiaryAppFeature",
+      dependencies: [
+        "HDiaryConstants",
+        "HDiaryIAP",
+        "HDiaryModel",
+        "HDiarySearch",
+        .product(name: "HFoundation", package: "HSharedCode"),
+        .product(name: "HLocalization", package: "HSharedCode"),
+        .product(name: "HMedia", package: "HSharedCode"),
+        .product(name: "HUIComponent", package: "HSharedCode"),
+        .product(name: "SFSafeSymbols", package: "SFSafeSymbols"),
+      ]
+    ),
+    .target(
+      name: "HDiaryWidgetFeature",
+      dependencies: [
+        "HDiaryConstants",
+        "HDiaryModel",
+      ]
+    ),
+    .testTarget(
+      name: "HDiaryAppFeatureTests",
+      dependencies: [
+        "HDiaryAppFeature",
       ]
     ),
   ]
