@@ -15,7 +15,7 @@
   }
 
   public enum HDiaryContainer {
-//    @MainActor
+    @MainActor
     public static var iCloudContainer: ModelContainer = {
       let schema = Schema.hDiaryScheme
       let configuration = ModelConfiguration(
@@ -37,7 +37,7 @@
   }
 
   extension HDiaryContainer {
-//  @MainActor
+    @MainActor
     public static var localContainer: ModelContainer = {
       let schema = Schema.hDiaryScheme
       let containerUrl = AppConstants.groupContainerURL.appending(components: "Library", "Application Support", "localDB", "localDB", directoryHint: .notDirectory)

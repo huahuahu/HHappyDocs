@@ -13,7 +13,8 @@ import HDiaryModel
 import UIKit
 import UserNotifications
 
-actor LocalNotificationManager: NSObject {
+@MainActor
+final class LocalNotificationManager: NSObject {
   static let shared = LocalNotificationManager()
   private let localNotificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
   override private init() {
@@ -38,10 +39,8 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate {
     case .dailyReminer:
       Log.notification.info("did recive daily reminder")
       if let url = DeepLink.getAddMomentUrl() {
-        Task { @MainActor in
-          let result = await UIApplication.shared.open(url)
-          Log.notification.info("open add moment url \(result)")
-        }
+        let result = await UIApplication.shared.open(url)
+        Log.notification.info("open add moment url \(result)")
       }
     }
   }

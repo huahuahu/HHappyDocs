@@ -50,9 +50,8 @@
     public func startRecommend() {
       Task {
         Log.search.info("Start Recommend")
-        let recommendedMoments = await Task.detached {
-          await self.recommendEngine.getRecommendedMoment()
-        }.value
+        let recommendedMomentIDs = await self.recommendEngine.getRecommendedMomentIDs()
+        let recommendedMoments = self.moments(for: recommendedMomentIDs)
 
         if self.queryText.isEmpty {
           self.state = .recommend(moments: recommendedMoments)
@@ -89,9 +88,8 @@
           do {
             Log.search.info("Search actual logic started for \(query)")
 
-            let matchedMoment = try await Task.detached {
-              try await self.searchEngine.searchMoment(for: query, isCancelled: isCancelled)
-            }.value
+            let matchedMomentIDs = try await self.searchEngine.searchMomentIDs(for: query, isCancelled: isCancelled)
+            let matchedMoment = self.moments(for: matchedMomentIDs)
 
             let searchEndTime = clock.now
 
@@ -120,6 +118,10 @@
           isCancelled.store(true, ordering: .relaxed)
         }
       }
+    }
+
+    private func moments(for ids: [PersistentIdentifier]) -> [Moment] {
+      ids.compactMap { container.mainContext.model(for: $0) as? Moment }
     }
   }
 

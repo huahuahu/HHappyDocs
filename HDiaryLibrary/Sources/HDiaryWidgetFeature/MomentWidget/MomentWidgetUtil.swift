@@ -30,7 +30,7 @@ enum MomentWidgetUtil {
 }
 
 extension UUID {
-  static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000").unsafelyUnwrapped
+  nonisolated static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000").unsafelyUnwrapped
 }
 
 #endif

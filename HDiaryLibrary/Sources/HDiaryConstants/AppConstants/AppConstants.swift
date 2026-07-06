@@ -25,7 +25,9 @@
   }
 
   public extension UserDefaults {
-    static let hDiaryShared = UserDefaults(suiteName: AppConstants.groupName)
+    static var hDiaryShared: UserDefaults? {
+      UserDefaults(suiteName: AppConstants.groupName)
+    }
   }
 
   public enum HDiaryIntentKind: String {

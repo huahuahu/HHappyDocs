@@ -78,7 +78,7 @@ struct MomentTagEditSection: View {
 
 private final class BundleLocation {}
 
-extension Tag: @retroactive HSelectionViewItem {}
+extension Tag: HSelectionViewItem {}
 
 #if DEBUG
   @available(iOS 18.0, *)

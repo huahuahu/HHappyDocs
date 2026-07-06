@@ -66,7 +66,7 @@ struct MomentParticipantEditView: View {
   }
 }
 
-extension Participant: @retroactive HSelectionViewItem {
+extension Participant: HSelectionViewItem {
   public var title: String {
     nickName
   }

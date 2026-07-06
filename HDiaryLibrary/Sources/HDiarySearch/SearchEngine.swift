@@ -20,7 +20,7 @@
       self.modelContext = ModelContext(modelContainer)
     }
 
-    func searchMoment(for query: String, isCancelled: ManagedAtomic<Bool>) async throws -> [Moment] {
+    func searchMomentIDs(for query: String, isCancelled: ManagedAtomic<Bool>) async throws -> [PersistentIdentifier] {
       assert(!Thread.isMainThread, "Should not perform search on main thread")
       if isCancelled.load(ordering: .relaxed) {
         Log.search.debug("Actual search cancelled for \(query) before fetch")
@@ -35,7 +35,7 @@
       return moments.filter { moment in
         moment.content.localizedStandardContains(query)
           || moment.title.localizedStandardContains(query)
-      }
+      }.map(\.persistentModelID)
     }
   }
 

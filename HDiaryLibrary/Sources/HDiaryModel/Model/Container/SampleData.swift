@@ -14,7 +14,7 @@
   import UIKit
 
   extension HDiaryContainer {
-//    @MainActor
+    @MainActor
     public static let inMemoryPreviewContainer: ModelContainer = {
       let schema = Schema.hDiaryScheme
       // https://www.hackingwithswift.com/forums/swiftui/swiftdata-isstoredinmemoryonly-true-not-working-on-macos-icloud/25573
@@ -39,7 +39,7 @@
       return container
     }()
 
-//    @MainActor
+    @MainActor
     public static let inMemoryEmptyPreviewContainer: ModelContainer = {
       let schema = Schema.hDiaryScheme
       let configuration = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
@@ -61,9 +61,9 @@
   public actor SampleDataHandler {
     // https://developer.apple.com/forums/thread/757521
     // When an @ModelActor is created and later released (for example dropped at the end of a function scope), the model instances fetched by its associated model context can't be meaningfully used anymore.
-    public static let inMemoryDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.inMemoryPreviewContainer)
-    public static let localDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.localContainer)
-    public static let cloudDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.iCloudContainer)
+    @MainActor public static let inMemoryDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.inMemoryPreviewContainer)
+    @MainActor public static let localDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.localContainer)
+    @MainActor public static let cloudDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.iCloudContainer)
 
     let container: ModelContainer
 

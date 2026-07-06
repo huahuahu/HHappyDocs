@@ -29,7 +29,7 @@
       self.modelContext = ModelContext(modelContainer)
     }
 
-    func getRecommendedMoment() async -> [Moment] {
+    func getRecommendedMomentIDs() async -> [PersistentIdentifier] {
       assert(Thread.isMainThread == false, "This should not be called on the main thread")
       var candidates = Set<Moment>()
 
@@ -80,7 +80,7 @@
           .sorted { $0.score > $1.score }
           .map(\.moment)
           .prefix(Constants.maxRecommendationCount)
-      )
+      ).map(\.persistentModelID)
     }
 
     private func calculateScore(for moment: Moment, currentDate: Date) -> Double {

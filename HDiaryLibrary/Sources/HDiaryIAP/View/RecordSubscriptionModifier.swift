@@ -29,11 +29,19 @@
         .subscriptionStatusTask(for: recordSubscription.group) { state in
           Log.iap.info("Checking recordSubscription status")
           let birdBrain = HDiaryShop.shared
-          self.state = await state.map { statuses in
-            await birdBrain.status(
+          switch state {
+          case .success(let statuses):
+            let status = await birdBrain.status(
               for: statuses,
               recordSubscription: recordSubscription
             )
+            self.state = .success(status)
+          case .failure(let error):
+            self.state = .failure(error)
+          case .loading:
+            self.state = .loading
+          @unknown default:
+            self.state = .loading
           }
           // After getting the status, send it to the `DataGeneration`
           // model so the app can generate events with or without early access
