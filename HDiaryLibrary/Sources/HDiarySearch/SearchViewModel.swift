@@ -4,8 +4,6 @@
 //
 //  Created by tigerguo on 2025/3/26.
 //
-#if os(iOS)
-
   import Atomics
   import Foundation
   import HDiaryConstants
@@ -125,4 +123,3 @@
     }
   }
 
-#endif

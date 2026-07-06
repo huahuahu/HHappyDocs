@@ -5,8 +5,6 @@
 //  Created by tigerguo on 2024/4/3.
 //
 
-#if os(iOS)
-
 import Foundation
 import SwiftData
 #if canImport(UIKit)
@@ -83,4 +81,3 @@ extension Participant: Encodable {
   }
 }
 
-#endif

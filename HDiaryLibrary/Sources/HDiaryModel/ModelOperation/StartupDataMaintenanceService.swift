@@ -1,5 +1,3 @@
-#if os(iOS)
-
   import Foundation
   import HDiaryConstants
   import SwiftData
@@ -71,7 +69,9 @@
 
       for image in legacyImages {
         if image.moment != nil {
+          #if canImport(UIKit)
           image.updateThumbnail()
+          #endif
           let mediaItem = MediaItem(image)
           mediaItem.moment = image.moment
           modelContext.insert(mediaItem)
@@ -160,5 +160,3 @@
       )
     }
   }
-
-#endif

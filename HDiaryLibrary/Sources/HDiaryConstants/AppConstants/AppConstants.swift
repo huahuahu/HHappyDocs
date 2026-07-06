@@ -4,8 +4,6 @@
 //
 //  Created by tigerguo on 2023/7/13.
 //
-#if os(iOS)
-
   import Foundation
 
   public enum AppConstants {
@@ -34,4 +32,3 @@
     case moment = "Moment"
   }
 
-#endif

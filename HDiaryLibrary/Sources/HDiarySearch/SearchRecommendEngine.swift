@@ -4,8 +4,6 @@
 //
 //  Created by tigerguo on 2025/4/12.
 //
-#if os(iOS)
-
   import Foundation
   import HDiaryModel
   import SwiftData
@@ -101,4 +99,3 @@
     }
   }
 
-#endif

@@ -4,14 +4,14 @@
 //
 //  Created by tigerguo on 2023/8/26.
 //
-#if os(iOS)
-
   import Foundation
   import HDiaryConstants
-  import HMedia
   import SwiftData
   import SwiftUI
-  import UIKit
+  #if canImport(UIKit)
+    import HMedia
+    import UIKit
+  #endif
 
   extension HDiaryContainer {
     @MainActor
@@ -129,7 +129,9 @@
       for participant in sampleParticipants {
         ParticipantProperties.allDemos.randomElement().map {
           participant.note = $0.note
+          #if canImport(UIKit)
           participant.avatar = UIImage(systemName: TestImage.symbols.randomElement().unsafelyUnwrapped)?.heicData()
+          #endif
         }
         modelContext.insert(participant)
       }
@@ -296,6 +298,7 @@
 
   public extension MediaItem {
     static func from(systemName: String) -> MediaItem? {
+      #if canImport(UIKit)
       if let data = UIImage(systemName: systemName)?.heicData() {
         let thumbnailData150px: Data? = try? UIImage.downsample(imageData: data, to: CGSize(width: 150, height: 150))
         let thumbnailData500px: Data? = try? UIImage.downsample(imageData: data, to: CGSize(width: 500, height: 500))
@@ -309,6 +312,7 @@
           thumbnailData1000px: thumbnailData1000px ?? data
         )
       }
+      #endif
       return nil
     }
   }
@@ -377,5 +381,3 @@
       return result
     }
   }
-
-#endif

@@ -4,8 +4,6 @@
 //
 //  Created by tigerguo on 2023/6/17.
 //
-#if os(iOS)
-
   import Foundation
   import HDiaryConstants
   import SwiftData
@@ -62,7 +60,7 @@
   extension HDiaryContainer {
     @MainActor
     public static func getCurrentContainer() -> ModelContainer {
-      #if DEBUG
+      #if DEBUG && os(iOS)
         switch UserPreferences.shared.swiftDataContainerType {
         case .iCloud:
           return HDiaryContainer.iCloudContainer
@@ -76,5 +74,3 @@
       #endif
     }
   }
-
-#endif
