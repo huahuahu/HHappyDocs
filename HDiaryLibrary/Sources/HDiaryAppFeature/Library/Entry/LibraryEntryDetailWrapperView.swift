@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/6/18.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 struct LibraryEntryDetailWrapperView: View {
@@ -24,3 +26,5 @@ struct LibraryEntryDetailWrapperView: View {
 #Preview {
   LibraryEntryDetailWrapperView(entry: .chart)
 }
+
+#endif

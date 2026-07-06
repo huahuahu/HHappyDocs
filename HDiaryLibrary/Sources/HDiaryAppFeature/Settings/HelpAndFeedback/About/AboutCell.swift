@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/4/13.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HFoundation
 import SwiftUI
@@ -39,3 +41,5 @@ extension SettingsView {
   }
   .environment(\.locale, .cnMainland)
 }
+
+#endif

@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/3/10.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HUIComponent
@@ -49,3 +51,5 @@ extension SettingsView {
     .navigationTitle(Text(verbatim: "Settings"))
   }
 })
+
+#endif

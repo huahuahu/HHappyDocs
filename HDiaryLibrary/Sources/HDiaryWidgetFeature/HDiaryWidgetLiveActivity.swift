@@ -1,3 +1,5 @@
+#if os(iOS)
+
 ////
 ////  HDiaryWidgetLiveActivity.swift
 ////  HDiaryWidget
@@ -78,3 +80,5 @@
 //    HDiaryWidgetAttributes.ContentState.smiley
 //    HDiaryWidgetAttributes.ContentState.starEyes
 // }
+
+#endif

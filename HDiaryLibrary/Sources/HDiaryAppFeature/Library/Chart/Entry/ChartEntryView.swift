@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/9/3.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 private struct CharEntryCell: View {
@@ -34,3 +36,5 @@ struct ChartEntryView: View {
     ChartEntryView()
   }
 }
+
+#endif

@@ -4,6 +4,8 @@
 //
 //  Created by tigerguo on 2024/12/5.
 //
+#if os(iOS)
+
 import Foundation
 import HDiaryModel
 
@@ -47,3 +49,5 @@ private extension Moment {
     return false
   }
 }
+
+#endif

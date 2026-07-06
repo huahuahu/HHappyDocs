@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/10/26.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryModel
@@ -186,3 +188,5 @@ struct LocalNotificationSettingView: View {
   .environment(UserPreferences.shared)
   .environment(\.locale, .en)
 }
+
+#endif

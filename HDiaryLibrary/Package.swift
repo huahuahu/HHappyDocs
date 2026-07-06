@@ -100,9 +100,6 @@ let package = Package(
       dependencies: [
         .product(name: "HUIComponent", package: "HSharedCode"),
       ],
-      resources: [
-        .process("Resources"),
-      ],
       swiftSettings: packageSwiftSettings
     ),
     .testTarget(

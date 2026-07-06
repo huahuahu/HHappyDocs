@@ -6,6 +6,8 @@
 //
 // View storage by moment
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import SwiftData
@@ -128,3 +130,5 @@ private struct MomentCell: View {
   }
   .previewEnvironment()
 }
+
+#endif

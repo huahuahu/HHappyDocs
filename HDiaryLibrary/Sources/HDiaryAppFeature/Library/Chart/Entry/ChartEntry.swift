@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/9/3.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryModel
@@ -35,3 +37,5 @@ enum ChartEntry: CaseIterable, Identifiable {
     self
   }
 }
+
+#endif

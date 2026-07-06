@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/4/9.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryModel
@@ -52,5 +54,7 @@ extension SettingsView {
     }
     .environment(\.locale, .cnMainland)
   }
+
+#endif
 
 #endif

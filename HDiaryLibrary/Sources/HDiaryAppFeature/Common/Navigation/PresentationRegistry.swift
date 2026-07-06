@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/10/28.
 //
 
+#if os(iOS)
+
 import Foundation
 import SwiftUI
 
@@ -18,3 +20,5 @@ enum SheetDestination: Identifiable {
     }
   }
 }
+
+#endif

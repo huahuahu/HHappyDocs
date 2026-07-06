@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/12/20.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import HMedia
 import SwiftData
@@ -61,4 +63,6 @@ struct MediaThumbnailView: View {
     return MePreview()
       .modelContainer(HDiaryContainer.inMemoryPreviewContainer)
   }
+#endif
+
 #endif

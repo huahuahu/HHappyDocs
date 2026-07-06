@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/12/23.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import SwiftUI
 
@@ -73,3 +75,5 @@ struct AddMomentMenu: View {
       }
   }
 }
+
+#endif

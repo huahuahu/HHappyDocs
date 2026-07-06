@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/4/13.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 extension HDiaryAboutView {
@@ -40,3 +42,5 @@ struct ICPInfoView: View {
   }
   .environment(\.locale, .en)
 }
+
+#endif

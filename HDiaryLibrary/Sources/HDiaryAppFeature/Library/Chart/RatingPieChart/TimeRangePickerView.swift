@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/1/10.
 //
 
+#if os(iOS)
+
 import HFoundation
 import SwiftUI
 
@@ -60,3 +62,5 @@ struct TimeRangePickerView: View {
     }
   }
 })
+
+#endif

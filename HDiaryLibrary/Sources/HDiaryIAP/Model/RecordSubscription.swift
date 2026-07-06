@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public struct RecordSubscription {
+public struct RecordSubscription: Sendable {
   public var group: String
 
   public var monthly: String
@@ -17,7 +17,7 @@ public struct RecordSubscription {
 
 public extension EnvironmentValues {
   private enum RecordSubscriptionKey: EnvironmentKey {
-    static var defaultValue = RecordSubscription(
+    static let defaultValue = RecordSubscription(
       group: "21462545",
       monthly: "hdiary_unlimited_moments_1m_99",
       annually: "hdiary_unlimited_moments_1y_699"

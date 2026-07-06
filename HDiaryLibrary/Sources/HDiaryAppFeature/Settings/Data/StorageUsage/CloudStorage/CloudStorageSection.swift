@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/5/26.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import SwiftData
@@ -48,3 +50,5 @@ extension StorageUsageView {
   }
   .previewEnvironment()
 }
+
+#endif

@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/1/10.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import SwiftUI
@@ -123,3 +125,5 @@ extension SwiftDataContainerType {
   }
   .previewEnvironment()
 })
+
+#endif

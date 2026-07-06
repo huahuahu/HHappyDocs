@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/3/28.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 @MainActor
@@ -65,3 +67,5 @@ enum DebugEntry: Hashable, CaseIterable, Identifiable {
     }
   }
 }
+
+#endif

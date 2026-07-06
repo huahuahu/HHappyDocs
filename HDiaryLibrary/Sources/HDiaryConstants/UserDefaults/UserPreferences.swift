@@ -10,6 +10,8 @@ import HUIComponent
 import Observation
 import SwiftUI
 
+#if os(iOS)
+
 @MainActor @Observable
 public final class UserPreferences {
   public class Storage {
@@ -78,3 +80,5 @@ public final class UserPreferences {
     }
   }
 }
+
+#endif

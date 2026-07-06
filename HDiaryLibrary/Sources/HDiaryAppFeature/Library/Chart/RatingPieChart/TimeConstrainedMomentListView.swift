@@ -4,6 +4,8 @@
 //
 //  Created by tigerguo on 2023/9/3.
 //
+#if os(iOS)
+
 import HDiaryModel
 import HUIComponent
 import SwiftData
@@ -37,3 +39,5 @@ struct TimeConstrainedMomentListView: View {
     TimeConstrainedMomentListView(timeConstrainedMoments: timeConstrainedMoments)
   }
 }
+
+#endif

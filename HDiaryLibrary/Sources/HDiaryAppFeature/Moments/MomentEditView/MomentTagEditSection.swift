@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/8/26.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import HUIComponent
 import SwiftData
@@ -87,5 +89,7 @@ extension Tag: @retroactive HSelectionViewItem {}
       allTags: tags
     )
   }
+
+#endif
 
 #endif

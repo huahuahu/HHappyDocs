@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/7.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import HFoundation
@@ -160,3 +162,5 @@ public struct HPreviewItem {
 // #Preview {
 //    HPreviewButton(item: .heicDemo, shouldPreview: .constant(false))
 // }
+
+#endif

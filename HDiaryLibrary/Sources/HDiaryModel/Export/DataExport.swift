@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/4/9.
 //
 
+#if os(iOS)
+
 import CoreTransferable
 import Foundation
 import HDiaryConstants
@@ -215,3 +217,5 @@ private struct MeidaExportItem: Encodable {
     case momentID
   }
 }
+
+#endif

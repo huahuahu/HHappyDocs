@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/12/21.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import HMedia
 import SwiftData
@@ -41,3 +43,5 @@ struct HappyImageThumbnailNail: View {
     return imageData.flatMap { UIImage(data: $0) }
   }
 }
+
+#endif

@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/10/26.
 //
 
+#if os(iOS)
+
 import HFoundation
 import SwiftUI
 import UserNotifications
@@ -63,3 +65,5 @@ struct LocalNotifictionConfigCell: View {
   }
   .environment(\.locale, .en)
 }
+
+#endif

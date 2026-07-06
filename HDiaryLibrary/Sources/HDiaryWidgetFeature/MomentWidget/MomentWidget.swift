@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/14.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import SwiftUI
@@ -157,3 +159,5 @@ struct MomentWidget: Widget {
 } timeline: {
   MomentEntry(date: .now, summary: .empty)
 }
+
+#endif

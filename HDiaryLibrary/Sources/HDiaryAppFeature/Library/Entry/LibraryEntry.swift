@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/6/18.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryModel
@@ -40,3 +42,5 @@ enum LibraryEntry: CaseIterable {
 extension LibraryEntry: Identifiable {
   var id: LibraryEntry { self }
 }
+
+#endif

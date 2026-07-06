@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/10/26.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryModel
@@ -107,3 +109,5 @@ extension LocalNotificationManager {
     case dailyReminer
   }
 }
+
+#endif

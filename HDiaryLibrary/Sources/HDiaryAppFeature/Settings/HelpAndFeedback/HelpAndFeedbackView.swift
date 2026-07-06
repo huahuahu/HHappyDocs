@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/5/25.
 //
 
+#if os(iOS)
+
 import HUIComponent
 import SwiftUI
 
@@ -33,3 +35,5 @@ struct HelpAndFeedbackView: View {
     HelpAndFeedbackView()
   }
 }
+
+#endif

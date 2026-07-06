@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/23.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryModel
 import HUIComponent
@@ -68,5 +70,7 @@ struct MomentItemView: View {
       }
     }
   }
+
+#endif
 
 #endif

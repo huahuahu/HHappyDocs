@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/4/13.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 @MainActor
@@ -25,3 +27,5 @@ struct HDiaryAboutView: View {
 //            .navigationBarTitleDisplayMode(.inline)
   }
 }
+
+#endif

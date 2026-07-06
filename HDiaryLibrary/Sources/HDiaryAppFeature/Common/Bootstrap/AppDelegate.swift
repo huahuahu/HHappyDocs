@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/10/27.
 //
 
+#if os(iOS)
+
 import Foundation
 import UIKit
 
@@ -21,3 +23,5 @@ public final class AppDelegate: NSObject, UIApplicationDelegate {
     return true
   }
 }
+
+#endif

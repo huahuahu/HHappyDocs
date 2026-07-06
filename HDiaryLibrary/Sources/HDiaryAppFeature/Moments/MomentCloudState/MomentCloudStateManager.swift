@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/12/10.
 //
 
+#if os(iOS)
+
 import CloudKit
 import HDiaryConstants
 import HDiaryModel
@@ -107,3 +109,5 @@ final class MomentCloudStateManager {
     await startCheckUnSyncedMoment()
   }
 }
+
+#endif

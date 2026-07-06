@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/1/15.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import SwiftUI
@@ -103,3 +105,5 @@ enum TagSortOrder: Sendable, CaseIterable, Identifiable, Hashable {
     }
   }
 }
+
+#endif

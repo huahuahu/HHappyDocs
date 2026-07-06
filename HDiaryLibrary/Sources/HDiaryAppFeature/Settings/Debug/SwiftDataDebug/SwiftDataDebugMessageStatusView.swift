@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/5/5.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 extension SwiftDataDebugView {
@@ -43,3 +45,5 @@ extension SwiftDataDebugView {
     }
   }
 }
+
+#endif

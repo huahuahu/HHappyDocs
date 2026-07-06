@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/5/4.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import SFSafeSymbols
 import SwiftUI
@@ -48,5 +50,7 @@ extension MomentListScreen {
     }
     .previewEnvironment()
   }
+
+#endif
 
 #endif

@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/3/26.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import SwiftUI
 
@@ -31,3 +33,5 @@ extension SettingsView {
   }
   .previewEnvironment()
 })
+
+#endif

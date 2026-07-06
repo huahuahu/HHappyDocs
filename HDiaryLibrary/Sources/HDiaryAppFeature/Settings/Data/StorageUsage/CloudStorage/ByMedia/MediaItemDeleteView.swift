@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/5/26.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import HUIComponent
 import SwiftData
@@ -84,4 +86,6 @@ struct MediaItemDeleteView: View {
       MediaItemDeleteView(mediaItem: item!)
     }.previewEnvironment()
   }
+#endif
+
 #endif

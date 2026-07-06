@@ -1,3 +1,5 @@
+#if os(iOS)
+
 import XCTest
 @testable import HDiaryAppFeature
 
@@ -14,3 +16,5 @@ final class AllTagsViewTests: XCTestCase {
     XCTAssertTrue(state.shouldShowTotalTagCount)
   }
 }
+
+#endif

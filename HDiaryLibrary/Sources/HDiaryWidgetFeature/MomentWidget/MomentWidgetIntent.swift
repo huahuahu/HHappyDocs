@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/14.
 //
 
+#if os(iOS)
+
 import AppIntents
 import HDiaryModel
 import OSLog
@@ -86,3 +88,5 @@ struct ParticipantEntityQuery: EntityQuery {
     return [.nonEntity] + participants.map { ParticipantEntity(from: $0) }
   }
 }
+
+#endif
