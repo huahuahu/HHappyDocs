@@ -1,7 +1,16 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+
+let packageSwiftSettings: [SwiftSetting] = [
+  .swiftLanguageMode(.v6),
+  .enableUpcomingFeature("StrictConcurrency"),
+]
+
+let mainActorPackageSwiftSettings: [SwiftSetting] = packageSwiftSettings + [
+  .defaultIsolation(MainActor.self),
+]
 
 let package = Package(
   name: "HDiaryLibrary",
@@ -57,7 +66,8 @@ let package = Package(
       ],
       resources: [
         .process("Resources"),
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .target(
       name: "HDiarySearch",
@@ -65,7 +75,8 @@ let package = Package(
         "HDiaryConstants",
         "HDiaryModel",
         .product(name: "Atomics", package: "swift-atomics"),
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .testTarget(
       name: "HDiarySearchTests",
@@ -73,14 +84,16 @@ let package = Package(
         "HDiarySearch",
         "HDiaryModel",
         .product(name: "Atomics", package: "swift-atomics"),
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .testTarget(
       name: "HDiaryModelTests",
       dependencies: [
         "HDiaryModel",
         .product(name: "HFoundation", package: "HSharedCode"),
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .target(
       name: "HDiaryConstants",
@@ -89,13 +102,15 @@ let package = Package(
       ],
       resources: [
         .process("Resources"),
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .testTarget(
       name: "HDiaryConstantsTests",
       dependencies: [
         "HDiaryConstants",
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .target(
       name: "HDiaryIAP",
@@ -104,13 +119,15 @@ let package = Package(
       ],
       resources: [
         .process("Resources"),
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .testTarget(
       name: "HDiaryIAPTests",
       dependencies: [
         "HDiaryIAP",
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .target(
       name: "HDiaryAppFeature",
@@ -124,20 +141,23 @@ let package = Package(
         .product(name: "HMedia", package: "HSharedCode"),
         .product(name: "HUIComponent", package: "HSharedCode"),
         .product(name: "SFSafeSymbols", package: "SFSafeSymbols"),
-      ]
+      ],
+      swiftSettings: mainActorPackageSwiftSettings
     ),
     .target(
       name: "HDiaryWidgetFeature",
       dependencies: [
         "HDiaryConstants",
         "HDiaryModel",
-      ]
+      ],
+      swiftSettings: mainActorPackageSwiftSettings
     ),
     .testTarget(
       name: "HDiaryAppFeatureTests",
       dependencies: [
         "HDiaryAppFeature",
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
   ]
 )
