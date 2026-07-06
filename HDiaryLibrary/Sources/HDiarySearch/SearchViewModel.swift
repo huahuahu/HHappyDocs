@@ -34,8 +34,12 @@
     private let recommendEngine: SearchRecommendEngine
     private let searchEngine: SearchEngine
 
-    public init() {
-      self.container = HDiaryContainer.getCurrentContainer()
+    public convenience init() {
+      self.init(modelContainer: HDiaryContainer.getCurrentContainer())
+    }
+
+    public init(modelContainer: ModelContainer) {
+      self.container = modelContainer
       self.recommendEngine = SearchRecommendEngine(modelContainer: container)
       self.searchEngine = SearchEngine(modelContainer: container)
     }
@@ -122,4 +126,3 @@
       ids.compactMap { container.mainContext.model(for: $0) as? Moment }
     }
   }
-

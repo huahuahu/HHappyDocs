@@ -1,15 +1,27 @@
 #if os(macOS)
 
-  import XCTest
-  @testable import HDiarySearch
+  import SwiftData
+  import Testing
+  import HDiaryModel
+  import HDiarySearch
 
-  @available(macOS 14.0, *)
-  final class MacOSPublicAPITests: XCTestCase {
+  struct MacOSPublicAPITests {
+    @Test
     @MainActor
-    func testSearchViewModelAPIIsAvailableOnMacOS() {
-      _ = SearchViewModel.State.idle
-      let makeViewModel: @MainActor () -> SearchViewModel = SearchViewModel.init
-      _ = makeViewModel
+    @available(macOS 14.0, *)
+    func searchViewModelAPIIsAvailableOnMacOS() throws {
+      let schema = Schema([Tag.self, Moment.self, MediaItem.self, HappyImage.self, Participant.self])
+      let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)
+      let container = try ModelContainer(for: schema, configurations: [configuration])
+
+      let viewModel = SearchViewModel(modelContainer: container)
+
+      #expect(viewModel.queryText.isEmpty)
+      if case .idle = viewModel.state {
+      }
+      else {
+        Issue.record("Expected a new SearchViewModel to start idle.")
+      }
     }
   }
 

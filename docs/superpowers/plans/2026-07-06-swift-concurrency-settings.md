@@ -295,9 +295,6 @@ In the `targets:` array of `HDiaryLibrary/Package.swift`, add `swiftSettings` ex
   dependencies: [
     .product(name: "HUIComponent", package: "HSharedCode"),
   ],
-  resources: [
-    .process("Resources"),
-  ],
   swiftSettings: packageSwiftSettings
 ),
 .testTarget(

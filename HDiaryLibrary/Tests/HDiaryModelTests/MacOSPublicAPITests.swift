@@ -1,12 +1,14 @@
 #if os(macOS)
 
+  import Foundation
   import SwiftData
-  import XCTest
-  @testable import HDiaryModel
+  import Testing
+  import HDiaryModel
 
-  @available(macOS 14.0, *)
-  final class MacOSPublicAPITests: XCTestCase {
-    func testCoreModelAPIsAreAvailableOnMacOS() {
+  struct MacOSPublicAPITests {
+    @Test
+    @available(macOS 14.0, *)
+    func coreModelAPIsAreAvailableOnMacOS() {
       let moment = Moment.create(timestamp: Date(timeIntervalSince1970: 1))
       moment.updateTitle("macOS")
       moment.updateContent("public API")
@@ -17,17 +19,21 @@
       moment.updateParticipants([participant])
       moment.updateTags([tag])
 
-      XCTAssertEqual(moment.title, "macOS")
-      XCTAssertEqual(moment.content, "public API")
-      XCTAssertEqual(participant.nickName, "nick")
-      XCTAssertEqual(tag.title, "tag")
+      #expect(moment.title == "macOS")
+      #expect(moment.content == "public API")
+      #expect(participant.nickName == "nick")
+      #expect(tag.title == "tag")
     }
 
-    func testExportAPIIsAvailableOnMacOS() throws {
-      let configuration = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
-      let container = try ModelContainer(for: Schema.hDiaryScheme, configurations: [configuration])
+    @Test
+    @available(macOS 14.0, *)
+    func exportAPIIsAvailableOnMacOS() throws {
+      let schema = Schema([Tag.self, Moment.self, MediaItem.self, HappyImage.self, Participant.self])
+      let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)
+      let container = try ModelContainer(for: schema, configurations: [configuration])
 
-      _ = RawDataCollection(modelContext: ModelContext(container))
+      let rawDataCollection = RawDataCollection(modelContext: ModelContext(container))
+      #expect(String(describing: type(of: rawDataCollection)) == "RawDataCollection")
     }
   }
 
