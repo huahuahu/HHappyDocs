@@ -233,7 +233,7 @@ public struct HSelectionView<Item: HSelectionViewItem>: View {
   }
 }
 
-private struct Item: HSelectionViewItem {
+private struct Item: @MainActor HSelectionViewItem {
   @MainActor func makePreviewView() -> some View {
     VStack {
       Text(title)

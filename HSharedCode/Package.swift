@@ -101,6 +101,9 @@ let package = Package(
     .target(
       name: "HLocation",
       dependencies: [],
+      resources: [
+        .process("Resources/Localizable.xcstrings"),
+      ],
       swiftSettings: mainActorPackageSwiftSettings
     ),
     .testTarget(
