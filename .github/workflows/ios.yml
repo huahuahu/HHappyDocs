@@ -9,11 +9,11 @@ on:
 jobs:
   build-and-test:
     name: Build and test HDiary
-    runs-on: macos-latest
+    runs-on: macos-26
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Select latest Xcode
         run: |
@@ -24,6 +24,7 @@ jobs:
           echo "Using ${latest_xcode}"
           sudo xcode-select -s "${latest_xcode}/Contents/Developer"
           xcodebuild -version
+          swift --version
           xcrun simctl list devices available
 
       - name: Build HDiary
