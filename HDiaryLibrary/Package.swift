@@ -156,5 +156,12 @@ let package = Package(
       ],
       swiftSettings: packageSwiftSettings
     ),
+    .testTarget(
+      name: "HDiaryWidgetFeatureTests",
+      dependencies: [
+        "HDiaryWidgetFeature",
+      ],
+      swiftSettings: packageSwiftSettings
+    ),
   ]
 )

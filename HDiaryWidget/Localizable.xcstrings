@@ -1,10 +1,8 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {
-
-    },
     "participant.all" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21,6 +19,7 @@
       }
     },
     "sampleData.moment1.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -37,6 +36,7 @@
       }
     },
     "sampleData.moment2.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -53,6 +53,7 @@
       }
     },
     "sampleData.moment3.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -69,6 +70,7 @@
       }
     },
     "sampleData.participantName" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -85,6 +87,7 @@
       }
     },
     "widget.moemnt.intent.entity.participant.typeDisplayRepresentation" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -101,6 +104,7 @@
       }
     },
     "widget.moemnt.intent.IntentDescription" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -117,6 +121,7 @@
       }
     },
     "widget.moemnt.intent.parameter.participant.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -133,6 +138,7 @@
       }
     },
     "widget.moemnt.intent.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -149,6 +155,7 @@
       }
     },
     "widget.moment.configurationDisplayName" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -165,6 +172,7 @@
       }
     },
     "widget.moment.description" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

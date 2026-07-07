@@ -23,8 +23,10 @@ struct MomentTimeLineProvider: AppIntentTimelineProvider {
   }
 
   func snapshot(for configuration: MomentWidgetIntent, in context: Context) async -> MomentEntry {
-    let moments = await getMoments(with: configuration.participant?.id)
-    let momentEntry = MomentEntry(date: .now, summary: MomentWidgetSummary(participant: configuration.participant, moments: moments))
+    let participantID = configuration.selectedParticipantID
+    let participant = await getParticipant(with: participantID)
+    let moments = await getMoments(with: participantID)
+    let momentEntry = MomentEntry(date: .now, summary: MomentWidgetSummary(participant: participant, moments: moments))
     if momentEntry.summary.validForSnapshot {
       return momentEntry
     }
@@ -34,13 +36,39 @@ struct MomentTimeLineProvider: AppIntentTimelineProvider {
   }
 
   func timeline(for configuration: MomentWidgetIntent, in context: Context) async -> Timeline<MomentEntry> {
-    let moments = await getMoments(with: configuration.participant?.id)
+    let participantID = configuration.selectedParticipantID
+    let participant = await getParticipant(with: participantID)
+    let moments = await getMoments(with: participantID)
 
     var entries = [MomentEntry]()
-    let momentEntry = MomentEntry(date: .now, summary: MomentWidgetSummary(participant: configuration.participant, moments: moments))
+    let momentEntry = MomentEntry(date: .now, summary: MomentWidgetSummary(participant: participant, moments: moments))
     entries.append(momentEntry)
 
     return Timeline(entries: entries, policy: .after(.now.advanced(by: 60)))
+  }
+
+  private func getParticipant(with participantID: UUID?) async -> ParticipantEntity? {
+    guard let participantID else {
+      return nil
+    }
+    guard participantID != .null else {
+      return .nonEntity
+    }
+
+    let modelContext = await MomentWidgetUtil.getModelContext()
+    do {
+      var descriptor = FetchDescriptor<Participant>(
+        predicate: #Predicate { participant in
+          participant.uuid == participantID
+        }
+      )
+      descriptor.fetchLimit = 1
+      return try modelContext.fetch(descriptor).first.map(ParticipantEntity.init(from:))
+    }
+    catch {
+      logger.error("Error when fetching participant for \(participantID.uuidString)")
+      return nil
+    }
   }
 
   // #Predicate Not complie in Xcode-Beta
