@@ -16,7 +16,7 @@ public struct RawDataCollection: Transferable {
     static let exportFolderName = "RawDataExport"
   }
 
-  let modelContext: ModelContext
+  private let modelContainer: ModelContainer
 
   public static var transferRepresentation: some TransferRepresentation {
     FileRepresentation(exportedContentType: .appleArchive, shouldAllowToOpenInPlace: false) { item in
@@ -40,7 +40,7 @@ public struct RawDataCollection: Transferable {
   }
 
   public init(modelContext: ModelContext) {
-    self.modelContext = modelContext
+    self.modelContainer = modelContext.container
   }
 
 //  func prepareData() throws -> Data {
@@ -67,6 +67,7 @@ public struct RawDataCollection: Transferable {
   @MainActor
   func writeToTempFile() throws -> URL {
     clearExportFolder()
+    let modelContext = ModelContext(modelContainer)
     let uuid = UUID().uuidString
     let fileManager = FileManager.default
     let encoder = JSONEncoder()

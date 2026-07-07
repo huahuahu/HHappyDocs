@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/5/25.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 @MainActor
@@ -24,3 +26,5 @@ struct StorageUsageView: View {
     StorageUsageView()
   }
 }
+
+#endif

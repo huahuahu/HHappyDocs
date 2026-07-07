@@ -4,17 +4,17 @@
 //
 //  Created by tigerguo on 2023/8/26.
 //
-#if os(iOS)
-
   import Foundation
   import HDiaryConstants
-  import HMedia
   import SwiftData
   import SwiftUI
-  import UIKit
+  #if canImport(UIKit)
+    import HMedia
+    import UIKit
+  #endif
 
   extension HDiaryContainer {
-//    @MainActor
+    @MainActor
     public static let inMemoryPreviewContainer: ModelContainer = {
       let schema = Schema.hDiaryScheme
       // https://www.hackingwithswift.com/forums/swiftui/swiftdata-isstoredinmemoryonly-true-not-working-on-macos-icloud/25573
@@ -39,7 +39,7 @@
       return container
     }()
 
-//    @MainActor
+    @MainActor
     public static let inMemoryEmptyPreviewContainer: ModelContainer = {
       let schema = Schema.hDiaryScheme
       let configuration = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
@@ -61,9 +61,9 @@
   public actor SampleDataHandler {
     // https://developer.apple.com/forums/thread/757521
     // When an @ModelActor is created and later released (for example dropped at the end of a function scope), the model instances fetched by its associated model context can't be meaningfully used anymore.
-    public static let inMemoryDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.inMemoryPreviewContainer)
-    public static let localDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.localContainer)
-    public static let cloudDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.iCloudContainer)
+    @MainActor public static let inMemoryDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.inMemoryPreviewContainer)
+    @MainActor public static let localDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.localContainer)
+    @MainActor public static let cloudDataHandler = SampleDataHandler(modelContainer: HDiaryContainer.iCloudContainer)
 
     let container: ModelContainer
 
@@ -129,7 +129,9 @@
       for participant in sampleParticipants {
         ParticipantProperties.allDemos.randomElement().map {
           participant.note = $0.note
+          #if canImport(UIKit)
           participant.avatar = UIImage(systemName: TestImage.symbols.randomElement().unsafelyUnwrapped)?.heicData()
+          #endif
         }
         modelContext.insert(participant)
       }
@@ -296,6 +298,7 @@
 
   public extension MediaItem {
     static func from(systemName: String) -> MediaItem? {
+      #if canImport(UIKit)
       if let data = UIImage(systemName: systemName)?.heicData() {
         let thumbnailData150px: Data? = try? UIImage.downsample(imageData: data, to: CGSize(width: 150, height: 150))
         let thumbnailData500px: Data? = try? UIImage.downsample(imageData: data, to: CGSize(width: 500, height: 500))
@@ -309,6 +312,7 @@
           thumbnailData1000px: thumbnailData1000px ?? data
         )
       }
+      #endif
       return nil
     }
   }
@@ -377,5 +381,3 @@
       return result
     }
   }
-
-#endif

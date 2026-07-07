@@ -1,7 +1,16 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+
+let packageSwiftSettings: [SwiftSetting] = [
+  .swiftLanguageMode(.v6),
+  .enableUpcomingFeature("StrictConcurrency"),
+]
+
+let mainActorPackageSwiftSettings: [SwiftSetting] = packageSwiftSettings + [
+  .defaultIsolation(MainActor.self),
+]
 
 let package = Package(
   name: "HSharedCode",
@@ -43,27 +52,33 @@ let package = Package(
       dependencies: [],
       resources: [
         .process("Resources/Localizable.xcstrings"),
-      ]
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .testTarget(
       name: "HLocalizationTests",
-      dependencies: ["HLocalization"]
+      dependencies: ["HLocalization"],
+      swiftSettings: packageSwiftSettings
     ),
     .target(
       name: "HFoundation",
-      dependencies: ["SwiftSoup"]
+      dependencies: ["SwiftSoup"],
+      swiftSettings: packageSwiftSettings
     ),
     .testTarget(
       name: "HFoundationTests",
-      dependencies: ["HFoundation"]
+      dependencies: ["HFoundation"],
+      swiftSettings: packageSwiftSettings
     ),
     .target(
       name: "HMedia",
-      dependencies: ["HFoundation"]
+      dependencies: ["HFoundation"],
+      swiftSettings: packageSwiftSettings
     ),
     .testTarget(
       name: "HMediaTests",
-      dependencies: ["HMedia"]
+      dependencies: ["HMedia"],
+      swiftSettings: packageSwiftSettings
     ),
 
     .target(
@@ -75,19 +90,26 @@ let package = Package(
       ],
       resources: [
         .process("Resources/Localizable.xcstrings"),
-      ]
+      ],
+      swiftSettings: mainActorPackageSwiftSettings
     ),
     .testTarget(
       name: "HUIComponentTests",
-      dependencies: ["HUIComponent"]
+      dependencies: ["HUIComponent"],
+      swiftSettings: packageSwiftSettings
     ),
     .target(
       name: "HLocation",
-      dependencies: []
+      dependencies: [],
+      resources: [
+        .process("Resources/Localizable.xcstrings"),
+      ],
+      swiftSettings: mainActorPackageSwiftSettings
     ),
     .testTarget(
       name: "HLocationTests",
-      dependencies: ["HLocation"]
+      dependencies: ["HLocation"],
+      swiftSettings: packageSwiftSettings
     ),
   ]
 )

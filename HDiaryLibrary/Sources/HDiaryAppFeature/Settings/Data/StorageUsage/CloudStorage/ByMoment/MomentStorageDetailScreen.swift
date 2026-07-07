@@ -6,6 +6,8 @@
 //
 // Moment's media storage detail
 
+#if os(iOS)
+
 import HDiaryModel
 import SwiftData
 import SwiftUI
@@ -74,3 +76,5 @@ private struct PreviewContainerView: View {
   }
   .previewEnvironment()
 }
+
+#endif

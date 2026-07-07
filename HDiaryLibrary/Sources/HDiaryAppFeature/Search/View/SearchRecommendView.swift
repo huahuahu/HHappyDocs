@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/3/26.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import SFSafeSymbols
 import SwiftUI
@@ -51,3 +53,5 @@ extension SearchView {
     }
   }
 }
+
+#endif

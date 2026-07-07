@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/6/20.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import SwiftData
 import SwiftUI
@@ -120,5 +122,7 @@ private struct TageDetailInnerView: View {
         .modelContainer(container)
     }
   }
+
+#endif
 
 #endif

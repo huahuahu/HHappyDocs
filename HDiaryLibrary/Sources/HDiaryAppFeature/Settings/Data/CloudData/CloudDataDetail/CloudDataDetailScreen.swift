@@ -4,6 +4,8 @@
 //
 //  Created by tigerguo on 2024/9/29.
 //
+#if os(iOS)
+
 import HDiaryModel
 import SwiftData
 import SwiftUI
@@ -235,3 +237,5 @@ private struct RefreshButton: View {
   }
   .previewEnvironment()
 }
+
+#endif

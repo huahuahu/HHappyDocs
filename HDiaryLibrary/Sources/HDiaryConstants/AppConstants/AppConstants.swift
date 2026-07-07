@@ -4,8 +4,6 @@
 //
 //  Created by tigerguo on 2023/7/13.
 //
-#if os(iOS)
-
   import Foundation
 
   public enum AppConstants {
@@ -25,11 +23,12 @@
   }
 
   public extension UserDefaults {
-    static let hDiaryShared = UserDefaults(suiteName: AppConstants.groupName)
+    static var hDiaryShared: UserDefaults? {
+      UserDefaults(suiteName: AppConstants.groupName)
+    }
   }
 
   public enum HDiaryIntentKind: String {
     case moment = "Moment"
   }
 
-#endif

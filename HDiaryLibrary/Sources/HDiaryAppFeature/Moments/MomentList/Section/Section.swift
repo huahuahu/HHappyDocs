@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/1/28.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import SwiftData
 import SwiftUI
@@ -78,5 +80,7 @@ extension MomentListScreen {
         .modelContainer(HDiaryContainer.inMemoryPreviewContainer)
     }
   }
+
+#endif
 
 #endif

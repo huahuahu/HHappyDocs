@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/6/17.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import HDiarySearch
@@ -108,3 +110,5 @@ struct BaseTabView: View {
   }
 
 }
+
+#endif

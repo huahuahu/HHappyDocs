@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/4/3.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import SwiftData
@@ -80,3 +82,5 @@ extension RawDataView {
   }
   .previewEnvironment()
 }
+
+#endif

@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/11/7.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import HFoundation
 import SwiftUI
@@ -103,3 +105,5 @@ struct MomentGroupIdView: View {
       .environment(\.locale, .en)
   }
 }
+
+#endif

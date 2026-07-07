@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/12/5.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import SwiftUI
 
@@ -91,3 +93,5 @@ import SwiftUI
     }
   }
 }
+
+#endif

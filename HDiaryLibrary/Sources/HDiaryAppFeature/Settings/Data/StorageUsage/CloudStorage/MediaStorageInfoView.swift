@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/9/30.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import SwiftUI
 
@@ -66,3 +68,5 @@ struct MediaStorageInfoView: View {
     }
   }
 }
+
+#endif

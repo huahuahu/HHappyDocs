@@ -4,6 +4,8 @@
 //
 //  Created by tigerguo on 2025/4/12.
 //
+#if os(iOS)
+
 import HDiaryConstants
 import SFSafeSymbols
 import SwiftUI
@@ -39,3 +41,5 @@ extension SearchView {
     SearchView.SearchErrorView(errorText: "请稍后重试") // 更改为更通用的错误提示文案
   }
 })
+
+#endif

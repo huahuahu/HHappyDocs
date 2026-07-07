@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/3/28.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 extension SettingsView {
@@ -26,3 +28,5 @@ extension SettingsView {
     SettingsView.DebugEntryCell()
   }
 }
+
+#endif

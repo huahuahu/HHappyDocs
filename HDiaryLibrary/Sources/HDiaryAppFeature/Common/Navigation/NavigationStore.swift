@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/10/26.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryModel
@@ -45,3 +47,5 @@ import SwiftUI
     urlHandler.handle(url, mutating: &path, navigationStore: self)
   }
 }
+
+#endif

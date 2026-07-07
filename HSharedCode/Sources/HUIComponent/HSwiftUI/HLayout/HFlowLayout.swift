@@ -15,7 +15,7 @@ public struct HFlowLayout: Layout {
     self.horizontalAlignment = horizontalAlignment
   }
 
-  public enum Alignment {
+  public enum Alignment: Sendable {
     case leading
     case center
     case trailing

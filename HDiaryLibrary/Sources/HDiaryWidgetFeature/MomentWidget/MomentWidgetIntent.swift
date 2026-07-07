@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/14.
 //
 
+#if os(iOS)
+
 import AppIntents
 import HDiaryModel
 import OSLog
@@ -16,7 +18,7 @@ import WidgetKit
 private let logger = Logger(subsystem: "com.tiger.suzhou.hdiary", category: "MomentWidgetIntent")
 
 struct MomentWidgetIntent: WidgetConfigurationIntent {
-  static var title: LocalizedStringResource = "widget.moemnt.intent.title"
+  static let title: LocalizedStringResource = "widget.moemnt.intent.title"
   static let description: IntentDescription? = IntentDescription("widget.moemnt.intent.IntentDescription")
 
   @Parameter(title: "widget.moemnt.intent.parameter.participant.title")
@@ -24,7 +26,7 @@ struct MomentWidgetIntent: WidgetConfigurationIntent {
 
   init() {}
 
-  init(participant: ParticipantEntity = .nonEntity) {
+  init(participant: ParticipantEntity) {
     self.participant = participant
   }
 
@@ -40,7 +42,7 @@ struct ParticipantEntity: AppEntity {
   var name: String
   var avatar: UIImage
 
-  static var typeDisplayRepresentation = TypeDisplayRepresentation("widget.moemnt.intent.entity.participant.typeDisplayRepresentation")
+  static let typeDisplayRepresentation = TypeDisplayRepresentation("widget.moemnt.intent.entity.participant.typeDisplayRepresentation")
 
   var displayRepresentation: DisplayRepresentation {
     DisplayRepresentation(title: "\(name)")
@@ -60,11 +62,12 @@ struct ParticipantEntity: AppEntity {
     )
   }
 
-  static let nonEntity = Self(id: .null, name: String(localized: LocalizedStringResource(stringLiteral: "participant.all")), avatar: UIImage(resource: .defaultPerson))
+  @MainActor static let nonEntity = Self(id: .null, name: String(localized: LocalizedStringResource(stringLiteral: "participant.all")), avatar: UIImage(resource: .defaultPerson))
 
-  static var defaultQuery = ParticipantEntityQuery()
+  static let defaultQuery = ParticipantEntityQuery()
 }
 
+@MainActor
 struct ParticipantEntityQuery: EntityQuery {
   func entities(for identifiers: [ParticipantEntity.ID]) async throws -> [ParticipantEntity] {
     logger.info("Loading participants for identifiers: \(identifiers)")
@@ -86,3 +89,5 @@ struct ParticipantEntityQuery: EntityQuery {
     return [.nonEntity] + participants.map { ParticipantEntity(from: $0) }
   }
 }
+
+#endif

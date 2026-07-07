@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/6/27.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import HUIComponent
 import SwiftData
@@ -64,7 +66,7 @@ struct MomentParticipantEditView: View {
   }
 }
 
-extension Participant: @retroactive HSelectionViewItem {
+extension Participant: HSelectionViewItem {
   public var title: String {
     nickName
   }
@@ -85,4 +87,6 @@ private final class BundleLocation {}
       })
     )
   }
+#endif
+
 #endif

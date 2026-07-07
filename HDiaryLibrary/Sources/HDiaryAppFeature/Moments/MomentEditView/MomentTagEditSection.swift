@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/8/26.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import HUIComponent
 import SwiftData
@@ -76,7 +78,7 @@ struct MomentTagEditSection: View {
 
 private final class BundleLocation {}
 
-extension Tag: @retroactive HSelectionViewItem {}
+extension Tag: HSelectionViewItem {}
 
 #if DEBUG
   @available(iOS 18.0, *)
@@ -87,5 +89,7 @@ extension Tag: @retroactive HSelectionViewItem {}
       allTags: tags
     )
   }
+
+#endif
 
 #endif

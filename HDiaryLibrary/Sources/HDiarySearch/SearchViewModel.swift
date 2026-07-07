@@ -4,8 +4,6 @@
 //
 //  Created by tigerguo on 2025/3/26.
 //
-#if os(iOS)
-
   import Atomics
   import Foundation
   import HDiaryConstants
@@ -36,8 +34,12 @@
     private let recommendEngine: SearchRecommendEngine
     private let searchEngine: SearchEngine
 
-    public init() {
-      self.container = HDiaryContainer.getCurrentContainer()
+    public convenience init() {
+      self.init(modelContainer: HDiaryContainer.getCurrentContainer())
+    }
+
+    public init(modelContainer: ModelContainer) {
+      self.container = modelContainer
       self.recommendEngine = SearchRecommendEngine(modelContainer: container)
       self.searchEngine = SearchEngine(modelContainer: container)
     }
@@ -50,9 +52,8 @@
     public func startRecommend() {
       Task {
         Log.search.info("Start Recommend")
-        let recommendedMoments = await Task.detached {
-          await self.recommendEngine.getRecommendedMoment()
-        }.value
+        let recommendedMomentIDs = await self.recommendEngine.getRecommendedMomentIDs()
+        let recommendedMoments = self.moments(for: recommendedMomentIDs)
 
         if self.queryText.isEmpty {
           self.state = .recommend(moments: recommendedMoments)
@@ -89,9 +90,8 @@
           do {
             Log.search.info("Search actual logic started for \(query)")
 
-            let matchedMoment = try await Task.detached {
-              try await self.searchEngine.searchMoment(for: query, isCancelled: isCancelled)
-            }.value
+            let matchedMomentIDs = try await self.searchEngine.searchMomentIDs(for: query, isCancelled: isCancelled)
+            let matchedMoment = self.moments(for: matchedMomentIDs)
 
             let searchEndTime = clock.now
 
@@ -121,6 +121,8 @@
         }
       }
     }
-  }
 
-#endif
+    private func moments(for ids: [PersistentIdentifier]) -> [Moment] {
+      ids.compactMap { container.mainContext.model(for: $0) as? Moment }
+    }
+  }

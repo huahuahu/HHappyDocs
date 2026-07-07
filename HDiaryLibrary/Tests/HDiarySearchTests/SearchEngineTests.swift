@@ -34,12 +34,12 @@
       try context.save()
 
       let engine = SearchEngine(modelContainer: container)
-      let results = try await engine.searchMoment(
+      let results = try await engine.searchMomentIDs(
         for: "needle",
         isCancelled: ManagedAtomic<Bool>(false)
       )
 
-      XCTAssertEqual(results.map(\.uuid), [titleMatch.uuid, contentMatch.uuid])
+      XCTAssertEqual(results, [titleMatch.persistentModelID, contentMatch.persistentModelID])
     }
 
     func testSearchMomentThrowsCancellationBeforeFetch() async throws {
@@ -48,7 +48,7 @@
       let isCancelled = ManagedAtomic<Bool>(true)
 
       do {
-        _ = try await engine.searchMoment(for: "needle", isCancelled: isCancelled)
+        _ = try await engine.searchMomentIDs(for: "needle", isCancelled: isCancelled)
         XCTFail("Expected CancellationError")
       }
       catch is CancellationError {

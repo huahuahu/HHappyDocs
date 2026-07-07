@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/8/30.
 //
 
+#if os(iOS)
+
 import HFoundation
 import SwiftUI
 
@@ -87,3 +89,5 @@ struct TimeRangeSegmentControl: View {
     }))
   }
 }
+
+#endif

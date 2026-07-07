@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/3/17.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryIAP
 import HDiaryModel
@@ -84,3 +86,5 @@ struct SettingsView: View {
     .previewEnvironment()
     .environment(UserPreferences.shared)
 }
+
+#endif

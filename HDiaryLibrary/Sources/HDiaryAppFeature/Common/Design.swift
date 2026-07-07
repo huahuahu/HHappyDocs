@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/7.
 //
 
+#if os(iOS)
+
 import Foundation
 
 enum Design {
@@ -17,3 +19,5 @@ enum Design {
     static let horizontalPadding = 20.0
   }
 }
+
+#endif

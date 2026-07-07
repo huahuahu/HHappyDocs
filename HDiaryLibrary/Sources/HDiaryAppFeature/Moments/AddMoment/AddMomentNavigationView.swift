@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/10/28.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryIAP
 import HDiaryModel
@@ -207,4 +209,6 @@ private struct JournalSuggestionNotAvailableView: View {
     AddMomentNavigationView(origin: .empty, currentMomentCount: 20)
       .previewEnvironment()
   }
+#endif
+
 #endif

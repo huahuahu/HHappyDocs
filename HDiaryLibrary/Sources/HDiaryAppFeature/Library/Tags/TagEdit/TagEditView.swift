@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/6/18.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryModel
 import Observation
@@ -118,4 +120,6 @@ struct TagEditView: View {
         }
       })
   }
+#endif
+
 #endif

@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/6/25.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import SwiftData
@@ -172,5 +174,7 @@ private struct ParticipantDeleteButton: View {
     .environment(NavigationStore())
     .modelContainer(container)
   }
+
+#endif
 
 #endif

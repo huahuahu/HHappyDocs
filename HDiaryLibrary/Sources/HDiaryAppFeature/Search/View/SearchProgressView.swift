@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/4/12.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 extension SearchView {
@@ -22,3 +24,5 @@ extension SearchView {
     SearchView.SearchProgressView()
   }
 })
+
+#endif

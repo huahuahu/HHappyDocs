@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/14.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryModel
 import SwiftData
@@ -28,5 +30,7 @@ enum MomentWidgetUtil {
 }
 
 extension UUID {
-  static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000").unsafelyUnwrapped
+  nonisolated static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000").unsafelyUnwrapped
 }
+
+#endif

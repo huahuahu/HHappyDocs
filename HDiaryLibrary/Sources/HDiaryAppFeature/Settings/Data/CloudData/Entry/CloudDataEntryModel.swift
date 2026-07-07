@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/9/30.
 //
 
+#if os(iOS)
+
 import CloudKit
 import HDiaryConstants
 import Observation
@@ -91,3 +93,5 @@ class CloudDataEntryModel<T: CloudRecord> {
     }
   }
 }
+
+#endif

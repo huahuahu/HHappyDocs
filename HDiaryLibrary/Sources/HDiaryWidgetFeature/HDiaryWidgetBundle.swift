@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/14.
 //
 
+#if os(iOS)
+
 import SwiftUI
 import WidgetKit
 
@@ -16,3 +18,5 @@ public struct HDiaryWidgetFeatureBundle: WidgetBundle {
 //        HDiaryWidgetLiveActivity()
   }
 }
+
+#endif

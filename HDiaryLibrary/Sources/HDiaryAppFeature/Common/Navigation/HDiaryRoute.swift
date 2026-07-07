@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/9/29.
 //
 
+#if os(iOS)
+
 import Foundation
 import Observation
 
@@ -25,3 +27,5 @@ enum HDiaryTab: String, RawRepresentable, Hashable {
   case library
   case setting
 }
+
+#endif

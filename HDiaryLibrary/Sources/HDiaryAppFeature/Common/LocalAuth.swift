@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/1/28.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryModel
@@ -28,3 +30,5 @@ extension View {
       )
   }
 }
+
+#endif

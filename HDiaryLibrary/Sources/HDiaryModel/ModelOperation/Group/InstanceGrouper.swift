@@ -5,8 +5,6 @@
 //  Created by tigerguo on 2023/11/6.
 //
 
-#if os(iOS)
-
   import Algorithms
   import Foundation
 
@@ -96,4 +94,3 @@
     }
   }
 
-#endif

@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/9/3.
 //
 
+#if os(iOS)
+
 import Charts
 import HDiaryModel
 import SwiftData
@@ -171,3 +173,5 @@ private struct InnerTagChart: View {
   }
   .modelContainer(HDiaryContainer.inMemoryEmptyPreviewContainer)
 }
+
+#endif

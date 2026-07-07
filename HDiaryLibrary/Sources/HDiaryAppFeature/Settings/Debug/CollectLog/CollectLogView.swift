@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/5/22.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import OSLog
 import SwiftUI
@@ -42,3 +44,5 @@ struct CollectLogView: View {
 #Preview {
   CollectLogView()
 }
+
+#endif

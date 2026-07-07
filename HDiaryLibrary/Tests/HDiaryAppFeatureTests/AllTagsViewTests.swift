@@ -1,6 +1,9 @@
+#if os(iOS)
+
 import XCTest
 @testable import HDiaryAppFeature
 
+@MainActor
 final class AllTagsViewTests: XCTestCase {
   func testEmptyTagsDoNotShowTotalTagCount() {
     let state = AllTagsViewState(totalTagCount: 0)
@@ -14,3 +17,5 @@ final class AllTagsViewTests: XCTestCase {
     XCTAssertTrue(state.shouldShowTotalTagCount)
   }
 }
+
+#endif

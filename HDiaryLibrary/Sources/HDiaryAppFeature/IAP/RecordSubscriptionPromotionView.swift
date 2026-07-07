@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/1/17.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryIAP
@@ -146,3 +148,5 @@ public struct RecordSubscriptionPromotionView: View {
   .environment(userPreferences)
   .environment(\.locale, .en)
 }
+
+#endif

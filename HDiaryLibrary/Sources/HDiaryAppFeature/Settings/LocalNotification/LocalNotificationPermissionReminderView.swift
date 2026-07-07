@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/10/27.
 //
 
+#if os(iOS)
+
 import SwiftUI
 
 /// A view showing user should enable notification permisson
@@ -17,3 +19,5 @@ struct LocalNotificationPermissionReminderView: View {
 #Preview {
   LocalNotificationPermissionReminderView()
 }
+
+#endif

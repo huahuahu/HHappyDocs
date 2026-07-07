@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/12/23.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryModel
@@ -428,4 +430,6 @@ import UIKit
       }
     }
   }
+#endif
+
 #endif

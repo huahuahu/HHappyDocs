@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/14.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryModel
 import OSLog
@@ -129,3 +131,5 @@ extension ParticipantEntity {
     avatar: UIImage(resource: .defaultPerson)
   )
 }
+
+#endif

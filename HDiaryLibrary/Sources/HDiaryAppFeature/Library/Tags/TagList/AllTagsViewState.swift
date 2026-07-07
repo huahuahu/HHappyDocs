@@ -1,3 +1,5 @@
+#if os(iOS)
+
 //
 //  AllTagsViewState.swift
 //  HDiary
@@ -12,3 +14,5 @@ struct AllTagsViewState {
     totalTagCount > 0
   }
 }
+
+#endif

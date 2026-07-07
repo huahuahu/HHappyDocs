@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/10/28.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryConstants
 import HDiaryIAP
@@ -63,3 +65,5 @@ struct HDiaryEnvironmentModifier: ViewModifier {
       .environment(momentCloudStateManager)
   }
 }
+
+#endif

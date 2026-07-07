@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/4/15.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import HDiarySearch
@@ -61,3 +63,5 @@ private struct MomentContainerView: View {
       }
   }
 }
+
+#endif

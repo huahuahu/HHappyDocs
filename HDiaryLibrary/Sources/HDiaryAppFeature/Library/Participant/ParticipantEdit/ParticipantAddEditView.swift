@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/6/25.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import Observation
 import PhotosUI
@@ -168,3 +170,5 @@ extension ParticipantAddEditInnerView {
       .modelContainer(container)
   }
 }
+
+#endif

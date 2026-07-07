@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/6/18.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import HFoundation
 import SwiftData
@@ -42,4 +44,6 @@ struct TagCell: View {
       .navigationBarTitleDisplayMode(.inline)
     }
   }
+#endif
+
 #endif

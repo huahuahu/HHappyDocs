@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/5/25.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HFoundation
 import SwiftUI
@@ -132,3 +134,5 @@ extension StorageUsageView.LocalCacheView {
     }
   }
 }
+
+#endif

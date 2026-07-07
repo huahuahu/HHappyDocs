@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/5/26.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import HMedia
 import HUIComponent
@@ -60,3 +62,5 @@ struct MediaItemsStorageView: View {
   }
   .previewEnvironment()
 }
+
+#endif

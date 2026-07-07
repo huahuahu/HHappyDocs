@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/5/5.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import SwiftData
@@ -122,3 +124,5 @@ extension SwiftDataDebugView {
     }
   }
 }
+
+#endif

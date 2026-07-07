@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/8/30.
 //
 
+#if os(iOS)
+
 import Charts
 import HDiaryModel
 import HUIComponent
@@ -192,3 +194,5 @@ struct MomentRatingPieChartView: View {
   }
   .modelContainer(HDiaryContainer.inMemoryEmptyPreviewContainer)
 }
+
+#endif

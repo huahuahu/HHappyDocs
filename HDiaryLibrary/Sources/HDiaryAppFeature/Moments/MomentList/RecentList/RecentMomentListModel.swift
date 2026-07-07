@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2025/5/4.
 //
 
+#if os(iOS)
+
 import Combine
 import Foundation
 import HDiaryConstants
@@ -91,3 +93,5 @@ final class RecentMomentListModel {
     case showRecentMoment(minDate: Date, allMomentCount: Int)
   }
 }
+
+#endif

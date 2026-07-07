@@ -10,7 +10,7 @@ import HDiaryConstants
 import StoreKit
 import SwiftUI
 
-public enum RecordSubscriptionStatus: Comparable, Hashable, Codable {
+public enum RecordSubscriptionStatus: Comparable, Hashable, Codable, Sendable {
   case notSubscribed
   case monthly(expirationDate: Date)
   case annually(expirationDate: Date)
@@ -64,11 +64,11 @@ extension RecordSubscriptionStatus: CustomStringConvertible {
 
 public extension EnvironmentValues {
   enum RecordSubscriptionStatusEnvironmentKey: EnvironmentKey {
-    public static var defaultValue: RecordSubscriptionStatus = .notSubscribed
+    public static let defaultValue: RecordSubscriptionStatus = .notSubscribed
   }
 
   enum RecordSubscriptionStatusLoadingEnvironmentKey: EnvironmentKey {
-    public static var defaultValue = true
+    public static let defaultValue = true
   }
 
   var recordSubscriptionStatus: RecordSubscriptionStatus {

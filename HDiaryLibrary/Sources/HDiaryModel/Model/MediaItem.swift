@@ -5,13 +5,13 @@
 //  Created by tigerguo on 2023/12/10.
 //
 
-#if os(iOS)
-
   import Foundation
   import HDiaryConstants
-  import HMedia
   import SwiftData
-  import UIKit
+  #if canImport(UIKit)
+    import HMedia
+    import UIKit
+  #endif
 
   @Model
   public final class MediaItem {
@@ -131,22 +131,24 @@
       creationDate = Date()
     }
 
-    public var uiImage: UIImage? {
-      UIImage(data: data)
-    }
-
-    public func updateThumbnail() {
-      if thumbnailData150px == nil {
-        thumbnailData150px = try? UIImage.downsample(imageData: data, to: CGSize(width: 150, height: 150))
-      }
-      if thumbnailData500px == nil {
-        thumbnailData500px = try? UIImage.downsample(imageData: data, to: CGSize(width: 500, height: 500))
+    #if canImport(UIKit)
+      public var uiImage: UIImage? {
+        UIImage(data: data)
       }
 
-      if thumbnailData1000px == nil {
-        thumbnailData1000px = try? UIImage.downsample(imageData: data, to: CGSize(width: 1000, height: 1000))
+      public func updateThumbnail() {
+        if thumbnailData150px == nil {
+          thumbnailData150px = try? UIImage.downsample(imageData: data, to: CGSize(width: 150, height: 150))
+        }
+        if thumbnailData500px == nil {
+          thumbnailData500px = try? UIImage.downsample(imageData: data, to: CGSize(width: 500, height: 500))
+        }
+
+        if thumbnailData1000px == nil {
+          thumbnailData1000px = try? UIImage.downsample(imageData: data, to: CGSize(width: 1000, height: 1000))
+        }
       }
-    }
+    #endif
   }
 
   extension HappyImage: Encodable {
@@ -169,5 +171,3 @@
       case moment
     }
   }
-
-#endif

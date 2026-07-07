@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/3/10.
 //
 
+#if os(iOS)
+
 import Foundation
 import HUIComponent
 import SwiftUI
@@ -46,3 +48,5 @@ extension SettingsView {
       .previewEnvironment()
   })
 })
+
+#endif

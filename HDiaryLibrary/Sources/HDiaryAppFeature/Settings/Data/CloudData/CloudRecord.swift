@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2024/9/29.
 //
 
+#if os(iOS)
+
 import Foundation
 import HDiaryModel
 import SwiftUI
@@ -71,3 +73,5 @@ extension Tag: CloudRecord {
     "CD_text"
   }
 }
+
+#endif

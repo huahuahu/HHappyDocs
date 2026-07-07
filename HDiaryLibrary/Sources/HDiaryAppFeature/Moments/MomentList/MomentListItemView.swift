@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/7/25.
 //
 
+#if os(iOS)
+
 import HDiaryConstants
 import HDiaryModel
 import SwiftData
@@ -149,5 +151,7 @@ private extension Moment {
       moments.dropFirst().first?.updateTags(Array(tags.prefix(2)))
     }
   }
+
+#endif
 
 #endif

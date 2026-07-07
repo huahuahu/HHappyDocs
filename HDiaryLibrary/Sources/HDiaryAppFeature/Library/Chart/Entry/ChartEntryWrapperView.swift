@@ -5,6 +5,8 @@
 //  Created by tigerguo on 2023/9/3.
 //
 
+#if os(iOS)
+
 import HDiaryModel
 import SwiftUI
 
@@ -33,3 +35,5 @@ struct ChartEntryWrapperView: View {
     .modelContainer(HDiaryContainer.inMemoryPreviewContainer)
     .environment(\.locale, .cnMainland)
 }
+
+#endif
