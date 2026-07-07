@@ -101,6 +101,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
+				Intents.xcstrings,
 			);
 			target = 6072D3A22A6161DB0020B7AF /* HDiaryWidgetExtension */;
 		};

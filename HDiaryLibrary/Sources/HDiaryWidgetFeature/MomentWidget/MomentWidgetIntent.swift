@@ -13,15 +13,35 @@ import OSLog
 import SwiftData
 import UIKit
 import WidgetKit
+import SwiftUI
 
-// TODO: Add localiztion
 private let logger = Logger(subsystem: "com.tiger.suzhou.hdiary", category: "MomentWidgetIntent")
 
 struct MomentWidgetIntent: WidgetConfigurationIntent {
-  static let title: LocalizedStringResource = "widget.moemnt.intent.title"
-  static let description: IntentDescription? = IntentDescription("widget.moemnt.intent.IntentDescription")
+  static let title: LocalizedStringResource = LocalizedStringResource(
+    "widget.moment.intent.title",
+    defaultValue: "Select participant",
+    table: "Intents",
+    bundle: .main
+  )
+  static let description: IntentDescription? = IntentDescription(
+    LocalizedStringResource(
+      "widget.moment.intent.description",
+      defaultValue: "Select a participant to show their moments",
+      table: "Intents",
+      bundle: .main
+    )
+  )
 
-  @Parameter(title: "widget.moemnt.intent.parameter.participant.title", optionsProvider: ParticipantOptionsProvider())
+  @Parameter(
+    title: LocalizedStringResource(
+      "widget.moment.intent.parameter.participant.title",
+      defaultValue: "Participant",
+      table: "Intents",
+      bundle: .main
+    ),
+    optionsProvider: ParticipantOptionsProvider()
+  )
   var participantID: String?
 
   init() {}
@@ -65,7 +85,16 @@ struct ParticipantEntity: Identifiable {
     )
   }
 
-  @MainActor static let nonEntity = Self(id: .null, name: String(localized: LocalizedStringResource(stringLiteral: "participant.all")), avatar: UIImage(resource: .defaultPerson))
+  @MainActor static let nonEntity = Self(
+    id: .null,
+    name: String(localized: LocalizedStringResource(
+      "participant.all",
+      defaultValue: "All participants",
+      table: "Intents",
+      bundle: .main
+    )),
+    avatar: UIImage(resource: .defaultPerson)
+  )
 }
 
 @MainActor

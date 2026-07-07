@@ -116,18 +116,33 @@ struct MomentWidgetSummary {
 
     static let demo1 = Self(
       timeStamp: .now,
-      title: String(localized: LocalizedStringResource(stringLiteral: "sampleData.moment1.title")),
+      title: String(localized: LocalizedStringResource(
+        "sampleData.moment1.title",
+        defaultValue: "Went hiking with friends",
+        table: "Intents",
+        bundle: .main
+      )),
       id: UUID()
     )
     static let demo2 = Self(
       timeStamp: .now.addingTimeInterval(-60 * 60 * 24 * 10),
-      title: String(localized: LocalizedStringResource(stringLiteral: "sampleData.moment2.title")),
+      title: String(localized: LocalizedStringResource(
+        "sampleData.moment2.title",
+        defaultValue: "Family dinner night",
+        table: "Intents",
+        bundle: .main
+      )),
       id: UUID()
     )
 
     static let demo3 = Self(
       timeStamp: .now.addingTimeInterval(-60 * 60 * 24 * 15),
-      title: String(localized: LocalizedStringResource(stringLiteral: "sampleData.moment3.title")),
+      title: String(localized: LocalizedStringResource(
+        "sampleData.moment3.title",
+        defaultValue: "Coffee catch-up",
+        table: "Intents",
+        bundle: .main
+      )),
       id: UUID()
     )
   }
@@ -155,7 +170,12 @@ extension MomentWidgetSummary {
 extension ParticipantEntity {
   static let placeHolder = ParticipantEntity(
     id: UUID(),
-    name: String(localized: LocalizedStringResource(stringLiteral: "sampleData.participantName")),
+    name: String(localized: LocalizedStringResource(
+      "sampleData.participantName",
+      defaultValue: "Sample participant",
+      table: "Intents",
+      bundle: .main
+    )),
     avatar: UIImage(resource: .defaultPerson)
   )
 }
