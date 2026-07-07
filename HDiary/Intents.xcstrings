@@ -1,90 +1,144 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {
-
-    },
     "participant.all" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "all"
+            "value" : "All participants"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "全部"
+            "value" : "所有人"
           }
         }
       }
     },
     "sampleData.moment1.title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cooking"
+            "value" : "Went hiking with friends"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "做饭"
+            "value" : "和朋友一起爬山"
           }
         }
       }
     },
     "sampleData.moment2.title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hiking"
+            "value" : "Family dinner night"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "散步"
+            "value" : "家庭聚餐夜"
           }
         }
       }
     },
     "sampleData.moment3.title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dinner is greate"
+            "value" : "Coffee catch-up"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "晚饭很好"
+            "value" : "咖啡小聚"
           }
         }
       }
     },
     "sampleData.participantName" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jenny"
+            "value" : "Sample participant"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "阿芳"
+            "value" : "示例参与者"
           }
         }
       }
     },
-    "widget.moemnt.intent.entity.participant.typeDisplayRepresentation" : {
+    "widget.moment.configurationDisplayName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moments"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "乐事"
+          }
+        }
+      }
+    },
+    "widget.moment.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show moments for a selected participant"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示所选参与者的乐事"
+          }
+        }
+      }
+    },
+    "widget.moment.intent.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select a participant to show their moments"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择要显示乐事记录的参与者"
+          }
+        }
+      }
+    },
+    "widget.moment.intent.parameter.participant.title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -100,39 +154,8 @@
         }
       }
     },
-    "widget.moemnt.intent.IntentDescription" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select participant to show moments"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择参与者用于展示乐事"
-          }
-        }
-      }
-    },
-    "widget.moemnt.intent.parameter.participant.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Participant"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参与者"
-          }
-        }
-      }
-    },
-    "widget.moemnt.intent.title" : {
+    "widget.moment.intent.title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -144,38 +167,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择参与者"
-          }
-        }
-      }
-    },
-    "widget.moment.configurationDisplayName" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Participant"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参与者"
-          }
-        }
-      }
-    },
-    "widget.moment.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show moments for participant"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "展示乐事"
           }
         }
       }

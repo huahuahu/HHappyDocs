@@ -23,7 +23,7 @@ enum MomentWidgetUtil {
 
   static func getModelContext() async -> ModelContext {
     let container = await MainActor.run {
-      return HDiaryContainer.iCloudContainer
+      return HDiaryContainer.getCurrentContainer()
     }
     return ModelContext(container)
   }

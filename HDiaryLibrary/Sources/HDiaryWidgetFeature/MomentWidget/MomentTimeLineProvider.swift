@@ -23,8 +23,10 @@ struct MomentTimeLineProvider: AppIntentTimelineProvider {
   }
 
   func snapshot(for configuration: MomentWidgetIntent, in context: Context) async -> MomentEntry {
-    let moments = await getMoments(with: configuration.participant?.id)
-    let momentEntry = MomentEntry(date: .now, summary: MomentWidgetSummary(participant: configuration.participant, moments: moments))
+    let participantID = configuration.selectedParticipantID
+    let participant = await getParticipant(with: participantID)
+    let moments = await getMoments(with: participantID)
+    let momentEntry = MomentEntry(date: .now, summary: MomentWidgetSummary(participant: participant, moments: moments))
     if momentEntry.summary.validForSnapshot {
       return momentEntry
     }
@@ -34,13 +36,39 @@ struct MomentTimeLineProvider: AppIntentTimelineProvider {
   }
 
   func timeline(for configuration: MomentWidgetIntent, in context: Context) async -> Timeline<MomentEntry> {
-    let moments = await getMoments(with: configuration.participant?.id)
+    let participantID = configuration.selectedParticipantID
+    let participant = await getParticipant(with: participantID)
+    let moments = await getMoments(with: participantID)
 
     var entries = [MomentEntry]()
-    let momentEntry = MomentEntry(date: .now, summary: MomentWidgetSummary(participant: configuration.participant, moments: moments))
+    let momentEntry = MomentEntry(date: .now, summary: MomentWidgetSummary(participant: participant, moments: moments))
     entries.append(momentEntry)
 
     return Timeline(entries: entries, policy: .after(.now.advanced(by: 60)))
+  }
+
+  private func getParticipant(with participantID: UUID?) async -> ParticipantEntity? {
+    guard let participantID else {
+      return nil
+    }
+    guard participantID != .null else {
+      return .nonEntity
+    }
+
+    let modelContext = await MomentWidgetUtil.getModelContext()
+    do {
+      var descriptor = FetchDescriptor<Participant>(
+        predicate: #Predicate { participant in
+          participant.uuid == participantID
+        }
+      )
+      descriptor.fetchLimit = 1
+      return try modelContext.fetch(descriptor).first.map(ParticipantEntity.init(from:))
+    }
+    catch {
+      logger.error("Error when fetching participant for \(participantID.uuidString)")
+      return nil
+    }
   }
 
   // #Predicate Not complie in Xcode-Beta
@@ -88,18 +116,33 @@ struct MomentWidgetSummary {
 
     static let demo1 = Self(
       timeStamp: .now,
-      title: String(localized: LocalizedStringResource(stringLiteral: "sampleData.moment1.title")),
+      title: String(localized: LocalizedStringResource(
+        "sampleData.moment1.title",
+        defaultValue: "Went hiking with friends",
+        table: "Intents",
+        bundle: .main
+      )),
       id: UUID()
     )
     static let demo2 = Self(
       timeStamp: .now.addingTimeInterval(-60 * 60 * 24 * 10),
-      title: String(localized: LocalizedStringResource(stringLiteral: "sampleData.moment2.title")),
+      title: String(localized: LocalizedStringResource(
+        "sampleData.moment2.title",
+        defaultValue: "Family dinner night",
+        table: "Intents",
+        bundle: .main
+      )),
       id: UUID()
     )
 
     static let demo3 = Self(
       timeStamp: .now.addingTimeInterval(-60 * 60 * 24 * 15),
-      title: String(localized: LocalizedStringResource(stringLiteral: "sampleData.moment3.title")),
+      title: String(localized: LocalizedStringResource(
+        "sampleData.moment3.title",
+        defaultValue: "Coffee catch-up",
+        table: "Intents",
+        bundle: .main
+      )),
       id: UUID()
     )
   }
@@ -127,7 +170,12 @@ extension MomentWidgetSummary {
 extension ParticipantEntity {
   static let placeHolder = ParticipantEntity(
     id: UUID(),
-    name: String(localized: LocalizedStringResource(stringLiteral: "sampleData.participantName")),
+    name: String(localized: LocalizedStringResource(
+      "sampleData.participantName",
+      defaultValue: "Sample participant",
+      table: "Intents",
+      bundle: .main
+    )),
     avatar: UIImage(resource: .defaultPerson)
   )
 }

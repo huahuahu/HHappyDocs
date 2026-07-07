@@ -54,6 +54,13 @@
     {
       "target": {
         "containerPath": "container:HDiaryLibrary",
+        "identifier": "HDiaryWidgetFeatureTests",
+        "name": "HDiaryWidgetFeatureTests"
+      }
+    },
+    {
+      "target": {
+        "containerPath": "container:HDiaryLibrary",
         "identifier": "HDiarySearchTests",
         "name": "HDiarySearchTests"
       }

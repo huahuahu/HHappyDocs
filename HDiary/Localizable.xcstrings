@@ -3,6 +3,7 @@
   "strings" : {
     "%lld moment" : {
       "comment" : "Show moment count",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "variations" : {
@@ -50,6 +51,7 @@
     },
     "%lld star" : {
       "comment" : "Show xx start rating",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -67,6 +69,7 @@
     },
     "%lld tags in total." : {
       "comment" : "text for total tag count",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "variations" : {
@@ -102,7 +105,7 @@
     },
     "addMoment.navigation.button.finish" : {
       "comment" : "When adding moment, after tapping this button, add to database",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -120,7 +123,7 @@
     },
     "addMomentContentSection" : {
       "comment" : "When adding moment, this is used as section header to indicate user to add conent",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -138,7 +141,7 @@
     },
     "addMomentContentSectionPlaceHolder" : {
       "comment" : "When adding moment, this is used as place holder to indicate user to add conent",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -156,7 +159,7 @@
     },
     "addMomentTimeStampLabel" : {
       "comment" : "When adding moment, this is used as date picker's label",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -174,7 +177,7 @@
     },
     "addMomentTimeStampSectionHeader" : {
       "comment" : "When adding moment, this is used as section header to indicate user to select timestamp",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -192,6 +195,7 @@
     },
     "addMomentTitleSection" : {
       "comment" : "When adding moment, this is used as section header to indicate user to add title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -209,7 +213,7 @@
     },
     "addMomentTitleSectionPlaceHolder" : {
       "comment" : "When adding moment, this is used as place holder to indicate user to add title ",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -227,7 +231,7 @@
     },
     "addMomentViewTitle" : {
       "comment" : "When adding moment, a view is presented, this is used as the whole view's tile",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -245,7 +249,7 @@
     },
     "AppInfo.about" : {
       "comment" : "About label in Settings",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -263,7 +267,7 @@
     },
     "AppInfo.icpNumberContent %@" : {
       "comment" : "icp Number Content",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -281,7 +285,7 @@
     },
     "AppInfo.icpNumberLabel" : {
       "comment" : "icp Number Label in About",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -299,7 +303,7 @@
     },
     "CloudData.allContent" : {
       "comment" : "label used to show cloud data is all displayed",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -317,7 +321,7 @@
     },
     "CloudData.cellLabel" : {
       "comment" : "label used to show cloud data in SettingView",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -335,7 +339,7 @@
     },
     "CloudData.lastUpdateTime" : {
       "comment" : "label used to show cloud data last update time",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -353,7 +357,7 @@
     },
     "CloudData.loadFail" : {
       "comment" : "label used to show cloud data load failed",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -371,7 +375,7 @@
     },
     "CloudData.loadMore" : {
       "comment" : "label used to show cloud data can load more",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -389,7 +393,7 @@
     },
     "CloudData.loadMoreFail" : {
       "comment" : "label used to show cloud data load more fail, user can tap to resty",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -407,7 +411,7 @@
     },
     "CloudData.noData" : {
       "comment" : "label used to show no cloud data",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -425,7 +429,7 @@
     },
     "CloudData.syncing" : {
       "comment" : "label used to show cloud data is syncing",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -443,7 +447,7 @@
     },
     "commmon.add" : {
       "comment" : "For common add button",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -461,7 +465,7 @@
     },
     "commmon.count" : {
       "comment" : "For common count",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -479,7 +483,7 @@
     },
     "commmon.crop" : {
       "comment" : "For common crop button",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -497,7 +501,7 @@
     },
     "commmon.edit" : {
       "comment" : "For common edit button",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -515,7 +519,7 @@
     },
     "commmon.rating" : {
       "comment" : "For common rating",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -533,7 +537,7 @@
     },
     "commmon.total" : {
       "comment" : "For common total",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -551,7 +555,7 @@
     },
     "commmon.unrated" : {
       "comment" : "For common unrated",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -569,7 +573,7 @@
     },
     "common.addImage" : {
       "comment" : "Use as text for adding image",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -587,7 +591,7 @@
     },
     "common.cancel" : {
       "comment" : "Text for cancel",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -605,7 +609,7 @@
     },
     "common.clear" : {
       "comment" : "Clear",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -623,7 +627,7 @@
     },
     "common.clearing" : {
       "comment" : "label shown to user for clear in progress",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -641,7 +645,7 @@
     },
     "common.date.future" : {
       "comment" : "show text for 'future'",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -659,7 +663,7 @@
     },
     "common.date.recent7day" : {
       "comment" : "show text for 'recent 7 days'",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -677,7 +681,7 @@
     },
     "common.date.today" : {
       "comment" : "show text for 'today'",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -695,7 +699,7 @@
     },
     "common.date.ungrouped" : {
       "comment" : "show text for 'ungrouped'",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -713,7 +717,7 @@
     },
     "common.date.yesterday" : {
       "comment" : "show text for 'yesterday'",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -731,7 +735,7 @@
     },
     "common.delete" : {
       "comment" : "common Delete",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -749,7 +753,7 @@
     },
     "common.delete.confirm" : {
       "comment" : "Text for confirm delete",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -767,7 +771,7 @@
     },
     "common.helpAndFeedback" : {
       "comment" : "Used as help & feedback title",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -785,7 +789,7 @@
     },
     "common.sort" : {
       "comment" : "common sort",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -803,7 +807,7 @@
     },
     "common.sortByMomentCount" : {
       "comment" : "label for sort by number of moments",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -821,7 +825,7 @@
     },
     "common.sortByName" : {
       "comment" : "label for sort by name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -839,7 +843,7 @@
     },
     "common.sortByTimestamp" : {
       "comment" : "label for sort by date",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -857,7 +861,7 @@
     },
     "date.StorageUsage.cached.calculatingLabel" : {
       "comment" : "label text shown to user when calculating local cache",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -875,7 +879,7 @@
     },
     "date.StorageUsage.cached.description" : {
       "comment" : "description text for local cache data",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -893,7 +897,7 @@
     },
     "date.StorageUsage.cached.label" : {
       "comment" : "label text for local cache data",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -911,6 +915,7 @@
     },
     "date.StorageUsage.cloud itemCount " : {
       "comment" : "summary of total size for given media items",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "variations" : {
@@ -952,7 +957,7 @@
     },
     "date.StorageUsage.cloud.description" : {
       "comment" : "description text for cloud media",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -970,7 +975,7 @@
     },
     "date.StorageUsage.cloud.label" : {
       "comment" : "label for cloud media",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -988,7 +993,7 @@
     },
     "date.StorageUsage.cloud.viewByMedia" : {
       "comment" : "label for ViewByMedia",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1006,7 +1011,7 @@
     },
     "date.StorageUsage.cloud.viewByMoment" : {
       "comment" : "label for ViewByMoment",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1024,7 +1029,7 @@
     },
     "date.StorageUsage.sortByMomentStorage" : {
       "comment" : "label for sort by moment's media storage",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1042,7 +1047,7 @@
     },
     "date.StorageUsage.storageUsage" : {
       "comment" : "label for storage usage",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1060,7 +1065,7 @@
     },
     "editMomentViewTitle" : {
       "comment" : "When editing moment, a view is presented, this is used as the whole view's tile",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1078,7 +1083,7 @@
     },
     "export.total.message" : {
       "comment" : "message when exporting all raw data, parameter is the app name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1096,7 +1101,7 @@
     },
     "export.total.sharelinkLabel" : {
       "comment" : "label used when exporting all data",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1114,7 +1119,7 @@
     },
     "export.total.subject" : {
       "comment" : "subject when exporting all raw data",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1132,6 +1137,7 @@
     },
     "happyListNavigationTitle" : {
       "comment" : "happyListNavigationTitle",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1148,6 +1154,7 @@
       }
     },
     "happyListTabItemTitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1165,7 +1172,7 @@
     },
     "iap.RecordSubscriptionPromotion.checkDetail" : {
       "comment" : "Check Detail button title in RecordSubscriptionPromotion view",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1183,7 +1190,7 @@
     },
     "iap.RecordSubscriptionPromotion.description with max free count %@" : {
       "comment" : "description shown in RecordSubscriptionPromotion view",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1201,7 +1208,7 @@
     },
     "iap.RecordSubscriptionPromotion.skip" : {
       "comment" : "Skip button title in RecordSubscriptionPromotion view",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1219,7 +1226,7 @@
     },
     "iap.RecordSubscriptionPromotion.title" : {
       "comment" : "title shown in RecordSubscriptionPromotion view",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1237,7 +1244,7 @@
     },
     "iap.subscribe" : {
       "comment" : "Subscribe",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1255,6 +1262,7 @@
     },
     "last %lld day" : {
       "comment" : "last xxx days",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "variations" : {
@@ -1290,7 +1298,7 @@
     },
     "lib.moment.participant.edit.navigationBar.title" : {
       "comment" : "When adding/removing participant for moment, used as navigation view's title",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1308,7 +1316,7 @@
     },
     "lib.moment.participant.edit.nothing" : {
       "comment" : "When adding/removing participant for moment, used as empty string",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1326,7 +1334,7 @@
     },
     "lib.moment.tag.edit.navigationBar.title" : {
       "comment" : "When adding/removing tags for moment, used as navigation view's title",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1344,7 +1352,7 @@
     },
     "library.chart" : {
       "comment" : "Used for chart",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1362,7 +1370,7 @@
     },
     "library.chart.entry.byRating" : {
       "comment" : "entry for rating pie chart",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1380,7 +1388,7 @@
     },
     "library.chart.entry.byTag" : {
       "comment" : "entry for tag chart",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1398,7 +1406,7 @@
     },
     "library.chart.timeRange.custome" : {
       "comment" : "text for custom time range",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1416,7 +1424,7 @@
     },
     "library.chart.timeRange.end" : {
       "comment" : "text for selecting end date",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1434,7 +1442,7 @@
     },
     "library.chart.timeRange.start" : {
       "comment" : "text for selecting start date",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1452,7 +1460,7 @@
     },
     "library.entry.participant.label" : {
       "comment" : "Used to indicate this is Participant entry",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1470,7 +1478,7 @@
     },
     "library.entry.tag.label" : {
       "comment" : "Used to indicate this is tag entry",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1488,7 +1496,7 @@
     },
     "library.participant.empty.description" : {
       "comment" : "In empty view for no participant, used as description",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1506,7 +1514,7 @@
     },
     "library.participant.empty.label" : {
       "comment" : "In empty view for no participant, used as label",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1524,7 +1532,7 @@
     },
     "library.participant.name" : {
       "comment" : "Used when need show participant's name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1542,7 +1550,7 @@
     },
     "library.participant.nickName" : {
       "comment" : "Used when need show participant's nick name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1560,7 +1568,7 @@
     },
     "library.participant.note" : {
       "comment" : "Used when need show participant's note",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1578,7 +1586,7 @@
     },
     "library.tag.add.done" : {
       "comment" : "Used as navigation bar button's title when adding tag",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1596,7 +1604,7 @@
     },
     "library.tag.add.title" : {
       "comment" : "Navigation title for the adding tag view",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1614,7 +1622,7 @@
     },
     "library.tag.edit.comment.placeHolder" : {
       "comment" : "Used as place holder to indicate this is abut tag's comment",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1632,7 +1640,7 @@
     },
     "library.tag.edit.comment.sectionHeader" : {
       "comment" : "Used as section header to indicate this is abut tag's comment",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1650,7 +1658,7 @@
     },
     "library.tag.edit.title" : {
       "comment" : "Navigation title for the editing tag view",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1668,7 +1676,7 @@
     },
     "library.tag.edit.title.placeHolder" : {
       "comment" : "Used as place holder to indicate this is abut tag's title",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1686,7 +1694,7 @@
     },
     "library.tag.edit.title.sectionHeader" : {
       "comment" : "Used as section header to indicate this is abut tag's title",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1704,7 +1712,7 @@
     },
     "library.tag.empty.description" : {
       "comment" : "In empty view for no tag, used as description",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1722,7 +1730,7 @@
     },
     "library.tag.empty.label" : {
       "comment" : "In empty view for no tag, used as label",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1740,7 +1748,7 @@
     },
     "moment.add.fromEmpty" : {
       "comment" : "Label for add new moment from plain template",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1758,7 +1766,7 @@
     },
     "moment.add.fromSuggestion" : {
       "comment" : "Label for add new moment from Journaling Suggestions",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1776,7 +1784,7 @@
     },
     "moment.add.suggestionUnavailableDescription" : {
       "comment" : "Text shown when no suggestion available as description",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1794,7 +1802,7 @@
     },
     "moment.add.suggestionUnavailableTitle" : {
       "comment" : "Text shown when no suggestion available as title",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1812,7 +1820,7 @@
     },
     "moment.cloudSync.syncing.label" : {
       "comment" : "Label for syncing icon",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1830,7 +1838,7 @@
     },
     "moment.cloudSync.syncing.sheet.text" : {
       "comment" : "Text when user taps the sync button, this text is shown to user as description",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1848,7 +1856,7 @@
     },
     "moment.cloudSync.syncing.sheet.title" : {
       "comment" : "Text when user taps the sync button, this text is shown to user as title",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1866,7 +1874,7 @@
     },
     "moment.detail.navigation.title" : {
       "comment" : "When adding moment, a view is presented, this is used as navigation bar",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1884,7 +1892,7 @@
     },
     "moment.detail.section.media.header" : {
       "comment" : "When editing moment, section header for editing media",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1902,7 +1910,7 @@
     },
     "moment.detail.section.rating.header" : {
       "comment" : "When editing moment, section header for editing rating",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1920,7 +1928,7 @@
     },
     "moment.edit.tag.seletion" : {
       "comment" : "When adding/removing tags for moment, used as empty string",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1938,7 +1946,7 @@
     },
     "moment.filter" : {
       "comment" : "Label for the context menu to select filter",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1956,7 +1964,7 @@
     },
     "moment.filter.all" : {
       "comment" : "Label for non filter, i.e. not any filter",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1974,7 +1982,7 @@
     },
     "moment.filter.allMoments.title" : {
       "comment" : "Title for the screen that shows all moments",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1992,7 +2000,7 @@
     },
     "moment.filter.hasMedia" : {
       "comment" : "Label for the filter 'has media'",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2010,7 +2018,7 @@
     },
     "moment.filter.weekend" : {
       "comment" : "Label for weekend filter",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2028,7 +2036,7 @@
     },
     "moment.remaining" : {
       "comment" : "Text shown when there are more moments to load",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2046,7 +2054,7 @@
     },
     "moment.suggestion.description.forListening.onlySong" : {
       "comment" : "Description for listening a song, with song name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2064,7 +2072,7 @@
     },
     "moment.suggestion.description.forListening.podcastEpisode" : {
       "comment" : "Description for listening a podcast episode, with episode name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2082,7 +2090,7 @@
     },
     "moment.suggestion.description.forListening.podcastEpisodeAndShow" : {
       "comment" : "Description for listening a podcast episode, with episode name and show name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2100,7 +2108,7 @@
     },
     "moment.suggestion.description.forListening.songAndArtist" : {
       "comment" : "Description for listening a song, with song name and artist name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2118,7 +2126,7 @@
     },
     "moment.suggestion.description.forMotionActivity" : {
       "comment" : "Description for motion activity, with movement type and step count",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2136,7 +2144,7 @@
     },
     "moment.suggestion.description.forVisiting" : {
       "comment" : "Description for visiting a place, with place name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2154,7 +2162,7 @@
     },
     "moment.suggestion.description.movementType.running" : {
       "comment" : "Description for running",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2172,7 +2180,7 @@
     },
     "moment.suggestion.description.movementType.runningWalking" : {
       "comment" : "Description for mixed running and walking movement",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2190,7 +2198,7 @@
     },
     "moment.suggestion.description.movementType.unknown" : {
       "comment" : "Description for unknown activity type",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2208,7 +2216,7 @@
     },
     "moment.suggestion.description.movementType.walking" : {
       "comment" : "Description for walking",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2226,7 +2234,7 @@
     },
     "moment.suggestion.processing" : {
       "comment" : "Label for processing suggestion after user select a suggestion",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2244,7 +2252,7 @@
     },
     "navigation.button.confirm" : {
       "comment" : "Used as navigation bar's confirm button's title",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2262,7 +2270,7 @@
     },
     "navigation.button.dismiss" : {
       "comment" : "When presenting a view, tap this button to dismiss",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2280,7 +2288,7 @@
     },
     "notification.cell.label" : {
       "comment" : "cell label in settings for notification",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2298,7 +2306,7 @@
     },
     "notification.cell.label.notset" : {
       "comment" : "label for showing no reminder",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2316,7 +2324,7 @@
     },
     "notification.content.body" : {
       "comment" : "daily reminder notification body",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2334,7 +2342,7 @@
     },
     "notification.content.title" : {
       "comment" : "daily reminder notification title",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2352,7 +2360,7 @@
     },
     "notification.detail.switch.label" : {
       "comment" : "label for enable daily reminder",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2370,7 +2378,7 @@
     },
     "notification.permission.noAuth.reminder" : {
       "comment" : "cell label in settings for notification",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2388,7 +2396,7 @@
     },
     "notification.set.fail.label" : {
       "comment" : "message for set daily reminder fail",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2406,7 +2414,7 @@
     },
     "notification.timePicker.label" : {
       "comment" : "label for select time",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2424,7 +2432,7 @@
     },
     "participant.delete.message" : {
       "comment" : "Message shown to user when deleting a participant with given nick name",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2442,7 +2450,7 @@
     },
     "Permission.localAuthReason" : {
       "comment" : "localAuthReason for face id. Show to user when requesting face id",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2460,7 +2468,7 @@
     },
     "privacy.policy.label" : {
       "comment" : "label for privacy policy",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2478,7 +2486,7 @@
     },
     "privacy.termOfUse.label" : {
       "comment" : "label for Terms of Use",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2496,7 +2504,7 @@
     },
     "search.emptyResult" : {
       "comment" : "empty result string for search",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2514,6 +2522,7 @@
     },
     "search.error.title" : {
       "comment" : "Title shown when search operation fails",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2531,7 +2540,7 @@
     },
     "search.recommend.title" : {
       "comment" : "Title shown in search recommendation section",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2549,6 +2558,7 @@
     },
     "search.searching" : {
       "comment" : "Text shown when search is in progress",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2566,7 +2576,7 @@
     },
     "tab.library" : {
       "comment" : "Used as tab item label for library",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

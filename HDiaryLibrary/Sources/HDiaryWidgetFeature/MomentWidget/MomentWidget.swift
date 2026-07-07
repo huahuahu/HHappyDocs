@@ -115,8 +115,22 @@ struct MomentWidget: Widget {
     ) { entry in
       MomentWidgetEntryView(entry: entry)
     }
-    .configurationDisplayName("widget.moment.configurationDisplayName")
-    .description("widget.moment.description")
+    .configurationDisplayName(
+      LocalizedStringResource(
+        "widget.moment.configurationDisplayName",
+        defaultValue: "Moments",
+        table: "Intents",
+        bundle: .main
+      )
+    )
+    .description(
+      LocalizedStringResource(
+        "widget.moment.description",
+        defaultValue: "Show moments for a selected participant",
+        table: "Intents",
+        bundle: .main
+      )
+    )
     .supportedFamilies([.systemMedium, .systemLarge])
   }
 }
