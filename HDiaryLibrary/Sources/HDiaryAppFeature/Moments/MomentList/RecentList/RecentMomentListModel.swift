@@ -28,10 +28,12 @@ final class RecentMomentListModel {
 
   private var hasUpdatedWithModelContext = false
   init() {
-    NotificationCenter.default.publisher(for: ModelContext.didSave).sink { [weak self] _ in
-      self?.onSave()
-    }
-    .store(in: &cancellables)
+    NotificationCenter.default.publisher(for: ModelContext.didSave)
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] _ in
+        self?.onSave()
+      }
+      .store(in: &cancellables)
   }
 
   func updateMode(modelContext: ModelContext) {
