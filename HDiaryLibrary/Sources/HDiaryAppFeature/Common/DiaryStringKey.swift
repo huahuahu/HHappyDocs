@@ -13,7 +13,9 @@ import SwiftUI
 private final class BundleLocation {}
 
 private extension LocalizedStringResource.BundleDescription {
-  static let module = Self.forClass(BundleLocation.self)
+  nonisolated static var module: Self {
+    Self.forClass(BundleLocation.self)
+  }
 }
 
 public enum DiaryStringKey {
@@ -95,7 +97,7 @@ public enum DiaryStringKey {
     }
 
     enum Suggestion {
-      public static func descriptionForVisiting(place: String) -> LocalizedStringResource {
+      public nonisolated static func descriptionForVisiting(place: String) -> LocalizedStringResource {
         LocalizedStringResource(
           "moment.suggestion.description.forVisiting",
           defaultValue: "Visited \(place)",
@@ -105,7 +107,7 @@ public enum DiaryStringKey {
         )
       }
 
-      public static func descriptionForListening(song: String) -> LocalizedStringResource {
+      public nonisolated static func descriptionForListening(song: String) -> LocalizedStringResource {
         LocalizedStringResource(
           "moment.suggestion.description.forListening.onlySong",
           defaultValue: "Listened \(song)",
@@ -115,7 +117,7 @@ public enum DiaryStringKey {
         )
       }
 
-      public static func descriptionForListening(song: String, by artist: String) -> LocalizedStringResource {
+      public nonisolated static func descriptionForListening(song: String, by artist: String) -> LocalizedStringResource {
         LocalizedStringResource(
           "moment.suggestion.description.forListening.songAndArtist",
           defaultValue: "Listened \(song) by \(artist)",
@@ -125,7 +127,7 @@ public enum DiaryStringKey {
         )
       }
 
-      public static func descriptionForListening(podcast episode: String, from show: String?) -> LocalizedStringResource {
+      public nonisolated static func descriptionForListening(podcast episode: String, from show: String?) -> LocalizedStringResource {
         if let show {
           return LocalizedStringResource(
             "moment.suggestion.description.forListening.podcastEpisodeAndShow",
@@ -146,7 +148,7 @@ public enum DiaryStringKey {
         }
       }
 
-      public static func descriptionForMotionActivity(stepCount: String, movementType: String) -> LocalizedStringResource {
+      public nonisolated static func descriptionForMotionActivity(stepCount: String, movementType: String) -> LocalizedStringResource {
         LocalizedStringResource(
           "moment.suggestion.description.forMotionActivity",
           defaultValue: "\(movementType) for \(stepCount) steps",
@@ -156,10 +158,10 @@ public enum DiaryStringKey {
         )
       }
 
-      public static let movementTypeRunningDescription = LocalizedStringResource("moment.suggestion.description.movementType.running", defaultValue: "Ran", bundle: .module, comment: "Description for running")
-      public static let movementTypeWalkingDescription = LocalizedStringResource("moment.suggestion.description.movementType.walking", defaultValue: "Walked", bundle: .module, comment: "Description for walking")
-      public static let movementTypeRunningWalkingDescription = LocalizedStringResource("moment.suggestion.description.movementType.runningWalking", defaultValue: "Mixed ran and walked", bundle: .module, comment: "Description for mixed running and walking movement")
-      public static let movementTypeUnknownDescription = LocalizedStringResource("moment.suggestion.description.movementType.unknown", defaultValue: "Completed", bundle: .module, comment: "Description for unknown activity type")
+      public nonisolated static let movementTypeRunningDescription = LocalizedStringResource("moment.suggestion.description.movementType.running", defaultValue: "Ran", bundle: .module, comment: "Description for running")
+      public nonisolated static let movementTypeWalkingDescription = LocalizedStringResource("moment.suggestion.description.movementType.walking", defaultValue: "Walked", bundle: .module, comment: "Description for walking")
+      public nonisolated static let movementTypeRunningWalkingDescription = LocalizedStringResource("moment.suggestion.description.movementType.runningWalking", defaultValue: "Mixed ran and walked", bundle: .module, comment: "Description for mixed running and walking movement")
+      public nonisolated static let movementTypeUnknownDescription = LocalizedStringResource("moment.suggestion.description.movementType.unknown", defaultValue: "Completed", bundle: .module, comment: "Description for unknown activity type")
 
       public static let processingSuggestionLabel = LocalizedStringResource(
         "moment.suggestion.processing",
