@@ -9,6 +9,7 @@
 
 import Foundation
 import HDiaryModel
+import HDiaryWidgetIntents
 import OSLog
 import SwiftData
 import SwiftUI

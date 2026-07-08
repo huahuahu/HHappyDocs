@@ -11,8 +11,8 @@ import Foundation
 import HDiaryModel
 import SwiftData
 
-enum MomentWidgetUtil {
-  static func getParticipantDescriptor(fetchLimit: Int? = nil) -> FetchDescriptor<Participant> {
+public enum MomentWidgetUtil {
+  public static func getParticipantDescriptor(fetchLimit: Int? = nil) -> FetchDescriptor<Participant> {
     let sortDescriptor = SortDescriptor<Participant>(\.nickName, order: .forward)
     var fetchDescriptor = FetchDescriptor<Participant>(sortBy: [sortDescriptor])
     if let fetchLimit {
@@ -21,7 +21,7 @@ enum MomentWidgetUtil {
     return fetchDescriptor
   }
 
-  static func getModelContext() async -> ModelContext {
+  public static func getModelContext() async -> ModelContext {
     let container = await MainActor.run {
       return HDiaryContainer.getCurrentContainer()
     }
@@ -30,7 +30,7 @@ enum MomentWidgetUtil {
 }
 
 extension UUID {
-  nonisolated static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000").unsafelyUnwrapped
+  nonisolated public static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000").unsafelyUnwrapped
 }
 
 #endif
