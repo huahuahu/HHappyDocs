@@ -13,7 +13,7 @@ import HDiaryModel
 import SwiftData
 import SwiftUI
 #if canImport(JournalingSuggestions)
-  import JournalingSuggestions
+  @preconcurrency import JournalingSuggestions
 #endif
 
 private enum PresentState: Identifiable, Equatable, Hashable {

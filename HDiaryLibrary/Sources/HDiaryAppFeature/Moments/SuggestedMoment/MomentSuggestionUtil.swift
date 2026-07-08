@@ -12,43 +12,35 @@ import HDiaryConstants
 import HDiaryModel
 import UIKit
 #if canImport(JournalingSuggestions)
-  import JournalingSuggestions
+  @preconcurrency import JournalingSuggestions
 #endif
 
 #if canImport(JournalingSuggestions)
 
   @available(iOS 17.2, *)
   enum MomentSuggestionUtil {
-    static func momentFrom(suggestion: JournalingSuggestion) async -> Moment {
+    nonisolated static func momentFrom(suggestion: JournalingSuggestion) async -> Moment {
       let moment = Moment.create(timestamp: suggestion.date?.start ?? .now)
       moment.updateTitle(suggestion.title)
-      // Update content from suggestion items
-      await withTaskGroup(of: MomentSliceFromSuggestionItem?.self) { group in
-        for suggestionItem in suggestion.items {
-          group.addTask {
-            return await getMomentSlice(from: suggestionItem)
+      for suggestionItem in suggestion.items {
+        if let slice = await getMomentSlice(from: suggestionItem) {
+          if !slice.description.isEmpty {
+            moment.updateContent([moment.content, slice.description].filter { !$0.isEmpty }.joined(separator: "\n"))
           }
-        }
-        for await slice in group {
-          if let slice {
-            if !slice.description.isEmpty {
-              moment.updateContent([moment.content, slice.description].filter { !$0.isEmpty }.joined(separator: "\n"))
-            }
-            for media in slice.medias {
-              let thumbnailData150px: Data? = try? UIImage.downsample(imageData: media.data, to: CGSize(width: 150, height: 150))
-              let thumbnailData500px: Data? = try? UIImage.downsample(imageData: media.data, to: CGSize(width: 500, height: 500))
-              let thumbnailData1000px: Data? = try? UIImage.downsample(imageData: media.data, to: CGSize(width: 1000, height: 1000))
+          for media in slice.medias {
+            let thumbnailData150px: Data? = try? UIImage.downsample(imageData: media.data, to: CGSize(width: 150, height: 150))
+            let thumbnailData500px: Data? = try? UIImage.downsample(imageData: media.data, to: CGSize(width: 500, height: 500))
+            let thumbnailData1000px: Data? = try? UIImage.downsample(imageData: media.data, to: CGSize(width: 1000, height: 1000))
 
-              let mediaItem = MediaItem(
-                data: media.data,
-                mediaType: .image,
-                pathExtension: media.pathExtension,
-                thumbnailData150px: thumbnailData150px,
-                thumbnailData500px: thumbnailData500px,
-                thumbnailData1000px: thumbnailData1000px
-              )
-              moment.addMedia(mediaItem)
-            }
+            let mediaItem = MediaItem(
+              data: media.data,
+              mediaType: .image,
+              pathExtension: media.pathExtension,
+              thumbnailData150px: thumbnailData150px,
+              thumbnailData500px: thumbnailData500px,
+              thumbnailData1000px: thumbnailData1000px
+            )
+            moment.addMedia(mediaItem)
           }
         }
       }
@@ -68,7 +60,7 @@ import UIKit
 
     // MARK: handle all kinds of suggestion items
 
-    private static func getMomentSlice(from suggestionItem: JournalingSuggestion.ItemContent) async -> MomentSliceFromSuggestionItem? {
+    nonisolated private static func getMomentSlice(from suggestionItem: JournalingSuggestion.ItemContent) async -> MomentSliceFromSuggestionItem? {
       Log.common.info("getMomentSlice from suggestionItem with representations \(suggestionItem.representations)")
       var slice: MomentSliceFromSuggestionItem?
       if let song = try? await suggestionItem.content(forType: JournalingSuggestion.Song.self) {
@@ -119,7 +111,7 @@ import UIKit
       return slice
     }
 
-    private static func getMomentSlice(from song: JournalingSuggestion.Song) async -> MomentSliceFromSuggestionItem {
+    nonisolated private static func getMomentSlice(from song: JournalingSuggestion.Song) async -> MomentSliceFromSuggestionItem {
       var description = ""
       var media: MomentSliceFromSuggestionItem.Media?
       if let songName = song.song {
@@ -147,7 +139,7 @@ import UIKit
       return MomentSliceFromSuggestionItem(description: description, medias: [media].compactMap { $0 })
     }
 
-    private static func getMomentSlice(from location: JournalingSuggestion.Location) async -> MomentSliceFromSuggestionItem? {
+    nonisolated private static func getMomentSlice(from location: JournalingSuggestion.Location) async -> MomentSliceFromSuggestionItem? {
       if let place = (location.place ?? location.city) {
         let description = String(localized: DiaryStringKey.Moment.Suggestion.descriptionForVisiting(place: place))
         return MomentSliceFromSuggestionItem(description: description, medias: [])
@@ -157,7 +149,7 @@ import UIKit
       }
     }
 
-    private static func getMomentSlice(from motionActivity: JournalingSuggestion.MotionActivity) async -> MomentSliceFromSuggestionItem {
+    nonisolated private static func getMomentSlice(from motionActivity: JournalingSuggestion.MotionActivity) async -> MomentSliceFromSuggestionItem {
       var media: MomentSliceFromSuggestionItem.Media?
       if let iconUrl = motionActivity.icon {
         do {
@@ -192,7 +184,7 @@ import UIKit
     }
 
     @available(iOS 18.0, *)
-    private static func getMomentSlice(from genericMedia: JournalingSuggestion.GenericMedia) async -> MomentSliceFromSuggestionItem {
+    nonisolated private static func getMomentSlice(from genericMedia: JournalingSuggestion.GenericMedia) async -> MomentSliceFromSuggestionItem {
       var description = ""
       var media: MomentSliceFromSuggestionItem.Media?
       if let songName = genericMedia.title {
@@ -221,7 +213,7 @@ import UIKit
     }
 
     // handle LivePhoto suggestion
-    private static func getMomentSlice(from livePhoto: JournalingSuggestion.LivePhoto) async -> MomentSliceFromSuggestionItem? {
+    nonisolated private static func getMomentSlice(from livePhoto: JournalingSuggestion.LivePhoto) async -> MomentSliceFromSuggestionItem? {
       do {
         let data = try Data(contentsOf: livePhoto.image)
         // Do not support video now
@@ -240,7 +232,7 @@ import UIKit
     }
 
     // Handle location group
-    private static func getMomentSlice(from locationGroup: JournalingSuggestion.LocationGroup) async -> MomentSliceFromSuggestionItem? {
+    nonisolated private static func getMomentSlice(from locationGroup: JournalingSuggestion.LocationGroup) async -> MomentSliceFromSuggestionItem? {
       let locationString = locationGroup.locations.map { $0.place ?? $0.city }.compactMap { $0 }.formatted(.list(type: .and, width: .standard))
       guard !locationString.isEmpty else {
         return nil
@@ -250,7 +242,7 @@ import UIKit
     }
 
     // Handle Photo suggestion
-    private static func getMomentSlice(from photo: JournalingSuggestion.Photo) async -> MomentSliceFromSuggestionItem? {
+    nonisolated private static func getMomentSlice(from photo: JournalingSuggestion.Photo) async -> MomentSliceFromSuggestionItem? {
       do {
         let data = try Data(contentsOf: photo.photo)
         // Do not support video now
@@ -269,7 +261,7 @@ import UIKit
     }
 
     // Handle Podcast suggestion
-    private static func getMomentSlice(from podcast: JournalingSuggestion.Podcast) async -> MomentSliceFromSuggestionItem {
+    nonisolated private static func getMomentSlice(from podcast: JournalingSuggestion.Podcast) async -> MomentSliceFromSuggestionItem {
       var description = ""
       var media: MomentSliceFromSuggestionItem.Media?
       if let episode = podcast.episode {
@@ -294,7 +286,7 @@ import UIKit
 
     // Handle StateOfMind
     @available(iOS 18.0, *)
-    private static func getMomentSlice(from stateOfMind: JournalingSuggestion.StateOfMind) async -> MomentSliceFromSuggestionItem? {
+    nonisolated private static func getMomentSlice(from stateOfMind: JournalingSuggestion.StateOfMind) async -> MomentSliceFromSuggestionItem? {
       guard let iconUrl = stateOfMind.icon else {
         return nil
       }
@@ -316,7 +308,7 @@ import UIKit
     }
 
     // Handle workout
-    private static func getMomentSlice(from workout: JournalingSuggestion.Workout) async -> MomentSliceFromSuggestionItem? {
+    nonisolated private static func getMomentSlice(from workout: JournalingSuggestion.Workout) async -> MomentSliceFromSuggestionItem? {
       var media: MomentSliceFromSuggestionItem.Media?
 
       if let imageUrl = workout.icon {
@@ -338,7 +330,7 @@ import UIKit
       return MomentSliceFromSuggestionItem(description: description, medias: [media].compactMap { $0 })
     }
 
-    private static func getDescriptions(from workoutDetails: JournalingSuggestion.Workout.Details) -> String {
+    nonisolated private static func getDescriptions(from workoutDetails: JournalingSuggestion.Workout.Details) -> String {
       var descriptionSlice: [String] = []
       if let activeEnergyBurned = workoutDetails.activeEnergyBurned {
         let energyMeasurement = Measurement(value: activeEnergyBurned.doubleValue(for: .largeCalorie()), unit: UnitEnergy.kilocalories)
@@ -363,12 +355,12 @@ import UIKit
     }
 
     // handle workout detail
-    private static func getMomentSlice(from workoutDetails: JournalingSuggestion.Workout.Details) -> MomentSliceFromSuggestionItem {
+    nonisolated private static func getMomentSlice(from workoutDetails: JournalingSuggestion.Workout.Details) -> MomentSliceFromSuggestionItem {
       let description = getDescriptions(from: workoutDetails)
       return MomentSliceFromSuggestionItem(description: description, medias: [])
     }
 
-    private static func getMomentSlice(from workoutGroup: JournalingSuggestion.WorkoutGroup) -> MomentSliceFromSuggestionItem {
+    nonisolated private static func getMomentSlice(from workoutGroup: JournalingSuggestion.WorkoutGroup) -> MomentSliceFromSuggestionItem {
       var media: MomentSliceFromSuggestionItem.Media?
 
       if let imageUrl = workoutGroup.icon {
@@ -402,7 +394,7 @@ import UIKit
       return MomentSliceFromSuggestionItem(description: description, medias: [media].compactMap { $0 })
     }
 
-    private static func getMomentSlice(from image: UIImage) -> MomentSliceFromSuggestionItem? {
+    nonisolated private static func getMomentSlice(from image: UIImage) -> MomentSliceFromSuggestionItem? {
       if let data = image.jpegData(compressionQuality: 0.8) {
         let media = MomentSliceFromSuggestionItem.Media(
           data: data,
@@ -417,7 +409,7 @@ import UIKit
 
   @available(iOS 18.0, *)
   private extension JournalingSuggestion.MotionActivity.MovementType {
-    var localizedString: String {
+    nonisolated var localizedString: String {
       switch self {
       case .walking:
         return String(localized: DiaryStringKey.Moment.Suggestion.movementTypeRunningWalkingDescription)

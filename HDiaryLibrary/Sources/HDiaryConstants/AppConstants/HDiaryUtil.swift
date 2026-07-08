@@ -13,7 +13,7 @@ import Foundation
 public enum HDiaryUtil {
   // Why I am doing this?
   // https://developer.apple.com/forums/thread/746843?answerId=784514022#784514022
-  public static let isJournalingSuggestionsAvailable: Bool = {
+  @MainActor public static var isJournalingSuggestionsAvailable: Bool {
     #if canImport(JournalingSuggestions)
       #if canImport(UIKit)
         if #available(iOS 17.2, *) {
@@ -26,5 +26,5 @@ public enum HDiaryUtil {
     #else
       return false
     #endif
-  }()
+  }
 }
