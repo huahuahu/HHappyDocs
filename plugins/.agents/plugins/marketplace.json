@@ -1,0 +1,20 @@
+{
+  "name": "hhappydocs-local",
+  "interface": {
+    "displayName": "HHappyDocs Local"
+  },
+  "plugins": [
+    {
+      "name": "build-ios-apps",
+      "source": {
+        "source": "local",
+        "path": "./build-ios-apps"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
