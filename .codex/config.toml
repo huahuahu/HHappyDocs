@@ -1,0 +1,6 @@
+[marketplaces.hhappydocs-local]
+source_type = "local"
+source = "./plugins"
+
+[plugins."build-ios-apps@hhappydocs-local"]
+enabled = true
