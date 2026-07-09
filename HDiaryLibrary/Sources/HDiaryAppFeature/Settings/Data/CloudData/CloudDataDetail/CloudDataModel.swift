@@ -11,6 +11,17 @@ import CloudKit
 import HDiaryConstants
 import HDiaryModel
 
+@MainActor
+private final class CloudDataModelStorage {
+  let fetchBatchSize = 5
+  let container = CKContainer(identifier: AppConstants.cloudKitContainerIdentifier)
+  let database: CKDatabase
+
+  init() {
+    database = container.privateCloudDatabase
+  }
+}
+
 @MainActor @Observable
 final class CloudDataModel<T: CloudRecord> {
   // MARK: - VM State
@@ -65,14 +76,9 @@ final class CloudDataModel<T: CloudRecord> {
   }
 
   private(set) var state = State.idle
-  private let fetchBatchSize = 5
+  private let storage = CloudDataModelStorage()
 
-  private let container = CKContainer(identifier: AppConstants.cloudKitContainerIdentifier)
-  private let database: CKDatabase
-
-  init() {
-    database = container.privateCloudDatabase
-  }
+  deinit { }
 
   func refresh() async {
     state = .loading
@@ -85,7 +91,7 @@ final class CloudDataModel<T: CloudRecord> {
     query.sortDescriptors = [sortDescriptor]
 
     do {
-      let (matchedResults, queryCursor) = try await database.records(matching: query, desiredKeys: [T.nameFieldInCloud], resultsLimit: fetchBatchSize)
+      let (matchedResults, queryCursor) = try await storage.database.records(matching: query, desiredKeys: [T.nameFieldInCloud], resultsLimit: storage.fetchBatchSize)
 
       let recordResults: [RecordResult] = matchedResults.map { matchedResult in
         let (_, result) = matchedResult
@@ -123,7 +129,7 @@ final class CloudDataModel<T: CloudRecord> {
 
     Log.data.info("continueFetch  for \(T.recordType, privacy: .public)")
     do {
-      let (matchedResults, queryCursor) = try await database.records(continuingMatchFrom: currentCursor, resultsLimit: fetchBatchSize)
+      let (matchedResults, queryCursor) = try await storage.database.records(continuingMatchFrom: currentCursor, resultsLimit: storage.fetchBatchSize)
 
       let recordResults: [RecordResult] = matchedResults.map { matchedResult in
         let (_, result) = matchedResult

@@ -11,8 +11,18 @@ import CloudKit
 import HDiaryConstants
 import Observation
 
+@MainActor
+private final class CloudDataEntryModelStorage {
+  let container = CKContainer(identifier: AppConstants.cloudKitContainerIdentifier)
+  let database: CKDatabase
+
+  init() {
+    database = container.privateCloudDatabase
+  }
+}
+
 @MainActor @Observable
-class CloudDataEntryModel<T: CloudRecord> {
+final class CloudDataEntryModel<T: CloudRecord> {
   enum State {
     case idle
     case loading
@@ -47,14 +57,10 @@ class CloudDataEntryModel<T: CloudRecord> {
     }
   }
 
-  private let container = CKContainer(identifier: AppConstants.cloudKitContainerIdentifier)
-  private let database: CKDatabase
-
   private(set) var state = State.idle
+  private let storage = CloudDataEntryModelStorage()
 
-  init() {
-    database = container.privateCloudDatabase
-  }
+  deinit { }
 
   func refresh() async {
     state = .loading
@@ -68,7 +74,7 @@ class CloudDataEntryModel<T: CloudRecord> {
 
     // Create CKQueryOperation with resultsLimit set to 1
     do {
-      let results = try await database.records(matching: query, desiredKeys: [], resultsLimit: 1)
+      let results = try await storage.database.records(matching: query, desiredKeys: [], resultsLimit: 1)
       guard let matchedResult = results.matchResults.first else {
         // No record
         state = .loaded(modifiedDate: nil)
