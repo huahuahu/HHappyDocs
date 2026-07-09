@@ -1,13 +1,13 @@
 #if os(iOS)
 
-  @testable import HDiaryWidgetFeature
   import HDiaryConstants
   import HDiaryModel
+  import HDiaryWidgetIntents
   import XCTest
 
   final class MomentWidgetIntentTests: XCTestCase {
-    @MainActor func testWidgetFeatureDeclaresAppIntentsPackage() {
-      _ = HDiaryWidgetFeatureAppIntentsPackage()
+    @MainActor func testWidgetIntentsDeclaresAppIntentsPackage() {
+      _ = HDiaryWidgetIntentsAppIntentsPackage()
     }
 
     func testSelectedParticipantIDUsesStoredUUIDString() {

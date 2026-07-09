@@ -42,6 +42,10 @@ let package = Package(
       name: "HDiaryWidgetFeature",
       targets: ["HDiaryWidgetFeature"]
     ),
+    .library(
+      name: "HDiaryWidgetIntents",
+      targets: ["HDiaryWidgetIntents"]
+    ),
 
   ],
   dependencies: [
@@ -146,6 +150,14 @@ let package = Package(
       dependencies: [
         "HDiaryConstants",
         "HDiaryModel",
+        "HDiaryWidgetIntents",
+      ],
+      swiftSettings: mainActorPackageSwiftSettings
+    ),
+    .target(
+      name: "HDiaryWidgetIntents",
+      dependencies: [
+        "HDiaryModel",
       ],
       swiftSettings: mainActorPackageSwiftSettings
     ),
@@ -153,13 +165,9 @@ let package = Package(
       name: "HDiaryAppFeatureTests",
       dependencies: [
         "HDiaryAppFeature",
-      ],
-      swiftSettings: packageSwiftSettings
-    ),
-    .testTarget(
-      name: "HDiaryWidgetFeatureTests",
-      dependencies: [
-        "HDiaryWidgetFeature",
+        "HDiaryConstants",
+        "HDiaryModel",
+        "HDiaryWidgetIntents",
       ],
       swiftSettings: packageSwiftSettings
     ),

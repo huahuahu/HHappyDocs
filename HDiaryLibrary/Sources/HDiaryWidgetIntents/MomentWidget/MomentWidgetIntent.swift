@@ -17,14 +17,14 @@ import SwiftUI
 
 private let logger = Logger(subsystem: "com.tiger.suzhou.hdiary", category: "MomentWidgetIntent")
 
-struct MomentWidgetIntent: WidgetConfigurationIntent {
-  static let title: LocalizedStringResource = LocalizedStringResource(
+public struct MomentWidgetIntent: WidgetConfigurationIntent {
+  public static let title: LocalizedStringResource = LocalizedStringResource(
     "widget.moment.intent.title",
     defaultValue: "Select participant",
     table: "Intents",
     bundle: .main
   )
-  static let description: IntentDescription? = IntentDescription(
+  public static let description: IntentDescription? = IntentDescription(
     LocalizedStringResource(
       "widget.moment.intent.description",
       defaultValue: "Select a participant to show their moments",
@@ -42,42 +42,42 @@ struct MomentWidgetIntent: WidgetConfigurationIntent {
     ),
     optionsProvider: ParticipantOptionsProvider()
   )
-  var participantID: String?
+  public var participantID: String?
 
-  init() {}
+  public init() {}
 
-  init(participantID: String?) {
+  public init(participantID: String?) {
     self.participantID = participantID
   }
 
-  init(participant: ParticipantEntity) {
+  public init(participant: ParticipantEntity) {
     self.participantID = participant.id.uuidString
   }
 
-  var selectedParticipantID: UUID? {
+  public var selectedParticipantID: UUID? {
     guard let participantID else { return nil }
     return UUID(uuidString: participantID)
   }
 
-  static var parameterSummary: some ParameterSummary {
+  public static var parameterSummary: some ParameterSummary {
     Summary {
       \.$participantID
     }
   }
 }
 
-struct ParticipantEntity: Identifiable {
-  var id: UUID
-  var name: String
-  var avatar: UIImage
+public struct ParticipantEntity: Identifiable {
+  public var id: UUID
+  public var name: String
+  public var avatar: UIImage
 
-  init(id: UUID, name: String, avatar: UIImage) {
+  public init(id: UUID, name: String, avatar: UIImage) {
     self.id = id
     self.name = name
     self.avatar = avatar
   }
 
-  init(from participant: Participant) {
+  public init(from participant: Participant) {
     self.init(
       id: participant.uuid,
       name: participant.nickName,
@@ -85,7 +85,7 @@ struct ParticipantEntity: Identifiable {
     )
   }
 
-  @MainActor static let nonEntity = Self(
+  @MainActor public static let nonEntity = Self(
     id: .null,
     name: String(localized: LocalizedStringResource(
       "participant.all",
@@ -98,10 +98,10 @@ struct ParticipantEntity: Identifiable {
 }
 
 @MainActor
-struct ParticipantOptionsProvider: DynamicOptionsProvider {
-  nonisolated init() {}
+public struct ParticipantOptionsProvider: DynamicOptionsProvider {
+  public nonisolated init() {}
 
-  func results() async throws -> IntentItemCollection<String> {
+  public func results() async throws -> IntentItemCollection<String> {
     logger.info("Loading participant options...")
     let modelContext = await MomentWidgetUtil.getModelContext()
     let participants = try modelContext.fetch(MomentWidgetUtil.getParticipantDescriptor())

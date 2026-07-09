@@ -9,6 +9,7 @@
 
 import HDiaryConstants
 import HDiaryModel
+import HDiaryWidgetIntents
 import SwiftUI
 import WidgetKit
 

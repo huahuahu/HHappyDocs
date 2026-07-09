@@ -2,7 +2,7 @@
 
 import AppIntents
 
-public struct HDiaryWidgetFeatureAppIntentsPackage: AppIntentsPackage {
+public struct HDiaryWidgetIntentsAppIntentsPackage: AppIntentsPackage {
   public nonisolated init() {}
 }
 
