@@ -16,12 +16,33 @@ import SwiftUI
   @preconcurrency import JournalingSuggestions
 #endif
 
-private enum PresentState: Identifiable, Equatable, Hashable {
+enum AddMomentPresentation: Identifiable, Equatable, Hashable {
   case presentRecordSubscriptionView
   case presentRecordSubscriptionPromotionView
   case presentAddMomentView
 
   var id: Self { self }
+
+  static func resolve(
+    hasFeatureAccess: Bool,
+    hasShownPromotion: Bool,
+    currentMomentCount: Int,
+    freeRecordNumber: Int
+  ) -> Self {
+    if hasFeatureAccess {
+      return .presentAddMomentView
+    }
+
+    if !hasShownPromotion {
+      return .presentRecordSubscriptionPromotionView
+    }
+
+    if currentMomentCount >= freeRecordNumber {
+      return .presentRecordSubscriptionView
+    }
+
+    return .presentAddMomentView
+  }
 }
 
 @MainActor
@@ -54,10 +75,10 @@ struct AddMomentNavigationView: View {
   @Environment(UserPreferences.self) private var userPreferences
   @Environment(MomentCloudStateManager.self) private var momentCloudStateManager
   @Environment(\.modelContext) private var modelContext
-  @Environment(\.recordSubscriptionStatus) private var recordSubscriptionStatus
+  @Environment(\.recordFeatureAccessAllowed) private var recordFeatureAccessAllowed
 
   @State private var suggestionState: SuggestionState
-  @State private var presentState: PresentState?
+  @State private var presentState: AddMomentPresentation?
   @State private var createdMoment: Moment = Moment.create(timestamp: .now)
 
   private let currentMomentCount: Int
@@ -89,25 +110,22 @@ struct AddMomentNavigationView: View {
       }
     #endif
 
-    if userPreferences.hasShownRecordPromotionView {
-      if case .notSubscribed = recordSubscriptionStatus, currentMomentCount >= AppConstants.IAP.freeRecordNumber {
-        presentState = .presentRecordSubscriptionView
-        Log.iap.info("Show need subscribe  view ")
-      }
-      else {
-        Log.iap.log("add moment")
-        presentState = .presentAddMomentView
-      }
-    }
-    else {
-      if case .notSubscribed = recordSubscriptionStatus {
-        Log.iap.info("Show RecordSubscriptionPromotionView")
-        presentState = .presentRecordSubscriptionPromotionView
-      }
-      else {
-        Log.iap.log("add moment")
-        presentState = .presentAddMomentView
-      }
+    let nextState = AddMomentPresentation.resolve(
+      hasFeatureAccess: recordFeatureAccessAllowed,
+      hasShownPromotion: userPreferences.hasShownRecordPromotionView,
+      currentMomentCount: currentMomentCount,
+      freeRecordNumber: AppConstants.IAP.freeRecordNumber
+    )
+
+    presentState = nextState
+
+    switch nextState {
+    case .presentRecordSubscriptionView:
+      Log.iap.info("Show need subscribe view")
+    case .presentRecordSubscriptionPromotionView:
+      Log.iap.info("Show RecordSubscriptionPromotionView")
+    case .presentAddMomentView:
+      Log.iap.log("add moment")
     }
   }
 
