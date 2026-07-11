@@ -31,7 +31,7 @@
 
 ---
 
-### 任务 1：TestFlight 分发来源判定器
+### Task 1：TestFlight 分发来源判定器
 
 **文件：**
 
@@ -201,7 +201,7 @@ git commit -m "Add TestFlight distribution classifier"
 
 ---
 
-### 任务 2：独立功能权限策略和 SwiftUI 环境注入
+### Task 2：独立功能权限策略和 SwiftUI 环境注入
 
 **文件：**
 
@@ -379,7 +379,7 @@ git commit -m "Add TestFlight feature access policy"
 
 ---
 
-### 任务 3：新增时刻门禁改用功能权限
+### Task 3：新增时刻门禁改用功能权限
 
 **文件：**
 
@@ -589,7 +589,7 @@ git commit -m "Use feature access for moment gating"
 
 ---
 
-### 任务 4：完整验证与范围检查
+### Task 4：完整验证与范围检查
 
 **文件：**
 
