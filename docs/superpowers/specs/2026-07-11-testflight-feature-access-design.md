@@ -1,108 +1,108 @@
-# TestFlight Feature Access Design
+# TestFlight 功能访问设计
 
-## Goal
+## 目标
 
-Allow every TestFlight installation to use subscription-gated Happy Moments features even when its sandbox subscription expires. Keep StoreKit's real subscription state and all purchase UI intact so testers can continue exercising purchase, renewal, expiration, and restore flows.
+让所有通过 TestFlight 安装的用户都能使用受订阅限制的“快乐时刻”功能，即使其沙盒订阅已经过期。同时保留 StoreKit 的真实订阅状态和全部购买界面，让测试人员仍然可以测试购买、续订、过期和恢复购买流程。
 
-Production App Store installations must continue to require a valid subscription.
+通过 App Store 正式发布的版本必须继续要求用户持有有效订阅。
 
-## Current Behavior
+## 当前行为
 
-`RecordSubscriptionStatusModifier` resolves and caches a `RecordSubscriptionStatus`, then injects it through SwiftUI's environment. `AddMomentNavigationView` reads that status directly to decide whether to open the add-moment flow, show the introductory promotion, or present the subscription screen. Settings and purchase views read the same status to describe the user's StoreKit subscription.
+`RecordSubscriptionStatusModifier` 负责获取并缓存 `RecordSubscriptionStatus`，随后通过 SwiftUI 环境注入该状态。`AddMomentNavigationView` 直接读取这个状态，以决定进入新增时刻流程、显示首次订阅推广，还是展示订阅页面。设置页和购买页面也读取同一个状态，用于显示用户真实的 StoreKit 订阅情况。
 
-This single value currently represents two different concepts:
+当前这一个值同时代表了两个不同概念：
 
-- The StoreKit subscription state shown in purchase UI.
-- Permission to use subscription-gated features.
+- 购买界面需要展示的 StoreKit 订阅状态。
+- 用户是否有权使用订阅功能。
 
-Changing the status to a fabricated subscription for TestFlight would unlock features, but it would also hide the real sandbox state from testers. The new design keeps these concepts separate.
+如果在 TestFlight 中伪造一个已订阅状态，虽然可以解锁功能，但也会让测试人员看不到真实的沙盒订阅状态。新设计将这两个概念分开。
 
-## Design
+## 设计
 
-### Distribution classification
+### 分发来源判定
 
-Add a small distribution classifier to `HDiaryIAP`. It reports `.testFlight` only when all of the following are true:
+在 `HDiaryIAP` 中增加一个轻量的分发来源判定器。只有同时满足以下条件时，才判定为 `.testFlight`：
 
-- The process is running on a physical device, not the simulator.
-- `Bundle.main.appStoreReceiptURL?.lastPathComponent` is `sandboxReceipt`.
-- The installed app bundle does not contain `embedded.mobileprovision`.
+- 当前进程运行在真机上，而不是模拟器上。
+- `Bundle.main.appStoreReceiptURL?.lastPathComponent` 等于 `sandboxReceipt`。
+- 已安装的 App 包中不存在 `embedded.mobileprovision`。
 
-The combination distinguishes a TestFlight installation from a production App Store receipt, StoreKit Testing in Xcode, and a development or ad hoc installation. Apple exposes the transaction environment through `AppTransaction.environment`, but a sandbox environment alone is insufficient because development sandbox transactions are also sandbox transactions.
+这组条件可以区分 TestFlight 安装、正式 App Store 收据、Xcode StoreKit Testing，以及开发或 Ad Hoc 安装。Apple 可以通过 `AppTransaction.environment` 提供交易服务器环境，但只检查沙盒环境仍然不够，因为开发环境中的沙盒交易同样属于 sandbox。
 
-The classifier accepts receipt name, provisioning-profile presence, and simulator state as inputs. The live detector supplies bundle and compilation-environment values; unit tests supply explicit values.
+判定器接收收据文件名、是否存在嵌入式描述文件以及是否运行于模拟器作为输入。正式运行时由 App 包和编译环境提供这些值；单元测试则传入明确的测试值。
 
-Classification is conservative. Missing or unexpected evidence produces `.other`, which preserves the normal subscription requirement instead of accidentally granting production access.
+判定采用保守策略。任何缺失或不符合预期的信息都返回 `.other`，继续要求真实订阅，避免意外给正式版本授予权限。
 
-### Feature access policy
+### 功能访问策略
 
-Add a separate record-feature access value to the SwiftUI environment. It is computed in memory from:
+在 SwiftUI 环境中增加一个独立的“时刻功能访问权限”值。该值只在内存中通过以下信息计算：
 
-- The real `RecordSubscriptionStatus`.
-- The current app distribution.
+- 真实的 `RecordSubscriptionStatus`。
+- 当前 App 的分发来源。
 
-Access is allowed when either condition is true:
+满足以下任一条件时允许访问功能：
 
-1. The real status is monthly or annual and has already passed the existing transaction validation.
-2. The current distribution is TestFlight.
+1. 真实状态为月度或年度订阅，并且已经通过现有交易校验。
+2. 当前分发来源为 TestFlight。
 
-The TestFlight override is never encoded into `recordSubscriptionStatusData` or any other persistent storage. A later production App Store installation therefore cannot inherit a stale TestFlight unlock.
+TestFlight 权限覆盖不会被编码到 `recordSubscriptionStatusData`，也不会写入其他持久化存储。因此，用户以后安装正式 App Store 版本时，不会继承已经失效的 TestFlight 解锁状态。
 
-### UI data flow
+### UI 数据流
 
-`RecordSubscriptionStatusModifier` remains the root provider for the real StoreKit status. It additionally injects the derived feature-access value.
+`RecordSubscriptionStatusModifier` 继续作为真实 StoreKit 状态的根提供者，同时注入计算得到的功能访问权限。
 
-`AddMomentNavigationView` uses feature access, rather than matching `.notSubscribed`, for both gating decisions:
+`AddMomentNavigationView` 在两个限制判断中改为检查功能访问权限，而不是直接匹配 `.notSubscribed`：
 
-- A TestFlight user opens the add-moment flow without seeing the subscription blocker.
-- A TestFlight user also skips the first-use subscription promotion in that flow.
-- A production user retains the current free-limit, promotion, and subscription-screen behavior.
+- TestFlight 用户可以直接进入新增时刻流程，不会遇到订阅阻挡页面。
+- TestFlight 用户在该流程中也会跳过首次订阅推广页面。
+- 正式版本用户继续沿用当前的免费数量限制、订阅推广和订阅页面逻辑。
 
-Purchase surfaces continue using the real status:
+购买相关界面继续使用真实订阅状态：
 
-- `RecordSubscriptionBuyCell` stays visible in Settings and keeps its current label based on StoreKit state.
-- `RecordSubscriptionView` continues presenting StoreKit products.
-- Purchase, restore, renewal, expiration, and upgrade behavior is unchanged.
+- `RecordSubscriptionBuyCell` 继续显示在设置页中，并根据 StoreKit 状态显示当前文案。
+- `RecordSubscriptionView` 继续展示 StoreKit 商品。
+- 购买、恢复购买、续订、过期和升级行为均保持不变。
 
-This preserves the user's selected behavior: TestFlight has functional access, while IAP remains available for explicit testing.
+这样可以满足已经选择的行为：TestFlight 用户拥有功能权限，同时仍可主动进入 IAP 流程进行测试。
 
-## Error Handling and Logging
+## 错误处理与日志
 
-Distribution detection is synchronous and has no network dependency. If the receipt URL is missing, the receipt name is unexpected, or a development provisioning profile exists, the detector returns `.other`.
+分发来源判定为同步操作，不依赖网络。如果收据 URL 不存在、收据文件名不符合预期，或 App 中存在开发描述文件，判定器都会返回 `.other`。
 
-Log the resulting distribution category when the subscription environment is installed. Do not log receipt contents or other purchase data.
+在安装订阅环境时记录最终的分发来源类别，但不记录收据内容或其他购买数据。
 
-StoreKit status failures retain the current behavior. In TestFlight, the distribution-derived feature access still allows gated features even if loading the sandbox subscription status fails; purchase UI continues to reflect the status available through the existing StoreKit flow.
+StoreKit 状态获取失败时继续沿用当前处理方式。在 TestFlight 中，即使无法加载沙盒订阅状态，基于分发来源计算的功能权限仍允许用户使用受限功能；购买界面继续显示现有 StoreKit 流程能够提供的真实状态。
 
-## Tests
+## 测试
 
-Add focused unit tests to `HDiaryIAPTests` for the pure classifier:
+在 `HDiaryIAPTests` 中为纯判定逻辑增加以下单元测试：
 
-- Physical device + `sandboxReceipt` + no embedded provisioning profile is TestFlight.
-- Production `receipt` is not TestFlight.
-- `sandboxReceipt` with an embedded provisioning profile is not TestFlight.
-- A simulator with `sandboxReceipt` is not TestFlight.
-- A missing receipt is not TestFlight.
+- 真机、`sandboxReceipt`、无嵌入式描述文件时判定为 TestFlight。
+- 正式 `receipt` 不判定为 TestFlight。
+- `sandboxReceipt` 但存在嵌入式描述文件时不判定为 TestFlight。
+- 模拟器上的 `sandboxReceipt` 不判定为 TestFlight。
+- 收据不存在时不判定为 TestFlight。
 
-Add policy tests:
+增加功能访问策略测试：
 
-- TestFlight plus `.notSubscribed` allows feature access.
-- A non-TestFlight `.notSubscribed` status denies feature access.
-- Monthly and annual statuses allow access in every distribution.
+- TestFlight 加 `.notSubscribed` 时允许访问功能。
+- 非 TestFlight 加 `.notSubscribed` 时拒绝访问功能。
+- 月度和年度订阅在任意分发来源中都允许访问功能。
 
-The implementation will follow test-driven development: add the failing classifier and policy tests first, confirm they fail for the expected missing behavior, then add the smallest production implementation and rerun the relevant package and project tests.
+实现将遵循测试驱动开发：先添加判定器和访问策略的失败测试，确认测试因缺少目标行为而按预期失败；然后添加最小化的正式实现，最后重新运行相关 Swift Package 和 Xcode 工程测试。
 
-## Out of Scope
+## 不在本次范围内
 
-- Fabricating or persisting a paid subscription status.
-- Hiding, disabling, or changing StoreKit purchase UI.
-- Changing sandbox product durations or App Store Connect configuration.
-- Adding server-side receipt validation.
-- Unlocking Debug, simulator, development, ad hoc, or production App Store installations without a valid subscription.
+- 伪造或持久化已付费订阅状态。
+- 隐藏、禁用或修改 StoreKit 购买界面。
+- 修改沙盒商品有效期或 App Store Connect 配置。
+- 增加服务端收据验证。
+- 在没有有效订阅时解锁 Debug、模拟器、开发、Ad Hoc 或正式 App Store 安装。
 
-## Success Criteria
+## 成功标准
 
-- A TestFlight user can add moments beyond the free limit even with no current sandbox subscription.
-- The same TestFlight user can still open Settings and exercise the real IAP flow.
-- Subscription labels continue to reflect StoreKit's real state.
-- A production App Store installation with no valid subscription remains restricted.
-- The TestFlight override is not persisted and cannot leak into a later production installation.
+- TestFlight 用户即使没有当前有效的沙盒订阅，也可以新增超过免费数量限制的时刻。
+- 同一 TestFlight 用户仍然可以打开设置页并测试真实 IAP 流程。
+- 订阅文案继续反映 StoreKit 的真实状态。
+- 没有有效订阅的正式 App Store 用户仍然受到功能限制。
+- TestFlight 权限覆盖不会被持久化，也不会泄漏到以后安装的正式版本中。
