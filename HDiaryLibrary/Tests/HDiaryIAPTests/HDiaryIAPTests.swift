@@ -1,18 +1,57 @@
 #if os(iOS)
 
   @testable import HDiaryIAP
-  import HFoundation
-
   import XCTest
 
   final class HDiaryIAPTests: XCTestCase {
-    func testExample() throws {
-      // XCTest Documentation
-      // https://developer.apple.com/documentation/xctest
+    func testPhysicalSandboxReceiptWithoutProfileIsTestFlight() {
+      let distribution = AppDistribution.classify(
+        receiptLastPathComponent: "sandboxReceipt",
+        hasEmbeddedMobileProvision: false,
+        isSimulator: false
+      )
 
-      // Defining Test Cases and Test Methods
-      // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
-      XCTAssertEqual(1 + 1, 2)
+      XCTAssertEqual(distribution, .testFlight)
+    }
+
+    func testProductionReceiptIsNotTestFlight() {
+      let distribution = AppDistribution.classify(
+        receiptLastPathComponent: "receipt",
+        hasEmbeddedMobileProvision: false,
+        isSimulator: false
+      )
+
+      XCTAssertEqual(distribution, .other)
+    }
+
+    func testEmbeddedProvisioningProfileIsNotTestFlight() {
+      let distribution = AppDistribution.classify(
+        receiptLastPathComponent: "sandboxReceipt",
+        hasEmbeddedMobileProvision: true,
+        isSimulator: false
+      )
+
+      XCTAssertEqual(distribution, .other)
+    }
+
+    func testSimulatorIsNotTestFlight() {
+      let distribution = AppDistribution.classify(
+        receiptLastPathComponent: "sandboxReceipt",
+        hasEmbeddedMobileProvision: false,
+        isSimulator: true
+      )
+
+      XCTAssertEqual(distribution, .other)
+    }
+
+    func testMissingReceiptIsNotTestFlight() {
+      let distribution = AppDistribution.classify(
+        receiptLastPathComponent: nil,
+        hasEmbeddedMobileProvision: false,
+        isSimulator: false
+      )
+
+      XCTAssertEqual(distribution, .other)
     }
   }
 
