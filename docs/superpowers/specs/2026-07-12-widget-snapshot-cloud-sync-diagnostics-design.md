@@ -156,8 +156,15 @@ CloudKit event 转换为可持久化的诊断记录：
 - 错误 domain、code、localized description。
 - 从 CloudKit 错误链中解析出的 retry-after 秒数和绝对重试时间。
 
-诊断历史保存到 App Group `UserDefaults`，采用固定条数的循环上限，避免无限增长。系统日志
-同时使用 `OSLog` 记录同样的非敏感摘要；不记录日记内容、CloudKit record 内容或用户标识。
+诊断历史保存为 App Group `Library/Application Support/Diagnostics` 下的结构化 JSON 文件
+`cloud-sync-events.json`。同一 event identifier 的开始和结束通知更新同一条记录，文件最多
+保留最近 100 个事件。写入由单一 actor 串行执行，每次先编码完整的有界事件数组，再使用
+原子替换提交，避免 App 中止时留下半写文件。文件采用首次解锁后可访问的保护级别，并标记为
+不参与设备备份。
+
+系统日志同时使用 `OSLog` 记录同样的非敏感摘要；JSON 和系统日志都不记录日记内容、
+CloudKit record 内容或用户标识。诊断页提供 `ShareLink` 导出这份脱敏 JSON，方便 TestFlight
+用户直接附加到反馈中；导出只读取稳定文件，不会暂停或改变 CloudKit 同步。
 
 在现有“设置 → 云端数据”页面增加“同步诊断”入口。该入口不使用 `#if DEBUG`，因此 Debug、
 TestFlight 和正式版本均可见。页面显示当前或最近事件以及有限历史：
@@ -166,6 +173,7 @@ TestFlight 和正式版本均可见。页面显示当前或最近事件以及有
 - 已完成事件显示成功或失败、结束时间和耗时。
 - 失败事件显示 domain、code、错误文本；存在 retry-after 时显示建议重试时间。
 - 尚未收到事件时明确显示“暂无同步事件”。
+- 可以分享脱敏后的诊断 JSON 文件。
 
 页面不提供“强制同步”按钮，因为系统没有允许 App 控制
 `NSPersistentCloudKitContainer` 同步时机的公开 API。
@@ -186,7 +194,8 @@ persistent history。成功更新 snapshot 后刷新 Widget timeline。
 - Notification 回调不直接操作 SwiftData 或 WidgetKit，先进入明确 actor。
 - 快照写入失败不会影响主 Store，也不会阻止 CloudKit 后续同步。
 - Widget 读取失败返回空结果并记录 `OSLog`，不会 `fatalError`。
-- 诊断记录解码失败时丢弃损坏的诊断缓存并记录错误，不影响主数据或 Widget。
+- 诊断文件解码失败时将其隔离为唯一的 `cloud-sync-events.corrupt.json`（覆盖更旧的损坏
+  文件）、创建新的空历史并记录错误，不影响主数据或 Widget，也不会让损坏文件无限累积。
 - CloudKit 事件只用于观测，不把“事件开始”当作同步成功，也不把短暂延迟当成失败。
 
 ## 测试策略
@@ -226,7 +235,10 @@ persistent history。成功更新 snapshot 后刷新 Widget timeline。
 - 进行中、成功和失败状态映射正确。
 - NSError 和嵌套 CloudKit error 的 domain、code、description 被记录。
 - retry-after 能转换为绝对建议重试时间。
-- 诊断历史持久化后可重新读取，并遵守数量上限。
+- 诊断历史原子写入文件后可重新读取，并只保留最近 100 个事件。
+- 同一 event identifier 的开始和结束通知更新同一条文件记录。
+- 损坏的诊断文件被隔离后可重新建立历史。
+- 导出的 JSON 不包含日记内容、CloudKit record 内容或用户标识。
 - 无事件、进行中、成功、失败四种页面状态能生成对应展示数据。
 
 ### 集成验证
