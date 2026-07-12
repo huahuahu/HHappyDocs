@@ -2,9 +2,9 @@
 
 > **面向执行代理：** REQUIRED SUB-SKILL: 使用 `subagent-driven-development`（推荐）或 `executing-plans` 逐任务实施本计划。所有步骤使用复选框（`- [ ]`）跟踪。
 
-**Goal:** 将 iOS“资料库”首页的“标签 / 参与者 / 图表”改成三张平级卡片；可用空间足够时三张同排、同宽、同高，空间不足或使用辅助功能字号时三张全部单列，同时保留现有导航、深链和数据行为。
+**Goal:** 将 iOS“资料库”首页的“标签 / 参与者 / 图表”改成三张平级卡片；普通 Dynamic Type 下按可用空间选择“外部三列、内部 vertical”或“外部完整单列、内部 horizontal”，Accessibility Dynamic Type 下使用“外部完整单列、内部 vertical”，同时保留现有导航、深链和数据行为。
 
-**Architecture:** `LibraryView` 继续拥有导航栈，并通过 SwiftData `@Query` 提供标签与参与者的实时数量；纯值型 `LibraryViewState` 把数量映射为本地化摘要。`LibraryEntryDashboard` 用一个 `ViewThatFits(in: .horizontal)` 在“单行三列 `Grid`”与“完整单列 `VStack`”之间整体选择，`LibraryEntryCard` 只负责无状态视觉与无障碍呈现，因此候选布局切换不会丢失业务状态。
+**Architecture:** `LibraryView` 继续拥有导航栈，并通过 SwiftData `@Query` 提供标签与参与者的实时数量；纯值型 `LibraryViewState` 把数量映射为本地化摘要。普通 Dynamic Type 下，`LibraryEntryDashboard` 用一个 `ViewThatFits(in: .horizontal)` 在“单行三列 `Grid`”与“完整单列 `VStack`”之间整体选择；Accessibility Dynamic Type 直接使用完整单列。`LibraryEntryLayoutPolicy` 为单列卡片返回内容方向，`LibraryEntryCard` 只负责无状态视觉与无障碍呈现，因此候选布局切换不会丢失业务状态。
 
 **Tech Stack:** Swift 6.3、SwiftUI、SwiftData、`LocalizedStringResource`、String Catalog、XCTest、XcodeBuildMCP 2.6.2、iOS 17+。
 
@@ -13,7 +13,9 @@
 - iOS 最低版本保持 `17.0`，Swift Package 保持 Swift tools `6.3`、Swift language mode 6；不增加第三方依赖。
 - 三个入口业务权重相同，只允许“三列”或“单列”两种状态；不得出现两列、`2 + 1`、孤立空位或第三张卡片更宽。
 - 响应式选择必须使用当前容器提议的空间，不读取 `UIScreen.main.bounds`，不按设备型号或 `horizontalSizeClass` 分支，也不使用 `.adaptive` `LazyVGrid`。
-- 普通 Dynamic Type 由 `ViewThatFits(in: .horizontal)` 根据三列候选的 ideal size 决定；`dynamicTypeSize.isAccessibilitySize == true` 时必须直接单列。
+- 普通 Dynamic Type 由 `ViewThatFits(in: .horizontal)` 根据三列候选的 ideal size 决定：空间足够时外部三列且卡片内部 `.vertical`，空间不足时外部完整单列且卡片内部 `.horizontal`。
+- `dynamicTypeSize.isAccessibilitySize == true` 时必须跳过三列候选，外部直接使用完整单列，且卡片内部使用 `.vertical`。
+- Accessibility 验收必须确认标题和摘要没有截断，也没有单字或两字宽的极窄文字列。
 - 三列卡片最小可读宽度基准为 `104pt`，间距基准为 `12pt`，页面水平边距基准为 `16pt`；这些值使用 `@ScaledMetric(relativeTo: .body)`。页面内容最大宽度固定为 `720pt` 并居中。
 - 标签和参与者摘要必须来自实时 SwiftData `@Query` 数量，零值也显示；图表只显示“查看记录趋势”，不得绘制或暗示虚构趋势。
 - `LibraryEntryCard` 不访问 SwiftData、不注册导航目标；整张卡片继续使用 typed `NavigationLink(value:)`，不得用 `onTapGesture` 模拟按钮。
@@ -30,7 +32,7 @@
 ## 文件结构
 
 - 新建 `HDiaryLibrary/Sources/HDiaryAppFeature/Library/LibraryViewState.swift`：只负责把实时数量映射成三个入口摘要。
-- 新建 `HDiaryLibrary/Sources/HDiaryAppFeature/Library/LibraryEntryLayoutPolicy.swift`：只负责辅助功能 Dynamic Type 的强制单列规则。
+- 新建 `HDiaryLibrary/Sources/HDiaryAppFeature/Library/LibraryEntryLayoutPolicy.swift`：负责辅助功能 Dynamic Type 的强制单列规则，并在 Task 5 修订中返回单列卡片的内容方向。
 - 新建 `HDiaryLibrary/Sources/HDiaryAppFeature/Library/LibraryEntryDashboard.swift`：只负责三列候选、单列候选和 `ViewThatFits` 的整体选择。
 - 新建 `HDiaryLibrary/Sources/HDiaryAppFeature/Library/Entry/LibraryEntryCard.swift`：只负责单张卡片的视觉和无障碍内容。
 - 新建 `HDiaryLibrary/Sources/HDiaryAppFeature/Library/Entry/LibraryEntryNavigationCard.swift`：只负责用现有 typed destination 包装整张卡片。
@@ -461,7 +463,7 @@ git commit -m "Add library entry layout policy"
 **Interfaces:**
 
 - Consumes: 现有 `LibraryEntry.label`、`LibraryEntry.symbol` 和任务 1 的摘要资源。
-- Produces: `LibraryEntryCard.init(entry:summary:contentAxis:)`；`.vertical` 用于三列卡片，`.horizontal` 用于单列卡片。它不查询数据、不创建 destination。
+- Produces: `LibraryEntryCard.init(entry:summary:contentAxis:)`；`.vertical` 用于三列卡片和 Accessibility 单列卡片，`.horizontal` 只用于普通 Dynamic Type 的单列卡片。它不查询数据、不创建 destination。
 
 - [ ] **Step 1：先写两个内容方向的渲染失败测试**
 
@@ -653,7 +655,7 @@ git commit -m "Add adaptive library entry card"
 **Interfaces:**
 
 - Consumes: 任务 1 的 `LibraryViewState`、任务 2 的 `LibraryEntryLayoutPolicy`、任务 3 的 `LibraryEntryCard`、现有 `HDiaryDestination.libraryEntry(entry:)`。
-- Produces: `LibraryEntryDashboard.init(viewState:)`；三列候选始终包含一个 `GridRow` 的全部三个入口，回退候选始终包含一个 `VStack` 的全部三个入口。
+- Produces: `LibraryEntryDashboard.init(viewState:)`；三列候选始终包含一个 `GridRow` 的全部三个入口，回退候选始终包含一个 `VStack` 的全部三个入口。三列卡片内部固定为 `.vertical`；单列卡片最终由 `LibraryEntryLayoutPolicy.singleColumnContentAxis(for:)` 返回内容方向，普通 Dynamic Type 为 `.horizontal`，Accessibility Dynamic Type 为 `.vertical`。
 
 - [ ] **Step 1：先扩展 Dashboard 渲染失败测试**
 
@@ -726,7 +728,7 @@ final class LibraryEntryRenderingTests: XCTestCase {
 #endif
 ```
 
-`288pt` 是 `320pt` 窄容器扣除两侧 `16pt` 页面边距后的 Dashboard 宽度；`360pt` 高于三列最低 ideal width `104 × 3 + 12 × 2 = 336pt`；`688pt` 用来证明辅助功能字号即使在宽容器中也能构建单列。
+`288pt` 是 `320pt` 窄容器扣除两侧 `16pt` 页面边距后的 Dashboard 宽度；`360pt` 高于三列最低 ideal width `104 × 3 + 12 × 2 = 336pt`；`688pt` 用来证明辅助功能字号即使在宽容器中也能构建单列。Task 4 完成时这个测试只证明外部列数；Task 5 的独立 TDD 修订会进一步锁定普通单列内部 `.horizontal`、Accessibility 单列内部 `.vertical`。
 
 - [ ] **Step 2：运行测试并确认新的 RED 原因正确**
 
@@ -873,7 +875,9 @@ struct LibraryEntryDashboard: View {
 #endif
 ```
 
-三个 `NavigationLink` 必须作为一个整体放进同一个 `ViewThatFits` 候选，不能让每张卡片分别选择方向。`idealWidth` 与 `minWidth` 同时设为可缩放的 `104pt`，让 `ViewThatFits` 按真实三列最低需求做决定。
+> **Task 4 历史基线：** 上述已完成实现把 `singleColumnLayout` 的 `contentAxis` 固定为 `.horizontal`。Task 5 的独立 TDD 修订只会把这一参数改为 `LibraryEntryLayoutPolicy.singleColumnContentAxis(for: dynamicTypeSize)`；三列 `.vertical`、外部 1/3 列选择、导航和数据流均保持不变。
+
+三个 `NavigationLink` 必须作为一个整体放进同一个 `ViewThatFits` 候选，不能让每张卡片分别选择外部列数。`idealWidth` 与 `minWidth` 同时设为可缩放的 `104pt`，让 `ViewThatFits` 按真实三列最低需求做决定。最终内容方向规则是：普通字号三列内部 `.vertical`，普通字号回退单列内部 `.horizontal`，Accessibility 强制单列内部 `.vertical`。
 
 - [ ] **Step 5：用实时 SwiftData 数量接入 LibraryView**
 
@@ -1014,31 +1018,160 @@ Expected: commit 成功；`.superpowers/` 仍保持未跟踪且未暂存。
 
 **Files:**
 
+- Modify: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/LibraryEntryLayoutPolicyTests.swift`
+- Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/Library/LibraryEntryLayoutPolicy.swift`
+- Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/Library/LibraryEntryDashboard.swift`
 - Verify only: `HDiaryLibrary/Sources/HDiaryAppFeature/Library/**`
 - Verify only: `HDiary/Localizable.xcstrings`
 - Verify only: `HDiary/HDiary.xctestplan`
 
 **Interfaces:**
 
-- Consumes: Tasks 1–4 的全部实现和 `.xcodebuildmcp/config.yaml`。
-- Produces: 新鲜的 target/full-scheme 测试证据、标准字号和辅助功能字号截图、iPhone/iPad 布局与三个入口导航核对结果。
+- Consumes: Tasks 1–4 的全部实现、`LibraryEntryCard` 已有 vertical/horizontal 分支和 `.xcodebuildmcp/config.yaml`。
+- Produces: `LibraryEntryLayoutPolicy.singleColumnContentAxis(for:) -> Axis`、Dashboard 单列内容方向接入、新鲜的 target/full-scheme 测试证据、标准字号和辅助功能字号截图、iPhone/iPad 布局与三个入口导航核对结果。
+
+#### Task 5A：Accessibility 单列卡片内部纵向 TDD 修订（可独立执行）
+
+这一段只修订单列卡片的内部内容方向，不改变外部 1/3 列选择、typed navigation、实时数量、VoiceOver 语义、`720pt` 最大内容宽度或任何 `@ScaledMetric` 数值。
+
+- [ ] **Step A1：先写单列内容方向失败测试**
+
+在现有 `LibraryEntryLayoutPolicyTests` 类中新增以下两个测试；保留 Task 2 已有的强制单列测试：
+
+```swift
+  func testStandardDynamicTypeSingleColumnUsesHorizontalContent() {
+    XCTAssertEqual(
+      LibraryEntryLayoutPolicy.singleColumnContentAxis(for: .large),
+      .horizontal
+    )
+  }
+
+  func testAccessibilityDynamicTypeSingleColumnUsesVerticalContent() {
+    XCTAssertEqual(
+      LibraryEntryLayoutPolicy.singleColumnContentAxis(for: .accessibility3),
+      .vertical
+    )
+  }
+```
+
+第一个测试锁定普通 Dynamic Type 因空间不足回退单列时的 `.horizontal`；第二个测试锁定 Accessibility 强制单列时的 `.vertical`。
+
+- [ ] **Step A2：运行 focused 测试并记录预期 RED**
+
+```bash
+xcodebuildmcp simulator test \
+  --json '{"projectPath":"/Users/tigerguo/.codex/worktrees/81d7/HHappyDocs/HDiary.xcodeproj","scheme":"HDiary","simulatorId":"A044BA15-7770-48E6-8E28-E2123A772ACD","configuration":"Debug","extraArgs":["-only-testing:HDiaryAppFeatureTests/LibraryEntryLayoutPolicyTests"]}' \
+  --output text
+```
+
+Expected: FAIL；编译器明确报告 `LibraryEntryLayoutPolicy` 没有 `singleColumnContentAxis(for:)`。如果失败来自工程路径、模拟器或 SwiftPM 缓存，先修复执行环境并重跑，直到 RED 只由缺少新策略接口造成。
+
+- [ ] **Step A3：添加最小策略实现并让 Dashboard 消费结果**
+
+把 `LibraryEntryLayoutPolicy.swift` 更新为：
+
+```swift
+#if os(iOS)
+
+import SwiftUI
+
+enum LibraryEntryLayoutPolicy {
+  static func forcesSingleColumn(for dynamicTypeSize: DynamicTypeSize) -> Bool {
+    dynamicTypeSize.isAccessibilitySize
+  }
+
+  static func singleColumnContentAxis(
+    for dynamicTypeSize: DynamicTypeSize
+  ) -> Axis {
+    dynamicTypeSize.isAccessibilitySize ? .vertical : .horizontal
+  }
+}
+
+#endif
+```
+
+然后只把 `LibraryEntryDashboard.singleColumnLayout` 中原有的硬编码 `.horizontal` 替换为策略结果：
+
+```swift
+  private var singleColumnLayout: some View {
+    VStack(spacing: cardSpacing) {
+      ForEach(LibraryEntry.allCases) { entry in
+        LibraryEntryNavigationCard(
+          entry: entry,
+          summary: viewState.summary(for: entry),
+          contentAxis: LibraryEntryLayoutPolicy.singleColumnContentAxis(
+            for: dynamicTypeSize
+          )
+        )
+      }
+    }
+    .frame(maxWidth: .infinity)
+  }
+```
+
+不得修改 `threeColumnLayout` 的 `.vertical`，也不得在 Dashboard 复制 `isAccessibilitySize ? .vertical : .horizontal` 判断；内容方向的唯一策略入口是 `singleColumnContentAxis(for:)`，卡片继续复用现有 vertical 分支。
+
+- [ ] **Step A4：确认 focused GREEN，再运行渲染与 target 回归**
+
+先重复 Step A2 的 focused 命令。
+
+Expected: `LibraryEntryLayoutPolicyTests` 全部通过，新增的两个内容方向测试为 GREEN，`0 failures`。
+
+然后依次运行：
+
+```bash
+xcodebuildmcp simulator test \
+  --json '{"projectPath":"/Users/tigerguo/.codex/worktrees/81d7/HHappyDocs/HDiary.xcodeproj","scheme":"HDiary","simulatorId":"A044BA15-7770-48E6-8E28-E2123A772ACD","configuration":"Debug","extraArgs":["-only-testing:HDiaryAppFeatureTests/LibraryEntryRenderingTests"]}' \
+  --output text
+
+xcodebuildmcp simulator test \
+  --json '{"projectPath":"/Users/tigerguo/.codex/worktrees/81d7/HHappyDocs/HDiary.xcodeproj","scheme":"HDiary","simulatorId":"A044BA15-7770-48E6-8E28-E2123A772ACD","configuration":"Debug","extraArgs":["-only-testing:HDiaryAppFeatureTests"]}' \
+  --output text
+```
+
+Expected: `LibraryEntryRenderingTests` 和整个 `HDiaryAppFeatureTests` target 均为 `0 failures`。记录本次实际执行数量，不复用计划中的历史测试数。
+
+- [ ] **Step A5：更新 Preview 与模拟器验收期望**
+
+复核现有三个 Preview，不新增另一套布局实现：
+
+- `Three columns`：普通 Dynamic Type、空间足够，外部三列，每张卡片内部 vertical。
+- `Single column - narrow`：普通 Dynamic Type、空间不足，外部完整单列，每张卡片内部 horizontal。
+- `Single column - accessibility`：`.accessibility3`，外部完整单列，每张卡片内部 vertical。
+
+随后执行下方 Task 5B Step 8 的英文 Accessibility 模拟器命令并保存 snapshot/截图。验收时必须同时确认：标题和摘要没有截断；`Tag`、`20 tags` 等内容没有被挤成单字或两字宽的极窄文字列；三张卡片外部仍是完整单列且等宽。普通窄屏单列则在 `Single column - narrow` Preview 中确认内部仍为 horizontal。
+
+- [ ] **Step A6：提交最小生产修订与测试**
+
+```bash
+git diff --check
+git add \
+  HDiaryLibrary/Sources/HDiaryAppFeature/Library/LibraryEntryLayoutPolicy.swift \
+  HDiaryLibrary/Sources/HDiaryAppFeature/Library/LibraryEntryDashboard.swift \
+  HDiaryLibrary/Tests/HDiaryAppFeatureTests/LibraryEntryLayoutPolicyTests.swift
+git commit -m "Use vertical accessibility library cards"
+```
+
+Expected: commit 成功；`.superpowers/` 没有被暂存或提交。
+
+#### Task 5B：完整回归、导航与多尺寸视觉终检
 
 - [ ] **Step 1：运行 catalog、diff 和静态结构终检**
 
 ```bash
 jq empty HDiary/Localizable.xcstrings
-git diff --check HEAD~4..HEAD
+git diff --check "$(git merge-base HEAD origin/main)"..HEAD
 git status --short
 ```
 
 Expected: catalog 是有效 JSON；diff 无空白错误；status 只允许显示执行前已有的 `?? .superpowers/`，不应有遗漏的 tracked 改动。
 
 ```bash
-rg -n 'ViewThatFits\(in: \.horizontal\)|GridRow|minimumCardWidth|maximumContentWidth|isAccessibilitySize' \
+rg -n 'ViewThatFits\(in: \.horizontal\)|GridRow|minimumCardWidth|maximumContentWidth|isAccessibilitySize|singleColumnContentAxis' \
   HDiaryLibrary/Sources/HDiaryAppFeature/Library
 ```
 
-Expected: 能明确看到一个水平 `ViewThatFits`、一个单行 `GridRow`、可缩放最小宽度、`720pt` 最大宽度和辅助功能字号短路规则。
+Expected: 能明确看到一个水平 `ViewThatFits`、一个单行 `GridRow`、可缩放最小宽度、`720pt` 最大宽度、辅助功能字号短路规则和唯一的单列内容方向策略接口。
 
 - [ ] **Step 2：运行 HDiaryAppFeature 定向回归**
 
@@ -1048,7 +1181,7 @@ xcodebuildmcp simulator test \
   --output text
 ```
 
-Expected: 在当前基线未被其他提交改变时执行 23 个测试、全部通过、`0 failures`。必须以本次实际输出为最终证据，而不是复用历史数量。
+Expected: Task 5A 新增的两个策略测试与既有 target 测试全部通过、`0 failures`。必须记录本次实际执行数量，不得复用历史数量。
 
 - [ ] **Step 3：运行默认 test plan 完整回归**
 
@@ -1061,7 +1194,7 @@ xcodebuildmcp simulator test \
   --output text
 ```
 
-Expected: 当前默认 `HDiary/HDiary.xctestplan` 基线 37 个测试加本计划新增 8 个，共 45 个全部通过。默认计划仍不包含 3 个既有 `HDiaryUITests`；若原始 discovery 数比执行数多 3，不得误报为回归，也不得声称 UI tests 已执行。
+Expected: 默认 test plan 中既有测试与 Task 5A 新增的两个策略测试全部通过、`0 failures`。默认计划仍不包含 3 个既有 `HDiaryUITests`；若原始 discovery 数比执行数多 3，不得误报为回归，也不得声称 UI tests 已执行。以本次实际输出记录最终测试数。
 
 - [ ] **Step 4：在 iPhone 标准字号、简体中文环境构建并运行**
 
@@ -1105,7 +1238,7 @@ xcodebuildmcp simulator screenshot \
   --output text
 ```
 
-Expected: snapshot 中只有标签、参与者、图表三个平级入口；标准字号且空间足够时三者 frame 的纵坐标、宽度和高度一致，没有横向滚动、两列或 `2 + 1`；VoiceOver 节点顺序是标签、参与者、图表，每个节点同时包含标题与摘要。
+Expected: snapshot 中只有标签、参与者、图表三个平级入口；标准字号且空间足够时外部三列、每张卡片内部 vertical，三者 frame 的纵坐标、宽度和高度一致，没有横向滚动、两列或 `2 + 1`；VoiceOver 节点顺序是标签、参与者、图表，每个节点同时包含标题与摘要。
 
 - [ ] **Step 6：逐一验证三个现有导航目标和实时计数**
 
@@ -1174,7 +1307,7 @@ xcodebuildmcp simulator screenshot \
   --output text
 ```
 
-Expected: 三张卡片全部纵向单列、宽度一致、文字不截断，标题与英文单复数摘要可读。必须从 snapshot 的文字 frame 确认字号确实增大；若该 runtime 忽略启动覆盖，则在 Simulator Settings 手动选择最大 Larger Text 后重取 snapshot/截图，不能把 launch 命令成功当作 Dynamic Type 已验证。
+Expected: 外部为三张等宽的完整单列卡片，每张卡片内部为 vertical；标题与英文单复数摘要完整可读、没有截断，也没有 `Tag`、`20 tags` 等内容被挤成单字或两字宽的极窄文字列。必须从 snapshot 的文字 frame 确认字号确实增大；若该 runtime 忽略启动覆盖，则在 Simulator Settings 手动选择最大 Larger Text 后重取 snapshot/截图，不能把 launch 命令成功当作 Dynamic Type 已验证。
 
 - [ ] **Step 9：验证 iPad 宽屏最大宽度和三列一致性**
 
@@ -1199,17 +1332,17 @@ xcodebuildmcp simulator screenshot \
   --output text
 ```
 
-Expected: 卡片内容区域居中且总宽度不超过 `720pt`；内部仍为三张同排、同宽、同高卡片，不会因 iPad 更宽而拉伸到整个屏幕。
+Expected: 卡片内容区域居中且总宽度不超过 `720pt`；外部仍为三张同排、同宽、同高卡片，每张内部为 vertical，不会因 iPad 更宽而拉伸到整个屏幕。
 
 - [ ] **Step 10：复核窄宽 Preview 与最终 Git 状态**
 
 在 Xcode Preview 中依次核对 `LibraryEntryDashboard.swift` 的 `Three columns`、`Single column - narrow`、`Single column - accessibility` 三个 Preview：
 
-- `390pt` 标准字号：三列。
-- `320pt` 标准字号（Dashboard 可用宽度约 `288pt`）：完整单列。
-- `720pt` `.accessibility3`：完整单列。
+- `390pt` 标准字号：外部三列，每张卡片内部 vertical。
+- `320pt` 标准字号（Dashboard 可用宽度约 `288pt`）：外部完整单列，每张卡片内部 horizontal。
+- `720pt` `.accessibility3`：外部完整单列，每张卡片内部 vertical。
 
-Expected: 任意 Preview 都只有 1 或 3 列；没有标题截断、水平滚动、两列和 `2 + 1`。若当前环境通过 XcodeBuildMCP 的 `xcode-ide` workflow 连接到 Xcode，先运行 `xcodebuildmcp xcode-ide bridge-status --output text` 与 `xcodebuildmcp xcode-ide list-tools --refresh --output text`，再使用该连接实际返回的 Preview render tool 取图；工具名和参数必须来自该次 `list-tools` 输出，不得臆造。
+Expected: 任意 Preview 都只有 1 或 3 列；没有标题或摘要截断、水平滚动、两列和 `2 + 1`。Accessibility Preview 还不得出现单字或两字宽的极窄文字列。若当前环境通过 XcodeBuildMCP 的 `xcode-ide` workflow 连接到 Xcode，先运行 `xcodebuildmcp xcode-ide bridge-status --output text` 与 `xcodebuildmcp xcode-ide list-tools --refresh --output text`，再使用该连接实际返回的 Preview render tool 取图；工具名和参数必须来自该次 `list-tools` 输出，不得臆造。
 
 最后运行：
 
@@ -1218,4 +1351,4 @@ git status --short
 git log -5 --oneline
 ```
 
-Expected: 四个实现 commit 都存在；没有未提交的 tracked 文件；仅保留执行前已有的 `?? .superpowers/`。把测试数量、三种关键布局截图路径、三条导航结果和任何未能自动化的手工核对项写入交付说明。
+Expected: Tasks 1–4 的实现 commit、Task 5A 的 Accessibility 内容方向修订 commit 都存在；没有未提交的 tracked 文件；仅保留执行前已有的 `?? .superpowers/`。把测试数量、三种关键布局截图路径、三条导航结果和任何未能自动化的手工核对项写入交付说明。
