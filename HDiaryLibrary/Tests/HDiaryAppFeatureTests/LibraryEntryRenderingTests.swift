@@ -32,6 +32,33 @@ final class LibraryEntryRenderingTests: XCTestCase {
       )
     }
   }
+
+  func testDashboardRendersForNarrowWideAndAccessibilityProposals() {
+    let scenarios: [(width: CGFloat, height: CGFloat, size: DynamicTypeSize)] = [
+      (288, 600, .large),
+      (360, 300, .large),
+      (688, 800, .accessibility3),
+    ]
+
+    for scenario in scenarios {
+      let renderer = ImageRenderer(
+        content: LibraryEntryDashboard(
+          viewState: LibraryViewState(tagCount: 3, participantCount: 7)
+        )
+        .environment(\.dynamicTypeSize, scenario.size)
+        .frame(width: scenario.width)
+      )
+      renderer.proposedSize = ProposedViewSize(
+        width: scenario.width,
+        height: scenario.height
+      )
+
+      XCTAssertNotNil(
+        renderer.uiImage,
+        "Expected the dashboard to render at width \(scenario.width), size \(scenario.size)"
+      )
+    }
+  }
 }
 
 #endif

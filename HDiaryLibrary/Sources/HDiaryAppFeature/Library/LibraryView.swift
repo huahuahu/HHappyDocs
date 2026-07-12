@@ -9,13 +9,19 @@
 
 import HDiaryConstants
 import HDiaryModel
+import SwiftData
 import SwiftUI
 
 @MainActor
 struct LibraryView: View {
+  private static let maximumContentWidth: CGFloat = 720
+
   @Environment(HDiaryRoute.self) private var appRoute
-//  @Environment(NavigationStore.self) private var navigationStore
+  @Query private var tags: [Tag]
+  @Query private var participants: [Participant]
+  @ScaledMetric(relativeTo: .body) private var contentMargin: CGFloat = 16
   @Binding private var isSelected: Bool
+
   init(isSelected: Binding<Bool>) {
     self._isSelected = isSelected
   }
@@ -23,24 +29,27 @@ struct LibraryView: View {
   var body: some View {
     @Bindable var appRoute = appRoute
     NavigationStack(path: $appRoute.libraryNavigationStore.path) {
-      List {
-        ForEach(LibraryEntry.allCases) {
-          entry in
-          NavigationLink(value: HDiaryDestination.libraryEntry(entry: entry)) {
-            LibraryEntryCell(entry: entry)
-          }
-        }
+      ScrollView {
+        LibraryEntryDashboard(
+          viewState: LibraryViewState(
+            tagCount: tags.count,
+            participantCount: participants.count
+          )
+        )
+        .frame(maxWidth: Self.maximumContentWidth)
+        .frame(maxWidth: .infinity)
       }
+      .contentMargins(.horizontal, contentMargin, for: .scrollContent)
+      .contentMargins(.vertical, contentMargin, for: .scrollContent)
       .navigationDestination(for: HDiaryDestination.self) { destination in
         destination.targetView
       }
-//      .withSheetDestinations(sheetDestinations: $navigationStore.presentedSheet)
-      .onOpenURL(perform: { url in
-        if self.isSelected {
+      .onOpenURL { url in
+        if isSelected {
           Log.Navigation.common.info("handle url in library tab")
           appRoute.libraryNavigationStore.handle(url)
         }
-      })
+      }
       .navigationTitle(Text(DiaryStringKey.libraryTabItemLabel))
     }
     .environment(appRoute.libraryNavigationStore)
