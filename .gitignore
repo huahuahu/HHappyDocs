@@ -91,3 +91,4 @@ iOSInjectionProject/
 .claude/settings.json
 app-connect-upload-tf-private-key.p8
 .env
+.asc
