@@ -178,6 +178,219 @@
       )
     }
 
+    func testNotificationAdapterExtractsSendableSignalsOnPostingActor() async throws {
+      let directoryURL = try makeTemporaryDirectory()
+      let storeURL = directoryURL.appending(path: "primary.sqlite")
+      let container = try WidgetSnapshotContainer.makeWriterContainer(at: storeURL)
+
+      let signals = await NotificationAdapterProbe().extractSignals(
+        container: container,
+        storeURL: storeURL
+      )
+
+      XCTAssertEqual(signals.remoteStoreURL, storeURL)
+      XCTAssertEqual(signals.containerIdentifier, ObjectIdentifier(container))
+    }
+
+    func testAttachPerformsOneRebuildForPrimaryRemoteChangeOnly() async throws {
+      let directoryURL = try makeTemporaryDirectory()
+      let primaryStoreURL = directoryURL.appending(path: "primary.sqlite")
+      let primaryContainer = try WidgetSnapshotContainer.makeWriterContainer(
+        at: primaryStoreURL
+      )
+      let builder = RuntimeBuilder()
+      let writer = RuntimeWriter()
+      let gate = ControlledDebounceGate()
+      var reloadCount = 0
+      let coordinator = WidgetSnapshotCoordinator(
+        builder: builder,
+        writer: writer,
+        sleep: gate.sleep,
+        reloadTimeline: {
+          reloadCount += 1
+        }
+      )
+      let acceptedRequest = expectation(description: "Primary remote change reaches coordinator")
+      var acceptedRequestCount = 0
+      var rebuildTasks = [Task<Void, Never>]()
+      let monitor = CloudSyncMonitor(requestRebuild: { coordinator in
+        let task = coordinator.requestRebuild()
+        acceptedRequestCount += 1
+        rebuildTasks.append(task)
+        if acceptedRequestCount == 1 {
+          acceptedRequest.fulfill()
+        }
+        return task
+      })
+      monitor.attach(primaryContainer: primaryContainer, coordinator: coordinator)
+      defer { monitor.stop() }
+
+      NotificationCenter.default.post(
+        name: .NSPersistentStoreRemoteChange,
+        object: nil,
+        userInfo: [
+          NSPersistentStoreURLKey: directoryURL.appending(path: "not-primary.sqlite"),
+        ]
+      )
+      NotificationCenter.default.post(
+        name: .NSPersistentStoreRemoteChange,
+        object: nil,
+        userInfo: [NSPersistentStoreURLKey: primaryStoreURL]
+      )
+
+      await fulfillment(of: [acceptedRequest], timeout: 5)
+      monitor.stop()
+      XCTAssertEqual(acceptedRequestCount, 1)
+      XCTAssertEqual(rebuildTasks.count, 1)
+
+      await gate.open()
+      for task in rebuildTasks {
+        await task.value
+      }
+
+      let replaceCount = await writer.replaceCount
+      XCTAssertEqual(builder.buildCount, 1)
+      XCTAssertEqual(replaceCount, 1)
+      XCTAssertEqual(reloadCount, 1)
+    }
+
+    func testAttachIgnoresActorOwnedOtherContainerSave() async throws {
+      let directoryURL = try makeTemporaryDirectory()
+      let primaryStoreURL = directoryURL.appending(path: "primary.sqlite")
+      let primaryContainer = try WidgetSnapshotContainer.makeWriterContainer(
+        at: primaryStoreURL
+      )
+      let otherConfiguration = ModelConfiguration(
+        schema: WidgetSnapshotContainer.schema,
+        isStoredInMemoryOnly: true,
+        cloudKitDatabase: .none
+      )
+      let otherContainer = try ModelContainer(
+        for: WidgetSnapshotContainer.schema,
+        configurations: [otherConfiguration]
+      )
+      let builder = RuntimeBuilder()
+      let writer = RuntimeWriter()
+      let gate = ControlledDebounceGate()
+      var reloadCount = 0
+      let coordinator = WidgetSnapshotCoordinator(
+        builder: builder,
+        writer: writer,
+        sleep: gate.sleep,
+        reloadTimeline: {
+          reloadCount += 1
+        }
+      )
+      var acceptedRequestCount = 0
+      var rebuildTasks = [Task<Void, Never>]()
+      let monitor = CloudSyncMonitor(requestRebuild: { coordinator in
+        let task = coordinator.requestRebuild()
+        acceptedRequestCount += 1
+        rebuildTasks.append(task)
+        return task
+      })
+      monitor.attach(primaryContainer: primaryContainer, coordinator: coordinator)
+      defer { monitor.stop() }
+      let saver = ModelContextSaver()
+
+      let otherSaveExpectation = expectation(
+        forNotification: ModelContext.didSave,
+        object: nil
+      ) { notification in
+        CloudSyncNotificationAdapter.localSaveContainerIdentifier(from: notification)
+          == ObjectIdentifier(otherContainer)
+      }
+
+      try await saver.saveParticipant(
+        in: otherContainer,
+        id: UUID(uuidString: "00000000-0000-0000-0000-000000000001").unsafelyUnwrapped
+      )
+      await fulfillment(of: [otherSaveExpectation], timeout: 5)
+      monitor.stop()
+
+      XCTAssertEqual(acceptedRequestCount, 0)
+      XCTAssertTrue(rebuildTasks.isEmpty)
+      await gate.open()
+
+      let replaceCount = await writer.replaceCount
+      XCTAssertEqual(builder.buildCount, 0)
+      XCTAssertEqual(replaceCount, 0)
+      XCTAssertEqual(reloadCount, 0)
+    }
+
+    func testAttachPerformsOneRebuildForActorOwnedPrimarySave() async throws {
+      let directoryURL = try makeTemporaryDirectory()
+      let primaryStoreURL = directoryURL.appending(path: "primary.sqlite")
+      let primaryContainer = try WidgetSnapshotContainer.makeWriterContainer(
+        at: primaryStoreURL
+      )
+      let builder = RuntimeBuilder()
+      let writer = RuntimeWriter()
+      let gate = ControlledDebounceGate()
+      var reloadCount = 0
+      let coordinator = WidgetSnapshotCoordinator(
+        builder: builder,
+        writer: writer,
+        sleep: gate.sleep,
+        reloadTimeline: {
+          reloadCount += 1
+        }
+      )
+      let acceptedRequests = expectation(description: "Primary save signals reach coordinator")
+      acceptedRequests.expectedFulfillmentCount = 2
+      var acceptedRequestCount = 0
+      var rebuildTasks = [Task<Void, Never>]()
+      let monitor = CloudSyncMonitor(requestRebuild: { coordinator in
+        let task = coordinator.requestRebuild()
+        acceptedRequestCount += 1
+        rebuildTasks.append(task)
+        if acceptedRequestCount <= 2 {
+          acceptedRequests.fulfill()
+        }
+        return task
+      })
+      monitor.attach(primaryContainer: primaryContainer, coordinator: coordinator)
+      defer { monitor.stop() }
+      let saver = ModelContextSaver()
+
+      let localSaveExpectation = expectation(
+        forNotification: ModelContext.didSave,
+        object: nil
+      ) { notification in
+        CloudSyncNotificationAdapter.localSaveContainerIdentifier(from: notification)
+          == ObjectIdentifier(primaryContainer)
+      }
+      let remoteChangeExpectation = expectation(
+        forNotification: .NSPersistentStoreRemoteChange,
+        object: nil
+      ) { notification in
+        CloudSyncNotificationAdapter.remoteStoreURL(from: notification) == primaryStoreURL
+      }
+
+      try await saver.saveParticipant(
+        in: primaryContainer,
+        id: UUID(uuidString: "00000000-0000-0000-0000-000000000001").unsafelyUnwrapped
+      )
+
+      await fulfillment(
+        of: [localSaveExpectation, remoteChangeExpectation, acceptedRequests],
+        timeout: 5
+      )
+      monitor.stop()
+      XCTAssertEqual(acceptedRequestCount, 2)
+      XCTAssertEqual(rebuildTasks.count, 2)
+
+      await gate.open()
+      for task in rebuildTasks {
+        await task.value
+      }
+
+      let replaceCount = await writer.replaceCount
+      XCTAssertEqual(builder.buildCount, 1)
+      XCTAssertEqual(replaceCount, 1)
+      XCTAssertEqual(reloadCount, 1)
+    }
+
     func testRuntimeStartsOnceInRequiredOrderAndRequestsOneInitialRebuild() throws {
       let directoryURL = try makeTemporaryDirectory()
       defer { try? FileManager.default.removeItem(at: directoryURL) }
@@ -305,14 +518,101 @@
   }
 
   @MainActor
-  private struct RuntimeBuilder: WidgetSnapshotBuilding {
+  private final class RuntimeBuilder: WidgetSnapshotBuilding {
+    private(set) var buildCount = 0
+
     func build() -> WidgetSnapshotValue {
-      WidgetSnapshotValue(participants: [], moments: [])
+      buildCount += 1
+      return WidgetSnapshotValue(participants: [], moments: [])
     }
   }
 
   private actor RuntimeWriter: WidgetSnapshotWriting {
-    func replace(with _: WidgetSnapshotValue) {}
+    private(set) var replaceCount = 0
+
+    func replace(with _: WidgetSnapshotValue) {
+      replaceCount += 1
+    }
+  }
+
+  private actor ControlledDebounceGate {
+    private var isOpen = false
+    private var nextToken = 0
+    private var waiters = [Int: CheckedContinuation<Void, any Error>]()
+
+    func sleep() async throws {
+      let token = nextToken
+      nextToken += 1
+
+      try await withTaskCancellationHandler {
+        try await withCheckedThrowingContinuation { continuation in
+          if isOpen {
+            continuation.resume()
+          }
+          else {
+            waiters[token] = continuation
+          }
+        }
+      } onCancel: {
+        Task { await self.cancel(token: token) }
+      }
+    }
+
+    func open() {
+      guard !isOpen else {
+        return
+      }
+      isOpen = true
+      let currentWaiters = Array(waiters.values)
+      waiters.removeAll()
+      for waiter in currentWaiters {
+        waiter.resume()
+      }
+    }
+
+    private func cancel(token: Int) {
+      guard let continuation = waiters.removeValue(forKey: token) else {
+        return
+      }
+      continuation.resume(throwing: CancellationError())
+    }
+  }
+
+  private actor ModelContextSaver {
+    func saveParticipant(in container: ModelContainer, id: UUID) throws {
+      let context = ModelContext(container)
+      context.insert(
+        WidgetParticipantSnapshot(uuid: id, nickName: "Saved", avatarThumbnailData: nil)
+      )
+      try context.save()
+    }
+  }
+
+  private actor NotificationAdapterProbe {
+    func extractSignals(
+      container: ModelContainer,
+      storeURL: URL
+    ) -> ExtractedNotificationSignals {
+      let context = ModelContext(container)
+      let remoteNotification = Notification(
+        name: .NSPersistentStoreRemoteChange,
+        userInfo: [NSPersistentStoreURLKey: storeURL]
+      )
+      let localNotification = Notification(name: ModelContext.didSave, object: context)
+
+      return ExtractedNotificationSignals(
+        remoteStoreURL: CloudSyncNotificationAdapter.remoteStoreURL(from: remoteNotification),
+        containerIdentifier: CloudSyncNotificationAdapter.localSaveContainerIdentifier(
+          from: localNotification
+        )
+      )
+    }
+  }
+
+  // swiftformat:disable:next redundantSendable
+  private struct ExtractedNotificationSignals: Sendable {
+    let remoteStoreURL: URL?
+    let containerIdentifier: ObjectIdentifier?
   }
 
   @MainActor

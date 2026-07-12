@@ -105,6 +105,38 @@
       )
     }
 
+    @MainActor func testDataSourceProviderRetriesAfterSnapshotStoreBecomesAvailable() async throws {
+      let participantID = try XCTUnwrap(
+        UUID(uuidString: "00000000-0000-0000-0000-000000000001")
+      )
+      let storeURL = temporaryStoreURL()
+      let provider = MomentWidgetDataSourceProvider(factory: {
+        MomentWidgetDataSource(
+          modelContainer: try WidgetSnapshotContainer.makeReaderContainer(at: storeURL)
+        )
+      })
+
+      XCTAssertNil(provider.dataSource)
+
+      let writerContainer = try WidgetSnapshotContainer.makeWriterContainer(at: storeURL)
+      let writer = WidgetSnapshotStore(modelContainer: writerContainer)
+      try await writer.replace(with: WidgetSnapshotValue(
+        participants: [
+          WidgetParticipantValue(
+            uuid: participantID,
+            nickName: "Recovered",
+            avatarThumbnailData: nil
+          ),
+        ],
+        moments: []
+      ))
+
+      let recoveredDataSource = try XCTUnwrap(provider.dataSource)
+
+      XCTAssertEqual(try recoveredDataSource.fetchParticipants().map(\.uuid), [participantID])
+      XCTAssertTrue(provider.dataSource === recoveredDataSource)
+    }
+
     @MainActor func testParticipantEntityMapsSnapshotThumbnailAndNickname() throws {
       let participantID = try XCTUnwrap(
         UUID(uuidString: "00000000-0000-0000-0000-000000000001")

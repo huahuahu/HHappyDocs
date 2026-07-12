@@ -38,10 +38,23 @@
         )
       )
 
-      XCTAssertEqual(CloudSyncEventPresentation(record: inProgressImport).state, .inProgress)
-      XCTAssertEqual(CloudSyncEventPresentation(record: successfulExport).state, .succeeded)
+      let inProgressPresentation = CloudSyncEventPresentation(record: inProgressImport)
+      let successfulPresentation = CloudSyncEventPresentation(record: successfulExport)
+      let failedPresentation = CloudSyncEventPresentation(record: failedSetup)
+
+      XCTAssertEqual(inProgressPresentation.state, .inProgress)
+      XCTAssertEqual(inProgressPresentation.startDate, fixedStart)
+      XCTAssertNil(inProgressPresentation.endDate)
+      XCTAssertNil(inProgressPresentation.duration)
+      XCTAssertEqual(successfulPresentation.state, .succeeded)
+      XCTAssertEqual(successfulPresentation.startDate, fixedStart)
+      XCTAssertEqual(successfulPresentation.endDate, fixedStart.addingTimeInterval(10))
+      XCTAssertEqual(successfulPresentation.duration, 10)
+      XCTAssertEqual(failedPresentation.startDate, fixedStart)
+      XCTAssertEqual(failedPresentation.endDate, fixedStart.addingTimeInterval(10))
+      XCTAssertEqual(failedPresentation.duration, 10)
       XCTAssertEqual(
-        CloudSyncEventPresentation(record: failedSetup).errorCodeText,
+        failedPresentation.errorCodeText,
         "NSCocoaErrorDomain 134410"
       )
       XCTAssertEqual(

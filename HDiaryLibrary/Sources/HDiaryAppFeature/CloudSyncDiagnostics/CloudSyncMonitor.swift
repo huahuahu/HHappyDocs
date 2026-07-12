@@ -15,6 +15,38 @@
     let error: (any Error)?
   }
 
+  nonisolated enum CloudSyncNotificationAdapter {
+    static func remoteStoreURL(from notification: Notification) -> URL? {
+      notification.userInfo?[NSPersistentStoreURLKey] as? URL
+    }
+
+    static func localSaveContainerIdentifier(
+      from notification: Notification
+    ) -> ObjectIdentifier? {
+      guard let context = notification.object as? ModelContext else {
+        return nil
+      }
+      return ObjectIdentifier(context.container)
+    }
+  }
+
+  // swiftformat:disable:next redundantSendable
+  nonisolated struct PrimaryLocalSaveNotificationAdapter: Sendable {
+    let primaryContainerIdentifier: ObjectIdentifier
+
+    func callAsFunction(_ notification: Notification) -> ObjectIdentifier? {
+      guard let containerIdentifier = CloudSyncNotificationAdapter.localSaveContainerIdentifier(
+        from: notification
+      ) else {
+        return nil
+      }
+      guard containerIdentifier == primaryContainerIdentifier else {
+        return nil
+      }
+      return containerIdentifier
+    }
+  }
+
   extension CloudSyncEventRecord {
     nonisolated init?(input: CloudSyncEventInput, now: Date = Date()) {
       let kind: Kind
@@ -71,6 +103,7 @@
   final class CloudSyncMonitor {
     let diagnosticsModel: CloudSyncDiagnosticsModel
     private let now: () -> Date
+    private let requestRebuild: @MainActor (WidgetSnapshotCoordinator) -> Task<Void, Never>
 
     private var eventCancellables = Set<AnyCancellable>()
     private var attachmentCancellables = Set<AnyCancellable>()
@@ -78,10 +111,14 @@
 
     init(
       diagnosticsModel: CloudSyncDiagnosticsModel = .shared,
-      now: @escaping () -> Date = Date.init
+      now: @escaping () -> Date = Date.init,
+      requestRebuild: @escaping @MainActor (WidgetSnapshotCoordinator) -> Task<Void, Never> = {
+        $0.requestRebuild()
+      }
     ) {
       self.diagnosticsModel = diagnosticsModel
       self.now = now
+      self.requestRebuild = requestRebuild
     }
 
     func startEventObservation() {
@@ -112,26 +149,33 @@
         Log.data.error("Failed to attach CloudKit change observers: primary store URL is missing")
         return
       }
+      let primaryContainerIdentifier = ObjectIdentifier(primaryContainer)
+      let primaryLocalSaveAdapter = PrimaryLocalSaveNotificationAdapter(
+        primaryContainerIdentifier: primaryContainerIdentifier
+      )
 
       NotificationCenter.default
         .publisher(for: .NSPersistentStoreRemoteChange)
+        .compactMap(CloudSyncNotificationAdapter.remoteStoreURL(from:))
         .receive(on: RunLoop.main)
-        .filter {
-          Self.matchesRemoteChange($0, storeURL: primaryStoreURL)
-        }
-        .sink { [weak coordinator] _ in
-          _ = coordinator?.requestRebuild()
+        .filter { $0 == primaryStoreURL }
+        .sink { [weak self, weak coordinator] _ in
+          guard let self, let coordinator else {
+            return
+          }
+          _ = self.requestRebuild(coordinator)
         }
         .store(in: &attachmentCancellables)
 
       NotificationCenter.default
         .publisher(for: ModelContext.didSave)
+        .compactMap(primaryLocalSaveAdapter.callAsFunction)
         .receive(on: RunLoop.main)
-        .filter {
-          Self.matchesLocalSave($0, primaryContainer: primaryContainer)
-        }
-        .sink { [weak coordinator] _ in
-          _ = coordinator?.requestRebuild()
+        .sink { [weak self, weak coordinator] _ in
+          guard let self, let coordinator else {
+            return
+          }
+          _ = self.requestRebuild(coordinator)
         }
         .store(in: &attachmentCancellables)
     }
@@ -147,17 +191,15 @@
       _ notification: Notification,
       storeURL: URL
     ) -> Bool {
-      notification.userInfo?[NSPersistentStoreURLKey] as? URL == storeURL
+      CloudSyncNotificationAdapter.remoteStoreURL(from: notification) == storeURL
     }
 
     static func matchesLocalSave(
       _ notification: Notification,
       primaryContainer: ModelContainer
     ) -> Bool {
-      guard let context = notification.object as? ModelContext else {
-        return false
-      }
-      return context.container === primaryContainer
+      CloudSyncNotificationAdapter.localSaveContainerIdentifier(from: notification)
+        == ObjectIdentifier(primaryContainer)
     }
 
     private func record(_ event: NSPersistentCloudKitContainer.Event) {

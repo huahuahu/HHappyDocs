@@ -445,6 +445,24 @@
         }
       }
     },
+    "CloudSyncDiagnostics.duration" : {
+      "comment" : "Label for a completed CloudKit sync event duration",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duration"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耗时"
+          }
+        }
+      }
+    },
     "CloudSyncDiagnostics.empty.message" : {
       "comment" : "Description shown when no CloudKit sync events exist",
       "extractionState" : "manual",
@@ -477,6 +495,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暂无同步事件"
+          }
+        }
+      }
+    },
+    "CloudSyncDiagnostics.ended" : {
+      "comment" : "Label for a CloudKit sync event end date",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ended"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结束时间"
           }
         }
       }
@@ -531,6 +567,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分享诊断文件"
+          }
+        }
+      }
+    },
+    "CloudSyncDiagnostics.started" : {
+      "comment" : "Label for a CloudKit sync event start date",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Started"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始时间"
           }
         }
       }

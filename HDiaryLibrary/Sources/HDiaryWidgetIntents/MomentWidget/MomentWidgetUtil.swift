@@ -43,13 +43,32 @@ public final class MomentWidgetDataSource {
   }
 }
 
-public enum MomentWidgetUtil {
-  @MainActor
-  public static let dataSource: MomentWidgetDataSource? = {
-    do {
-      return MomentWidgetDataSource(
+@MainActor
+public final class MomentWidgetDataSourceProvider {
+  public typealias Factory = @MainActor () throws -> MomentWidgetDataSource
+
+  private let factory: Factory
+  private var cachedDataSource: MomentWidgetDataSource?
+
+  public init(
+    factory: @escaping Factory = {
+      MomentWidgetDataSource(
         modelContainer: try WidgetSnapshotContainer.makeReaderContainer()
       )
+    }
+  ) {
+    self.factory = factory
+  }
+
+  public var dataSource: MomentWidgetDataSource? {
+    if let cachedDataSource {
+      return cachedDataSource
+    }
+
+    do {
+      let dataSource = try factory()
+      cachedDataSource = dataSource
+      return dataSource
     }
     catch {
       logger.error(
@@ -57,7 +76,17 @@ public enum MomentWidgetUtil {
       )
       return nil
     }
-  }()
+  }
+}
+
+public enum MomentWidgetUtil {
+  @MainActor
+  private static let provider = MomentWidgetDataSourceProvider()
+
+  @MainActor
+  public static var dataSource: MomentWidgetDataSource? {
+    provider.dataSource
+  }
 }
 
 extension UUID {

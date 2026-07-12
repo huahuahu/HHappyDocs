@@ -70,12 +70,45 @@
           .foregroundStyle(statusStyle)
         }
 
-        Text(
-          record.startDate,
-          format: .dateTime.year().month().day().hour().minute().second()
-        )
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
+        if presentation.state == .inProgress {
+          LabeledContent {
+            Text(
+              presentation.startDate,
+              format: .dateTime.year().month().day().hour().minute().second()
+            )
+          } label: {
+            Text(DiaryStringKey.Data.CloudData.Diagnostics.started)
+          }
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+        }
+        else {
+          if let endDate = presentation.endDate {
+            LabeledContent {
+              Text(
+                endDate,
+                format: .dateTime.year().month().day().hour().minute().second()
+              )
+            } label: {
+              Text(DiaryStringKey.Data.CloudData.Diagnostics.ended)
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+          }
+
+          if let duration = presentation.duration {
+            LabeledContent {
+              Text(
+                Duration.seconds(duration),
+                format: .time(pattern: .hourMinuteSecond)
+              )
+            } label: {
+              Text(DiaryStringKey.Data.CloudData.Diagnostics.duration)
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+          }
+        }
 
         if presentation.state == .failed, let error = record.error {
           if let errorCodeText = presentation.errorCodeText {

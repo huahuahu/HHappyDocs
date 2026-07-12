@@ -97,7 +97,6 @@ final class WidgetSnapshotStoreTests: XCTestCase {
       path: UUID().uuidString,
       directoryHint: .isDirectory
     )
-    addTeardownBlock { try? FileManager.default.removeItem(at: directory) }
     return directory.appending(path: "widget-snapshot.sqlite")
   }
 }
