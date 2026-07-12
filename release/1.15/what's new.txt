@@ -1,0 +1,6 @@
+- Adapted to Liquid Glass, with performance and stability improvements.
+
+
+
+
+- 适配 Liquid Glass，并提升性能与稳定性。
