@@ -13,3 +13,7 @@ ios-build:
 
 ios-test:
 	bash -c 'source scripts/test-ios-project.sh; testScheme "$$1"' _ "$(TARGET)"
+
+.PHONY: skills-update
+skills-update:
+	./scripts/update-skills.sh
