@@ -69,7 +69,7 @@
 
   @MainActor
   final class CloudSyncMonitor {
-    private let diagnosticsModel: CloudSyncDiagnosticsModel
+    let diagnosticsModel: CloudSyncDiagnosticsModel
     private let now: () -> Date
 
     private var eventCancellables = Set<AnyCancellable>()
@@ -77,7 +77,7 @@
     private var recordingTasks = [UUID: Task<Void, Never>]()
 
     init(
-      diagnosticsModel: CloudSyncDiagnosticsModel = CloudSyncDiagnosticsModel(),
+      diagnosticsModel: CloudSyncDiagnosticsModel = .shared,
       now: @escaping () -> Date = Date.init
     ) {
       self.diagnosticsModel = diagnosticsModel

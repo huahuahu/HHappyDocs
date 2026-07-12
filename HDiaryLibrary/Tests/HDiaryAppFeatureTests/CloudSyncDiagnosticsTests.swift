@@ -7,6 +7,49 @@
 
   @MainActor
   final class CloudSyncDiagnosticsTests: XCTestCase {
+    private let fixedStart = Date(timeIntervalSince1970: 1000)
+    private let expectedRetryDate = Date(timeIntervalSince1970: 1060)
+
+    func testEventPresentationExposesSemanticValues() {
+      let inProgressImport = record(id: 1, kind: .importData, state: .inProgress)
+      let successfulExport = record(id: 2, kind: .export, state: .succeeded)
+      let failedSetup = record(
+        id: 3,
+        kind: .setup,
+        state: .failed,
+        error: CloudSyncErrorDetails(
+          domain: NSCocoaErrorDomain,
+          code: 134_410,
+          message: "CloudKit setup failed",
+          retryAfter: nil,
+          retryDate: nil
+        )
+      )
+      let rateLimited = record(
+        id: 4,
+        kind: .export,
+        state: .failed,
+        error: CloudSyncErrorDetails(
+          domain: CKErrorDomain,
+          code: CKError.requestRateLimited.rawValue,
+          message: "Request rate limited",
+          retryAfter: 60,
+          retryDate: expectedRetryDate
+        )
+      )
+
+      XCTAssertEqual(CloudSyncEventPresentation(record: inProgressImport).state, .inProgress)
+      XCTAssertEqual(CloudSyncEventPresentation(record: successfulExport).state, .succeeded)
+      XCTAssertEqual(
+        CloudSyncEventPresentation(record: failedSetup).errorCodeText,
+        "NSCocoaErrorDomain 134410"
+      )
+      XCTAssertEqual(
+        CloudSyncEventPresentation(record: rateLimited).retryDate,
+        expectedRetryDate
+      )
+    }
+
     func testEventRecordPreservesExactKindsAndStatesThroughCodable() throws {
       let records = [
         makeEvent(start: 1, kind: .setup, state: .inProgress),
@@ -345,6 +388,118 @@
       XCTAssertNil(model.exportURL)
     }
 
+    func testOlderLoadSuccessDoesNotReplaceNewerRecordedState() async {
+      let store = SuspendedLoadDiagnosticsStore()
+      let model = CloudSyncDiagnosticsModel(fileStore: store)
+      let event = makeEvent(start: 1, end: 2, state: .succeeded)
+      let loadTask = Task { @MainActor in
+        await model.load()
+      }
+      await store.waitUntilLoadIsPending()
+
+      await model.record(event)
+
+      XCTAssertEqual(model.records, [event])
+      XCTAssertNil(model.loadErrorDescription)
+
+      await store.resumeLoad(with: [])
+      await loadTask.value
+
+      XCTAssertEqual(model.records, [event])
+      XCTAssertNil(model.loadErrorDescription)
+    }
+
+    func testOlderLoadFailureDoesNotReplaceNewerRecordedState() async {
+      let store = SuspendedLoadDiagnosticsStore()
+      let model = CloudSyncDiagnosticsModel(fileStore: store)
+      let event = makeEvent(start: 1, end: 2, state: .succeeded)
+      let loadTask = Task { @MainActor in
+        await model.load()
+      }
+      await store.waitUntilLoadIsPending()
+
+      await model.record(event)
+
+      XCTAssertEqual(model.records, [event])
+      XCTAssertNil(model.loadErrorDescription)
+
+      await store.failLoad(description: "stale load failure")
+      await loadTask.value
+
+      XCTAssertEqual(model.records, [event])
+      XCTAssertNil(model.loadErrorDescription)
+    }
+
+    func testOlderLoadSuccessStillUpdatesRecordsAfterNewerFailureArrivesFirst() async {
+      let failureDescription = "newer record failure"
+      let store = SuspendedLoadDiagnosticsStore(
+        recordFailureDescription: failureDescription
+      )
+      let model = CloudSyncDiagnosticsModel(fileStore: store)
+      let loadedEvent = makeEvent(start: 1, end: 2, state: .succeeded)
+      let failedEvent = makeEvent(start: 3, end: 4, state: .failed)
+      let loadTask = Task { @MainActor in
+        await model.load()
+      }
+      await store.waitUntilLoadIsPending()
+
+      await model.record(failedEvent)
+
+      XCTAssertEqual(model.records, [])
+      XCTAssertEqual(model.loadErrorDescription, failureDescription)
+
+      await store.resumeLoad(with: [loadedEvent])
+      await loadTask.value
+
+      XCTAssertEqual(model.records, [loadedEvent])
+      XCTAssertEqual(model.loadErrorDescription, failureDescription)
+    }
+
+    func testNewerSuccessClearsPreviouslyAppliedFailure() async {
+      let store = SuspendedLoadDiagnosticsStore()
+      let model = CloudSyncDiagnosticsModel(fileStore: store)
+      let event = makeEvent(start: 1, end: 2, state: .succeeded)
+      let loadTask = Task { @MainActor in
+        await model.load()
+      }
+      await store.waitUntilLoadIsPending()
+
+      await store.failLoad(description: "older load failure")
+      await loadTask.value
+
+      XCTAssertEqual(model.loadErrorDescription, "older load failure")
+
+      await model.record(event)
+
+      XCTAssertEqual(model.records, [event])
+      XCTAssertNil(model.loadErrorDescription)
+    }
+
+    func testEqualRevisionSuccessUpdatesRecordsWithoutClearingFailure() async {
+      let failureDescription = "same revision failure"
+      let store = SuspendedLoadDiagnosticsStore(
+        recordFailureDescription: failureDescription,
+        recordAdvancesRevision: false
+      )
+      let model = CloudSyncDiagnosticsModel(fileStore: store)
+      let loadedEvent = makeEvent(start: 1, end: 2, state: .succeeded)
+      let failedEvent = makeEvent(start: 3, end: 4, state: .failed)
+      let loadTask = Task { @MainActor in
+        await model.load()
+      }
+      await store.waitUntilLoadIsPending()
+
+      await model.record(failedEvent)
+
+      XCTAssertEqual(model.loadErrorDescription, failureDescription)
+
+      await store.resumeLoad(with: [loadedEvent])
+      await loadTask.value
+
+      XCTAssertEqual(model.records, [loadedEvent])
+      XCTAssertEqual(model.loadErrorDescription, failureDescription)
+    }
+
     private func makeEvent(
       id: UUID = UUID(),
       start: TimeInterval,
@@ -360,6 +515,23 @@
         endDate: end.map(Date.init(timeIntervalSince1970:)),
         state: state,
         error: nil
+      )
+    }
+
+    private func record(
+      id: Int,
+      kind: CloudSyncEventRecord.Kind,
+      state: CloudSyncEventRecord.State,
+      error: CloudSyncErrorDetails? = nil
+    ) -> CloudSyncEventRecord {
+      CloudSyncEventRecord(
+        id: UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", id))!,
+        storeIdentifier: "primary",
+        kind: kind,
+        startDate: fixedStart,
+        endDate: state == .inProgress ? nil : fixedStart.addingTimeInterval(10),
+        state: state,
+        error: error
       )
     }
 
@@ -386,6 +558,86 @@
       let decoder = JSONDecoder()
       decoder.dateDecodingStrategy = .iso8601
       return decoder
+    }
+  }
+
+  private actor SuspendedLoadDiagnosticsStore: CloudSyncDiagnosticsStoring {
+    private let exportURL = URL(filePath: "/tmp/cloud-sync-events.json")
+    private let recordFailureDescription: String?
+    private let recordAdvancesRevision: Bool
+    private var revision: UInt64 = 0
+    private var pendingLoad: (
+      revision: UInt64,
+      continuation: CheckedContinuation<CloudSyncDiagnosticsStoreUpdate, Never>
+    )?
+    private var loadStartedContinuation: CheckedContinuation<Void, Never>?
+
+    init(
+      recordFailureDescription: String? = nil,
+      recordAdvancesRevision: Bool = true
+    ) {
+      self.recordFailureDescription = recordFailureDescription
+      self.recordAdvancesRevision = recordAdvancesRevision
+    }
+
+    func loadUpdate() async -> CloudSyncDiagnosticsStoreUpdate {
+      revision &+= 1
+      let loadRevision = revision
+
+      return await withCheckedContinuation { continuation in
+        pendingLoad = (loadRevision, continuation)
+        loadStartedContinuation?.resume()
+        loadStartedContinuation = nil
+      }
+    }
+
+    func recordUpdate(
+      _ event: CloudSyncEventRecord
+    ) async -> CloudSyncDiagnosticsStoreUpdate {
+      if recordAdvancesRevision {
+        revision &+= 1
+      }
+      if let recordFailureDescription {
+        return .failure(revision: revision, description: recordFailureDescription)
+      }
+      return .success(revision: revision, records: [event], exportURL: exportURL)
+    }
+
+    func waitUntilLoadIsPending() async {
+      guard pendingLoad == nil else {
+        return
+      }
+
+      await withCheckedContinuation { continuation in
+        loadStartedContinuation = continuation
+      }
+    }
+
+    func resumeLoad(with records: [CloudSyncEventRecord]) {
+      guard let pendingLoad else {
+        return
+      }
+      self.pendingLoad = nil
+      pendingLoad.continuation.resume(
+        returning: .success(
+          revision: pendingLoad.revision,
+          records: records,
+          exportURL: exportURL
+        )
+      )
+    }
+
+    func failLoad(description: String) {
+      guard let pendingLoad else {
+        return
+      }
+      self.pendingLoad = nil
+      pendingLoad.continuation.resume(
+        returning: .failure(
+          revision: pendingLoad.revision,
+          description: description
+        )
+      )
     }
   }
 

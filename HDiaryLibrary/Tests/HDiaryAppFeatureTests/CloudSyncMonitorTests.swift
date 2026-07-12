@@ -9,6 +9,24 @@
 
   @MainActor
   final class CloudSyncMonitorTests: XCTestCase {
+    func testDefaultMonitorUsesSharedDiagnosticsModel() {
+      let monitor = CloudSyncMonitor()
+
+      XCTAssertTrue(monitor.diagnosticsModel === CloudSyncDiagnosticsModel.shared)
+    }
+
+    func testMonitorKeepsInjectedDiagnosticsModel() throws {
+      let directoryURL = try makeTemporaryDirectory()
+      defer { try? FileManager.default.removeItem(at: directoryURL) }
+      let model = CloudSyncDiagnosticsModel(
+        fileStore: CloudSyncDiagnosticsFileStore(directoryURL: directoryURL)
+      )
+
+      let monitor = CloudSyncMonitor(diagnosticsModel: model)
+
+      XCTAssertTrue(monitor.diagnosticsModel === model)
+    }
+
     func testEventTypesMapToDiagnosticKindsWithoutPersistingStoreIdentifier() throws {
       let identifier = UUID()
       let startDate = Date(timeIntervalSince1970: 100)

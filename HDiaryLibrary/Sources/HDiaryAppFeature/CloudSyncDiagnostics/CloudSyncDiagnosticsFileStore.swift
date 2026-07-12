@@ -9,6 +9,7 @@ actor CloudSyncDiagnosticsFileStore {
   private let directoryURL: URL
   private let fileURL: URL
   private let corruptFileURL: URL
+  private var updateRevision: UInt64 = 0
 
   init(
     directoryURL: URL = AppConstants.groupContainerURL
@@ -22,6 +23,32 @@ actor CloudSyncDiagnosticsFileStore {
     self.directoryURL = directoryURL
     fileURL = directoryURL.appending(path: Self.fileName)
     corruptFileURL = directoryURL.appending(path: Self.corruptFileName)
+  }
+
+  func loadUpdate() async -> CloudSyncDiagnosticsStoreUpdate {
+    let revision = nextUpdateRevision()
+    do {
+      let records = try load()
+      let exportURL = try exportURL()
+      return .success(revision: revision, records: records, exportURL: exportURL)
+    }
+    catch {
+      return .failure(revision: revision, description: error.localizedDescription)
+    }
+  }
+
+  func recordUpdate(
+    _ event: CloudSyncEventRecord
+  ) async -> CloudSyncDiagnosticsStoreUpdate {
+    let revision = nextUpdateRevision()
+    do {
+      let records = try upsert(event)
+      let exportURL = try exportURL()
+      return .success(revision: revision, records: records, exportURL: exportURL)
+    }
+    catch {
+      return .failure(revision: revision, description: error.localizedDescription)
+    }
   }
 
   @discardableResult
@@ -77,6 +104,11 @@ actor CloudSyncDiagnosticsFileStore {
       }
       return lhs.offset < rhs.offset
     }.map(\.element)
+  }
+
+  private func nextUpdateRevision() -> UInt64 {
+    updateRevision &+= 1
+    return updateRevision
   }
 
   private func write(_ records: [CloudSyncEventRecord]) throws {

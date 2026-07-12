@@ -34,6 +34,7 @@ enum HDiaryDestination: Hashable {
   case momentStorageDetail(Moment)
   case storageByMedia
   case cloudDataEntry
+  case cloudSyncDiagnostics
   case cloudDataDetail(for: CloudRecordDestination)
   case deleteMediaItem(mediaItem: MediaItem)
   case moment(Moment, editEnabled: Bool)
@@ -70,6 +71,8 @@ enum HDiaryDestination: Hashable {
       MomentStorageDetailScreen(moment: moment)
     case .cloudDataEntry:
       CloudDataEntryScreen()
+    case .cloudSyncDiagnostics:
+      CloudSyncDiagnosticsScreen()
     case .cloudDataDetail(for: let cloudDataDestination):
       cloudDataDestination.destinationView
     case .deleteMediaItem(mediaItem: let item):

@@ -4,41 +4,54 @@ import Observation
 
 @MainActor @Observable
 final class CloudSyncDiagnosticsModel {
-  private let fileStore: CloudSyncDiagnosticsFileStore
+  static let shared = CloudSyncDiagnosticsModel()
+
+  private let fileStore: any CloudSyncDiagnosticsStoring
+  private var appliedDataRevision: UInt64 = 0
+  private var appliedErrorRevision: UInt64 = 0
 
   private(set) var records: [CloudSyncEventRecord] = []
   private(set) var loadErrorDescription: String?
   private(set) var exportURL: URL?
 
-  init(fileStore: CloudSyncDiagnosticsFileStore = CloudSyncDiagnosticsFileStore()) {
+  init(
+    fileStore: any CloudSyncDiagnosticsStoring = CloudSyncDiagnosticsFileStore()
+  ) {
     self.fileStore = fileStore
   }
 
   func load() async {
-    do {
-      let loadedRecords = try await fileStore.load()
-      let loadedExportURL = try await fileStore.exportURL()
-      records = loadedRecords
-      exportURL = loadedExportURL
-      loadErrorDescription = nil
-    }
-    catch {
-      Log.data.error("Failed to load CloudKit sync diagnostics: \(error.localizedDescription)")
-      loadErrorDescription = error.localizedDescription
-    }
+    let update = await fileStore.loadUpdate()
+    apply(update, failureLogPrefix: "Failed to load CloudKit sync diagnostics")
   }
 
   func record(_ event: CloudSyncEventRecord) async {
-    do {
-      let updatedRecords = try await fileStore.upsert(event)
-      let updatedExportURL = try await fileStore.exportURL()
-      records = updatedRecords
-      exportURL = updatedExportURL
-      loadErrorDescription = nil
-    }
-    catch {
-      Log.data.error("Failed to record CloudKit sync diagnostics: \(error.localizedDescription)")
-      loadErrorDescription = error.localizedDescription
+    let update = await fileStore.recordUpdate(event)
+    apply(update, failureLogPrefix: "Failed to record CloudKit sync diagnostics")
+  }
+
+  private func apply(
+    _ update: CloudSyncDiagnosticsStoreUpdate,
+    failureLogPrefix: String
+  ) {
+    switch update {
+    case .success(let revision, let updatedRecords, let updatedExportURL):
+      if revision > appliedDataRevision {
+        appliedDataRevision = revision
+        records = updatedRecords
+        exportURL = updatedExportURL
+      }
+      if revision > appliedErrorRevision {
+        appliedErrorRevision = revision
+        loadErrorDescription = nil
+      }
+    case .failure(let revision, let description):
+      guard revision > appliedErrorRevision else {
+        return
+      }
+      appliedErrorRevision = revision
+      Log.data.error("\(failureLogPrefix): \(description)")
+      loadErrorDescription = description
     }
   }
 }
