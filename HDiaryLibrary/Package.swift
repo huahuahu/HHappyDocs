@@ -142,6 +142,7 @@ let package = Package(
         "HDiaryIAP",
         "HDiaryModel",
         "HDiarySearch",
+        "HDiaryWidgetData",
         .product(name: "HFoundation", package: "HSharedCode"),
         .product(name: "HLocalization", package: "HSharedCode"),
         .product(name: "HMedia", package: "HSharedCode"),
