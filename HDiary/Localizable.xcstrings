@@ -1458,6 +1458,24 @@
         }
       }
     },
+    "library.entry.chart.summary" : {
+      "comment" : "Summary shown on the chart library entry card",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View record trends"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看记录趋势"
+          }
+        }
+      }
+    },
     "library.entry.participant.label" : {
       "comment" : "Used to indicate this is Participant entry",
       "extractionState" : "stale",
@@ -1476,6 +1494,42 @@
         }
       }
     },
+    "library.entry.participant.summary" : {
+      "comment" : "Compact participant count shown on the library entry card",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld participant"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld participants"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld 位参与者"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "library.entry.tag.label" : {
       "comment" : "Used to indicate this is tag entry",
       "extractionState" : "stale",
@@ -1490,6 +1544,42 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "标签"
+          }
+        }
+      }
+    },
+    "library.entry.tag.summary" : {
+      "comment" : "Compact tag count shown on the library entry card",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld tag"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld tags"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld 个标签"
+                }
+              }
+            }
           }
         }
       }
