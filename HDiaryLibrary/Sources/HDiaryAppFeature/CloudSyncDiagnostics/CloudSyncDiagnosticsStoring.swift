@@ -1,8 +1,12 @@
-protocol CloudSyncDiagnosticsStoring: Sendable {
-  func loadUpdate() async -> CloudSyncDiagnosticsStoreUpdate
-  func recordUpdate(
-    _ event: CloudSyncEventRecord
-  ) async -> CloudSyncDiagnosticsStoreUpdate
-}
+#if os(iOS)
 
-extension CloudSyncDiagnosticsFileStore: CloudSyncDiagnosticsStoring {}
+  protocol CloudSyncDiagnosticsStoring: Sendable {
+    func loadUpdate() async -> CloudSyncDiagnosticsStoreUpdate
+    func recordUpdate(
+      _ event: CloudSyncEventRecord
+    ) async -> CloudSyncDiagnosticsStoreUpdate
+  }
+
+  extension CloudSyncDiagnosticsFileStore: CloudSyncDiagnosticsStoring {}
+
+#endif

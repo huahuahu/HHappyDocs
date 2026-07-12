@@ -500,6 +500,28 @@
       XCTAssertEqual(model.loadErrorDescription, failureDescription)
     }
 
+    func testEqualRevisionFailureOverridesPreviouslyAppliedSuccess() async {
+      let failureDescription = "same revision failure"
+      let store = SuspendedLoadDiagnosticsStore(recordAdvancesRevision: false)
+      let model = CloudSyncDiagnosticsModel(fileStore: store)
+      let event = makeEvent(start: 1, end: 2, state: .succeeded)
+      let loadTask = Task { @MainActor in
+        await model.load()
+      }
+      await store.waitUntilLoadIsPending()
+
+      await model.record(event)
+
+      XCTAssertEqual(model.records, [event])
+      XCTAssertNil(model.loadErrorDescription)
+
+      await store.failLoad(description: failureDescription)
+      await loadTask.value
+
+      XCTAssertEqual(model.records, [event])
+      XCTAssertEqual(model.loadErrorDescription, failureDescription)
+    }
+
     private func makeEvent(
       id: UUID = UUID(),
       start: TimeInterval,

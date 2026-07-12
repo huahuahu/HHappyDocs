@@ -1,15 +1,19 @@
-import Foundation
+#if os(iOS)
 
-struct CloudSyncEventPresentation {
-  let state: CloudSyncEventRecord.State
-  let kind: CloudSyncEventRecord.Kind
-  let errorCodeText: String?
-  let retryDate: Date?
+  import Foundation
 
-  init(record: CloudSyncEventRecord) {
-    state = record.state
-    kind = record.kind
-    errorCodeText = record.error.map { "\($0.domain) \($0.code)" }
-    retryDate = record.error?.retryDate
+  struct CloudSyncEventPresentation {
+    let state: CloudSyncEventRecord.State
+    let kind: CloudSyncEventRecord.Kind
+    let errorCodeText: String?
+    let retryDate: Date?
+
+    init(record: CloudSyncEventRecord) {
+      state = record.state
+      kind = record.kind
+      errorCodeText = record.error.map { "\($0.domain) \($0.code)" }
+      retryDate = record.error?.retryDate
+    }
   }
-}
+
+#endif
