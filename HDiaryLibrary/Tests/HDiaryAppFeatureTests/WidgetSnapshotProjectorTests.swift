@@ -13,6 +13,7 @@
     func testProjectBuildsBoundedDeduplicatedUnionAndFiltersDeletedMoments() async throws {
       let firstParticipantID = try XCTUnwrap(UUID(uuidString: "00000000-0000-0000-0000-000000000001"))
       let secondParticipantID = try XCTUnwrap(UUID(uuidString: "00000000-0000-0000-0000-000000000002"))
+      let sharedID = try XCTUnwrap(UUID(uuidString: "00000000-0000-0000-0000-000000008888"))
       let deletedID = try XCTUnwrap(UUID(uuidString: "00000000-0000-0000-0000-000000009999"))
       let participants = [
         WidgetParticipantSource(uuid: firstParticipantID, nickName: "A", avatarData: Data([1, 2, 3])),
@@ -45,6 +46,13 @@
         ))
       }
       moments.append(WidgetMomentSource(
+        uuid: sharedID,
+        timestamp: Date(timeIntervalSince1970: 1500),
+        title: "Shared",
+        participantIDs: [firstParticipantID, secondParticipantID],
+        isDeleted: false
+      ))
+      moments.append(WidgetMomentSource(
         uuid: deletedID,
         timestamp: Date(timeIntervalSince1970: 2000),
         title: "Deleted",
@@ -60,8 +68,16 @@
       )
 
       XCTAssertEqual(snapshot.participants.count, 2)
-      XCTAssertTrue(snapshot.participants.allSatisfy { ($0.avatarThumbnailData?.count ?? 0) <= 2 })
+      XCTAssertEqual(
+        snapshot.participants.first { $0.uuid == firstParticipantID }?.avatarThumbnailData,
+        Data([1, 2])
+      )
+      XCTAssertEqual(
+        snapshot.participants.first { $0.uuid == secondParticipantID }?.avatarThumbnailData,
+        Data([4, 5])
+      )
       XCTAssertFalse(snapshot.moments.contains { $0.uuid == deletedID })
+      XCTAssertEqual(snapshot.moments.filter { $0.uuid == sharedID }.count, 1)
       XCTAssertEqual(Set(snapshot.moments.map(\.uuid)).count, snapshot.moments.count)
       XCTAssertLessThanOrEqual(snapshot.moments.count, participants.count * 8 + 8)
       XCTAssertEqual(snapshot.moments.filter { $0.participantIDs.contains(firstParticipantID) }.count, 8)
