@@ -4,7 +4,7 @@ import HDiaryWidgetData
 import SwiftData
 
 @MainActor
-struct MainStoreWidgetSnapshotBuilder {
+struct MainStoreWidgetSnapshotBuilder: WidgetSnapshotBuilding {
   private let container: ModelContainer
 
   init(container: ModelContainer) {
