@@ -229,9 +229,9 @@ public enum DiaryStringKey {
   public static func participantEntrySummary(count: Int) -> LocalizedStringResource {
     LocalizedStringResource(
       "library.entry.participant.summary",
-      defaultValue: "\(count) participants",
+      defaultValue: "\(count)",
       bundle: .module,
-      comment: "Compact participant count shown on the library entry card"
+      comment: "Compact participant count shown on the library entry card without repeating the entry title"
     )
   }
 

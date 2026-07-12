@@ -21,6 +21,10 @@ final class LibraryViewStateTests: XCTestCase {
       state.summary(for: .participant),
       DiaryStringKey.participantEntrySummary(count: 7)
     )
+    XCTAssertEqual(
+      String(localized: state.summary(for: .participant)),
+      "7"
+    )
   }
 
   func testChartSummaryDoesNotDependOnCounts() {
@@ -41,6 +45,10 @@ final class LibraryViewStateTests: XCTestCase {
     XCTAssertEqual(
       state.summary(for: .participant),
       DiaryStringKey.participantEntrySummary(count: 0)
+    )
+    XCTAssertEqual(
+      String(localized: state.summary(for: .participant)),
+      "0"
     )
   }
 }

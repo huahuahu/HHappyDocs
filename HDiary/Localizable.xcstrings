@@ -1495,37 +1495,19 @@
       }
     },
     "library.entry.participant.summary" : {
-      "comment" : "Compact participant count shown on the library entry card",
+      "comment" : "Compact participant count shown on the library entry card without repeating the entry title",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld participant"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld participants"
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
           }
         },
         "zh-Hans" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld 位参与者"
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
           }
         }
       }
