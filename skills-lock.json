@@ -47,7 +47,7 @@
       "source": "rorkai/app-store-connect-cli-skills",
       "sourceType": "github",
       "skillPath": "skills/asc-metadata-sync/SKILL.md",
-      "computedHash": "98f43da4c0c38963a32eff04312892c6e1f57184a75ff7e2aa669ab2edbc7761"
+      "computedHash": "b95b921559846580120f5cc0f30b6287ed1d04c12b7ee95f25a9f6a0e9a19cb6"
     },
     "asc-notarization": {
       "source": "rorkai/app-store-connect-cli-skills",

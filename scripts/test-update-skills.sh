@@ -28,6 +28,7 @@ set -uo pipefail
 {
     printf 'cwd=%s\n' "$PWD"
     printf 'argc=%s\n' "$#"
+    printf 'AI_AGENT=%s\n' "${AI_AGENT:-<unset>}"
 
     index=1
     for argument in "$@"; do
@@ -117,6 +118,17 @@ test_direct_invocation_uses_repo_root_and_all_project_arguments() {
     assert_log_line 'arg_3=update' || return 1
     assert_log_line 'arg_4=--project' || return 1
     assert_log_line 'arg_5=--yes' || return 1
+}
+
+test_update_targets_github_copilot() {
+    : > "$NPX_LOG"
+
+    (
+        cd "$OUTSIDE_DIR" || exit 1
+        PATH="$FAKE_BIN:$PATH" NPX_LOG="$NPX_LOG" AI_AGENT=claude-code "$UPDATE_SCRIPT"
+    ) || return 1
+
+    assert_log_line 'AI_AGENT=github-copilot'
 }
 
 test_proxy_environment_is_inherited_unchanged() {
@@ -209,6 +221,8 @@ run_test '使用 Git 解析 repository 根目录' \
     test_repo_root_is_resolved_with_git
 run_test '直接调用使用仓库根目录与全部 project 参数' \
     test_direct_invocation_uses_repo_root_and_all_project_arguments
+run_test '更新目标固定为 GitHub Copilot' \
+    test_update_targets_github_copilot
 run_test '代理环境保持调用者提供的值' \
     test_proxy_environment_is_inherited_unchanged
 run_test '未设置的代理环境保持未设置' \
@@ -223,4 +237,4 @@ if [[ "$failures" -ne 0 ]]; then
     exit 1
 fi
 
-printf '全部 6 个测试通过\n'
+printf '全部 7 个测试通过\n'
