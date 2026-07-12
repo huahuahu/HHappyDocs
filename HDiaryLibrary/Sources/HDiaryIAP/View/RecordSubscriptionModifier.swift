@@ -19,6 +19,19 @@
     @Environment(UserPreferences.self) private var userPreferences: UserPreferences
     @State private var state: EntitlementTaskState<RecordSubscriptionStatus> = .loading
 
+    private let appDistribution = AppDistribution.current
+
+    private var subscriptionStatus: RecordSubscriptionStatus {
+      state.value ?? .notSubscribed
+    }
+
+    private var recordFeatureAccessAllowed: Bool {
+      RecordFeatureAccessPolicy.allowsAccess(
+        for: subscriptionStatus,
+        distribution: appDistribution
+      )
+    }
+
     private var isLoading: Bool {
       if case .loading = state { true }
       else { false }
@@ -65,9 +78,13 @@
           }
           Log.iap.info("Finished checking subscription status")
         }
-        .environment(\.recordSubscriptionStatus, state.value ?? .notSubscribed)
+        .environment(\.recordSubscriptionStatus, subscriptionStatus)
+        .environment(\.recordFeatureAccessAllowed, recordFeatureAccessAllowed)
         .environment(\.recordSubscriptionStatusIsLoading, isLoading)
         .task {
+          Log.iap.info(
+            "App distribution: \(String(describing: appDistribution), privacy: .public)"
+          )
           readDataFromDisk()
         }
     }

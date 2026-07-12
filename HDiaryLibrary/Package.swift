@@ -126,6 +126,7 @@ let package = Package(
     .testTarget(
       name: "HDiaryIAPTests",
       dependencies: [
+        "HDiaryConstants",
         "HDiaryIAP",
       ],
       swiftSettings: packageSwiftSettings

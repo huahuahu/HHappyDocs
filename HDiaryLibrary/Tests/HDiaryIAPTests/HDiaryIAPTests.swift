@@ -1,18 +1,49 @@
 #if os(iOS)
 
   @testable import HDiaryIAP
-  import HFoundation
-
+  import HDiaryConstants
+  import SwiftUI
   import XCTest
 
   final class HDiaryIAPTests: XCTestCase {
-    func testExample() throws {
-      // XCTest Documentation
-      // https://developer.apple.com/documentation/xctest
+    func testTestFlightAllowsAccessWithoutSubscription() {
+      XCTAssertTrue(
+        RecordFeatureAccessPolicy.allowsAccess(
+          for: .notSubscribed,
+          distribution: .testFlight
+        )
+      )
+    }
 
-      // Defining Test Cases and Test Methods
-      // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
-      XCTAssertEqual(1 + 1, 2)
+    func testOtherDistributionDeniesAccessWithoutSubscription() {
+      XCTAssertFalse(
+        RecordFeatureAccessPolicy.allowsAccess(
+          for: .notSubscribed,
+          distribution: .other
+        )
+      )
+    }
+
+    func testMonthlySubscriptionAllowsAccessInOtherDistribution() {
+      XCTAssertTrue(
+        RecordFeatureAccessPolicy.allowsAccess(
+          for: .monthly(expirationDate: .distantFuture),
+          distribution: .other
+        )
+      )
+    }
+
+    func testAnnualSubscriptionAllowsAccessInOtherDistribution() {
+      XCTAssertTrue(
+        RecordFeatureAccessPolicy.allowsAccess(
+          for: .annually(expirationDate: .distantFuture),
+          distribution: .other
+        )
+      )
+    }
+
+    func testFeatureAccessEnvironmentDefaultsToDenied() {
+      XCTAssertFalse(EnvironmentValues().recordFeatureAccessAllowed)
     }
   }
 
