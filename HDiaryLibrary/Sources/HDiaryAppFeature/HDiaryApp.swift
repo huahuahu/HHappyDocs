@@ -12,7 +12,9 @@ import SwiftData
 import SwiftUI
 
 public struct HDiaryFeatureApp: App {
-  public init() {}
+  public init() {
+    CloudSyncRuntime.shared.start()
+  }
 
   public var body: some Scene {
     WindowGroup {

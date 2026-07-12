@@ -60,7 +60,7 @@
 
   extension HDiaryContainer {
     @MainActor
-    public static func getCurrentContainer() -> ModelContainer {
+    public static var currentContainer: ModelContainer {
       #if DEBUG && os(iOS)
         switch UserPreferences.shared.swiftDataContainerType {
         case .iCloud:
@@ -73,5 +73,10 @@
       #else
         return HDiaryContainer.iCloudContainer
       #endif
+    }
+
+    @MainActor
+    public static func getCurrentContainer() -> ModelContainer {
+      currentContainer
     }
   }
