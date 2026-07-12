@@ -343,4 +343,3 @@ git add \
   HDiaryLibrary/Tests/HDiaryIAPTests/HDiaryIAPTests.swift
 git commit -m "Move app distribution to shared constants"
 ```
-
