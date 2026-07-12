@@ -51,8 +51,8 @@ struct LibraryEntryCard: View {
               .foregroundStyle(.secondary)
               .fixedSize(horizontal: false, vertical: true)
           }
+          .frame(maxWidth: .infinity, alignment: .leading)
           .layoutPriority(1)
-          Spacer(minLength: 0)
           disclosureIndicator
         }
       }

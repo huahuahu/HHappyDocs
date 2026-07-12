@@ -6,6 +6,30 @@ import XCTest
 
 @MainActor
 final class LibraryEntryRenderingTests: XCTestCase {
+  func testHorizontalParticipantCardUsesAvailableTextWidthAtAccessibilityXXXL() throws {
+    let renderer = ImageRenderer(
+      content: LibraryEntryCard(
+        entry: .participant,
+        summary: DiaryStringKey.participantEntrySummary(count: 10),
+        contentAxis: .horizontal
+      )
+      .environment(\.locale, Locale(identifier: "en"))
+      .environment(\.dynamicTypeSize, .accessibility5)
+      .frame(width: 312)
+    )
+    renderer.proposedSize = ProposedViewSize(width: 312, height: nil)
+
+    let image = try XCTUnwrap(
+      renderer.uiImage,
+      "Expected the horizontal participant card to render"
+    )
+    XCTAssertLessThan(
+      image.size.height,
+      1_000,
+      "Expected readable horizontal text layout; actual height: \(image.size.height)pt"
+    )
+  }
+
   func testCardRendersForVerticalAndHorizontalContentAxes() {
     let scenarios: [(axis: Axis, width: CGFloat, height: CGFloat)] = [
       (.vertical, 104, 180),
