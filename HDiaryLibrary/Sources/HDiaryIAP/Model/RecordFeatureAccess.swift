@@ -1,3 +1,4 @@
+import HDiaryConstants
 import SwiftUI
 
 enum RecordFeatureAccessPolicy {

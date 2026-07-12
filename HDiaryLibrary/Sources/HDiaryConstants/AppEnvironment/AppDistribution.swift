@@ -1,6 +1,6 @@
 import Foundation
 
-enum AppDistribution: Equatable, Sendable {
+public enum AppDistribution: Equatable, Sendable {
   case testFlight
   case other
 
@@ -19,7 +19,7 @@ enum AppDistribution: Equatable, Sendable {
     return .testFlight
   }
 
-  static var current: Self {
+  public static var current: Self {
     #if targetEnvironment(simulator)
       let isSimulator = true
     #else
