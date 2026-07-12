@@ -23,6 +23,20 @@ final class LibraryEntryLayoutPolicyTests: XCTestCase {
       )
     }
   }
+
+  func testStandardDynamicTypeSingleColumnUsesHorizontalContent() {
+    XCTAssertEqual(
+      LibraryEntryLayoutPolicy.singleColumnContentAxis(for: .large),
+      .horizontal
+    )
+  }
+
+  func testAccessibilityDynamicTypeSingleColumnUsesVerticalContent() {
+    XCTAssertEqual(
+      LibraryEntryLayoutPolicy.singleColumnContentAxis(for: .accessibility3),
+      .vertical
+    )
+  }
 }
 
 #endif

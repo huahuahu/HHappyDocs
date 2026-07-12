@@ -48,7 +48,9 @@ struct LibraryEntryDashboard: View {
         LibraryEntryNavigationCard(
           entry: entry,
           summary: viewState.summary(for: entry),
-          contentAxis: .horizontal
+          contentAxis: LibraryEntryLayoutPolicy.singleColumnContentAxis(
+            for: dynamicTypeSize
+          )
         )
       }
     }
