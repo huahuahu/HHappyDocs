@@ -10,6 +10,14 @@ public struct WidgetParticipantValue: Sendable, Equatable {
     self.nickName = nickName
     self.avatarThumbnailData = avatarThumbnailData
   }
+
+  public init(_ model: WidgetParticipantSnapshot) {
+    self.init(
+      uuid: model.uuid,
+      nickName: model.nickName,
+      avatarThumbnailData: model.avatarThumbnailData
+    )
+  }
 }
 
 public struct WidgetMomentValue: Sendable, Equatable {
@@ -23,6 +31,15 @@ public struct WidgetMomentValue: Sendable, Equatable {
     self.timestamp = timestamp
     self.title = title
     self.participantIDs = participantIDs
+  }
+
+  public init(_ model: WidgetMomentSnapshot) {
+    self.init(
+      uuid: model.uuid,
+      timestamp: model.timestamp,
+      title: model.title,
+      participantIDs: model.participantIDs
+    )
   }
 }
 
