@@ -5,4 +5,4 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 REPO_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
 
 cd "$REPO_ROOT"
-exec npx --yes skills update --project --yes
+AI_AGENT=github-copilot exec npx --yes skills update --project --yes
