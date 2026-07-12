@@ -101,7 +101,7 @@
       XCTAssertEqual(failed.endDate, endDate)
       XCTAssertEqual(failed.error?.domain, failure.domain)
       XCTAssertEqual(failed.error?.code, failure.code)
-      XCTAssertEqual(failed.error?.message, "failed")
+      XCTAssertEqual(failed.error?.message, "Synchronization operation failed")
     }
 
     func testRemoteChangeMatchesOnlyPrimaryStoreURL() {

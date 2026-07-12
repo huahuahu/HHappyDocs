@@ -26,7 +26,7 @@
       XCTAssertEqual(CloudSyncEventRecord.State.failed.rawValue, "failed")
     }
 
-    func testRetryAfterIsFoundInNestedPartialErrorWithoutReplacingTopLevelDetails() throws {
+    func testRetryAfterIsFoundInNestedPartialErrorWithoutReplacingTopLevelCode() throws {
       let retrying = NSError(
         domain: CKErrorDomain,
         code: CKError.requestRateLimited.rawValue,
@@ -46,9 +46,49 @@
 
       XCTAssertEqual(details.domain, CKErrorDomain)
       XCTAssertEqual(details.code, CKError.partialFailure.rawValue)
-      XCTAssertEqual(details.message, "Partial failure")
+      XCTAssertEqual(details.message, "CloudKit operation failed")
       XCTAssertEqual(details.retryAfter, 60)
       XCTAssertEqual(details.retryDate, Date(timeIntervalSince1970: 1060))
+    }
+
+    func testSensitiveErrorTextIsExcludedFromDetailsAndEncodedDiagnostics() throws {
+      let recordIDSentinel = "RECORD-ID-SENTINEL-76F2"
+      let userIDSentinel = "USER-ID-SENTINEL-76F2"
+      let diaryContentSentinel = "DIARY-CONTENT-SENTINEL-76F2"
+      let error = NSError(
+        domain: CKErrorDomain,
+        code: CKError.requestRateLimited.rawValue,
+        userInfo: [
+          NSLocalizedDescriptionKey:
+            "\(recordIDSentinel)|\(userIDSentinel)|\(diaryContentSentinel)",
+          NSLocalizedFailureReasonErrorKey: userIDSentinel,
+          NSLocalizedRecoverySuggestionErrorKey: diaryContentSentinel,
+          CKErrorRetryAfterKey: NSNumber(value: 45),
+        ]
+      )
+      let now = Date(timeIntervalSince1970: 1000)
+
+      let details = try XCTUnwrap(CloudSyncErrorDetails.from(error: error, now: now))
+      let record = CloudSyncEventRecord(
+        id: UUID(),
+        storeIdentifier: "primary",
+        kind: .importData,
+        startDate: now,
+        endDate: now.addingTimeInterval(1),
+        state: .failed,
+        error: details
+      )
+      let json = try String(decoding: JSONEncoder().encode([record]), as: UTF8.self)
+
+      XCTAssertEqual(details.domain, CKErrorDomain)
+      XCTAssertEqual(details.code, CKError.requestRateLimited.rawValue)
+      XCTAssertEqual(details.message, "CloudKit operation failed")
+      XCTAssertEqual(details.retryAfter, 45)
+      XCTAssertEqual(details.retryDate, Date(timeIntervalSince1970: 1045))
+      for sentinel in [recordIDSentinel, userIDSentinel, diaryContentSentinel] {
+        XCTAssertFalse(details.message.contains(sentinel))
+        XCTAssertFalse(json.contains(sentinel))
+      }
     }
 
     func testRetryAfterTraversesUnderlyingAndMultipleErrors() throws {
@@ -77,6 +117,7 @@
         CloudSyncErrorDetails.from(error: outer, now: Date(timeIntervalSince1970: 100))
       )
 
+      XCTAssertEqual(details.message, "Persistent data operation failed")
       XCTAssertEqual(details.retryAfter, 30)
       XCTAssertEqual(details.retryDate, Date(timeIntervalSince1970: 130))
     }

@@ -17,10 +17,21 @@ nonisolated struct CloudSyncErrorDetails: Codable, Sendable, Equatable {
     return Self(
       domain: topLevelError.domain,
       code: topLevelError.code,
-      message: topLevelError.localizedDescription,
+      message: message(forDomain: topLevelError.domain),
       retryAfter: retryAfter,
       retryDate: retryAfter.map { now.addingTimeInterval($0) }
     )
+  }
+
+  private static func message(forDomain domain: String) -> String {
+    switch domain {
+    case CKErrorDomain:
+      "CloudKit operation failed"
+    case NSCocoaErrorDomain:
+      "Persistent data operation failed"
+    default:
+      "Synchronization operation failed"
+    }
   }
 
   private static func retryAfter(
