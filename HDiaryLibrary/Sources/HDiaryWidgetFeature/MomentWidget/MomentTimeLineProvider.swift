@@ -8,10 +8,9 @@
 #if os(iOS)
 
 import Foundation
-import HDiaryModel
+import HDiaryWidgetData
 import HDiaryWidgetIntents
 import OSLog
-import SwiftData
 import SwiftUI
 import WidgetKit
 
@@ -56,44 +55,38 @@ struct MomentTimeLineProvider: AppIntentTimelineProvider {
       return .nonEntity
     }
 
-    let modelContext = await MomentWidgetUtil.getModelContext()
+    guard let dataSource = MomentWidgetUtil.dataSource else {
+      return nil
+    }
     do {
-      var descriptor = FetchDescriptor<Participant>(
-        predicate: #Predicate { participant in
-          participant.uuid == participantID
-        }
-      )
-      descriptor.fetchLimit = 1
-      return try modelContext.fetch(descriptor).first.map(ParticipantEntity.init(from:))
+      return try dataSource.fetchParticipants()
+        .first { $0.uuid == participantID }
+        .map(ParticipantEntity.init(from:))
     }
     catch {
-      logger.error("Error when fetching participant for \(participantID.uuidString)")
+      logger.error(
+        "Error when fetching participant for \(participantID.uuidString): \(error.localizedDescription, privacy: .public)"
+      )
       return nil
     }
   }
 
-  // #Predicate Not complie in Xcode-Beta
   private func getMoments(with participantID: UUID?) async -> [MomentWidgetSummary.Moment] {
-    let modelContext = await MomentWidgetUtil.getModelContext()
-    let sortDescriptor = SortDescriptor<Moment>(\.timestamp, order: .reverse)
     let participantID = participantID ?? .null
+    guard let dataSource = MomentWidgetUtil.dataSource else {
+      return []
+    }
     do {
-      let moments = try modelContext.fetch(FetchDescriptor<Moment>(sortBy: [sortDescriptor]))
-        .filter { moment in
-          guard participantID != .null else {
-            return true
-          }
-          return moment.participants?.contains(where: { p in
-            p.uuid == participantID
-          }) ?? false
-        }
+      let moments = try dataSource.fetchMoments(participantID: participantID)
       logger.info("Found \(moments.count) Moments for \(participantID.uuidString)")
       return moments.map {
         .init(timeStamp: $0.timestamp, title: $0.title, id: $0.uuid)
       }
     }
     catch {
-      logger.error("Error when fetching moment for \(participantID.uuidString)")
+      logger.error(
+        "Error when fetching moment for \(participantID.uuidString): \(error.localizedDescription, privacy: .public)"
+      )
       return []
     }
   }
@@ -177,7 +170,7 @@ extension ParticipantEntity {
       table: "Intents",
       bundle: .main
     )),
-    avatar: UIImage(resource: .defaultPerson)
+    avatar: ParticipantEntity.defaultAvatar
   )
 }
 

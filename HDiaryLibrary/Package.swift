@@ -155,7 +155,7 @@ let package = Package(
       name: "HDiaryWidgetFeature",
       dependencies: [
         "HDiaryConstants",
-        "HDiaryModel",
+        "HDiaryWidgetData",
         "HDiaryWidgetIntents",
       ],
       swiftSettings: mainActorPackageSwiftSettings
@@ -163,7 +163,7 @@ let package = Package(
     .target(
       name: "HDiaryWidgetIntents",
       dependencies: [
-        "HDiaryModel",
+        "HDiaryWidgetData",
       ],
       swiftSettings: mainActorPackageSwiftSettings
     ),
@@ -187,6 +187,7 @@ let package = Package(
         "HDiaryAppFeature",
         "HDiaryConstants",
         "HDiaryModel",
+        "HDiaryWidgetData",
         "HDiaryWidgetIntents",
       ],
       swiftSettings: packageSwiftSettings

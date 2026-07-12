@@ -8,25 +8,56 @@
 #if os(iOS)
 
 import Foundation
-import HDiaryModel
+import HDiaryWidgetData
+import OSLog
 import SwiftData
 
-public enum MomentWidgetUtil {
-  public static func getParticipantDescriptor(fetchLimit: Int? = nil) -> FetchDescriptor<Participant> {
-    let sortDescriptor = SortDescriptor<Participant>(\.nickName, order: .forward)
-    var fetchDescriptor = FetchDescriptor<Participant>(sortBy: [sortDescriptor])
-    if let fetchLimit {
-      fetchDescriptor.fetchLimit = fetchLimit
-    }
-    return fetchDescriptor
+private let logger = Logger(subsystem: "com.tiger.suzhou.hdiary", category: "MomentWidgetUtil")
+
+@MainActor
+public final class MomentWidgetDataSource {
+  private let modelContainer: ModelContainer
+
+  public init(modelContainer: ModelContainer) {
+    self.modelContainer = modelContainer
   }
 
-  public static func getModelContext() async -> ModelContext {
-    let container = await MainActor.run {
-      return HDiaryContainer.getCurrentContainer()
-    }
-    return ModelContext(container)
+  public func fetchParticipants() throws -> [WidgetParticipantValue] {
+    let context = ModelContext(modelContainer)
+    let descriptor = FetchDescriptor<WidgetParticipantSnapshot>(
+      sortBy: [SortDescriptor(\.nickName), SortDescriptor(\.uuid)]
+    )
+    return try context.fetch(descriptor).map(WidgetParticipantValue.init)
   }
+
+  public func fetchMoments(participantID: UUID) throws -> [WidgetMomentValue] {
+    let context = ModelContext(modelContainer)
+    let descriptor = FetchDescriptor<WidgetMomentSnapshot>(
+      sortBy: [SortDescriptor(\.timestamp, order: .reverse), SortDescriptor(\.uuid)]
+    )
+    let moments = try context.fetch(descriptor).map(WidgetMomentValue.init)
+    guard participantID != .null else {
+      return moments
+    }
+    return moments.filter { $0.participantIDs.contains(participantID) }
+  }
+}
+
+public enum MomentWidgetUtil {
+  @MainActor
+  public static let dataSource: MomentWidgetDataSource? = {
+    do {
+      return MomentWidgetDataSource(
+        modelContainer: try WidgetSnapshotContainer.makeReaderContainer()
+      )
+    }
+    catch {
+      logger.error(
+        "Failed to create widget snapshot reader: \(error.localizedDescription, privacy: .public)"
+      )
+      return nil
+    }
+  }()
 }
 
 extension UUID {

@@ -14,17 +14,18 @@
 
   public enum HDiaryContainer {
     @MainActor
+    public static let iCloudConfiguration = ModelConfiguration(
+      schema: Schema.hDiaryScheme,
+      groupContainer: .identifier(AppConstants.groupName),
+      cloudKitDatabase: .private(AppConstants.cloudKitContainerIdentifier)
+    )
+
+    @MainActor
     public static var iCloudContainer: ModelContainer = {
-      let schema = Schema.hDiaryScheme
-      let configuration = ModelConfiguration(
-        schema: schema,
-        groupContainer: .identifier(AppConstants.groupName),
-        cloudKitDatabase: .private(AppConstants.cloudKitContainerIdentifier)
-      )
       do {
         let container = try ModelContainer(
-          for: schema,
-          configurations: [configuration]
+          for: Schema.hDiaryScheme,
+          configurations: [iCloudConfiguration]
         )
         return container
       }
