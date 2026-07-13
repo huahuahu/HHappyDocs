@@ -31,10 +31,6 @@ struct LibraryEntryCard: View {
             .foregroundStyle(.secondary)
             .fixedSize(horizontal: false, vertical: true)
           Spacer(minLength: 0)
-          HStack {
-            Spacer(minLength: 0)
-            disclosureIndicator
-          }
         }
       }
       else {
@@ -53,7 +49,6 @@ struct LibraryEntryCard: View {
           }
           .frame(maxWidth: .infinity, alignment: .leading)
           .layoutPriority(1)
-          disclosureIndicator
         }
       }
     }
@@ -65,10 +60,6 @@ struct LibraryEntryCard: View {
       alignment: contentAxis == .vertical ? .topLeading : .leading
     )
     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: cornerRadius))
-    .overlay {
-      RoundedRectangle(cornerRadius: cornerRadius)
-        .stroke(.quaternary, lineWidth: 1)
-    }
     .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(Text(entry.label))
@@ -83,13 +74,6 @@ struct LibraryEntryCard: View {
     Image(hDiarySymbol: entry.symbol)
       .font(.title2)
       .foregroundStyle(Color.accentColor)
-      .accessibilityHidden(true)
-  }
-
-  private var disclosureIndicator: some View {
-    Image(systemName: "chevron.forward")
-      .font(.footnote.bold())
-      .foregroundStyle(.tertiary)
       .accessibilityHidden(true)
   }
 }

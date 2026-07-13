@@ -12,6 +12,10 @@ final class LibraryViewStateTests: XCTestCase {
       state.summary(for: .tag),
       DiaryStringKey.tagEntrySummary(count: 3)
     )
+    XCTAssertEqual(
+      String(localized: state.summary(for: .tag)),
+      "3"
+    )
   }
 
   func testParticipantSummaryUsesParticipantCount() {
@@ -41,6 +45,10 @@ final class LibraryViewStateTests: XCTestCase {
     XCTAssertEqual(
       state.summary(for: .tag),
       DiaryStringKey.tagEntrySummary(count: 0)
+    )
+    XCTAssertEqual(
+      String(localized: state.summary(for: .tag)),
+      "0"
     )
     XCTAssertEqual(
       state.summary(for: .participant),

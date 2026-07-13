@@ -196,9 +196,9 @@ public enum DiaryStringKey {
   public static func tagEntrySummary(count: Int) -> LocalizedStringResource {
     LocalizedStringResource(
       "library.entry.tag.summary",
-      defaultValue: "\(count) tags",
+      defaultValue: "\(count)",
       bundle: .module,
-      comment: "Compact tag count shown on the library entry card"
+      comment: "Compact tag count shown on the library entry card without repeating the entry title"
     )
   }
 

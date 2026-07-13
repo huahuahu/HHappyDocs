@@ -19,6 +19,7 @@ struct LibraryEntryNavigationCard: View {
       )
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .buttonStyle(.plain)
   }
 }
 
