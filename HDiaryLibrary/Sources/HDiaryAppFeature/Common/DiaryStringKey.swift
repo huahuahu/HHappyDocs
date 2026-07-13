@@ -193,15 +193,6 @@ public enum DiaryStringKey {
 
   public static let tagEntryLabel = LocalizedStringResource("library.entry.tag.label", defaultValue: "Tag", bundle: .module, comment: "Used to indicate this is tag entry")
 
-  public static func tagEntrySummary(count: Int) -> LocalizedStringResource {
-    LocalizedStringResource(
-      "library.entry.tag.summary",
-      defaultValue: "\(count)",
-      bundle: .module,
-      comment: "Compact tag count shown on the library entry card without repeating the entry title"
-    )
-  }
-
   public static let tagEditTitleSectionHeader = LocalizedStringResource("library.tag.edit.title.sectionHeader", defaultValue: "Title", bundle: .module, comment: "Used as section header to indicate this is abut tag's title")
 
   public static let tagEditTitlePlaceHolder = LocalizedStringResource("library.tag.edit.title.placeHolder", defaultValue: "Title here", bundle: .module, comment: "Used as place holder to indicate this is abut tag's title")
@@ -225,15 +216,6 @@ public enum DiaryStringKey {
   public static let momentTagEditViewEmptyString = LocalizedStringResource("moment.edit.tag.seletion", defaultValue: "Select tags from below", bundle: .module, comment: "When adding/removing tags for moment, used as empty string")
 
   public static let participantEntryLabel = LocalizedStringResource("library.entry.participant.label", defaultValue: "Participant", bundle: .module, comment: "Used to indicate this is Participant entry")
-
-  public static func participantEntrySummary(count: Int) -> LocalizedStringResource {
-    LocalizedStringResource(
-      "library.entry.participant.summary",
-      defaultValue: "\(count)",
-      bundle: .module,
-      comment: "Compact participant count shown on the library entry card without repeating the entry title"
-    )
-  }
 
   public static let participantEmptyViewLabel = LocalizedStringResource("library.participant.empty.label", defaultValue: "No Participant", bundle: .module, comment: "In empty view for no participant, used as label")
 

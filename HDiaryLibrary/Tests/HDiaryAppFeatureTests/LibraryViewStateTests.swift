@@ -10,11 +10,7 @@ final class LibraryViewStateTests: XCTestCase {
 
     XCTAssertEqual(
       state.summary(for: .tag),
-      DiaryStringKey.tagEntrySummary(count: 3)
-    )
-    XCTAssertEqual(
-      String(localized: state.summary(for: .tag)),
-      "3"
+      .count(3)
     )
   }
 
@@ -23,11 +19,7 @@ final class LibraryViewStateTests: XCTestCase {
 
     XCTAssertEqual(
       state.summary(for: .participant),
-      DiaryStringKey.participantEntrySummary(count: 7)
-    )
-    XCTAssertEqual(
-      String(localized: state.summary(for: .participant)),
-      "7"
+      .count(7)
     )
   }
 
@@ -35,8 +27,8 @@ final class LibraryViewStateTests: XCTestCase {
     let emptyState = LibraryViewState(tagCount: 0, participantCount: 0)
     let populatedState = LibraryViewState(tagCount: 12, participantCount: 9)
 
-    XCTAssertEqual(emptyState.summary(for: .chart), DiaryStringKey.chartEntrySummary)
-    XCTAssertEqual(populatedState.summary(for: .chart), DiaryStringKey.chartEntrySummary)
+    XCTAssertEqual(emptyState.summary(for: .chart), .localized(DiaryStringKey.chartEntrySummary))
+    XCTAssertEqual(populatedState.summary(for: .chart), .localized(DiaryStringKey.chartEntrySummary))
   }
 
   func testZeroCountsRemainVisibleSummaries() {
@@ -44,19 +36,11 @@ final class LibraryViewStateTests: XCTestCase {
 
     XCTAssertEqual(
       state.summary(for: .tag),
-      DiaryStringKey.tagEntrySummary(count: 0)
-    )
-    XCTAssertEqual(
-      String(localized: state.summary(for: .tag)),
-      "0"
+      .count(0)
     )
     XCTAssertEqual(
       state.summary(for: .participant),
-      DiaryStringKey.participantEntrySummary(count: 0)
-    )
-    XCTAssertEqual(
-      String(localized: state.summary(for: .participant)),
-      "0"
+      .count(0)
     )
   }
 }

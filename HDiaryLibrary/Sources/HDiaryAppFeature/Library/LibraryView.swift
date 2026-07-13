@@ -8,7 +8,6 @@
 #if os(iOS)
 
 import HDiaryConstants
-import HDiaryModel
 import SwiftData
 import SwiftUI
 
@@ -17,8 +16,8 @@ struct LibraryView: View {
   private static let maximumContentWidth: CGFloat = 720
 
   @Environment(HDiaryRoute.self) private var appRoute
-  @Query private var tags: [Tag]
-  @Query private var participants: [Participant]
+  @Environment(\.modelContext) private var modelContext
+  @State private var countModel = LibraryViewCountModel()
   @ScaledMetric(relativeTo: .body) private var contentMargin: CGFloat = 16
   @Binding private var isSelected: Bool
 
@@ -31,13 +30,13 @@ struct LibraryView: View {
     NavigationStack(path: $appRoute.libraryNavigationStore.path) {
       ScrollView {
         LibraryEntryDashboard(
-          viewState: LibraryViewState(
-            tagCount: tags.count,
-            participantCount: participants.count
-          )
+          viewState: countModel.viewState
         )
         .frame(maxWidth: Self.maximumContentWidth)
         .frame(maxWidth: .infinity)
+      }
+      .task {
+        countModel.updateCounts(modelContext: modelContext)
       }
       .contentMargins(.horizontal, contentMargin, for: .scrollContent)
       .contentMargins(.vertical, contentMargin, for: .scrollContent)

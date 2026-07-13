@@ -6,14 +6,14 @@ struct LibraryViewState {
   let tagCount: Int
   let participantCount: Int
 
-  func summary(for entry: LibraryEntry) -> LocalizedStringResource {
+  func summary(for entry: LibraryEntry) -> LibraryEntrySummary {
     switch entry {
     case .tag:
-      DiaryStringKey.tagEntrySummary(count: tagCount)
+      .count(tagCount)
     case .participant:
-      DiaryStringKey.participantEntrySummary(count: participantCount)
+      .count(participantCount)
     case .chart:
-      DiaryStringKey.chartEntrySummary
+      .localized(DiaryStringKey.chartEntrySummary)
     }
   }
 }

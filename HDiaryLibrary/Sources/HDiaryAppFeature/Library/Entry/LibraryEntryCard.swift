@@ -13,7 +13,7 @@ struct LibraryEntryCard: View {
   @ScaledMetric(relativeTo: .body) private var horizontalMinimumHeight: CGFloat = 82
 
   let entry: LibraryEntry
-  let summary: LocalizedStringResource
+  let summary: LibraryEntrySummary
   let contentAxis: Axis
 
   var body: some View {
@@ -26,10 +26,7 @@ struct LibraryEntryCard: View {
             .bold()
             .foregroundStyle(.primary)
             .fixedSize(horizontal: false, vertical: true)
-          Text(summary)
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
+          summaryText
           Spacer(minLength: 0)
         }
       }
@@ -42,10 +39,7 @@ struct LibraryEntryCard: View {
               .bold()
               .foregroundStyle(.primary)
               .fixedSize(horizontal: false, vertical: true)
-            Text(summary)
-              .font(.subheadline)
-              .foregroundStyle(.secondary)
-              .fixedSize(horizontal: false, vertical: true)
+            summaryText
           }
           .frame(maxWidth: .infinity, alignment: .leading)
           .layoutPriority(1)
@@ -63,7 +57,7 @@ struct LibraryEntryCard: View {
     .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(Text(entry.label))
-    .accessibilityValue(Text(summary))
+    .accessibilityValue(summaryAccessibilityValue)
   }
 
   private var minimumHeight: CGFloat {
@@ -75,6 +69,31 @@ struct LibraryEntryCard: View {
       .font(.title2)
       .foregroundStyle(Color.accentColor)
       .accessibilityHidden(true)
+  }
+
+  @ViewBuilder
+  private var summaryText: some View {
+    switch summary {
+    case .count(let count):
+      Text(count, format: .number)
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        .fixedSize(horizontal: false, vertical: true)
+    case .localized(let resource):
+      Text(resource)
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        .fixedSize(horizontal: false, vertical: true)
+    }
+  }
+
+  private var summaryAccessibilityValue: Text {
+    switch summary {
+    case .count(let count):
+      Text(count, format: .number)
+    case .localized(let resource):
+      Text(resource)
+    }
   }
 }
 

@@ -10,7 +10,7 @@ final class LibraryEntryRenderingTests: XCTestCase {
     let renderer = ImageRenderer(
       content: LibraryEntryCard(
         entry: .participant,
-        summary: DiaryStringKey.participantEntrySummary(count: 10),
+        summary: .count(10),
         contentAxis: .horizontal
       )
       .environment(\.locale, Locale(identifier: "en"))
@@ -40,7 +40,7 @@ final class LibraryEntryRenderingTests: XCTestCase {
       let renderer = ImageRenderer(
         content: LibraryEntryCard(
           entry: .tag,
-          summary: DiaryStringKey.tagEntrySummary(count: 3),
+          summary: .count(3),
           contentAxis: scenario.axis
         )
         .frame(width: scenario.width)

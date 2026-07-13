@@ -5,7 +5,7 @@ import SwiftUI
 
 struct LibraryEntryNavigationCard: View {
   let entry: LibraryEntry
-  let summary: LocalizedStringResource
+  let summary: LibraryEntrySummary
   let contentAxis: Axis
 
   var body: some View {
