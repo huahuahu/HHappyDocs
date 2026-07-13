@@ -8,14 +8,19 @@
 #if os(iOS)
 
 import HDiaryConstants
-import HDiaryModel
+import SwiftData
 import SwiftUI
 
 @MainActor
 struct LibraryView: View {
+  private static let maximumContentWidth: CGFloat = 720
+
   @Environment(HDiaryRoute.self) private var appRoute
-//  @Environment(NavigationStore.self) private var navigationStore
+  @Environment(\.modelContext) private var modelContext
+  @State private var countModel = LibraryViewCountModel()
+  @ScaledMetric(relativeTo: .body) private var contentMargin: CGFloat = 16
   @Binding private var isSelected: Bool
+
   init(isSelected: Binding<Bool>) {
     self._isSelected = isSelected
   }
@@ -23,24 +28,27 @@ struct LibraryView: View {
   var body: some View {
     @Bindable var appRoute = appRoute
     NavigationStack(path: $appRoute.libraryNavigationStore.path) {
-      List {
-        ForEach(LibraryEntry.allCases) {
-          entry in
-          NavigationLink(value: HDiaryDestination.libraryEntry(entry: entry)) {
-            LibraryEntryCell(entry: entry)
-          }
-        }
+      ScrollView {
+        LibraryEntryDashboard(
+          viewState: countModel.viewState
+        )
+        .frame(maxWidth: Self.maximumContentWidth)
+        .frame(maxWidth: .infinity)
       }
+      .task {
+        countModel.updateCounts(modelContext: modelContext)
+      }
+      .contentMargins(.horizontal, contentMargin, for: .scrollContent)
+      .contentMargins(.vertical, contentMargin, for: .scrollContent)
       .navigationDestination(for: HDiaryDestination.self) { destination in
         destination.targetView
       }
-//      .withSheetDestinations(sheetDestinations: $navigationStore.presentedSheet)
-      .onOpenURL(perform: { url in
-        if self.isSelected {
+      .onOpenURL { url in
+        if isSelected {
           Log.Navigation.common.info("handle url in library tab")
           appRoute.libraryNavigationStore.handle(url)
         }
-      })
+      }
       .navigationTitle(Text(DiaryStringKey.libraryTabItemLabel))
     }
     .environment(appRoute.libraryNavigationStore)

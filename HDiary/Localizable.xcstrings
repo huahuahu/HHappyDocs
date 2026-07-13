@@ -1458,6 +1458,24 @@
         }
       }
     },
+    "library.entry.chart.summary" : {
+      "comment" : "Summary shown on the chart library entry card",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View record trends"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看记录趋势"
+          }
+        }
+      }
+    },
     "library.entry.participant.label" : {
       "comment" : "Used to indicate this is Participant entry",
       "extractionState" : "stale",

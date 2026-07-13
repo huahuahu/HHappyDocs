@@ -247,6 +247,13 @@ public enum DiaryStringKey {
 
   public static let chart = LocalizedStringResource("library.chart", defaultValue: "Chart", bundle: .module, comment: "Used for chart")
 
+  public static let chartEntrySummary = LocalizedStringResource(
+    "library.entry.chart.summary",
+    defaultValue: "View record trends",
+    bundle: .module,
+    comment: "Summary shown on the chart library entry card"
+  )
+
   public static let chartEntryByRating = LocalizedStringResource("library.chart.entry.byRating", defaultValue: "by rating", bundle: .module, comment: "entry for rating pie chart")
   public static let chartEntryByTag = LocalizedStringResource("library.chart.entry.byTag", defaultValue: "by tag", bundle: .module, comment: "entry for tag chart")
 }
