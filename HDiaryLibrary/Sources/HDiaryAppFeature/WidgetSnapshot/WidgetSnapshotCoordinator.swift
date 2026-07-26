@@ -90,8 +90,10 @@
     private func rebuildSnapshot() async {
       do {
         let snapshot = try await builder.build()
-        _ = try await writer.replace(with: snapshot)
-        reloadTimeline()
+        let didChange = try await writer.replace(with: snapshot)
+        if didChange {
+          reloadTimeline()
+        }
       }
       catch {
         Log.data.error("Failed to rebuild widget snapshot: \(error)")
