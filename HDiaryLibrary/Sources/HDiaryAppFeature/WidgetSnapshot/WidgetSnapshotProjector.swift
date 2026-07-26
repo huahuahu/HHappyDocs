@@ -4,6 +4,7 @@
   import HDiaryWidgetData
 
   nonisolated enum WidgetSnapshotProjector {
+    @concurrent
     static func project(
       participants: [WidgetParticipantSource],
       moments: [WidgetMomentSource],

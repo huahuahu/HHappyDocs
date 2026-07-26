@@ -1,45 +1,22 @@
 #if os(iOS)
 
-  import Foundation
-  import HDiaryModel
   import HDiaryWidgetData
   import SwiftData
 
   @MainActor
   struct MainStoreWidgetSnapshotBuilder: WidgetSnapshotBuilding {
-    private let container: ModelContainer
+    private let sourceReader: MainStoreWidgetSnapshotSourceReader
 
     init(container: ModelContainer) {
-      self.container = container
+      sourceReader = MainStoreWidgetSnapshotSourceReader(container: container)
     }
 
     func build() async throws -> WidgetSnapshotValue {
-      let context = ModelContext(container)
-      context.autosaveEnabled = false
-
-      let participants = try context.fetch(FetchDescriptor<Participant>())
-      var momentDescriptor = FetchDescriptor<Moment>(
-        sortBy: [SortDescriptor(\Moment.timestamp, order: .reverse)]
-      )
-      momentDescriptor.relationshipKeyPathsForPrefetching = [\Moment.participants]
-      let moments = try context.fetch(momentDescriptor)
-
-      let participantSources = participants.map {
-        WidgetParticipantSource(uuid: $0.uuid, nickName: $0.nickName, avatarData: $0.avatar)
-      }
-      let momentSources = moments.map {
-        WidgetMomentSource(
-          uuid: $0.uuid,
-          timestamp: $0.timestamp,
-          title: $0.title,
-          participantIDs: ($0.participants ?? []).map(\.uuid),
-          isDeleted: $0.markedAsDelete
-        )
-      }
+      let source = try await sourceReader.read()
 
       return await WidgetSnapshotProjector.project(
-        participants: participantSources,
-        moments: momentSources,
+        participants: source.participants,
+        moments: source.moments,
         limit: 8,
         thumbnail: {
           await WidgetAvatarThumbnailer.thumbnailData(from: $0, maxPixelSize: 64)

@@ -18,4 +18,10 @@
     let isDeleted: Bool
   }
 
+  // swiftformat:disable:next redundantSendable
+  nonisolated struct WidgetSnapshotSourceValue: Sendable, Equatable {
+    let participants: [WidgetParticipantSource]
+    let moments: [WidgetMomentSource]
+  }
+
 #endif
