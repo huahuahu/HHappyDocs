@@ -8,9 +8,11 @@ public actor WidgetSnapshotStore {
     self.modelContainer = modelContainer
   }
 
-  public func replace(with snapshot: WidgetSnapshotValue) throws {
+  @discardableResult
+  public func replace(with snapshot: WidgetSnapshotValue) throws -> Bool {
     let context = ModelContext(modelContainer)
     context.autosaveEnabled = false
+    var hasChanges = false
 
     let existingParticipants = try context.fetch(FetchDescriptor<WidgetParticipantSnapshot>())
     let participantsByID = Dictionary(
@@ -20,8 +22,14 @@ public actor WidgetSnapshotStore {
 
     for value in snapshot.participants {
       if let model = participantsByID[value.uuid] {
-        model.nickName = value.nickName
-        model.avatarThumbnailData = value.avatarThumbnailData
+        if model.nickName != value.nickName {
+          model.nickName = value.nickName
+          hasChanges = true
+        }
+        if model.avatarThumbnailData != value.avatarThumbnailData {
+          model.avatarThumbnailData = value.avatarThumbnailData
+          hasChanges = true
+        }
       } else {
         context.insert(
           WidgetParticipantSnapshot(
@@ -30,11 +38,13 @@ public actor WidgetSnapshotStore {
             avatarThumbnailData: value.avatarThumbnailData
           )
         )
+        hasChanges = true
       }
     }
 
     for model in existingParticipants where !desiredParticipantIDs.contains(model.uuid) {
       context.delete(model)
+      hasChanges = true
     }
 
     let existingMoments = try context.fetch(FetchDescriptor<WidgetMomentSnapshot>())
@@ -43,9 +53,18 @@ public actor WidgetSnapshotStore {
 
     for value in snapshot.moments {
       if let model = momentsByID[value.uuid] {
-        model.timestamp = value.timestamp
-        model.title = value.title
-        model.participantIDs = value.participantIDs
+        if model.timestamp != value.timestamp {
+          model.timestamp = value.timestamp
+          hasChanges = true
+        }
+        if model.title != value.title {
+          model.title = value.title
+          hasChanges = true
+        }
+        if Set(model.participantIDs) != Set(value.participantIDs) {
+          model.participantIDs = value.participantIDs
+          hasChanges = true
+        }
       } else {
         context.insert(
           WidgetMomentSnapshot(
@@ -55,14 +74,20 @@ public actor WidgetSnapshotStore {
             participantIDs: value.participantIDs
           )
         )
+        hasChanges = true
       }
     }
 
     for model in existingMoments where !desiredMomentIDs.contains(model.uuid) {
       context.delete(model)
+      hasChanges = true
     }
 
+    guard hasChanges else {
+      return false
+    }
     try context.save()
+    return true
   }
 
   public func snapshot() throws -> WidgetSnapshotValue {

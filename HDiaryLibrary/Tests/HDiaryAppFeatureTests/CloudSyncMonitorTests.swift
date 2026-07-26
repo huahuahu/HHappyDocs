@@ -530,8 +530,9 @@
   private actor RuntimeWriter: WidgetSnapshotWriting {
     private(set) var replaceCount = 0
 
-    func replace(with _: WidgetSnapshotValue) {
+    func replace(with _: WidgetSnapshotValue) -> Bool {
       replaceCount += 1
+      return true
     }
   }
 

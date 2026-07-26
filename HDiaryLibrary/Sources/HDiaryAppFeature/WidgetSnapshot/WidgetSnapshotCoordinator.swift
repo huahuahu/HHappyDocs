@@ -10,7 +10,7 @@
   }
 
   protocol WidgetSnapshotWriting: Sendable {
-    func replace(with snapshot: WidgetSnapshotValue) async throws
+    func replace(with snapshot: WidgetSnapshotValue) async throws -> Bool
   }
 
   extension WidgetSnapshotStore: WidgetSnapshotWriting {}
@@ -90,7 +90,7 @@
     private func rebuildSnapshot() async {
       do {
         let snapshot = try await builder.build()
-        try await writer.replace(with: snapshot)
+        _ = try await writer.replace(with: snapshot)
         reloadTimeline()
       }
       catch {

@@ -178,11 +178,12 @@
       self.error = error
     }
 
-    func replace(with snapshot: WidgetSnapshotValue) throws {
+    func replace(with snapshot: WidgetSnapshotValue) throws -> Bool {
       if let error {
         throw error
       }
       snapshots.append(snapshot)
+      return true
     }
   }
 
@@ -204,7 +205,7 @@
     private var firstWriteObservers = [CheckedContinuation<Void, Never>]()
     private var isFirstWritePaused = false
 
-    func replace(with snapshot: WidgetSnapshotValue) async throws {
+    func replace(with snapshot: WidgetSnapshotValue) async throws -> Bool {
       replaceCount += 1
       concurrentWriteCount += 1
       maximumConcurrentWriteCount = max(maximumConcurrentWriteCount, concurrentWriteCount)
@@ -224,6 +225,7 @@
 
       try Task.checkCancellation()
       snapshots.append(snapshot)
+      return true
     }
 
     func waitUntilFirstWriteIsPaused() async {
