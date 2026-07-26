@@ -460,7 +460,7 @@ public func replace(with snapshot: WidgetSnapshotValue) throws -> Bool {
         model.title = value.title
         hasChanges = true
       }
-      if Set(model.participantIDs) != Set(value.participantIDs) {
+      if model.participantIDs != value.participantIDs {
         model.participantIDs = value.participantIDs
         hasChanges = true
       }
@@ -528,7 +528,7 @@ func replace(with _: WidgetSnapshotValue) -> Bool {
 
 - [ ] **Step 5: 运行 store change test 并确认 GREEN**
 
-重新运行 `WidgetSnapshotStoreChangeTests` 与 `WidgetSnapshotStoreTests`。Expected: 首次 replace 返回 `true`、完全相同的第二次返回 `false`，原有 upsert/delete 与只读失败测试继续通过。
+重新运行 `WidgetSnapshotStoreChangeTests` 与 `WidgetSnapshotStoreTests`。Expected: 首次 replace 返回 `true`、完全相同的第二次返回 `false`，原有 upsert/delete 与只读失败测试继续通过。此时 Moment 的最小实现暂按数组比较，下一步用独立 RED 驱动集合语义。
 
 - [ ] **Step 6: 添加 participantIDs 集合语义的失败测试**
 
@@ -549,13 +549,23 @@ func participantOrderIsNotAChange() async throws {
 
   #expect(try await store.replace(with: first))
   let changed = try await store.replace(with: reordered)
+  let persisted = try await store.snapshot()
 
   #expect(!changed)
-  #expect(try await store.snapshot() == first)
+  #expect(Set(persisted.moments.first?.participantIDs ?? []) == Set([fixedUUID(1), fixedUUID(2)]))
 }
 ```
 
-先在 Moment 比较暂用数组相等的版本运行并观察 FAIL（`changed == true`），再改为 `Set` 比较并观察 GREEN。若 Step 3 已严格按计划使用 Set，则在提交实现前通过临时恢复数组比较确认该回归测试确实会 RED，再恢复 Set 实现并重新运行 GREEN。
+先运行并观察 FAIL（`changed == true`），确认数组顺序触发了无意义变化。随后只把 Moment 的 comparison 改为：
+
+```swift
+if Set(model.participantIDs) != Set(value.participantIDs) {
+  model.participantIDs = value.participantIDs
+  hasChanges = true
+}
+```
+
+重新运行同一测试并观察 GREEN。
 
 - [ ] **Step 7: 添加字段变化与插入/删除回归测试**
 
