@@ -57,6 +57,58 @@ struct WidgetSnapshotStoreChangeTests {
     #expect(try await store.snapshot() == updated)
   }
 
+  @Test("仅 avatarThumbnailData 变化会保存并持久化更新值")
+  func avatarThumbnailDataOnlyChangeIsReported() async throws {
+    let store = try makeStore()
+    let first = WidgetSnapshotValue(
+      participants: [participant(id: 1, name: "Tiger", avatarThumbnailData: Data([0x01]))],
+      moments: []
+    )
+    let updated = WidgetSnapshotValue(
+      participants: [participant(id: 1, name: "Tiger", avatarThumbnailData: Data([0x02]))],
+      moments: []
+    )
+
+    _ = try await store.replace(with: first)
+    let secondChanged = try await store.replace(with: updated)
+
+    #expect(secondChanged)
+    #expect(try await store.snapshot() == updated)
+  }
+
+  @Test("仅 timestamp 变化会保存并持久化更新值")
+  func timestampOnlyChangeIsReported() async throws {
+    let store = try makeStore()
+    let first = WidgetSnapshotValue(
+      participants: [],
+      moments: [
+        moment(
+          id: 1,
+          title: "Moment",
+          participantIDs: [fixedUUID(1)],
+          timestamp: Date(timeIntervalSince1970: 1)
+        )
+      ]
+    )
+    let updated = WidgetSnapshotValue(
+      participants: [],
+      moments: [
+        moment(
+          id: 1,
+          title: "Moment",
+          participantIDs: [fixedUUID(1)],
+          timestamp: Date(timeIntervalSince1970: 2)
+        )
+      ]
+    )
+
+    _ = try await store.replace(with: first)
+    let secondChanged = try await store.replace(with: updated)
+
+    #expect(secondChanged)
+    #expect(try await store.snapshot() == updated)
+  }
+
   @Test("增加或移除记录会保存并清理过期记录")
   func insertionsAndDeletionsAreReported() async throws {
     let store = try makeStore()
@@ -90,18 +142,27 @@ struct WidgetSnapshotStoreChangeTests {
     UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", value))!
   }
 
-  private func participant(id: Int, name: String) -> WidgetParticipantValue {
-    WidgetParticipantValue(uuid: fixedUUID(id), nickName: name, avatarThumbnailData: nil)
+  private func participant(
+    id: Int,
+    name: String,
+    avatarThumbnailData: Data? = nil
+  ) -> WidgetParticipantValue {
+    WidgetParticipantValue(
+      uuid: fixedUUID(id),
+      nickName: name,
+      avatarThumbnailData: avatarThumbnailData
+    )
   }
 
   private func moment(
     id: Int,
     title: String,
-    participantIDs: [UUID]
+    participantIDs: [UUID],
+    timestamp: Date? = nil
   ) -> WidgetMomentValue {
     WidgetMomentValue(
       uuid: fixedUUID(1_000 + id),
-      timestamp: Date(timeIntervalSince1970: TimeInterval(id)),
+      timestamp: timestamp ?? Date(timeIntervalSince1970: TimeInterval(id)),
       title: title,
       participantIDs: participantIDs
     )
