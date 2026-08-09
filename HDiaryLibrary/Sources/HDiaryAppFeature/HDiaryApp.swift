@@ -7,22 +7,25 @@
 
 #if os(iOS)
 
-import HDiaryModel
-import SwiftData
-import SwiftUI
+  import HDiaryModel
+  import HDiaryWidgetSnapshotSync
+  import SwiftData
+  import SwiftUI
 
-public struct HDiaryFeatureApp: App {
-  public init() {
-    WidgetSnapshotRuntime.shared.start()
-  }
+  public struct HDiaryFeatureApp: App {
+    public init() {
+      WidgetSnapshotSyncRuntime.shared.start(
+        primaryContainer: HDiaryContainer.currentContainer
+      )
+    }
 
-  public var body: some Scene {
-    WindowGroup {
-      BaseTabView()
-        .withEnvironments()
-        .withModelContainer()
+    public var body: some Scene {
+      WindowGroup {
+        BaseTabView()
+          .withEnvironments()
+          .withModelContainer()
+      }
     }
   }
-}
 
 #endif

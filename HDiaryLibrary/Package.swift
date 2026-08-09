@@ -50,6 +50,10 @@ let package = Package(
       name: "HDiaryWidgetData",
       targets: ["HDiaryWidgetData"]
     ),
+    .library(
+      name: "HDiaryWidgetSnapshotSync",
+      targets: ["HDiaryWidgetSnapshotSync"]
+    ),
 
   ],
   dependencies: [
@@ -142,7 +146,7 @@ let package = Package(
         "HDiaryIAP",
         "HDiaryModel",
         "HDiarySearch",
-        "HDiaryWidgetData",
+        "HDiaryWidgetSnapshotSync",
         .product(name: "HFoundation", package: "HSharedCode"),
         .product(name: "HLocalization", package: "HSharedCode"),
         .product(name: "HMedia", package: "HSharedCode"),
@@ -174,10 +178,30 @@ let package = Package(
       ],
       swiftSettings: packageSwiftSettings
     ),
+    // 主 App 专用：监听主 Store 变化并投影到独立的 Widget snapshot Store；
+    // Widget Extension 只依赖 HDiaryWidgetData，不依赖此同步模块。
+    .target(
+      name: "HDiaryWidgetSnapshotSync",
+      dependencies: [
+        "HDiaryConstants",
+        "HDiaryModel",
+        "HDiaryWidgetData",
+      ],
+      swiftSettings: mainActorPackageSwiftSettings
+    ),
     .testTarget(
       name: "HDiaryWidgetDataTests",
       dependencies: [
         "HDiaryWidgetData",
+      ],
+      swiftSettings: packageSwiftSettings
+    ),
+    .testTarget(
+      name: "HDiaryWidgetSnapshotSyncTests",
+      dependencies: [
+        "HDiaryModel",
+        "HDiaryWidgetData",
+        "HDiaryWidgetSnapshotSync",
       ],
       swiftSettings: packageSwiftSettings
     ),

@@ -1,6 +1,6 @@
 #if os(iOS)
 
-  @testable import HDiaryAppFeature
+  @testable import HDiaryWidgetSnapshotSync
   import Foundation
   import HDiaryModel
   import HDiaryWidgetData
