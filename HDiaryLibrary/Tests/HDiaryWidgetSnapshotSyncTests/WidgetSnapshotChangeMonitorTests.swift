@@ -1,6 +1,6 @@
 #if os(iOS)
 
-  @testable import HDiaryAppFeature
+  @testable import HDiaryWidgetSnapshotSync
   import CoreData
   import Foundation
   import HDiaryWidgetData
@@ -289,18 +289,12 @@
       )
       let operations = OperationLog()
       let coordinator = makeCoordinator()
-      var currentContainerRequestCount = 0
       var coordinatorFactoryCount = 0
       var attachCount = 0
       var attachedContainer: ModelContainer?
       var attachedCoordinator: WidgetSnapshotCoordinator?
       var requestRebuildCount = 0
-      let runtime = WidgetSnapshotRuntime(
-        currentContainer: {
-          currentContainerRequestCount += 1
-          operations.append(.currentContainer)
-          return primaryContainer
-        },
+      let runtime = WidgetSnapshotSyncRuntime(
         makeCoordinator: { container in
           coordinatorFactoryCount += 1
           XCTAssertTrue(container === primaryContainer)
@@ -319,10 +313,9 @@
         }
       )
 
-      runtime.start()
-      runtime.start()
+      runtime.start(primaryContainer: primaryContainer)
+      runtime.start(primaryContainer: primaryContainer)
 
-      XCTAssertEqual(currentContainerRequestCount, 1)
       XCTAssertEqual(coordinatorFactoryCount, 1)
       XCTAssertEqual(attachCount, 1)
       XCTAssertTrue(attachedContainer === primaryContainer)
@@ -330,7 +323,7 @@
       XCTAssertEqual(requestRebuildCount, 1)
       XCTAssertEqual(
         operations.values,
-        [.currentContainer, .makeCoordinator, .attach, .requestRebuild]
+        [.makeCoordinator, .attach, .requestRebuild]
       )
     }
 
@@ -344,11 +337,7 @@
       var coordinatorFactoryCount = 0
       var attachCount = 0
       var requestRebuildCount = 0
-      let runtime = WidgetSnapshotRuntime(
-        currentContainer: {
-          operations.append(.currentContainer)
-          return primaryContainer
-        },
+      let runtime = WidgetSnapshotSyncRuntime(
         makeCoordinator: { _ in
           coordinatorFactoryCount += 1
           operations.append(.makeCoordinator)
@@ -364,15 +353,15 @@
         }
       )
 
-      runtime.start()
-      runtime.start()
+      runtime.start(primaryContainer: primaryContainer)
+      runtime.start(primaryContainer: primaryContainer)
 
       XCTAssertEqual(coordinatorFactoryCount, 1)
       XCTAssertEqual(attachCount, 0)
       XCTAssertEqual(requestRebuildCount, 0)
       XCTAssertEqual(
         operations.values,
-        [.currentContainer, .makeCoordinator]
+        [.makeCoordinator]
       )
     }
 
@@ -503,7 +492,6 @@
   }
 
   private enum Operation: Equatable {
-    case currentContainer
     case makeCoordinator
     case attach
     case requestRebuild
