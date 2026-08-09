@@ -46,6 +46,10 @@ let package = Package(
       name: "HDiaryWidgetIntents",
       targets: ["HDiaryWidgetIntents"]
     ),
+    .library(
+      name: "HDiaryWidgetData",
+      targets: ["HDiaryWidgetData"]
+    ),
 
   ],
   dependencies: [
@@ -138,6 +142,7 @@ let package = Package(
         "HDiaryIAP",
         "HDiaryModel",
         "HDiarySearch",
+        "HDiaryWidgetData",
         .product(name: "HFoundation", package: "HSharedCode"),
         .product(name: "HLocalization", package: "HSharedCode"),
         .product(name: "HMedia", package: "HSharedCode"),
@@ -150,7 +155,7 @@ let package = Package(
       name: "HDiaryWidgetFeature",
       dependencies: [
         "HDiaryConstants",
-        "HDiaryModel",
+        "HDiaryWidgetData",
         "HDiaryWidgetIntents",
       ],
       swiftSettings: mainActorPackageSwiftSettings
@@ -158,9 +163,23 @@ let package = Package(
     .target(
       name: "HDiaryWidgetIntents",
       dependencies: [
-        "HDiaryModel",
+        "HDiaryWidgetData",
       ],
       swiftSettings: mainActorPackageSwiftSettings
+    ),
+    .target(
+      name: "HDiaryWidgetData",
+      dependencies: [
+        "HDiaryConstants",
+      ],
+      swiftSettings: packageSwiftSettings
+    ),
+    .testTarget(
+      name: "HDiaryWidgetDataTests",
+      dependencies: [
+        "HDiaryWidgetData",
+      ],
+      swiftSettings: packageSwiftSettings
     ),
     .testTarget(
       name: "HDiaryAppFeatureTests",
@@ -168,6 +187,7 @@ let package = Package(
         "HDiaryAppFeature",
         "HDiaryConstants",
         "HDiaryModel",
+        "HDiaryWidgetData",
         "HDiaryWidgetIntents",
       ],
       swiftSettings: packageSwiftSettings

@@ -375,6 +375,7 @@ extension DiaryStringKey {
 
       public static let lastUpdateTime = LocalizedStringResource("CloudData.lastUpdateTime", defaultValue: "Last update date", table: "Localizable", bundle: .module, comment: "label used to show cloud data last update time")
       public static let noData = LocalizedStringResource("CloudData.noData", defaultValue: "No data", table: "Localizable", bundle: .module, comment: "label used to show no cloud data")
+
     }
   }
 }

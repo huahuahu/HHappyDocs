@@ -31,6 +31,13 @@
         "identifier" : "HDiaryAppFeatureTests",
         "name" : "HDiaryAppFeatureTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:HDiaryLibrary",
+        "identifier" : "HDiaryWidgetDataTests",
+        "name" : "HDiaryWidgetDataTests"
+      }
     }
   ],
   "version" : 1

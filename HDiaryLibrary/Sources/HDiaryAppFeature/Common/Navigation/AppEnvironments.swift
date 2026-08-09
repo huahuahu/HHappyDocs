@@ -24,20 +24,7 @@ extension View {
   }
 
   func withModelContainer() -> some View {
-    #if DEBUG
-      let container: ModelContainer = switch UserPreferences.shared.swiftDataContainerType {
-      case .iCloud:
-        HDiaryContainer.iCloudContainer
-      case .local:
-        HDiaryContainer.localContainer
-      case .inMemory:
-        HDiaryContainer.inMemoryPreviewContainer
-      }
-      return modelContainer(container)
-//      modelContainer(UserPreferences.shared.useInMemorySwiftData ? HDiaryContainer.inMemoryPreviewContainer : HDiaryContainer.iCloudContainer)
-    #else
-      modelContainer(HDiaryContainer.iCloudContainer)
-    #endif
+    modelContainer(HDiaryContainer.currentContainer)
   }
 
   func previewEnvironment() -> some View {

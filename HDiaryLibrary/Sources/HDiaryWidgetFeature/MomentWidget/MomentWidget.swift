@@ -8,7 +8,6 @@
 #if os(iOS)
 
 import HDiaryConstants
-import HDiaryModel
 import HDiaryWidgetIntents
 import SwiftUI
 import WidgetKit
@@ -60,7 +59,18 @@ struct MomentWidgetEntryView: View {
   @ViewBuilder
   private func momentsView(for moments: [MomentWidgetSummary.Moment]) -> some View {
     if moments.isEmpty {
-      NoMomentView()
+      ContentUnavailableView {
+        Label {
+          Text(LocalizedStringResource(
+            "moment.empty.label",
+            defaultValue: "No moments",
+            table: "Intents",
+            bundle: .main
+          ))
+        } icon: {
+          Image(systemName: "list.bullet")
+        }
+      }
     }
     else {
       let maxCount = min(8, moments.count)

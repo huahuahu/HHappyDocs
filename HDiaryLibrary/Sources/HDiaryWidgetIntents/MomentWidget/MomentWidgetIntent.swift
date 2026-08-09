@@ -8,12 +8,11 @@
 #if os(iOS)
 
 import AppIntents
-import HDiaryModel
+import HDiaryWidgetData
 import OSLog
-import SwiftData
+import SwiftUI
 import UIKit
 import WidgetKit
-import SwiftUI
 
 private let logger = Logger(subsystem: "com.tiger.suzhou.hdiary", category: "MomentWidgetIntent")
 
@@ -77,12 +76,16 @@ public struct ParticipantEntity: Identifiable {
     self.avatar = avatar
   }
 
-  public init(from participant: Participant) {
+  public init(from value: WidgetParticipantValue) {
     self.init(
-      id: participant.uuid,
-      name: participant.nickName,
-      avatar: participant.getAvatarImage()
+      id: value.uuid,
+      name: value.nickName,
+      avatar: value.avatarThumbnailData.flatMap(UIImage.init(data:)) ?? Self.defaultAvatar
     )
+  }
+
+  @MainActor public static var defaultAvatar: UIImage {
+    UIImage(systemName: "person.crop.circle.fill") ?? UIImage()
   }
 
   @MainActor public static let nonEntity = Self(
@@ -93,7 +96,7 @@ public struct ParticipantEntity: Identifiable {
       table: "Intents",
       bundle: .main
     )),
-    avatar: UIImage(resource: .defaultPerson)
+    avatar: ParticipantEntity.defaultAvatar
   )
 }
 
@@ -103,11 +106,24 @@ public struct ParticipantOptionsProvider: DynamicOptionsProvider {
 
   public func results() async throws -> IntentItemCollection<String> {
     logger.info("Loading participant options...")
-    let modelContext = await MomentWidgetUtil.getModelContext()
-    let participants = try modelContext.fetch(MomentWidgetUtil.getParticipantDescriptor())
+    let participants: [WidgetParticipantValue]
+    if let dataSource = MomentWidgetUtil.dataSource {
+      do {
+        participants = try dataSource.fetchParticipants()
+      }
+      catch {
+        logger.error(
+          "Failed to fetch participant options: \(error.localizedDescription, privacy: .public)"
+        )
+        participants = []
+      }
+    }
+    else {
+      participants = []
+    }
     let items = [IntentItem(ParticipantEntity.nonEntity.id.uuidString, title: "\(ParticipantEntity.nonEntity.name)")]
-      + participants.map { participant in
-        IntentItem(participant.uuid.uuidString, title: "\(participant.nickName)")
+      + participants.map { value in
+        IntentItem(value.uuid.uuidString, title: "\(value.nickName)")
       }
     logger.info("Found \(participants.count) participant options")
     return IntentItemCollection(sections: [IntentItemSection(items: items)])
