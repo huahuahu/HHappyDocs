@@ -1,4 +1,4 @@
-# Widget 独立快照与 CloudKit 同步诊断设计
+# Widget 独立快照设计
 
 ## 背景
 
@@ -10,8 +10,8 @@ Widget extension 也可能为同一个共享 Store 创建启用了 CloudKit mirr
 Apple TN3164 明确指出，App 与 extension 同时为同一个 Store 启动
 `NSPersistentCloudKitContainer` mirroring 时，可能触发 `NSCocoaErrorDomain` 134410，导致
 CloudKit setup 或 import 中止。TestFlight 真机曾出现首次导入长期不完成以及重复记录，但
-目前没有设备日志证明两个症状均由此冲突造成。本次只修复已确认的架构风险，并补齐后续
-诊断所需的可观测性，不加入推测性的去重逻辑。
+目前没有设备日志证明两个症状均由此冲突造成。本次只修复已确认的架构风险，不加入
+推测性的去重逻辑。
 
 ## 目标
 
@@ -19,8 +19,6 @@ CloudKit setup 或 import 中止。TestFlight 真机曾出现首次导入长期�
 - Widget 永远不打开主 Store，而是读取独立的本地快照 Store。
 - 快照数据量有明确上限，不复制正文、媒体或其他 Widget 不使用的数据。
 - 主数据发生本地保存或 CloudKit import 后，快照和 Widget timeline 能得到刷新。
-- TestFlight 和正式版本都能查看 CloudKit setup、import、export 的真实事件与错误。
-- CloudKit 错误发生时记录错误 domain、code 和可用的 retry-after 时间。
 
 ## 不采用的方案
 
@@ -103,6 +101,16 @@ Widget 当前最多展示 8 条 Moment。快照只保存以下集合的并集，
 因此快照规模上限约为“Participant 数量乘以 8，再加全局 8 条”；Moment 同时关联多人时只
 存储一份。Snapshot Store 目录标记为不参与设备备份，避免派生数据占用备份空间。
 
+主 Store 生成快照时，Participant 为保证配置选项完整而全量读取；Moment 不全量读取。Reader
+执行一次全局最近 8 条有效 Moment 查询，再为每位 Participant 执行一次最近 8 条有效 Moment
+查询。所有 Moment 查询都在 Store predicate 中排除 `markedAsDelete`、设置 `fetchLimit`，结果按
+UUID 去重。全局查询独立于 Participant 关系，因此没有 Participant 的最近 Moment 仍可进入快照。
+
+该方式以 P+1 次 Moment 查询（P 为 Participant 数量）的 round-trip，换取显式完整 Moment 查询
+结果约束在 `8 × (P + 1)` 的范围内。它不使用 `propertiesToFetch`：SwiftData `@Model` 的 partial
+fetch 在后续访问所需字段时可能逐对象补查完整行，反而增加查询。这里的上限不承诺
+`ModelContext` 内部 relationship fault 或其他 SwiftData 实现细节也严格有界。
+
 ## 快照更新流程
 
 主 App 中增加一个串行的 snapshot coordinator，负责以下触发源：
@@ -116,8 +124,11 @@ Widget 当前最多展示 8 条 Moment。快照只保存以下集合的并集，
 
 一次重建按以下顺序执行：
 
-1. 在主 Store 中读取 Participant 和按时间倒序的有效 Moment。
-2. 在内存中投影出有界的 snapshot 值，并生成头像缩略图。
+1. `MainStoreWidgetSnapshotSourceReader` actor 独占主 Store fetch：读取全部 Participant，并在
+   Store 层读取全局最近 8 条与每位 Participant 最近 8 条有效 Moment，按 UUID 去重后转换为
+   Sendable source values。
+2. `nonisolated`、`Sendable` 的 `MainStoreWidgetSnapshotBuilder` 通过 `@concurrent build()` 编排，
+   对有界 source values 做稳定排序和防御性投影，并生成头像缩略图。
 3. 在 snapshot writer context 的一次保存事务中 upsert 目标记录并删除过期记录。
 4. 保存成功后调用 `WidgetCenter.reloadTimelines(ofKind:)` 刷新 Moment Widget。
 
@@ -141,43 +152,6 @@ Widget reader 配置必须同时满足：
 Widget target 不再需要 iCloud/CloudKit entitlement；Release 和 Debug entitlements 中相关
 声明都会移除，App Group entitlement 保留。
 
-## CloudKit 同步诊断
-
-主 App 在创建主容器之前安装同步观察器，监听：
-
-- `NSPersistentCloudKitContainer.eventChangedNotification`
-- `NSPersistentStoreRemoteChange`
-
-CloudKit event 转换为可持久化的诊断记录：
-
-- event identifier 和类型：setup、import 或 export。
-- 开始与结束时间。
-- 是否已结束及是否成功。
-- 错误 domain、code、localized description。
-- 从 CloudKit 错误链中解析出的 retry-after 秒数和绝对重试时间。
-
-诊断历史保存为 App Group `Library/Application Support/Diagnostics` 下的结构化 JSON 文件
-`cloud-sync-events.json`。同一 event identifier 的开始和结束通知更新同一条记录，文件最多
-保留最近 100 个事件。写入由单一 actor 串行执行，每次先编码完整的有界事件数组，再使用
-原子替换提交，避免 App 中止时留下半写文件。文件采用首次解锁后可访问的保护级别，并标记为
-不参与设备备份。
-
-系统日志同时使用 `OSLog` 记录同样的非敏感摘要；JSON 和系统日志都不记录日记内容、
-CloudKit record 内容或用户标识。诊断页提供 `ShareLink` 导出这份脱敏 JSON，方便 TestFlight
-用户直接附加到反馈中；导出只读取稳定文件，不会暂停或改变 CloudKit 同步。
-
-在现有“设置 → 云端数据”页面增加“同步诊断”入口。该入口不使用 `#if DEBUG`，因此 Debug、
-TestFlight 和正式版本均可见。页面显示当前或最近事件以及有限历史：
-
-- 正在执行的事件显示真实类型和开始时间，而不是无法解释的通用进度动画。
-- 已完成事件显示成功或失败、结束时间和耗时。
-- 失败事件显示 domain、code、错误文本；存在 retry-after 时显示建议重试时间。
-- 尚未收到事件时明确显示“暂无同步事件”。
-- 可以分享脱敏后的诊断 JSON 文件。
-
-页面不提供“强制同步”按钮，因为系统没有允许 App 控制
-`NSPersistentCloudKitContainer` 同步时机的公开 API。
-
 ## 远端变化处理
 
 `NSPersistentStoreRemoteChange` 可能来自私有线程。观察器先复制可安全传递的 Store URL 等
@@ -191,12 +165,14 @@ persistent history。成功更新 snapshot 后刷新 Widget timeline。
 ## 并发与错误处理
 
 - Snapshot coordinator 串行化所有重建请求，避免多个 context 同时修改 snapshot Store。
+- Coordinator 的 debounce、dirty 状态和 WidgetKit 调用继续留在 MainActor。
+- 主 Store `ModelContext` 与业务 `@Model` 实例只存在于 SourceReader actor；跨 actor 只传显式
+  `Sendable` source values。
+- `WidgetSnapshotBuilding` 是 `nonisolated`、`Sendable` 协议；生产 Builder 是 `nonisolated`、
+  `Sendable` value，`build()` 使用 `@concurrent`，不继承 Coordinator 的 MainActor isolation。
 - Notification 回调不直接操作 SwiftData 或 WidgetKit，先进入明确 actor。
 - 快照写入失败不会影响主 Store，也不会阻止 CloudKit 后续同步。
 - Widget 读取失败返回空结果并记录 `OSLog`，不会 `fatalError`。
-- 诊断文件解码失败时将其隔离为唯一的 `cloud-sync-events.corrupt.json`（覆盖更旧的损坏
-  文件）、创建新的空历史并记录错误，不影响主数据或 Widget，也不会让损坏文件无限累积。
-- CloudKit 事件只用于观测，不把“事件开始”当作同步成功，也不把短暂延迟当成失败。
 
 ## 测试策略
 
@@ -213,9 +189,12 @@ persistent history。成功更新 snapshot 后刷新 Widget timeline。
 ### 投影与存储测试
 
 - 只投影 Widget 需要的字段。
-- 排除已经标记删除的 Moment。
+- Store 查询阶段排除已经标记删除的 Moment。
+- Participant 全量读取，Moment 只读取全局最近 8 条与每位 Participant 最近 8 条。
 - 保存全体最近 8 条和每位 Participant 最近 8 条的并集。
 - 多人关联的同一个 Moment 只保存一次。
+- 无 Participant 的最近 Moment 可由全局查询保留。
+- 相同 timestamp 跨过数量上限时，使用 UUID 二级排序稳定截断。
 - upsert 更新已有记录并清理过期记录。
 - 重建失败时保留上一份快照。
 - Widget reader 能读取 writer 保存的数据，但保存操作被拒绝。
@@ -229,18 +208,6 @@ persistent history。成功更新 snapshot 后刷新 Widget timeline。
 - 多个连续事件被合并。
 - 只有 snapshot 保存成功才请求 Widget timeline 刷新。
 
-### 诊断测试
-
-- setup、import、export 事件映射正确。
-- 进行中、成功和失败状态映射正确。
-- NSError 和嵌套 CloudKit error 的 domain、code、description 被记录。
-- retry-after 能转换为绝对建议重试时间。
-- 诊断历史原子写入文件后可重新读取，并只保留最近 100 个事件。
-- 同一 event identifier 的开始和结束通知更新同一条文件记录。
-- 损坏的诊断文件被隔离后可重新建立历史。
-- 导出的 JSON 不包含日记内容、CloudKit record 内容或用户标识。
-- 无事件、进行中、成功、失败四种页面状态能生成对应展示数据。
-
 ### 集成验证
 
 - 使用 `xcodebuildmcp` 运行相关 target 测试和完整 HDiary scheme 测试。
@@ -248,9 +215,8 @@ persistent history。成功更新 snapshot 后刷新 Widget timeline。
 - 在模拟器启动 App，生成主数据后确认 Widget 能读取 snapshot Store。
 - 并发启动 App 与 Widget，确认本地日志不出现 134410。
 
-TestFlight 生产 CloudKit 的首次 import、真机并发启动时不再出现 134410，以及 retry-after 的
-真实展示必须在包含此修复的 TestFlight 构建中完成最终验收。本地和模拟器验证不能替代这三项
-生产环境检查。
+TestFlight 生产 CloudKit 的首次 import 和真机并发启动时不再出现 134410，必须在包含此修复的
+TestFlight 构建中完成最终验收。本地和模拟器验证不能替代生产环境检查。
 
 ## 数据与资源影响
 
@@ -276,6 +242,5 @@ Snapshot Store 会产生少量本地冗余，但不上传 CloudKit，也不复�
 - Snapshot Moment 数量受设计上限约束，且不包含正文或媒体。
 - 本地保存和主 Store remote change 都能触发 snapshot 更新；保存成功后刷新 Widget。
 - App 与 Widget 并发运行时不再因同一主 Store 的双重 mirroring 产生 134410。
-- TestFlight 中可查看 setup、import、export 事件以及错误 code 和 retry-after。
-- 自动化测试覆盖配置、投影、存储、更新触发、Widget 刷新和诊断映射。
-- 重复记录问题继续保留诊断证据，不被未经验证的去重逻辑掩盖。
+- 自动化测试覆盖配置、投影、存储、更新触发和 Widget 刷新。
+- 重复记录问题不被未经验证的去重逻辑掩盖。

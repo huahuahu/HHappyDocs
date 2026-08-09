@@ -3,6 +3,7 @@
   import Foundation
   import HDiaryWidgetData
 
+  /// 从主 Store 的纯值数据中筛选有界记录，并投影为 Widget 专用快照。
   nonisolated enum WidgetSnapshotProjector {
     @concurrent
     static func project(

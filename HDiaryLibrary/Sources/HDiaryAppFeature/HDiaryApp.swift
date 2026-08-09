@@ -13,7 +13,7 @@ import SwiftUI
 
 public struct HDiaryFeatureApp: App {
   public init() {
-    CloudSyncRuntime.shared.start()
+    WidgetSnapshotRuntime.shared.start()
   }
 
   public var body: some Scene {

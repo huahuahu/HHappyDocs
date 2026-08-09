@@ -4,17 +4,19 @@
   import HDiaryWidgetData
   import WidgetKit
 
-  @MainActor
-  protocol WidgetSnapshotBuilding {
+  /// 定义可跨并发域生成 Widget 快照的能力。
+  nonisolated protocol WidgetSnapshotBuilding: Sendable {
     func build() async throws -> WidgetSnapshotValue
   }
 
+  /// 定义持久化快照并报告内容是否变化的能力。
   protocol WidgetSnapshotWriting: Sendable {
     func replace(with snapshot: WidgetSnapshotValue) async throws -> Bool
   }
 
   extension WidgetSnapshotStore: WidgetSnapshotWriting {}
 
+  /// 合并密集的更新请求，并串行完成生成、写入与 timeline 刷新。
   @MainActor
   final class WidgetSnapshotCoordinator {
     private let builder: any WidgetSnapshotBuilding
@@ -84,7 +86,8 @@
       repeat {
         needsAnotherRebuild = false
         await rebuildSnapshot()
-      } while needsAnotherRebuild
+      }
+      while needsAnotherRebuild
     }
 
     private func rebuildSnapshot() async {

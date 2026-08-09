@@ -107,7 +107,8 @@
       await first.value
       await second.value
 
-      XCTAssertEqual(builder.buildCount, 1)
+      let buildCount = await builder.buildCount
+      XCTAssertEqual(buildCount, 1)
       let snapshots = await writer.snapshots
       XCTAssertEqual(snapshots, [.fixture])
       XCTAssertEqual(reloader.reloadCount, 1)
@@ -130,18 +131,20 @@
       await sleeper.releaseCurrentWaiter()
       await writer.waitUntilFirstWriteIsPaused()
 
-      builder.result = .success(.latestFixture)
+      await builder.setResult(.success(.latestFixture))
       let followUp = coordinator.requestRebuild()
       await sleeper.waitUntilSleeping()
       await sleeper.releaseCurrentWaiter()
       await followUp.value
 
-      XCTAssertEqual(builder.buildCount, 1)
+      let pausedBuildCount = await builder.buildCount
+      XCTAssertEqual(pausedBuildCount, 1)
 
       await writer.releaseFirstWrite()
       await initial.value
 
-      XCTAssertEqual(builder.buildCount, 2)
+      let completedBuildCount = await builder.buildCount
+      XCTAssertEqual(completedBuildCount, 2)
       let snapshots = await writer.snapshots
       let maximumConcurrentWriteCount = await writer.maximumConcurrentWriteCount
       XCTAssertEqual(snapshots, [.fixture, .latestFixture])
@@ -155,10 +158,9 @@
     case write
   }
 
-  @MainActor
-  private final class BuilderSpy: WidgetSnapshotBuilding {
-    var buildCount = 0
-    var result: Result<WidgetSnapshotValue, TestError>
+  private actor BuilderSpy: WidgetSnapshotBuilding {
+    private(set) var buildCount = 0
+    private var result: Result<WidgetSnapshotValue, TestError>
 
     init(result: Result<WidgetSnapshotValue, TestError>) {
       self.result = result
@@ -167,6 +169,10 @@
     func build() async throws -> WidgetSnapshotValue {
       buildCount += 1
       return try result.get()
+    }
+
+    func setResult(_ result: Result<WidgetSnapshotValue, TestError>) {
+      self.result = result
     }
   }
 
@@ -294,9 +300,8 @@
     }
 
     func releaseCurrentWaiter() {
-      guard
-        let token = waiters.keys.max(),
-        let continuation = waiters.removeValue(forKey: token)
+      guard let token = waiters.keys.max(),
+            let continuation = waiters.removeValue(forKey: token)
       else {
         return
       }

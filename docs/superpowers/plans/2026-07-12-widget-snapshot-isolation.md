@@ -1,12 +1,12 @@
-# Widget 独立快照与 CloudKit 同步诊断实施计划
+# Widget 独立快照实施计划
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 让 Widget 完全脱离主 CloudKit Store，改读独立、有界、只读的 snapshot Store，并在 TestFlight/正式版提供可导出的 CloudKit 同步诊断。
+**Goal:** 让 Widget 完全脱离主 CloudKit Store，改读独立、有界、只读的 snapshot Store。
 
-**Architecture:** 新增不依赖主业务模型的 `HDiaryWidgetData` target，主 App 将必要的 Participant 和 Moment 摘要投影到独立 App Group Store，Widget 仅以 `allowsSave: false` 读取。主 App 在主容器创建前监听 CloudKit event，使用 actor 将最近 100 条脱敏事件原子写入 JSON；同一个远端变化观察器触发 snapshot 重建与 Widget timeline 刷新。
+**Architecture:** 新增不依赖主业务模型的 `HDiaryWidgetData` target，主 App 将必要的 Participant 和 Moment 摘要投影到独立 App Group Store，Widget 仅以 `allowsSave: false` 读取。主 Store fetch 由专用 SourceReader actor 独占：Participant 全量读取，Moment 使用一次全局 Top-N 与每位 Participant 一次 Top-N 的 Store 层有界查询；Builder 是 `nonisolated`、`Sendable` value，使用 `@concurrent build()` 编排；Coordinator 仍由 MainActor 隔离。主 App 监听主 Store 本地保存与远端变化，触发 snapshot 重建与 Widget timeline 刷新。
 
-**Tech Stack:** Swift 6.3、SwiftData、Swift Concurrency、Combine、Core Data notifications、CloudKit、WidgetKit、SwiftUI、XCTest、XcodeBuildMCP CLI 2.6.2。
+**Tech Stack:** Swift 6.3、SwiftData、Swift Concurrency、Combine、Core Data notifications、WidgetKit、SwiftUI、XCTest、XcodeBuildMCP CLI 2.6.2。
 
 ## Global Constraints
 
@@ -16,9 +16,9 @@
 - Widget 不得导入 `HDiaryModel`、不得打开主 Store、不得持有 CloudKit entitlement。
 - Snapshot Store 固定使用不同 URL、`cloudKitDatabase: .none`；reader 为 `allowsSave: false`，writer 为 `allowsSave: true`。
 - Snapshot 保存全部 Participant，但只保存全局最近 8 条与每位 Participant 最近 8 条 Moment 的去重并集。
+- 主 Store Moment 查询在 Store predicate 中排除 `markedAsDelete`；全局与每位 Participant 查询均设置 `fetchLimit = 8`，结果按 UUID 去重。
+- 接受 P+1 次 Moment 查询来限制显式完整 Moment 查询结果；不使用会在访问字段时触发逐对象补查的 `propertiesToFetch`，也不承诺 `ModelContext` 内部 fault 严格有界。
 - Snapshot 不保存正文、媒体、标签、评分或原始头像；头像缩略图最长边固定为 64 px。
-- CloudKit 诊断文件名固定为 `cloud-sync-events.json`，最多保留最近 100 个 event identifier。
-- 诊断文件不记录日记内容、CloudKit record 内容或用户标识，并排除设备备份。
 - 先写失败测试并观察预期失败，再写最小实现；每个任务单独提交。
 - 所有构建、测试、运行和模拟器操作使用 `xcodebuildmcp`，不直接调用 `xcodebuild`、`xcrun` 或 `simctl`。
 - 当前 CLI 2.6.2 不提供 `session_show_defaults`/`session_set_defaults`；每次调用显式传入 `.xcodebuildmcp/config.yaml` 中的绝对 project path、scheme 和 simulator ID：`/Users/tigerguo/.codex/worktrees/76f2/HHappyDocs/HDiary.xcodeproj`、`HDiary`、`A044BA15-7770-48E6-8E28-E2123A772ACD`。
@@ -43,24 +43,17 @@
 - `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotSource.swift`：从主模型复制出的 Sendable source values。
 - `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetAvatarThumbnailer.swift`：64 px 头像缩略。
 - `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotProjector.swift`：有界集合投影。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotBuilder.swift`：只在主 actor 读取主 SwiftData Store。
+- `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotSourceReader.swift`：actor 内独占主 Store fetch 和 model-to-value 映射。
+- `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotBuilder.swift`：`nonisolated`、`Sendable` value，以 `@concurrent build()` 编排 reader、projector 和 thumbnailer。
 - `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotCoordinator.swift`：debounce、串行重建、成功后刷新 timeline。
 - `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotProjectorTests.swift`：投影边界测试。
 - `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotCoordinatorTests.swift`：触发、合并和失败测试。
 
-### 新增同步诊断
+### 新增 snapshot 运行时
 
-- `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncEventRecord.swift`：Codable/Sendable 诊断值。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncErrorDetails.swift`：错误链与 retry-after 解析。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncDiagnosticsFileStore.swift`：actor 隔离的有界 JSON 文件。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncDiagnosticsModel.swift`：SwiftUI 可观察状态。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncMonitor.swift`：CloudKit event、remote change 和 local save 观察。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncRuntime.swift`：保证观察器先于主容器初始化并连接 snapshot coordinator。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/Diagnostics/CloudSyncDiagnosticsScreen.swift`：诊断列表和分享入口。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/Diagnostics/CloudSyncEventRow.swift`：单条事件展示。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/Diagnostics/CloudSyncDiagnosticsEmptyView.swift`：无事件状态。
-- `HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncDiagnosticsTests.swift`：映射、错误解析、文件持久化测试。
-- `HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncMonitorTests.swift`：通知过滤与运行时幂等测试。
+- `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotChangeMonitor.swift`：过滤主 Store remote change 和 local save。
+- `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotRuntime.swift`：创建 coordinator、安装观察器并请求初始快照。
+- `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotChangeMonitorTests.swift`：通知过滤、并发边界与运行时幂等测试。
 
 ### 修改现有文件
 
@@ -71,10 +64,7 @@
 - `HDiaryLibrary/Sources/HDiaryWidgetIntents/MomentWidget/MomentWidgetIntent.swift`：Participant options 改读 snapshot。
 - `HDiaryLibrary/Sources/HDiaryWidgetFeature/MomentWidget/MomentTimeLineProvider.swift`：timeline 改读 snapshot。
 - `HDiaryLibrary/Tests/HDiaryAppFeatureTests/MomentWidgetIntentTests.swift`：改为独立 Store 读取测试。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/HDiaryApp.swift`：启动 CloudSync runtime。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/Common/Navigation/HDiaryNavigatorModifier.swift`：增加诊断 destination。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/Entry/CloudDataEntryScreen.swift`：增加正式可见的诊断入口。
-- `HDiaryLibrary/Sources/HDiaryAppFeature/Common/DiaryStringKey.swift`、`HDiary/Localizable.xcstrings`：英中诊断文案。
+- `HDiaryLibrary/Sources/HDiaryAppFeature/HDiaryApp.swift`：启动 Widget snapshot runtime。
 - `HDiaryWidgetExtension.entitlements`、`HDiaryWidgetExtensionDebug.entitlements`：删除 iCloud/CloudKit keys，保留 App Group。
 
 ---
@@ -512,15 +502,18 @@ git commit -m "Add atomic widget snapshot replacement"
 - Create: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotSource.swift`
 - Create: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetAvatarThumbnailer.swift`
 - Create: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotProjector.swift`
+- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotSourceReader.swift`
 - Create: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotBuilder.swift`
 - Create: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotProjectorTests.swift`
+- Create: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/MainStoreWidgetSnapshotSourceReaderTests.swift`
 - Modify: `HDiaryLibrary/Package.swift`
 
 **Interfaces:**
-- Consumes: `HDiaryModel.Participant`、`HDiaryModel.Moment`，但只在 `@MainActor` reader 内使用。
+- Consumes: `HDiaryModel.Participant`、`HDiaryModel.Moment`，但只在 `MainStoreWidgetSnapshotSourceReader` actor 内使用。
 - Produces: `WidgetParticipantSource`、`WidgetMomentSource`，均为 `Sendable` values。
+- Produces: `MainStoreWidgetSnapshotSourceReader.read(limit:)`；返回全部 Participant 和有界、按 UUID 去重的有效 Moment source values。
 - Produces: `WidgetSnapshotProjector.project(participants:moments:limit:thumbnail:) async -> WidgetSnapshotValue`。
-- Produces: `@MainActor MainStoreWidgetSnapshotBuilder.build() async throws -> WidgetSnapshotValue`。
+- Produces: `nonisolated`、`Sendable` 的 `MainStoreWidgetSnapshotBuilder`，以及 `@concurrent build() async throws -> WidgetSnapshotValue`。
 
 - [ ] **Step 1: 写有界并集、删除过滤、多人去重和缩略图测试**
 
@@ -622,26 +615,47 @@ struct WidgetMomentSource: Sendable, Equatable {
 
 `WidgetAvatarThumbnailer.thumbnailData(from:maxPixelSize:)` 标记 `@concurrent`，只接收和返回 `Data`；使用 ImageIO 从原始 Data 下采样到最长边 64 px，再编码 JPEG，输入为 `nil` 或无效图片时返回 `nil`。不让 `UIImage` 或 SwiftData model 跨 actor。
 
-- [ ] **Step 4: 实现主 Store reader/builder**
+- [ ] **Step 4: 实现主 Store 有界 reader/builder**
 
-`MainStoreWidgetSnapshotBuilder` 标记 `@MainActor`，持有 `ModelContainer`。每次 `build()` 创建独立 `ModelContext`，关闭 autosave，读取 Participant 和按时间逆序的 Moment，并设置：
+`MainStoreWidgetSnapshotSourceReader` actor 持有可跨 actor 的 `ModelContainer`。每次
+`read(limit:)` 在 actor 内创建独立 `ModelContext` 并关闭 autosave：
 
-```swift
-momentDescriptor.relationshipKeyPathsForPrefetching = [\.participants]
-```
+- 全量读取 Participant，保证 Widget 配置选项完整。
+- 当 `limit > 0` 时，用 `!moment.markedAsDelete` predicate 查询全局最近 `limit` 条 Moment。
+- 再为每位 Participant 执行一次 relationship predicate 查询，读取最近 `limit` 条有效 Moment。
+- 每个 Moment descriptor 都按 timestamp 倒序、UUID 正序排序，设置 `fetchLimit = limit`，并预取
+  `Moment.participants`。
+- 把全局和各 Participant 的结果按 Moment UUID 合并；全局查询负责保留无 Participant 的最近
+  Moment，同一多人 Moment 即使被多个查询命中也只保留一次。
+- `limit <= 0` 时仍返回全部 Participant，Moment 返回空数组。
 
-在 `await` thumbnail/projector 前，把所有 model 转换成 `WidgetParticipantSource` 和 `WidgetMomentSource`。SwiftData models 和 `ModelContext` 不离开 MainActor。
+Reader 在返回前把 model 转换成 `WidgetParticipantSource`、`WidgetMomentSource` 和聚合的
+`WidgetSnapshotSourceValue`；SwiftData models 与 `ModelContext` 不离开 Reader actor。不要设置
+`propertiesToFetch`：当前映射访问多个 Moment 字段和 relationship，SwiftData `@Model` partial
+fetch 会在访问未取字段时逐对象补查完整行。P+1 查询限制的是显式完整 Moment 查询的结果数量，
+不承诺 context 内部 relationship fault 严格有界。
+
+为 Reader 增加真实 in-memory SwiftData 测试，覆盖 Store 层删除过滤、全局与每位 Participant
+Top-N、UUID 去重、无 Participant 的全局 Moment，以及 `limit == 0`。
+
+`WidgetSnapshotBuilding` 定义为 `nonisolated protocol WidgetSnapshotBuilding: Sendable`。
+`MainStoreWidgetSnapshotBuilder` 是 `nonisolated`、`Sendable` value，持有 SourceReader actor，
+`build()` 标记 `@concurrent`，定义一次 `limit = 8`，把同一 limit 同时传给 `read(limit:)` 和
+Projector，只负责等待 Sendable source values 并编排 Projector 与 thumbnailer。
+由于 `HDiaryAppFeature` 使用默认 MainActor isolation，不能只省略 `@MainActor`，必须显式声明
+`nonisolated`。
 
 - [ ] **Step 5: 运行投影测试并确认通过**
 
 Run: 与 Step 2 相同。
 
-Expected: PASS；上限、deleted 过滤、多人去重和 64 px 缩略全部通过。
+Expected: PASS；Reader 的 Store 层上限、deleted 过滤、多人去重、无 Participant 全局记录，以及
+Projector 与 64 px 缩略全部通过。
 
 - [ ] **Step 6: 提交 Task 3**
 
 ```bash
-git add HDiaryLibrary/Package.swift HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotProjectorTests.swift
+git add HDiaryLibrary/Package.swift HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotProjectorTests.swift HDiaryLibrary/Tests/HDiaryAppFeatureTests/MainStoreWidgetSnapshotSourceReaderTests.swift
 git commit -m "Project bounded widget snapshots"
 ```
 
@@ -655,7 +669,7 @@ git commit -m "Project bounded widget snapshots"
 
 **Interfaces:**
 - Consumes: `MainStoreWidgetSnapshotBuilder`、`WidgetSnapshotStore`。
-- Produces: `@MainActor protocol WidgetSnapshotBuilding { func build() async throws -> WidgetSnapshotValue }`。
+- Produces: `nonisolated protocol WidgetSnapshotBuilding: Sendable { func build() async throws -> WidgetSnapshotValue }`。
 - Produces: `protocol WidgetSnapshotWriting: Sendable { func replace(with:) async throws }`。
 - Produces: `@MainActor final class WidgetSnapshotCoordinator` 的 `requestRebuild() -> Task<Void, Never>` 和 `rebuildNow() async`。
 
@@ -666,10 +680,9 @@ git commit -m "Project bounded widget snapshots"
 ```swift
 enum TestError: Error { case build, write }
 
-@MainActor
-final class BuilderSpy: WidgetSnapshotBuilding {
-  var buildCount = 0
-  var result: Result<WidgetSnapshotValue, TestError>
+actor BuilderSpy: WidgetSnapshotBuilding {
+  private(set) var buildCount = 0
+  private var result: Result<WidgetSnapshotValue, TestError>
 
   init(result: Result<WidgetSnapshotValue, TestError>) { self.result = result }
 
@@ -759,7 +772,8 @@ func testTwoPendingRequestsCoalesceIntoOneRebuild() async {
   await sleeper.releaseCurrentWaiter()
   await first.value
   await second.value
-  XCTAssertEqual(builder.buildCount, 1)
+  let buildCount = await builder.buildCount
+  XCTAssertEqual(buildCount, 1)
 }
 ```
 
@@ -793,7 +807,7 @@ live sleeper 为：
 { try await Task.sleep(for: .milliseconds(350)) }
 ```
 
-`requestRebuild()` 取消旧 debounce task，创建继承 MainActor 的新 `Task`，等待后调用 `runRebuildLoop()`；`runRebuildLoop()` 若已经运行，只设置 `needsAnotherRebuild = true`。主循环每轮顺序必须为 build → writer.replace → timeline reload，任何错误只写 `Log.data.error`，不 reload。每轮结束检查 `needsAnotherRebuild`，必要时再执行一次。`isolated deinit` 取消 debounce task。
+`requestRebuild()` 取消旧 debounce task，创建继承 MainActor 的新 `Task`，等待后调用 `runRebuildLoop()`；`runRebuildLoop()` 若已经运行，只设置 `needsAnotherRebuild = true`。主循环每轮顺序必须为 build → writer.replace → timeline reload；Coordinator 状态仍留在 MainActor，但生产 Builder 的 `@concurrent build()` 不继承该 isolation。任何错误只写 `Log.data.error`，不 reload。每轮结束检查 `needsAnotherRebuild`，必要时再执行一次。`isolated deinit` 取消 debounce task。
 
 为 `MainStoreWidgetSnapshotBuilder` 和 `WidgetSnapshotStore` 增加上述协议 conformance。Live reloader 使用：
 
@@ -913,474 +927,79 @@ git commit -m "Read widgets from isolated snapshot store"
 
 ---
 
-### Task 6: 持久化 CloudKit event 和 retry-after
+
+### Task 6: 安装 snapshot 变更观察器并连接 runtime
 
 **Files:**
-- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncEventRecord.swift`
-- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncErrorDetails.swift`
-- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncDiagnosticsFileStore.swift`
-- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncDiagnosticsModel.swift`
-- Create: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncDiagnosticsTests.swift`
-
-**Interfaces:**
-- Produces: `CloudSyncEventRecord: Codable, Sendable, Equatable, Identifiable`。
-- Produces: `CloudSyncErrorDetails.from(error:now:)`。
-- Produces: `actor CloudSyncDiagnosticsFileStore` 的 `upsert(_:)`、`load()`、`exportURL()`。
-- Produces: `@MainActor @Observable CloudSyncDiagnosticsModel` 的 `record(_:) async`、`load() async`。
-
-- [ ] **Step 1: 写 event 状态、嵌套 retry-after、100 条上限和损坏文件测试**
-
-核心断言：
-
-```swift
-func testRetryAfterIsFoundInNestedPartialError() {
-  let retrying = NSError(
-    domain: CKErrorDomain,
-    code: CKError.requestRateLimited.rawValue,
-    userInfo: [CKErrorRetryAfterKey: NSNumber(value: 60)]
-  )
-  let outer = NSError(
-    domain: CKErrorDomain,
-    code: CKError.partialFailure.rawValue,
-    userInfo: [CKPartialErrorsByItemIDKey: ["record": retrying]]
-  )
-  let now = Date(timeIntervalSince1970: 1_000)
-
-  let details = CloudSyncErrorDetails.from(error: outer, now: now)
-
-  XCTAssertEqual(details?.domain, CKErrorDomain)
-  XCTAssertEqual(details?.code, CKError.partialFailure.rawValue)
-  XCTAssertEqual(details?.retryAfter, 60)
-  XCTAssertEqual(details?.retryDate, Date(timeIntervalSince1970: 1_060))
-}
-```
-
-文件测试 upsert 同一 UUID 的 `.inProgress` 后再 `.succeeded`，断言只有一条且为 succeeded；写入 105 个不同 ID 后只剩最后 100 个；手工写入无效 JSON 后 `load()` 返回空数组，并生成唯一 `cloud-sync-events.corrupt.json`。
-
-- [ ] **Step 2: 运行测试并确认诊断类型缺失**
-
-```bash
-xcodebuildmcp simulator test --project-path /Users/tigerguo/.codex/worktrees/76f2/HHappyDocs/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --extra-args "-only-testing:HDiaryAppFeatureTests/CloudSyncDiagnosticsTests"
-```
-
-Expected: FAIL，错误包含 `cannot find 'CloudSyncErrorDetails' in scope`。
-
-- [ ] **Step 3: 实现 Sendable 诊断记录与错误链解析**
-
-```swift
-struct CloudSyncEventRecord: Codable, Sendable, Equatable, Identifiable {
-  enum Kind: String, Codable, Sendable { case setup, importData, export }
-  enum State: String, Codable, Sendable { case inProgress, succeeded, failed }
-
-  let id: UUID
-  let storeIdentifier: String
-  let kind: Kind
-  let startDate: Date
-  let endDate: Date?
-  let state: State
-  let error: CloudSyncErrorDetails?
-}
-```
-
-`CloudSyncErrorDetails` 保存 `domain`、`code`、`message`、`retryAfter`、`retryDate`。解析顺序为当前 NSError、`NSUnderlyingErrorKey`、`NSMultipleUnderlyingErrorsKey`、`CKPartialErrorsByItemIDKey`；使用 visited `ObjectIdentifier` 防循环。只从 NSNumber 读取 `CKErrorRetryAfterKey`，负数忽略。
-
-- [ ] **Step 4: 实现 actor 文件 Store**
-
-默认目录：
-
-```swift
-AppConstants.groupContainerURL
-  .appending(components: "Library", "Application Support", "Diagnostics", directoryHint: .isDirectory)
-```
-
-行为固定为：
-
-- `load()` 不存在时返回 `[]`。
-- decode 失败时，以原子 replace 方式覆盖唯一 `.corrupt.json`，然后返回 `[]`。
-- `upsert` 按 ID 替换；若已有 ended record 而新 record 是 in-progress，不降级。
-- 按 `startDate` 升序保存、只保留 suffix(100)。
-- `JSONEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]`，日期使用 `.iso8601`。
-- `Data.write(to:options: [.atomic])` 后在 iOS 设置 `.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication`。
-- 目录 `isExcludedFromBackup = true`。
-- `exportURL()` 确保稳定文件存在并返回 JSON URL。
-
-- [ ] **Step 5: 实现 MainActor observable model**
-
-`CloudSyncDiagnosticsModel` 持有 file store，公开：
-
-```swift
-private(set) var records: [CloudSyncEventRecord] = []
-private(set) var loadErrorDescription: String?
-private(set) var exportURL: URL?
-
-func load() async
-func record(_ event: CloudSyncEventRecord) async
-```
-
-actor 返回 `[CloudSyncEventRecord]` 后再更新 MainActor state；失败写 `Log.data.error` 并设置可展示错误，不吞掉。
-
-- [ ] **Step 6: 运行诊断测试并确认通过**
-
-Run: 与 Step 2 相同。
-
-Expected: PASS；同 ID 合并、100 条上限、nested retry-after 和损坏隔离均通过。
-
-- [ ] **Step 7: 提交 Task 6**
-
-```bash
-git add HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncDiagnosticsTests.swift
-git commit -m "Persist CloudKit sync diagnostics"
-```
-
----
-
-### Task 7: 安装 CloudKit/remote/local 观察器并连接 snapshot
-
-**Files:**
-- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncMonitor.swift`
-- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncRuntime.swift`
-- Create: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncMonitorTests.swift`
+- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotChangeMonitor.swift`
+- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotRuntime.swift`
+- Create: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotChangeMonitorTests.swift`
 - Modify: `HDiaryLibrary/Sources/HDiaryModel/Model/Container/ModelContainer.swift`
 - Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/HDiaryApp.swift`
 - Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/Common/Navigation/AppEnvironments.swift`
 
 **Interfaces:**
-- Consumes: `CloudSyncDiagnosticsModel`、`WidgetSnapshotCoordinator`。
-- Produces: `CloudSyncEventRecord.init(event:now:)` adapter，只在 MainActor 接触 Core Data event object。
-- Produces: `CloudSyncMonitor.startEventObservation()`、`attach(primaryContainer:coordinator:)`、`stop()`。
-- Produces: idempotent `CloudSyncRuntime.start()`。
+- Produces: `WidgetSnapshotChangeMonitor.attach(primaryContainer:coordinator:)` 和 `stop()`。
+- Produces: idempotent `WidgetSnapshotRuntime.start()`。
+- Preserves: 通知发布 actor 上先提取 Sendable URL/`ObjectIdentifier`，不跨 actor 发送 `ModelContext`。
 
-- [ ] **Step 1: 写 event mapping、Store URL 过滤、local container 过滤和 runtime 幂等测试**
+- [ ] **Step 1: 写 Store URL、local container 过滤和 runtime 幂等测试**
 
-通过纯 input adapter 测 setup/import/export、in-progress/succeeded/failed。Remote change 使用构造的 Notification：
+覆盖主 Store remote change、其他 Store remote change、主容器本地保存、其他容器保存，以及重复
+`start()` 只安装一次观察器并请求一次 initial rebuild。
 
-```swift
-let matching = Notification(
-  name: .NSPersistentStoreRemoteChange,
-  object: nil,
-  userInfo: [NSPersistentStoreURLKey: primaryStoreURL]
-)
-let other = Notification(
-  name: .NSPersistentStoreRemoteChange,
-  object: nil,
-  userInfo: [NSPersistentStoreURLKey: snapshotStoreURL]
-)
+- [ ] **Step 2: 运行测试并确认新 monitor/runtime 缺失**
 
-XCTAssertTrue(CloudSyncMonitor.matchesRemoteChange(matching, storeURL: primaryStoreURL))
-XCTAssertFalse(CloudSyncMonitor.matchesRemoteChange(other, storeURL: primaryStoreURL))
-```
+使用 XcodeBuildMCP 只运行 `HDiaryAppFeatureTests/WidgetSnapshotChangeMonitorTests`。
 
-Runtime 使用 injected factories，调用 `start()` 两次，断言只安装一次 observers、只请求一次 initial rebuild。
-
-- [ ] **Step 2: 运行测试并确认 monitor 缺失**
-
-```bash
-xcodebuildmcp simulator test --project-path /Users/tigerguo/.codex/worktrees/76f2/HHappyDocs/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --extra-args "-only-testing:HDiaryAppFeatureTests/CloudSyncMonitorTests"
-```
-
-Expected: FAIL，错误包含 `cannot find 'CloudSyncMonitor' in scope`。
+Expected: FAIL，错误包含 `cannot find 'WidgetSnapshotChangeMonitor' in scope` 或缺少
+`WidgetSnapshotRuntime`。
 
 - [ ] **Step 3: 统一主 App 当前容器入口**
 
-Task 5 已提取 `iCloudConfiguration`。本步新增
-`@MainActor public static var currentContainer: ModelContainer`，让
-`getCurrentContainer()` 和 `withModelContainer()` 都委托它，避免 Debug 选择分叉。Widget
-targets 已不依赖该模块。
+让 `getCurrentContainer()` 和 `withModelContainer()` 都委托
+`HDiaryContainer.currentContainer`，保证 runtime 与 SwiftUI 使用同一个主容器实例。
 
-- [ ] **Step 4: 使用 Combine 在 MainActor 接收通知**
+- [ ] **Step 4: 使用 Combine 监听 snapshot 触发源**
 
-`CloudSyncMonitor` 是 `@MainActor final class`，保存 `Set<AnyCancellable>`。`startEventObservation()` 必须先执行：
+`WidgetSnapshotChangeMonitor` 保持 MainActor 隔离并监听：
 
-```swift
-NotificationCenter.default.publisher(for: NSPersistentCloudKitContainer.eventChangedNotification)
-  .receive(on: RunLoop.main)
-  .compactMap { $0.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey] as? NSPersistentCloudKitContainer.Event }
-  .sink { [weak self] event in self?.record(event) }
-  .store(in: &cancellables)
-```
+- `NSPersistentStoreRemoteChange`：在切换到主 RunLoop 前提取 URL，只接受主 Store URL。
+- `ModelContext.didSave`：在切换到主 RunLoop 前提取 container identity，只接受主容器。
 
-`record(event)` 在 MainActor 同步复制成 `CloudSyncEventRecord`，再创建继承 MainActor 的 Task 调用 diagnostics model。不得把 Core Data Event 跨 actor。
+其他 Store（包括 snapshot Store）的通知必须被过滤，避免重建循环。
 
-`attach` 再安装：
+- [ ] **Step 5: 启动 runtime**
 
-- `.NSPersistentStoreRemoteChange` publisher：提取 URL，只有与 `primaryContainer.configurations.first?.url` 一致时 request rebuild。
-- `ModelContext.didSave` publisher：`notification.object as? ModelContext` 的 container 与 primary container identity 相同才 request rebuild；snapshot writer save 被过滤。
+`WidgetSnapshotRuntime.start()` 固定执行：读取当前主容器、创建 coordinator、强持有 coordinator、
+安装观察器、请求 initial rebuild。Snapshot 初始化失败只记录错误，不阻止主 App 启动。
 
-所有 publisher 都 `.receive(on: RunLoop.main)`；`stop()` 清空 cancellables。
+- [ ] **Step 6: 运行 monitor 与 coordinator 测试**
 
-- [ ] **Step 5: 确保观察器先于 CloudKit 容器初始化**
-
-`CloudSyncRuntime.start()` 顺序固定：
-
-1. 检查 `hasStarted` 并置 true。
-2. `monitor.startEventObservation()`。
-3. 访问 `HDiaryContainer.currentContainer`。
-4. 创建 snapshot writer container/store、builder、coordinator。
-5. `monitor.attach(primaryContainer:coordinator:)`。
-6. `coordinator.requestRebuild()`。
-
-任何 snapshot 初始化失败只记录错误，主 App 仍使用主容器启动。`HDiaryFeatureApp.init()` 调用 `CloudSyncRuntime.shared.start()`；其执行早于 `body` 中 `.withModelContainer()`。
-
-- [ ] **Step 6: 运行 monitor 测试和相关 snapshot 测试**
-
-```bash
-xcodebuildmcp simulator test --project-path /Users/tigerguo/.codex/worktrees/76f2/HHappyDocs/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --extra-args "-only-testing:HDiaryAppFeatureTests/CloudSyncMonitorTests" "-only-testing:HDiaryAppFeatureTests/WidgetSnapshotCoordinatorTests"
-```
-
-Expected: PASS；重复 start 不重复监听，remote/local 只匹配主 Store。
-
-- [ ] **Step 7: 提交 Task 7**
-
-```bash
-git add HDiaryLibrary/Sources/HDiaryModel/Model/Container/ModelContainer.swift HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncMonitor.swift HDiaryLibrary/Sources/HDiaryAppFeature/CloudSyncDiagnostics/CloudSyncRuntime.swift HDiaryLibrary/Sources/HDiaryAppFeature/HDiaryApp.swift HDiaryLibrary/Sources/HDiaryAppFeature/Common/Navigation/AppEnvironments.swift HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncMonitorTests.swift
-git commit -m "Observe CloudKit changes and refresh snapshots"
-```
+Expected: 通知过滤、初始重建、debounce、dirty 补跑和失败语义全部通过。
 
 ---
 
-### Task 8: 增加 TestFlight/正式版同步诊断页面
+### Task 7: 全量验证与代码复核
 
-**Files:**
-- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/Diagnostics/CloudSyncDiagnosticsScreen.swift`
-- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/Diagnostics/CloudSyncEventRow.swift`
-- Create: `HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/Diagnostics/CloudSyncDiagnosticsEmptyView.swift`
-- Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/Entry/CloudDataEntryScreen.swift`
-- Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/Common/Navigation/HDiaryNavigatorModifier.swift`
-- Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/Common/DiaryStringKey.swift`
-- Modify: `HDiary/Localizable.xcstrings`
-- Modify: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncDiagnosticsTests.swift`
+- [ ] **Step 1: 运行 snapshot focused tests**
 
-**Interfaces:**
-- Consumes: `CloudSyncDiagnosticsModel.records/loadErrorDescription/exportURL`。
-- Produces: `HDiaryDestination.cloudSyncDiagnostics`。
-- Produces: 用户可见的 event list 与 `ShareLink(item: URL)`。
+覆盖 `HDiaryWidgetDataTests`、projector、coordinator、change monitor 和 Widget intent。
 
-- [ ] **Step 1: 先测试 UI presentation value**
+- [ ] **Step 2: 构建 App 与 Widget extension**
 
-把 row 所需的纯展示映射放进 `CloudSyncEventPresentation`。测试文件用固定时间和以下
-fixture factory 创建 `.inProgressImport`、`.successfulExport`、`.failedSetup`、`.rateLimited`：
-
-```swift
-private let fixedStart = Date(timeIntervalSince1970: 1_000)
-private let expectedRetryDate = Date(timeIntervalSince1970: 1_060)
-
-private func record(
-  id: Int,
-  kind: CloudSyncEventRecord.Kind,
-  state: CloudSyncEventRecord.State,
-  error: CloudSyncErrorDetails? = nil
-) -> CloudSyncEventRecord {
-  CloudSyncEventRecord(
-    id: UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", id))!,
-    storeIdentifier: "primary",
-    kind: kind,
-    startDate: fixedStart,
-    endDate: state == .inProgress ? nil : fixedStart.addingTimeInterval(10),
-    state: state,
-    error: error
-  )
-}
-```
-
-然后断言：
-
-```swift
-let inProgressImport = record(id: 1, kind: .importData, state: .inProgress)
-let successfulExport = record(id: 2, kind: .export, state: .succeeded)
-let failedSetup = record(
-  id: 3,
-  kind: .setup,
-  state: .failed,
-  error: CloudSyncErrorDetails(
-    domain: NSCocoaErrorDomain,
-    code: 134410,
-    message: "CloudKit setup failed",
-    retryAfter: nil,
-    retryDate: nil
-  )
-)
-let rateLimited = record(
-  id: 4,
-  kind: .export,
-  state: .failed,
-  error: CloudSyncErrorDetails(
-    domain: CKErrorDomain,
-    code: CKError.requestRateLimited.rawValue,
-    message: "Request rate limited",
-    retryAfter: 60,
-    retryDate: expectedRetryDate
-  )
-)
-
-XCTAssertEqual(CloudSyncEventPresentation(record: inProgressImport).state, .inProgress)
-XCTAssertEqual(CloudSyncEventPresentation(record: successfulExport).state, .succeeded)
-XCTAssertEqual(CloudSyncEventPresentation(record: failedSetup).errorCodeText, "NSCocoaErrorDomain 134410")
-XCTAssertEqual(CloudSyncEventPresentation(record: rateLimited).retryDate, expectedRetryDate)
-```
-
-测试只断言语义值，不实例化 SwiftUI body。
-
-- [ ] **Step 2: 运行 presentation 测试并确认失败**
-
-```bash
-xcodebuildmcp simulator test --project-path /Users/tigerguo/.codex/worktrees/76f2/HHappyDocs/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --extra-args "-only-testing:HDiaryAppFeatureTests/CloudSyncDiagnosticsTests"
-```
-
-Expected: FAIL，错误包含 `cannot find 'CloudSyncEventPresentation' in scope`。
-
-- [ ] **Step 3: 实现三个小型 SwiftUI View**
-
-`CloudSyncEventPresentation` 暴露语义 `state`、`kind`、`errorCodeText`、`retryDate`，不在
-model 中硬编码英文；View 根据 `state` 选择 `DiaryStringKey`。`CloudSyncDiagnosticsScreen`：
-
-- `@State private var model = CloudSyncDiagnosticsModel.shared`。
-- `List` 中先显示 load error（若有），再按 `startDate` 逆序显示 `CloudSyncEventRow`。
-- records 为空且无 error 时显示 `CloudSyncDiagnosticsEmptyView`。
-- `.task { await model.load() }`，不用 `onAppear { Task {} }`。
-- toolbar 仅在 `exportURL != nil` 时显示 `ShareLink(item:)`，label 使用文字和 `square.and.arrow.up`，保持 VoiceOver 文本。
-
-`CloudSyncEventRow` 使用系统 `.headline`、`.subheadline`、`.caption`，不写死字号；状态同时显示 symbol 和文字，不只依赖颜色。正在执行显示类型与开始时间，不使用无限 ProgressView。失败显示 domain/code/message；retryDate 存在时显示绝对时间。
-
-`CloudSyncDiagnosticsEmptyView` 使用 `ContentUnavailableView`，标题“暂无同步事件”，说明“启动 iCloud 同步后，setup、import 和 export 会显示在这里”。
-
-- [ ] **Step 4: 接入导航和正式可见入口**
-
-`CloudDataEntryScreen` 的 `List` 增加第一个 Section：
-
-```swift
-Section {
-  NavigationLink(value: HDiaryDestination.cloudSyncDiagnostics) {
-    Label(DiaryStringKey.Data.CloudData.Diagnostics.title, systemImage: "waveform.path.ecg")
-  }
-}
-```
-
-入口不放在 `#if DEBUG`。`HDiaryDestination` 增加 `.cloudSyncDiagnostics` 并返回 `CloudSyncDiagnosticsScreen()`。
-
-- [ ] **Step 5: 添加明确的英文和简体中文字符串**
-
-在 `DiaryStringKey.Data.CloudData.Diagnostics` 定义并在 `HDiary/Localizable.xcstrings` 添加：
-
-| Key | English | zh-Hans |
-|---|---|---|
-| `CloudSyncDiagnostics.title` | Sync Diagnostics | 同步诊断 |
-| `CloudSyncDiagnostics.empty.title` | No Sync Events | 暂无同步事件 |
-| `CloudSyncDiagnostics.empty.message` | Setup, import, and export events appear here after iCloud sync starts. | iCloud 同步开始后，setup、import 和 export 事件会显示在这里。 |
-| `CloudSyncDiagnostics.status.inProgress` | In progress | 进行中 |
-| `CloudSyncDiagnostics.status.succeeded` | Succeeded | 成功 |
-| `CloudSyncDiagnostics.status.failed` | Failed | 失败 |
-| `CloudSyncDiagnostics.retryAt` | Suggested retry time | 建议重试时间 |
-| `CloudSyncDiagnostics.share` | Share diagnostics | 分享诊断文件 |
-| `CloudSyncDiagnostics.loadFailed` | Failed to load diagnostics | 诊断记录加载失败 |
-
-setup/import/export 技术类型保持英文，错误 description 使用系统提供文本。
-
-- [ ] **Step 6: 运行诊断测试并确认通过**
-
-Run: 与 Step 2 相同。
-
-Expected: PASS；presentation 状态、错误 code 和 retry date 全部正确。
-
-- [ ] **Step 7: 提交 Task 8**
-
-```bash
-git add HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData HDiaryLibrary/Sources/HDiaryAppFeature/Common/Navigation/HDiaryNavigatorModifier.swift HDiaryLibrary/Sources/HDiaryAppFeature/Common/DiaryStringKey.swift HDiary/Localizable.xcstrings HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncDiagnosticsTests.swift
-git commit -m "Show exportable cloud sync diagnostics"
-```
-
----
-
-### Task 9: 全量验证、运行态检查与代码复核
-
-**Files:**
-- Verify only; production/test changes仅在验证发现真实缺陷时回到对应 Task 的 TDD 循环。
-
-**Interfaces:**
-- Consumes: Tasks 1–8 的全部行为。
-- Produces: 本地自动化证据、模拟器运行证据、TestFlight 验收清单。
-
-- [ ] **Step 1: 静态检查 Store 隔离和 entitlements**
-
-```bash
-git diff --check
-rg -n "import HDiaryModel|HDiaryContainer|getCurrentContainer|cloudKitDatabase" HDiaryLibrary/Sources/HDiaryWidgetIntents HDiaryLibrary/Sources/HDiaryWidgetFeature HDiaryWidget
-plutil -p HDiaryWidgetExtension.entitlements
-plutil -p HDiaryWidgetExtensionDebug.entitlements
-```
-
-Expected:
-
-- `git diff --check` exit 0。
-- `rg` 无匹配并返回 exit 1。
-- 两个 Widget entitlement 都只有 App Group（Debug 可额外有现有 APS），没有 iCloud container/service。
-
-- [ ] **Step 2: 运行 snapshot 与诊断目标测试**
-
-```bash
-xcodebuildmcp simulator test --project-path /Users/tigerguo/.codex/worktrees/76f2/HHappyDocs/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --extra-args "-only-testing:HDiaryWidgetDataTests" "-only-testing:HDiaryAppFeatureTests/MomentWidgetIntentTests" "-only-testing:HDiaryAppFeatureTests/WidgetSnapshotProjectorTests" "-only-testing:HDiaryAppFeatureTests/WidgetSnapshotCoordinatorTests" "-only-testing:HDiaryAppFeatureTests/CloudSyncDiagnosticsTests" "-only-testing:HDiaryAppFeatureTests/CloudSyncMonitorTests"
-```
-
-Expected: 所列 tests 全部通过，0 failures。
+确认 Widget 不含 CloudKit entitlement，仍只依赖独立 snapshot Store。
 
 - [ ] **Step 3: 运行完整 HDiary test plan**
 
-```bash
-xcodebuildmcp simulator test --project-path /Users/tigerguo/.codex/worktrees/76f2/HHappyDocs/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD
-```
+Expected: 0 failures；按实际结果报告 discovered、passed、skipped/not-run。
 
-Expected: 所有非 UI test targets 通过，0 failures；记录 discovered/executed 数量，不把 test plan 排除项误报为失败。
+- [ ] **Step 4: 运行态检查**
 
-- [ ] **Step 4: Build-and-run 并检查诊断页面**
+在模拟器生成主数据，确认 snapshot Store 被创建、Widget 能读取，并确认 snapshot Store URL 与主
+Store URL 不同。生产 CloudKit 首次 import 和 134410 消失仍需 TestFlight 真机验收。
 
-```bash
-RUN_OUTPUT=/tmp/hdiary-widget-snapshot-build-run.txt
-xcodebuildmcp simulator build-and-run --project-path /Users/tigerguo/.codex/worktrees/76f2/HHappyDocs/HDiary.xcodeproj --scheme HDiary --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD | tee "$RUN_OUTPUT"
-```
+- [ ] **Step 5: 独立复审**
 
-然后使用 `xcodebuildmcp ui-automation snapshot-ui --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD` 获取实时 elementRef，依次进入“设置”→“云端数据”→“同步诊断”；每次导航后重新 snapshot，不复用旧 ref。确认：
-
-- 诊断入口在非 Debug-only section 的云端数据页中。
-- 无 event 时显示“暂无同步事件”，不显示无限同步 spinner。
-- 分享按钮有 VoiceOver label；存在 JSON 后可以唤起系统分享页。
-
-- [ ] **Step 5: 检查运行日志和 snapshot 文件**
-
-从 build-and-run 输出提取 log file path，然后：
-
-```bash
-RUNTIME_LOG=$(rg -o '/[^[:space:]]+\.log' /tmp/hdiary-widget-snapshot-build-run.txt | tail -1)
-test -n "$RUNTIME_LOG"
-test -f "$RUNTIME_LOG"
-rg -n "134410|another instance of this persistent store actively syncing|CloudKit setup failed" "$RUNTIME_LOG"
-```
-
-Expected: 无匹配。再确认 App Group 中 snapshot SQLite 与主 Store URL 不同，`cloud-sync-events.json` 可解析且每条只包含设计字段。运行日志无匹配只能证明本次模拟器会话，没有替代 TestFlight 真机验收。
-
-- [ ] **Step 6: 使用 `requesting-code-review` 做两轮复核**
-
-第一轮逐条核对 spec：Store ownership、数据上限、失败保留、remote filtering、诊断脱敏、正式入口。第二轮专查 Swift 6 concurrency：ModelContext/model 不跨 actor、event object 在 MainActor 映射、无 `@unchecked Sendable`、actor reentrancy 不覆盖 ended event。
-
-发现问题时回到对应 Task：先增加能失败的 regression test，再改实现并重跑该 Task 与完整测试。
-
-- [ ] **Step 7: 按 `verification-before-completion` 做最终新鲜验证**
-
-在最终交付所在消息前重新执行 Step 1、Step 2、Step 3，并检查：
-
-```bash
-git status --short --branch
-git log --oneline --decorate -12
-```
-
-只根据该次输出报告通过数量、工作区状态和提交列表。
-
-- [ ] **Step 8: 记录 TestFlight 真机最终验收项**
-
-交付中明确列出发布后必须验证：
-
-1. 干净安装后完成 production CloudKit 首次 import。
-2. App 与 Widget 并发运行日志不再出现 134410。
-3. setup/import/export 失败在诊断页显示 domain、code、retry-after。
-4. 导出的 JSON 不包含用户内容。
-5. 重复 Moment 是否仍出现；若出现，使用 recordID、CD_uuid 和诊断 JSON 建立新的根因证据。
-
-本地不能验证以上生产环境事实，不把它们声明为已经通过。
+检查 Widget 不再访问主 Store、notification adapter 不跨 actor 发送 SwiftData 对象、snapshot
+内容上限保持不变，以及 remote/local change 都能触发重建。

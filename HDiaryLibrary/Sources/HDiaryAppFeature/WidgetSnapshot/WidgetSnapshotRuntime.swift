@@ -5,12 +5,12 @@
   import HDiaryWidgetData
   import SwiftData
 
+  /// 在主 App 启动时组装快照组件、注册监听并触发初次重建。
   @MainActor
-  final class CloudSyncRuntime {
-    static let shared: CloudSyncRuntime = {
-      let monitor = CloudSyncMonitor()
-      return CloudSyncRuntime(
-        startEventObservation: monitor.startEventObservation,
+  final class WidgetSnapshotRuntime {
+    static let shared: WidgetSnapshotRuntime = {
+      let monitor = WidgetSnapshotChangeMonitor()
+      return WidgetSnapshotRuntime(
         currentContainer: { HDiaryContainer.currentContainer },
         makeCoordinator: { primaryContainer in
           let writerContainer = try WidgetSnapshotContainer.makeWriterContainer()
@@ -25,7 +25,6 @@
       )
     }()
 
-    private let startEventObservation: @MainActor () -> Void
     private let currentContainer: @MainActor () -> ModelContainer
     private let makeCoordinator: @MainActor (ModelContainer) throws -> WidgetSnapshotCoordinator
     private let attach: @MainActor (ModelContainer, WidgetSnapshotCoordinator) -> Void
@@ -35,13 +34,11 @@
     private var coordinator: WidgetSnapshotCoordinator?
 
     init(
-      startEventObservation: @escaping @MainActor () -> Void,
       currentContainer: @escaping @MainActor () -> ModelContainer,
       makeCoordinator: @escaping @MainActor (ModelContainer) throws -> WidgetSnapshotCoordinator,
       attach: @escaping @MainActor (ModelContainer, WidgetSnapshotCoordinator) -> Void,
       requestRebuild: @escaping @MainActor (WidgetSnapshotCoordinator) -> Void
     ) {
-      self.startEventObservation = startEventObservation
       self.currentContainer = currentContainer
       self.makeCoordinator = makeCoordinator
       self.attach = attach
@@ -54,7 +51,6 @@
       }
       hasStarted = true
 
-      startEventObservation()
       let primaryContainer = currentContainer()
 
       do {

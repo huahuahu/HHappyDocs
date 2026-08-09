@@ -14,20 +14,8 @@ import SwiftUI
 @MainActor
 struct CloudDataEntryScreen: View {
   var body: some View {
-    List {
-      Section {
-        NavigationLink(value: HDiaryDestination.cloudSyncDiagnostics) {
-          Label {
-            Text(DiaryStringKey.Data.CloudData.Diagnostics.title)
-          } icon: {
-            Image(systemName: "waveform.path.ecg")
-          }
-        }
-      }
-
-      ForEach(CloudRecordDestination.allCases) { destination in
-        cell(for: destination)
-      }
+    List(CloudRecordDestination.allCases) { destination in
+      cell(for: destination)
     }
     .navigationTitle(Text(DiaryStringKey.Data.CloudData.cellLabel))
     .navigationBarTitleDisplayMode(.inline)

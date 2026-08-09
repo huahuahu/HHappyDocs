@@ -22,8 +22,7 @@
     }
   }
 
-  @MainActor
-  private struct BuilderStub: WidgetSnapshotBuilding {
+  private nonisolated struct BuilderStub: WidgetSnapshotBuilding {
     func build() -> WidgetSnapshotValue {
       WidgetSnapshotValue(participants: [], moments: [])
     }

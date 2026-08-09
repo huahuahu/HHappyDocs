@@ -2,21 +2,26 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 将 Widget snapshot 的主 Store 读取和投影移出 MainActor，并在 snapshot 内容未变化时跳过保存与 Widget timeline 刷新。
+**Goal:** 将 Widget snapshot 的主 Store 读取、Builder 编排和投影移出 MainActor，把 Moment 读取限制为 Store 层的全局/每位 Participant Top-N，并在 snapshot 内容未变化时跳过保存与 Widget timeline 刷新。
 
-**Architecture:** `MainStoreWidgetSnapshotSourceReader` actor 独占主 Store 的临时 `ModelContext`，只向 Builder 返回显式 `Sendable` source values；`WidgetSnapshotProjector.project(...)` 使用 `@concurrent` 执行排序和投影。`WidgetSnapshotStore.replace(with:)` 比较持久字段并返回是否发生语义变化，`WidgetSnapshotCoordinator` 只在返回 `true` 时刷新 timeline。
+**Architecture:** `MainStoreWidgetSnapshotSourceReader` actor 独占主 Store 的临时 `ModelContext`，全量读取 Participant，并通过一次全局 Top-N 与每位 Participant 一次 Top-N 查询读取有效 Moment，按 UUID 去重后只向 Builder 返回显式 `Sendable` source values；Builder 是 `nonisolated`、`Sendable` value，`build()` 使用 `@concurrent` 编排 reader、projector 和 thumbnailer；`WidgetSnapshotProjector.project(...)` 使用 `@concurrent` 执行排序和防御性投影。`WidgetSnapshotStore.replace(with:)` 比较持久字段并返回是否发生语义变化；`WidgetSnapshotCoordinator` 仍由 MainActor 隔离，且只在 writer 返回 `true` 时刷新 timeline。
 
 **Tech Stack:** Swift 6.3、SwiftData、Swift Concurrency、WidgetKit、Swift Testing、现有 XCTest 回归测试、XcodeBuildMCP。
 
 ## Global Constraints
 
 - 保持 `HDiaryLibrary/Package.swift` 的 `.iOS(.v17)`、`.macOS(.v14)`、Swift 6 language mode、Strict Concurrency 和 `HDiaryAppFeature` 的 `.defaultIsolation(MainActor.self)`。
-- 保持现有 snapshot schema、Store URL、`cloudKitDatabase: .none`、reader/writer 配置、Widget entitlements 和 CloudKit diagnostics 不变。
+- 保持现有 snapshot schema、Store URL、`cloudKitDatabase: .none`、reader/writer 配置和 Widget entitlements 不变。
 - 保持“全部 Participant、全局最近 8 条 Moment 与每位 Participant 最近 8 条 Moment 的 UUID 去重并集”语义不变。
 - 保持 350 ms debounce、重建期间 dirty 补跑、失败时保留旧 snapshot、成功写入后刷新 timeline 的语义。
 - 主 Store `ModelContext` 与 `Participant`/`Moment` 等 SwiftData `@Model` 实例不得离开创建它们的 reader actor；跨 actor 只传 `Sendable` value types。
+- `WidgetSnapshotBuilding` 必须是 `nonisolated`、`Sendable` 协议；生产 Builder 必须是
+  `nonisolated`、`Sendable` value，且 `build()` 使用 `@concurrent`。
 - 不使用 `@unchecked Sendable`、`Task.detached` 或 GCD 绕过 actor 检查。
-- 不引入 persistent history、notification 实体过滤、Participant/Moment 增量同步、N+1 Top 8 查询、头像摘要或新业务字段。
+- 不引入 persistent history、notification 实体过滤、Participant/Moment 增量同步、头像摘要或新业务字段。
+- 采用 P+1 次 Moment 查询（一次全局查询加每位 Participant 一次查询），换取显式完整 Moment 查询结果有界；Participant 很多时接受额外 round-trip。
+- Moment predicate 在 Store 层排除 `markedAsDelete`；全局查询保留无 Participant 的最近 Moment，各查询结果按 UUID 去重。
+- 不使用 `propertiesToFetch`：当前映射访问多个字段与 relationship，SwiftData `@Model` partial fetch 会逐对象补查未取字段；不承诺 `ModelContext` 内部 fault 严格有界。
 - `participantIDs` 变化判断使用 UUID 集合语义；只有顺序不同或重复顺序不同不算内容变化。
 - 内容完全相同时不得调用 `ModelContext.save()`，并返回 `false`；插入、删除或任一持久字段变化时保存一次并返回 `true`。
 - Coordinator 只有在 writer 返回 `true` 时调用 `WidgetCenter.reloadTimelines(ofKind:)`；build/write 失败与 writer 返回 `false` 都不刷新。
@@ -30,16 +35,16 @@
 
 ## 文件结构
 
-- Create `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotSourceReader.swift`：actor 内完成主 Store fetch、relationship prefetch 和业务模型到 source value 的映射。
+- Create `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotSourceReader.swift`：actor 内完成 Participant 全量 fetch、Moment P+1 有界 fetch、relationship prefetch、UUID 去重和业务模型到 source value 的映射。
 - Modify `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotSource.swift`：增加一次读取的 `WidgetSnapshotSourceValue` 聚合值。
-- Modify `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotBuilder.swift`：仅编排 reader、projector 和 thumbnailer，不再创建 `ModelContext`。
+- Modify `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotBuilder.swift`：改为 `nonisolated`、`Sendable` value，并以 `@concurrent build()` 编排 reader、projector 和 thumbnailer，不再创建 `ModelContext`。
 - Modify `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotProjector.swift`：为 `project(...)` 增加 `@concurrent`。
-- Create `HDiaryLibrary/Tests/HDiaryAppFeatureTests/MainStoreWidgetSnapshotSourceReaderTests.swift`：验证 actor 读取与 source 映射。
+- Create `HDiaryLibrary/Tests/HDiaryAppFeatureTests/MainStoreWidgetSnapshotSourceReaderTests.swift`：验证 actor 的有界读取、删除过滤、无 Participant 全局记录、UUID 去重与 source 映射。
 - Modify `HDiaryLibrary/Sources/HDiaryWidgetData/Storage/WidgetSnapshotStore.swift`：比较持久字段、跳过 no-op save，并返回 `Bool`。
 - Create `HDiaryLibrary/Tests/HDiaryWidgetDataTests/WidgetSnapshotStoreChangeTests.swift`：验证 changed/no-op、集合语义和字段变化。
 - Modify `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotCoordinator.swift`：writer protocol 返回 `Bool`，只在 changed 时刷新。
 - Modify `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotCoordinatorTests.swift`：现有 writer spies 适配 `Bool` 返回值。
-- Modify `HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncMonitorTests.swift`：现有 runtime writer spy 适配 `Bool` 返回值。
+- Modify `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotChangeMonitorTests.swift`：现有 runtime writer spy 适配 `Bool` 返回值。
 - Create `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotCoordinatorChangeTests.swift`：验证 unchanged 不刷新。
 
 ---
@@ -85,14 +90,17 @@ Expected: 现有 snapshot tests 为 0 failures。若基线失败，先用 `syste
 - Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotSource.swift`
 - Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotBuilder.swift`
 - Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotProjector.swift`
+- Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotCoordinator.swift`
 - Create: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/MainStoreWidgetSnapshotSourceReaderTests.swift`
 - Regression: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotProjectorTests.swift`
 
 **Interfaces:**
 - Produces: `WidgetSnapshotSourceValue(participants:moments:) -> Sendable & Equatable`。
-- Produces: `actor MainStoreWidgetSnapshotSourceReader`，初始化为 `init(container: ModelContainer)`，读取接口为 `func read() throws -> WidgetSnapshotSourceValue`。
+- Produces: `actor MainStoreWidgetSnapshotSourceReader`，初始化为 `init(container: ModelContainer)`，读取接口为 `func read(limit: Int) throws -> WidgetSnapshotSourceValue`。
+- Produces: `nonisolated protocol WidgetSnapshotBuilding: Sendable`，并保持 `func build() async throws -> WidgetSnapshotValue` 调用接口。
+- Produces: `nonisolated struct MainStoreWidgetSnapshotBuilder`，其 `build()` 使用 `@concurrent`。
 - Consumes: `WidgetParticipantSource`、`WidgetMomentSource` 和现有 `WidgetAvatarThumbnailer.thumbnailData(...)`。
-- Preserves: `MainStoreWidgetSnapshotBuilder(container:)` 和 `WidgetSnapshotBuilding.build()` 的调用接口。
+- Preserves: `MainStoreWidgetSnapshotBuilder(container:)` 和 `WidgetSnapshotBuilding.build()` 的参数与返回值。
 
 - [ ] **Step 1: 添加 reader actor 的失败测试**
 
@@ -108,12 +116,12 @@ Expected: 现有 snapshot tests 为 0 failures。若基线失败，先用 `syste
   import Testing
 
   struct MainStoreWidgetSnapshotSourceReaderTests {
-    @Test("reader actor 映射主 Store 模型为 Sendable source values")
-    func mapsParticipantsMomentsDeletionAndRelationships() async throws {
+    @Test("reader actor 返回有界且已排除删除记录的 Sendable source values")
+    func readsBoundedActiveMomentsAndRelationships() async throws {
       let fixture = try makeFixture()
       let reader = MainStoreWidgetSnapshotSourceReader(container: fixture.container)
 
-      let source = try await reader.read()
+      let source = try await reader.read(limit: 8)
 
       #expect(source.participants == [
         WidgetParticipantSource(
@@ -129,7 +137,7 @@ Expected: 现有 snapshot tests 为 0 failures。若基线失败，先用 `syste
         participantIDs: [fixture.participantID],
         isDeleted: false
       ))
-      #expect(source.moments.first { $0.uuid == fixture.deletedMomentID }?.isDeleted == true)
+      #expect(source.moments.contains { $0.uuid == fixture.deletedMomentID } == false)
     }
 
     private func makeFixture() throws -> (
@@ -170,7 +178,7 @@ Expected: 现有 snapshot tests 为 0 failures。若基线失败，先用 `syste
 #endif
 ```
 
-若实际 `Participant` avatar API 名称不同，只在 fixture 中使用模型已存在的公开 API；不得为测试增加生产 API。
+若实际 `Participant` avatar API 名称不同，只在 fixture 中使用模型已存在的公开 API；不得为测试增加生产 API。Fixture 还必须增加超过 limit 的全局与每位 Participant Moment、一个无 Participant 的全局 Moment，以及一个被多位 Participant 共享的 Moment，分别断言 Top-N、全局记录保留和 UUID 去重；另测 `limit == 0` 时 Participant 保留而 Moment 为空，并以 9 条相同 timestamp 的记录验证 UUID 二级排序能稳定截断为 8 条。
 
 - [ ] **Step 2: 运行 reader test 并确认 RED**
 
@@ -185,7 +193,7 @@ Call `mcp__xcodebuildmcp__test_sim` with:
 }
 ```
 
-Expected: FAIL，编译错误明确包含 `cannot find 'MainStoreWidgetSnapshotSourceReader' in scope` 或缺少 `WidgetSnapshotSourceValue`；不能是 fixture 拼写错误。
+Expected: FAIL，编译错误明确包含 `cannot find 'MainStoreWidgetSnapshotSourceReader' in scope`、缺少 `WidgetSnapshotSourceValue` 或 `read(limit:)` 尚不存在；不能是 fixture 拼写错误。
 
 - [ ] **Step 3: 实现 source 聚合值和 reader actor**
 
@@ -214,30 +222,32 @@ nonisolated struct WidgetSnapshotSourceValue: Sendable, Equatable {
       self.container = container
     }
 
-    func read() throws -> WidgetSnapshotSourceValue {
+    func read(limit: Int) throws -> WidgetSnapshotSourceValue {
       let context = ModelContext(container)
       context.autosaveEnabled = false
 
-      let participants = try context.fetch(FetchDescriptor<Participant>())
-      var momentDescriptor = FetchDescriptor<Moment>(
-        sortBy: [SortDescriptor(\Moment.timestamp, order: .reverse)]
-      )
-      momentDescriptor.relationshipKeyPathsForPrefetching = [\Moment.participants]
-      let moments = try context.fetch(momentDescriptor)
+      let participantSources = try context.fetch(FetchDescriptor<Participant>()).map {
+        WidgetParticipantSource(uuid: $0.uuid, nickName: $0.nickName, avatarData: $0.avatar)
+      }
+      let boundedLimit = max(0, limit)
+      var momentsByID = [UUID: WidgetMomentSource]()
 
-      return WidgetSnapshotSourceValue(
-        participants: participants.map {
-          WidgetParticipantSource(uuid: $0.uuid, nickName: $0.nickName, avatarData: $0.avatar)
-        },
-        moments: moments.map {
-          WidgetMomentSource(
-            uuid: $0.uuid,
-            timestamp: $0.timestamp,
-            title: $0.title,
-            participantIDs: ($0.participants ?? []).map(\.uuid),
-            isDeleted: $0.markedAsDelete
+      if boundedLimit > 0 {
+        // 一次全局查询，再为每位 Participant 查询一次；每个 descriptor 都在
+        // Store predicate 中排除 markedAsDelete，设置相同 fetchLimit，按
+        // timestamp 倒序、UUID 正序排序，并预取 Moment.participants。
+        merge(try fetchGlobalMoments(limit: boundedLimit, context: context), into: &momentsByID)
+        for participant in participantSources {
+          merge(
+            try fetchMoments(for: participant.uuid, limit: boundedLimit, context: context),
+            into: &momentsByID
           )
         }
+      }
+
+      return WidgetSnapshotSourceValue(
+        participants: participantSources,
+        moments: Array(momentsByID.values)
       )
     }
   }
@@ -245,27 +255,46 @@ nonisolated struct WidgetSnapshotSourceValue: Sendable, Equatable {
 #endif
 ```
 
-`ModelContext`、`Participant` 和 `Moment` 只存在于 `read()` 内，返回值不得包含任何 SwiftData model。
+`fetchGlobalMoments` 使用 `!moment.markedAsDelete` predicate；`fetchMoments(for:)` 还要求
+`moment.participants` 包含目标 UUID。二者都通过统一 descriptor 设置 timestamp 倒序、UUID 正序、
+`fetchLimit` 和 `relationshipKeyPathsForPrefetching = [\Moment.participants]`。`merge` 在 actor 内把
+Moment 映射为 `WidgetMomentSource` 并按 UUID 去重，所以无 Participant 的记录可由全局查询保留，
+多人关联记录也只返回一次；上方片段省略了这三个私有 helper 的机械实现。
 
-- [ ] **Step 4: 把 Builder 改为只编排 reader 和 projector**
+不设置 `propertiesToFetch`。当前映射访问 uuid、timestamp、title、markedAsDelete 和 participants；
+对 SwiftData `@Model` 做 partial fetch 后访问未取字段，会逐对象补查完整行，增加额外查询。
+`ModelContext`、`Participant` 和 `Moment` 只存在于 `read(limit:)` 内，返回值不得包含任何 SwiftData
+model。P+1 个 descriptor 的 `fetchLimit` 约束显式完整 Moment 查询结果，不承诺 context 内部
+relationship fault 或其他 SwiftData 实现细节严格有界。
 
-将 `MainStoreWidgetSnapshotBuilder` 的 `container` 替换为 reader：
+- [ ] **Step 4: 把 Builder 改为 nonisolated、Sendable 的 concurrent 编排器**
+
+先将协议移出 target 的默认 MainActor isolation，并要求 existential 可安全跨 isolation boundary：
 
 ```swift
-@MainActor
-struct MainStoreWidgetSnapshotBuilder: WidgetSnapshotBuilding {
+nonisolated protocol WidgetSnapshotBuilding: Sendable {
+  func build() async throws -> WidgetSnapshotValue
+}
+```
+
+再将 `MainStoreWidgetSnapshotBuilder` 的 `container` 替换为 reader：
+
+```swift
+nonisolated struct MainStoreWidgetSnapshotBuilder: WidgetSnapshotBuilding {
   private let sourceReader: MainStoreWidgetSnapshotSourceReader
 
   init(container: ModelContainer) {
     sourceReader = MainStoreWidgetSnapshotSourceReader(container: container)
   }
 
+  @concurrent
   func build() async throws -> WidgetSnapshotValue {
-    let source = try await sourceReader.read()
+    let limit = 8
+    let source = try await sourceReader.read(limit: limit)
     return await WidgetSnapshotProjector.project(
       participants: source.participants,
       moments: source.moments,
-      limit: 8,
+      limit: limit,
       thumbnail: {
         await WidgetAvatarThumbnailer.thumbnailData(from: $0, maxPixelSize: 64)
       }
@@ -274,7 +303,9 @@ struct MainStoreWidgetSnapshotBuilder: WidgetSnapshotBuilding {
 }
 ```
 
-移除 Builder 中已不再使用的 `HDiaryModel` fetch 逻辑；保留 `SwiftData` import 供 `ModelContainer` 使用。
+移除 Builder 中已不再使用的 `HDiaryModel` fetch 逻辑；保留 `SwiftData` import 供 `ModelContainer`
+使用。不要只删除显式 `@MainActor`：`HDiaryAppFeature` 启用了 `.defaultIsolation(MainActor.self)`，
+必须显式写 `nonisolated` 才能使协议和 Builder 真正脱离 MainActor。
 
 - [ ] **Step 5: 运行 reader 与既有 Builder tests 并确认 GREEN**
 
@@ -290,11 +321,14 @@ Call `mcp__xcodebuildmcp__test_sim` with:
 }
 ```
 
-Expected: reader mapping test 与既有 Builder regression test 均通过。
+Expected: reader 的 Store 层有界读取、删除过滤、无 Participant 全局记录与 UUID 去重测试，以及
+既有 Builder regression test 均通过。
 
-- [ ] **Step 6: 为 projector 增加 `@concurrent` 并验证严格并发编译**
+- [ ] **Step 6: 验证 Builder 与 Projector 的 `@concurrent` 严格并发边界**
 
-Swift executor 不等同于固定线程，因此不增加 `Thread.isMainThread`、耗时或线程 ID 测试。该一行隔离声明通过 Swift 6 strict-concurrency 的 iOS target 编译、所有参数/返回值的 `Sendable` 检查和既有 projector 业务回归测试验证。
+Swift executor 不等同于固定线程，因此不增加 `Thread.isMainThread`、耗时或线程 ID 测试。Builder
+与 Projector 的隔离声明通过 Swift 6 strict-concurrency 的 iOS target 编译、所有参数/返回值的
+`Sendable` 检查和既有业务回归测试验证。
 
 ```swift
 @concurrent
@@ -326,7 +360,7 @@ git commit -m "Move widget snapshot projection off main actor"
 - Modify: `HDiaryLibrary/Sources/HDiaryWidgetData/Storage/WidgetSnapshotStore.swift`
 - Modify: `HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotCoordinator.swift`
 - Modify: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotCoordinatorTests.swift`
-- Modify: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncMonitorTests.swift`
+- Modify: `HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotChangeMonitorTests.swift`
 - Create: `HDiaryLibrary/Tests/HDiaryWidgetDataTests/WidgetSnapshotStoreChangeTests.swift`
 - Regression: `HDiaryLibrary/Tests/HDiaryWidgetDataTests/WidgetSnapshotStoreTests.swift`
 
@@ -517,7 +551,7 @@ func replace(with snapshot: WidgetSnapshotValue) throws -> Bool {
 }
 ```
 
-`PausingWriterSpy` 保留 continuation、并发计数和 `snapshots.append(snapshot)`，在 append 后返回 `true`；`CloudSyncMonitorTests.swift` 的 `RuntimeWriter` 使用：
+`PausingWriterSpy` 保留 continuation、并发计数和 `snapshots.append(snapshot)`，在 append 后返回 `true`；`WidgetSnapshotChangeMonitorTests.swift` 的 `RuntimeWriter` 使用：
 
 ```swift
 func replace(with _: WidgetSnapshotValue) -> Bool {
@@ -616,7 +650,7 @@ git add HDiaryLibrary/Sources/HDiaryWidgetData/Storage/WidgetSnapshotStore.swift
   HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotCoordinator.swift \
   HDiaryLibrary/Tests/HDiaryWidgetDataTests/WidgetSnapshotStoreChangeTests.swift \
   HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotCoordinatorTests.swift \
-  HDiaryLibrary/Tests/HDiaryAppFeatureTests/CloudSyncMonitorTests.swift
+  HDiaryLibrary/Tests/HDiaryAppFeatureTests/WidgetSnapshotChangeMonitorTests.swift
 git commit -m "Skip unchanged widget snapshot saves"
 ```
 
@@ -662,8 +696,7 @@ git commit -m "Skip unchanged widget snapshot saves"
     }
   }
 
-  @MainActor
-  private struct BuilderStub: WidgetSnapshotBuilding {
+  private nonisolated struct BuilderStub: WidgetSnapshotBuilding {
     func build() -> WidgetSnapshotValue {
       WidgetSnapshotValue(participants: [], moments: [])
     }
@@ -747,7 +780,7 @@ git commit -m "Reload widget only for changed snapshots"
 **Interfaces:**
 - Produces: fresh focused/full test evidence、SwiftPM build evidence、并发/SwiftData review 结论与干净提交历史。
 
-- [ ] **Step 1: 运行 snapshot 与 diagnostics focused tests**
+- [ ] **Step 1: 运行 snapshot focused tests**
 
 Call `mcp__xcodebuildmcp__test_sim` with:
 
@@ -759,8 +792,7 @@ Call `mcp__xcodebuildmcp__test_sim` with:
     "-only-testing:HDiaryAppFeatureTests/WidgetSnapshotProjectorTests",
     "-only-testing:HDiaryAppFeatureTests/WidgetSnapshotCoordinatorTests",
     "-only-testing:HDiaryAppFeatureTests/WidgetSnapshotCoordinatorChangeTests",
-    "-only-testing:HDiaryAppFeatureTests/CloudSyncDiagnosticsTests",
-    "-only-testing:HDiaryAppFeatureTests/CloudSyncMonitorTests",
+    "-only-testing:HDiaryAppFeatureTests/WidgetSnapshotChangeMonitorTests",
     "-only-testing:HDiaryAppFeatureTests/MomentWidgetIntentTests"
   ],
   "progress": true
@@ -794,7 +826,9 @@ Expected: 完整 test plan 0 failures；分别报告 discovered、passed、skipp
 ```bash
 rg -n "ModelContext|FetchDescriptor<Participant>|FetchDescriptor<Moment>" \
   HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotBuilder.swift
-rg -n "@concurrent" \
+rg -n "nonisolated|@concurrent" \
+  HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/MainStoreWidgetSnapshotBuilder.swift \
+  HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotCoordinator.swift \
   HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot/WidgetSnapshotProjector.swift
 rg -n "@unchecked Sendable|Task\.detached|DispatchQueue" \
   HDiaryLibrary/Sources/HDiaryAppFeature/WidgetSnapshot \
@@ -803,19 +837,22 @@ git diff --check a1326be..HEAD
 git status --short --branch
 ```
 
-Expected: Builder 的主 Store fetch 搜索无输出；Projector 命中 `@concurrent`；禁止模式搜索无输出；`git diff --check` 无错误；只有明确的任务文件发生变化。
+Expected: Builder 的主 Store fetch 搜索无输出；Builder 命中 `nonisolated` 与 `@concurrent`，building
+protocol 命中 `nonisolated` 与 `Sendable`，Projector 命中 `@concurrent`；禁止模式搜索无输出；
+`git diff --check` 无错误；只有明确的任务文件发生变化。
 
 - [ ] **Step 5: 独立审查 Swift concurrency、SwiftData 与 spec compliance**
 
 使用 `requesting-code-review` 派发最强可用模型，审查 `a1326be..HEAD`，重点检查：
 
 - `ModelContext`/`@Model` 是否严格留在 reader actor；
-- default MainActor isolation 下 source values 与 actor API 是否正确；
+- default MainActor isolation 下 Builder/protocol 是否显式 `nonisolated`、Builder existential 是否
+  `Sendable`，以及 source values 与 actor API 是否正确；
 - actor reentrancy 是否引入状态假设；
 - no-op 路径是否确实在 `save()` 前返回；
 - `participantIDs` 是否仅用 Set 语义判断；
 - changed、unchanged、throw 三条 coordinator 路径是否分别刷新 1、0、0 次；
-- 是否意外改变 snapshot 内容边界、Store/CloudKit 配置或 diagnostics。
+- 是否意外改变 snapshot 内容边界或 Store/CloudKit 配置。
 
 Critical/Important findings 必须修复、重跑覆盖测试并重新审查；Minor findings 记录后由最终 reviewer 判断是否应在本任务处理。
 

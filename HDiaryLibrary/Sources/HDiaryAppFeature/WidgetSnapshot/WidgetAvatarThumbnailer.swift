@@ -4,6 +4,7 @@
   import ImageIO
   import UniformTypeIdentifiers
 
+  /// 将头像原图压缩为适合 Widget 存储与展示的小尺寸 JPEG。
   nonisolated enum WidgetAvatarThumbnailer {
     @concurrent
     static func thumbnailData(from data: Data?, maxPixelSize: Int) async -> Data? {

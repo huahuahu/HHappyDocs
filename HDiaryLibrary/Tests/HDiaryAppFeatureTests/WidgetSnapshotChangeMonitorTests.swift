@@ -8,120 +8,7 @@
   import XCTest
 
   @MainActor
-  final class CloudSyncMonitorTests: XCTestCase {
-    func testDefaultMonitorUsesSharedDiagnosticsModel() {
-      let monitor = CloudSyncMonitor()
-
-      XCTAssertTrue(monitor.diagnosticsModel === CloudSyncDiagnosticsModel.shared)
-    }
-
-    func testMonitorKeepsInjectedDiagnosticsModel() throws {
-      let directoryURL = try makeTemporaryDirectory()
-      defer { try? FileManager.default.removeItem(at: directoryURL) }
-      let model = CloudSyncDiagnosticsModel(
-        fileStore: CloudSyncDiagnosticsFileStore(directoryURL: directoryURL)
-      )
-
-      let monitor = CloudSyncMonitor(diagnosticsModel: model)
-
-      XCTAssertTrue(monitor.diagnosticsModel === model)
-    }
-
-    func testEventTypesMapToDiagnosticKindsWithoutPersistingStoreIdentifier() throws {
-      let identifier = UUID()
-      let startDate = Date(timeIntervalSince1970: 100)
-      let now = Date(timeIntervalSince1970: 200)
-      let cases: [(NSPersistentCloudKitContainer.EventType, CloudSyncEventRecord.Kind)] = [
-        (.setup, .setup),
-        (.import, .importData),
-        (.export, .export),
-      ]
-
-      for (eventType, expectedKind) in cases {
-        let record = try XCTUnwrap(
-          CloudSyncEventRecord(
-            input: CloudSyncEventInput(
-              identifier: identifier,
-              type: eventType,
-              startDate: startDate,
-              endDate: nil,
-              succeeded: false,
-              error: nil
-            ),
-            now: now
-          )
-        )
-
-        XCTAssertEqual(record.id, identifier)
-        XCTAssertEqual(record.storeIdentifier, "primary")
-        XCTAssertEqual(record.kind, expectedKind)
-        XCTAssertEqual(record.startDate, startDate)
-      }
-    }
-
-    func testEventCompletionMapsToInProgressSucceededAndFailedStates() throws {
-      let startDate = Date(timeIntervalSince1970: 100)
-      let endDate = Date(timeIntervalSince1970: 150)
-      let now = Date(timeIntervalSince1970: 200)
-      let failure = NSError(
-        domain: "CloudSyncMonitorTests",
-        code: 7,
-        userInfo: [NSLocalizedDescriptionKey: "failed"]
-      )
-
-      let inProgress = try XCTUnwrap(
-        CloudSyncEventRecord(
-          input: CloudSyncEventInput(
-            identifier: UUID(),
-            type: .setup,
-            startDate: startDate,
-            endDate: nil,
-            succeeded: false,
-            error: nil
-          ),
-          now: now
-        )
-      )
-      let succeeded = try XCTUnwrap(
-        CloudSyncEventRecord(
-          input: CloudSyncEventInput(
-            identifier: UUID(),
-            type: .import,
-            startDate: startDate,
-            endDate: endDate,
-            succeeded: true,
-            error: nil
-          ),
-          now: now
-        )
-      )
-      let failed = try XCTUnwrap(
-        CloudSyncEventRecord(
-          input: CloudSyncEventInput(
-            identifier: UUID(),
-            type: .export,
-            startDate: startDate,
-            endDate: endDate,
-            succeeded: false,
-            error: failure
-          ),
-          now: now
-        )
-      )
-
-      XCTAssertEqual(inProgress.state, .inProgress)
-      XCTAssertNil(inProgress.endDate)
-      XCTAssertNil(inProgress.error)
-      XCTAssertEqual(succeeded.state, .succeeded)
-      XCTAssertEqual(succeeded.endDate, endDate)
-      XCTAssertNil(succeeded.error)
-      XCTAssertEqual(failed.state, .failed)
-      XCTAssertEqual(failed.endDate, endDate)
-      XCTAssertEqual(failed.error?.domain, failure.domain)
-      XCTAssertEqual(failed.error?.code, failure.code)
-      XCTAssertEqual(failed.error?.message, "Synchronization operation failed")
-    }
-
+  final class WidgetSnapshotChangeMonitorTests: XCTestCase {
     func testRemoteChangeMatchesOnlyPrimaryStoreURL() {
       let primaryStoreURL = URL(filePath: "/tmp/primary.sqlite")
       let snapshotStoreURL = URL(filePath: "/tmp/widget-snapshot.sqlite")
@@ -136,10 +23,10 @@
         userInfo: [NSPersistentStoreURLKey: snapshotStoreURL]
       )
 
-      XCTAssertTrue(CloudSyncMonitor.matchesRemoteChange(matching, storeURL: primaryStoreURL))
-      XCTAssertFalse(CloudSyncMonitor.matchesRemoteChange(other, storeURL: primaryStoreURL))
+      XCTAssertTrue(WidgetSnapshotChangeMonitor.matchesRemoteChange(matching, storeURL: primaryStoreURL))
+      XCTAssertFalse(WidgetSnapshotChangeMonitor.matchesRemoteChange(other, storeURL: primaryStoreURL))
       XCTAssertFalse(
-        CloudSyncMonitor.matchesRemoteChange(
+        WidgetSnapshotChangeMonitor.matchesRemoteChange(
           Notification(name: .NSPersistentStoreRemoteChange),
           storeURL: primaryStoreURL
         )
@@ -165,13 +52,13 @@
       )
 
       XCTAssertTrue(
-        CloudSyncMonitor.matchesLocalSave(primarySave, primaryContainer: primaryContainer)
+        WidgetSnapshotChangeMonitor.matchesLocalSave(primarySave, primaryContainer: primaryContainer)
       )
       XCTAssertFalse(
-        CloudSyncMonitor.matchesLocalSave(snapshotSave, primaryContainer: primaryContainer)
+        WidgetSnapshotChangeMonitor.matchesLocalSave(snapshotSave, primaryContainer: primaryContainer)
       )
       XCTAssertFalse(
-        CloudSyncMonitor.matchesLocalSave(
+        WidgetSnapshotChangeMonitor.matchesLocalSave(
           Notification(name: ModelContext.didSave),
           primaryContainer: primaryContainer
         )
@@ -213,7 +100,7 @@
       let acceptedRequest = expectation(description: "Primary remote change reaches coordinator")
       var acceptedRequestCount = 0
       var rebuildTasks = [Task<Void, Never>]()
-      let monitor = CloudSyncMonitor(requestRebuild: { coordinator in
+      let monitor = WidgetSnapshotChangeMonitor(requestRebuild: { coordinator in
         let task = coordinator.requestRebuild()
         acceptedRequestCount += 1
         rebuildTasks.append(task)
@@ -249,7 +136,8 @@
       }
 
       let replaceCount = await writer.replaceCount
-      XCTAssertEqual(builder.buildCount, 1)
+      let buildCount = await builder.buildCount
+      XCTAssertEqual(buildCount, 1)
       XCTAssertEqual(replaceCount, 1)
       XCTAssertEqual(reloadCount, 1)
     }
@@ -283,7 +171,7 @@
       )
       var acceptedRequestCount = 0
       var rebuildTasks = [Task<Void, Never>]()
-      let monitor = CloudSyncMonitor(requestRebuild: { coordinator in
+      let monitor = WidgetSnapshotChangeMonitor(requestRebuild: { coordinator in
         let task = coordinator.requestRebuild()
         acceptedRequestCount += 1
         rebuildTasks.append(task)
@@ -297,7 +185,7 @@
         forNotification: ModelContext.didSave,
         object: nil
       ) { notification in
-        CloudSyncNotificationAdapter.localSaveContainerIdentifier(from: notification)
+        WidgetSnapshotNotificationAdapter.localSaveContainerIdentifier(from: notification)
           == ObjectIdentifier(otherContainer)
       }
 
@@ -313,7 +201,8 @@
       await gate.open()
 
       let replaceCount = await writer.replaceCount
-      XCTAssertEqual(builder.buildCount, 0)
+      let buildCount = await builder.buildCount
+      XCTAssertEqual(buildCount, 0)
       XCTAssertEqual(replaceCount, 0)
       XCTAssertEqual(reloadCount, 0)
     }
@@ -340,7 +229,7 @@
       acceptedRequests.expectedFulfillmentCount = 2
       var acceptedRequestCount = 0
       var rebuildTasks = [Task<Void, Never>]()
-      let monitor = CloudSyncMonitor(requestRebuild: { coordinator in
+      let monitor = WidgetSnapshotChangeMonitor(requestRebuild: { coordinator in
         let task = coordinator.requestRebuild()
         acceptedRequestCount += 1
         rebuildTasks.append(task)
@@ -357,14 +246,14 @@
         forNotification: ModelContext.didSave,
         object: nil
       ) { notification in
-        CloudSyncNotificationAdapter.localSaveContainerIdentifier(from: notification)
+        WidgetSnapshotNotificationAdapter.localSaveContainerIdentifier(from: notification)
           == ObjectIdentifier(primaryContainer)
       }
       let remoteChangeExpectation = expectation(
         forNotification: .NSPersistentStoreRemoteChange,
         object: nil
       ) { notification in
-        CloudSyncNotificationAdapter.remoteStoreURL(from: notification) == primaryStoreURL
+        WidgetSnapshotNotificationAdapter.remoteStoreURL(from: notification) == primaryStoreURL
       }
 
       try await saver.saveParticipant(
@@ -386,7 +275,8 @@
       }
 
       let replaceCount = await writer.replaceCount
-      XCTAssertEqual(builder.buildCount, 1)
+      let buildCount = await builder.buildCount
+      XCTAssertEqual(buildCount, 1)
       XCTAssertEqual(replaceCount, 1)
       XCTAssertEqual(reloadCount, 1)
     }
@@ -399,18 +289,13 @@
       )
       let operations = OperationLog()
       let coordinator = makeCoordinator()
-      var eventObservationCount = 0
       var currentContainerRequestCount = 0
       var coordinatorFactoryCount = 0
       var attachCount = 0
       var attachedContainer: ModelContainer?
       var attachedCoordinator: WidgetSnapshotCoordinator?
       var requestRebuildCount = 0
-      let runtime = CloudSyncRuntime(
-        startEventObservation: {
-          eventObservationCount += 1
-          operations.append(.eventObservation)
-        },
+      let runtime = WidgetSnapshotRuntime(
         currentContainer: {
           currentContainerRequestCount += 1
           operations.append(.currentContainer)
@@ -437,7 +322,6 @@
       runtime.start()
       runtime.start()
 
-      XCTAssertEqual(eventObservationCount, 1)
       XCTAssertEqual(currentContainerRequestCount, 1)
       XCTAssertEqual(coordinatorFactoryCount, 1)
       XCTAssertEqual(attachCount, 1)
@@ -446,7 +330,7 @@
       XCTAssertEqual(requestRebuildCount, 1)
       XCTAssertEqual(
         operations.values,
-        [.eventObservation, .currentContainer, .makeCoordinator, .attach, .requestRebuild]
+        [.currentContainer, .makeCoordinator, .attach, .requestRebuild]
       )
     }
 
@@ -457,15 +341,10 @@
         at: directoryURL.appending(path: "primary.sqlite")
       )
       let operations = OperationLog()
-      var eventObservationCount = 0
       var coordinatorFactoryCount = 0
       var attachCount = 0
       var requestRebuildCount = 0
-      let runtime = CloudSyncRuntime(
-        startEventObservation: {
-          eventObservationCount += 1
-          operations.append(.eventObservation)
-        },
+      let runtime = WidgetSnapshotRuntime(
         currentContainer: {
           operations.append(.currentContainer)
           return primaryContainer
@@ -488,19 +367,18 @@
       runtime.start()
       runtime.start()
 
-      XCTAssertEqual(eventObservationCount, 1)
       XCTAssertEqual(coordinatorFactoryCount, 1)
       XCTAssertEqual(attachCount, 0)
       XCTAssertEqual(requestRebuildCount, 0)
       XCTAssertEqual(
         operations.values,
-        [.eventObservation, .currentContainer, .makeCoordinator]
+        [.currentContainer, .makeCoordinator]
       )
     }
 
     private func makeTemporaryDirectory() throws -> URL {
       let url = FileManager.default.temporaryDirectory.appending(
-        path: "CloudSyncMonitorTests-\(UUID().uuidString)",
+        path: "WidgetSnapshotChangeMonitorTests-\(UUID().uuidString)",
         directoryHint: .isDirectory
       )
       try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
@@ -517,8 +395,7 @@
     }
   }
 
-  @MainActor
-  private final class RuntimeBuilder: WidgetSnapshotBuilding {
+  private actor RuntimeBuilder: WidgetSnapshotBuilding {
     private(set) var buildCount = 0
 
     func build() -> WidgetSnapshotValue {
@@ -602,8 +479,8 @@
       let localNotification = Notification(name: ModelContext.didSave, object: context)
 
       return ExtractedNotificationSignals(
-        remoteStoreURL: CloudSyncNotificationAdapter.remoteStoreURL(from: remoteNotification),
-        containerIdentifier: CloudSyncNotificationAdapter.localSaveContainerIdentifier(
+        remoteStoreURL: WidgetSnapshotNotificationAdapter.remoteStoreURL(from: remoteNotification),
+        containerIdentifier: WidgetSnapshotNotificationAdapter.localSaveContainerIdentifier(
           from: localNotification
         )
       )
@@ -626,7 +503,6 @@
   }
 
   private enum Operation: Equatable {
-    case eventObservation
     case currentContainer
     case makeCoordinator
     case attach

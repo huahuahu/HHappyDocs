@@ -376,20 +376,6 @@ extension DiaryStringKey {
       public static let lastUpdateTime = LocalizedStringResource("CloudData.lastUpdateTime", defaultValue: "Last update date", table: "Localizable", bundle: .module, comment: "label used to show cloud data last update time")
       public static let noData = LocalizedStringResource("CloudData.noData", defaultValue: "No data", table: "Localizable", bundle: .module, comment: "label used to show no cloud data")
 
-      enum Diagnostics {
-        static let title = LocalizedStringResource("CloudSyncDiagnostics.title", defaultValue: "Sync Diagnostics", table: "Localizable", bundle: .module, comment: "Title for CloudKit sync diagnostics")
-        static let emptyTitle = LocalizedStringResource("CloudSyncDiagnostics.empty.title", defaultValue: "No Sync Events", table: "Localizable", bundle: .module, comment: "Title shown when no CloudKit sync events exist")
-        static let emptyMessage = LocalizedStringResource("CloudSyncDiagnostics.empty.message", defaultValue: "Setup, import, and export events appear here after iCloud sync starts.", table: "Localizable", bundle: .module, comment: "Description shown when no CloudKit sync events exist")
-        static let started = LocalizedStringResource("CloudSyncDiagnostics.started", defaultValue: "Started", table: "Localizable", bundle: .module, comment: "Label for a CloudKit sync event start date")
-        static let ended = LocalizedStringResource("CloudSyncDiagnostics.ended", defaultValue: "Ended", table: "Localizable", bundle: .module, comment: "Label for a CloudKit sync event end date")
-        static let duration = LocalizedStringResource("CloudSyncDiagnostics.duration", defaultValue: "Duration", table: "Localizable", bundle: .module, comment: "Label for a completed CloudKit sync event duration")
-        static let inProgress = LocalizedStringResource("CloudSyncDiagnostics.status.inProgress", defaultValue: "In progress", table: "Localizable", bundle: .module, comment: "Status for an active CloudKit sync event")
-        static let succeeded = LocalizedStringResource("CloudSyncDiagnostics.status.succeeded", defaultValue: "Succeeded", table: "Localizable", bundle: .module, comment: "Status for a successful CloudKit sync event")
-        static let failed = LocalizedStringResource("CloudSyncDiagnostics.status.failed", defaultValue: "Failed", table: "Localizable", bundle: .module, comment: "Status for a failed CloudKit sync event")
-        static let retryAt = LocalizedStringResource("CloudSyncDiagnostics.retryAt", defaultValue: "Suggested retry time", table: "Localizable", bundle: .module, comment: "Label for a suggested CloudKit retry date")
-        static let share = LocalizedStringResource("CloudSyncDiagnostics.share", defaultValue: "Share diagnostics", table: "Localizable", bundle: .module, comment: "Label for sharing the CloudKit diagnostics file")
-        static let loadFailed = LocalizedStringResource("CloudSyncDiagnostics.loadFailed", defaultValue: "Failed to load diagnostics", table: "Localizable", bundle: .module, comment: "Message shown when CloudKit diagnostics cannot be loaded")
-      }
     }
   }
 }
