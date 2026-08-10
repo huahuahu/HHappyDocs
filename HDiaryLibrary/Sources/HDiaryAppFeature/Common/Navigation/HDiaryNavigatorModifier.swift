@@ -23,6 +23,7 @@ struct DiaryNavigatorModifier: ViewModifier {
 }
 
 enum HDiaryDestination: Hashable {
+  case diagnosticLogs
   case debugView
   case debugEntry(entry: DebugEntry)
   case rawData(destination: RawDataDestination)
@@ -48,6 +49,8 @@ enum HDiaryDestination: Hashable {
   @ViewBuilder @MainActor
   var targetView: some View {
     switch self {
+    case .diagnosticLogs:
+      DiagnosticLogView()
     case .debugView:
       DebugDetailView()
     case .debugEntry(entry: let entry):

@@ -37,7 +37,7 @@ struct LibraryView: View {
 //      .withSheetDestinations(sheetDestinations: $navigationStore.presentedSheet)
       .onOpenURL(perform: { url in
         if self.isSelected {
-          Log.Navigation.common.info("handle url in library tab")
+          Log.Navigation.common.log(level: DiagnosticLogging.level(for: .info), "handle url in library tab")
           appRoute.libraryNavigationStore.handle(url)
         }
       })

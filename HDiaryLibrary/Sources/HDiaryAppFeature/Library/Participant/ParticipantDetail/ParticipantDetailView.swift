@@ -142,19 +142,19 @@ private struct ParticipantDeleteButton: View {
   }
 
   private func deleteParticipant() {
-    Log.data.info("Deleting participant: \(participant.uuid, privacy: .public)")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "Deleting participant: \(participant.uuid)")
     modelContext.delete(participant)
     do {
       try modelContext.save()
-      Log.data.info("Participant deleted: \(participant.uuid, privacy: .public)")
+      Log.data.log(level: DiagnosticLogging.level(for: .info), "Participant deleted: \(participant.uuid)")
     }
     catch {
-      Log.data.error("Failed to delete participant \(participant.uuid, privacy: .public): \(error)")
+      Log.data.error("Failed to delete participant \(participant.uuid): \(error)")
     }
 
     if case let .participant(lastParticipant) = navigationStore.path.last,
        lastParticipant == participant {
-      Log.common.info("Remove last participant from navigation store")
+      Log.common.log(level: DiagnosticLogging.level(for: .info), "Remove last participant from navigation store")
       navigationStore.path.removeLast()
     }
   }

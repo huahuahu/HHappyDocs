@@ -30,7 +30,7 @@ struct SuggestionUnavailableView: View {
       .toolbar(content: {
         ToolbarItem(placement: .cancellationAction) {
           Button {
-            Log.common.info("cancel button tapped")
+            Log.common.log(level: DiagnosticLogging.level(for: .info), "cancel button tapped")
           } label: {
             Text(verbatim: "Cancel")
           }

@@ -18,7 +18,10 @@ public enum RecordSubscriptionStatus: Comparable, Hashable, Codable, Sendable {
   init?(status: Product.SubscriptionInfo.Status, subscriptionDefinition: RecordSubscription) {
     do {
       guard case .verified = status.transaction else {
-        Log.iap.error("not verified transaction")
+        Log.iap.log(
+          level: DiagnosticLogging.level(for: .info),
+          "Ignoring an unverified subscription transaction"
+        )
         return nil
       }
 
@@ -28,11 +31,17 @@ public enum RecordSubscriptionStatus: Comparable, Hashable, Codable, Sendable {
         return
       }
       guard expirationDate > Date.now else {
-        Log.iap.error("expirationDate is \(expirationDate.formatted()), not valid")
+        Log.iap.log(
+          level: DiagnosticLogging.level(for: .info),
+          "Ignoring an expired subscription with expiration date \(expirationDate.formatted())"
+        )
         return nil
       }
       if let revokeDate = payloadValue.revocationDate {
-        Log.iap.error("revokeDate is \(revokeDate.formatted()), not valid")
+        Log.iap.log(
+          level: DiagnosticLogging.level(for: .info),
+          "Ignoring a revoked subscription with revocation date \(revokeDate.formatted())"
+        )
         return nil
       }
       if payloadValue.productID == subscriptionDefinition.monthly {
@@ -46,7 +55,7 @@ public enum RecordSubscriptionStatus: Comparable, Hashable, Codable, Sendable {
       }
     }
     catch {
-      Log.iap.error("can't get valid paylod value")
+      Log.iap.error("Failed to read a subscription transaction payload: \(error)")
       return nil
     }
   }

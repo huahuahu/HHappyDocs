@@ -81,7 +81,7 @@ struct MomentMediaEditView: View {
         Task { @MainActor in
           self.pickerItems.removeAll(keepingCapacity: true)
           self.isLoadingImage = false
-          Log.common.info("reset status")
+          Log.common.log(level: DiagnosticLogging.level(for: .info), "reset status")
         }
       }
       await MainActor.run {
@@ -106,7 +106,7 @@ struct MomentMediaEditView: View {
                 thumbnailData1000px: thumbnailData1000px ?? hMediaItem.data
               )
               mediaItems.append(mediaItem)
-              Log.common.info("Success to add image \(pickerItem.itemIdentifier ?? "") to moment ,media id  \(mediaItem.uuid)")
+              Log.common.log(level: DiagnosticLogging.level(for: .info), "Success to add image \(pickerItem.itemIdentifier ?? "") to moment ,media id  \(mediaItem.uuid)")
             }
           }
           else {
@@ -223,7 +223,7 @@ private struct ImageCell: View {
         try source.data.write(to: tempUrl)
         await MainActor.run {
           localPath = tempUrl
-          Log.common.trace("Write to \(tempUrl) succeed)")
+          Log.common.log(level: DiagnosticLogging.level(for: .debug), "Write to \(tempUrl) succeed)")
         }
       }
       catch {
@@ -264,7 +264,7 @@ private extension MediaItem.MediaType {
       var body: some View {
         List(mediaItems) { mediaItem in
           ImageCell(image: mediaItem.thumbnailData1000px.flatMap { UIImage.fromData($0) }.unsafelyUnwrapped, source: .mediaItem(mediaItem)) {
-            print(" tapped")
+            Log.common.log(level: DiagnosticLogging.level(for: .debug), "Preview image tapped")
           }
         }
       }

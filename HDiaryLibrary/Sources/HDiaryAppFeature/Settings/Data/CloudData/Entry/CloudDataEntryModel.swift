@@ -64,7 +64,7 @@ final class CloudDataEntryModel<T: CloudRecord> {
 
   func refresh() async {
     state = .loading
-    Log.data.info("Loading modificationDate for \(T.recordType, privacy: .public)")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "Loading modificationDate for \(T.recordType, privacy: .public)")
     let predicate = NSPredicate(value: true)
     let query = CKQuery(recordType: T.recordType, predicate: predicate)
 
@@ -78,7 +78,7 @@ final class CloudDataEntryModel<T: CloudRecord> {
       guard let matchedResult = results.matchResults.first else {
         // No record
         state = .loaded(modifiedDate: nil)
-        Log.data.info("No record for \(T.recordType, privacy: .public)")
+        Log.data.log(level: DiagnosticLogging.level(for: .info), "No record for \(T.recordType, privacy: .public)")
 
         return
       }
@@ -87,9 +87,11 @@ final class CloudDataEntryModel<T: CloudRecord> {
       switch result {
       case .success(let record):
         state = .loaded(modifiedDate: record.modificationDate)
-        Log.data.info("Get latest modification data for  \(T.recordType, privacy: .public)")
+        Log.data.log(level: DiagnosticLogging.level(for: .info), "Get latest modification data for  \(T.recordType, privacy: .public)")
       case .failure(let failure):
-        Log.data.info("record with latest modification data for \(T.recordType, privacy: .public) fails with error  \(failure.localizedDescription)")
+        Log.data.error(
+          "Failed to load the latest modification date for \(T.recordType, privacy: .public): \(failure)"
+        )
         state = .error(failure)
       }
     }

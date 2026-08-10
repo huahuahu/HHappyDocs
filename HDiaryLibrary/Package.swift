@@ -111,6 +111,7 @@ let package = Package(
       name: "HDiaryConstants",
       dependencies: [
         .product(name: "HUIComponent", package: "HSharedCode"),
+        .product(name: "Atomics", package: "swift-atomics"),
       ],
       swiftSettings: packageSwiftSettings
     ),
@@ -167,6 +168,7 @@ let package = Package(
     .target(
       name: "HDiaryWidgetIntents",
       dependencies: [
+        "HDiaryConstants",
         "HDiaryWidgetData",
       ],
       swiftSettings: mainActorPackageSwiftSettings

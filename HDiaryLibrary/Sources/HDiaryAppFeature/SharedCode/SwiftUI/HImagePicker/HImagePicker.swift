@@ -7,6 +7,7 @@
 
 #if os(iOS)
 
+import HDiaryConstants
 import PhotosUI
 import SwiftUI
 
@@ -47,7 +48,10 @@ struct HImagePicker: View {
 
 extension HImagePickerConfig {
   static let demo = HImagePickerConfig(onNewItemAdded: { newItem in
-    print("new Item \(newItem)")
+    Log.common.log(
+      level: DiagnosticLogging.level(for: .debug),
+      "Preview selected a new item: \(String(describing: newItem))"
+    )
   })
 }
 

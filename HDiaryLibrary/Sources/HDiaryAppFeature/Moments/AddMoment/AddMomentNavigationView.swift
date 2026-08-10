@@ -104,7 +104,7 @@ struct AddMomentNavigationView: View {
   private func onInit() {
     #if DEBUG
       if userPreferences.bypassIPRestriction {
-        Log.iap.info("Bypass IP restriction")
+        Log.iap.log(level: DiagnosticLogging.level(for: .info), "Bypass IP restriction")
         presentState = .presentAddMomentView
         return
       }
@@ -121,11 +121,11 @@ struct AddMomentNavigationView: View {
 
     switch nextState {
     case .presentRecordSubscriptionView:
-      Log.iap.info("Show need subscribe view")
+      Log.iap.log(level: DiagnosticLogging.level(for: .info), "Show need subscribe view")
     case .presentRecordSubscriptionPromotionView:
-      Log.iap.info("Show RecordSubscriptionPromotionView")
+      Log.iap.log(level: DiagnosticLogging.level(for: .info), "Show RecordSubscriptionPromotionView")
     case .presentAddMomentView:
-      Log.iap.log("add moment")
+      Log.iap.log(level: DiagnosticLogging.level(for: .info), "add moment")
     }
   }
 
@@ -164,12 +164,12 @@ struct AddMomentNavigationView: View {
             .journalingSuggestionsPicker(isPresented: .init(get: {
               suggestionState.isNeedShow
             }, set: { showing in
-              Log.common.info("Journaling suggestion picker is showing: \(showing)")
+              Log.common.log(level: DiagnosticLogging.level(for: .info), "Journaling suggestion picker is showing: \(showing)")
               if !showing {
                 suggestionState = .noNeedToShow
               }
             })) { suggestion in
-              Log.common.info("Journaling suggestion selected: \(suggestion.title)")
+              Log.common.log(level: DiagnosticLogging.level(for: .info), "Journaling suggestion selected: \(suggestion.title)")
               suggestionState = .convertingSuggestion
               let suggestedMoment = await MomentSuggestionUtil.momentFrom(suggestion: suggestion)
               suggestionState = .suggestedMoment(suggestedMoment)
@@ -191,7 +191,7 @@ struct AddMomentNavigationView: View {
   func addMomentView(with addedMoment: Moment) -> some View {
     NavigationStack {
       AddMomentView(moment: addedMoment) { moment in
-        Log.data.log("moment \(String(describing: moment.id)) added")
+        Log.data.log(level: DiagnosticLogging.level(for: .info), "moment \(String(describing: moment.id)) added")
         withAnimation {
           modelContext.insert(moment)
         }

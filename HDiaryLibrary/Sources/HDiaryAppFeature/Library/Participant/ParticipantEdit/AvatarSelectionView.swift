@@ -73,7 +73,7 @@ struct AvatarSelectionView: View {
   AvatarSelectionView(image: .init(get: {
     .add
   }, set: { _ in
-    print("new Image")
+    Log.common.log(level: DiagnosticLogging.level(for: .debug), "Preview selected a new avatar")
   }))
 }
 

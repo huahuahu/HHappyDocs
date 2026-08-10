@@ -57,7 +57,7 @@ struct SettingsView: View {
       })
       .onOpenURL { url in
         if self.isSelected {
-          Log.Navigation.common.info("handle url in setting tab")
+          Log.Navigation.common.log(level: DiagnosticLogging.level(for: .info), "handle url in setting tab")
           appRoute.settingNavigationStore.handle(url)
         }
       }

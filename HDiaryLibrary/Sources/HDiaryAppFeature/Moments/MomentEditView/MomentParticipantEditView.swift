@@ -7,6 +7,7 @@
 
 #if os(iOS)
 
+import HDiaryConstants
 import HDiaryModel
 import HUIComponent
 import SwiftData
@@ -83,7 +84,10 @@ private final class BundleLocation {}
       participants: .init(get: {
         return Array(participants.prefix(1))
       }, set: { newModels in
-        print("new models \(newModels)")
+        Log.data.log(
+          level: DiagnosticLogging.level(for: .debug),
+          "Preview selected participants: \(String(describing: newModels))"
+        )
       })
     )
   }

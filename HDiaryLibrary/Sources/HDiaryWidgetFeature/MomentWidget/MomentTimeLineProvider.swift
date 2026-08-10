@@ -8,21 +8,21 @@
 #if os(iOS)
 
 import Foundation
+import HDiaryConstants
 import HDiaryWidgetData
 import HDiaryWidgetIntents
-import OSLog
 import SwiftUI
 import WidgetKit
-
-private let logger = Logger(subsystem: "com.tiger.suzhou.hdiary", category: "MomentTimeLineProvider")
 
 struct MomentTimeLineProvider: AppIntentTimelineProvider {
   // A placeholder view is similar to a preview snapshot, but instead of showing example data to let people see the type of data the widget displays, it shows a generic visual representation with no specific content
   func placeholder(in context: Context) -> MomentEntry {
-    MomentEntry(date: Date(), summary: .placeHolder)
+    DiagnosticLogging.refreshFromSharedDefaults()
+    return MomentEntry(date: Date(), summary: .placeHolder)
   }
 
   func snapshot(for configuration: MomentWidgetIntent, in context: Context) async -> MomentEntry {
+    DiagnosticLogging.refreshFromSharedDefaults()
     let participantID = configuration.selectedParticipantID
     let participant = await getParticipant(with: participantID)
     let moments = await getMoments(with: participantID)
@@ -36,6 +36,7 @@ struct MomentTimeLineProvider: AppIntentTimelineProvider {
   }
 
   func timeline(for configuration: MomentWidgetIntent, in context: Context) async -> Timeline<MomentEntry> {
+    DiagnosticLogging.refreshFromSharedDefaults()
     let participantID = configuration.selectedParticipantID
     let participant = await getParticipant(with: participantID)
     let moments = await getMoments(with: participantID)
@@ -64,8 +65,8 @@ struct MomentTimeLineProvider: AppIntentTimelineProvider {
         .map(ParticipantEntity.init(from:))
     }
     catch {
-      logger.error(
-        "Error when fetching participant for \(participantID.uuidString): \(error.localizedDescription, privacy: .public)"
+      Log.Widget.timeline.error(
+        "Failed to fetch widget participant: \(error.localizedDescription)"
       )
       return nil
     }
@@ -78,14 +79,17 @@ struct MomentTimeLineProvider: AppIntentTimelineProvider {
     }
     do {
       let moments = try dataSource.fetchMoments(participantID: participantID)
-      logger.info("Found \(moments.count) Moments for \(participantID.uuidString)")
+      Log.Widget.timeline.log(
+        level: DiagnosticLogging.level(for: .info),
+        "Fetched widget moments: count=\(moments.count, privacy: .public), filtered=\(participantID != .null, privacy: .public)"
+      )
       return moments.map {
         .init(timeStamp: $0.timestamp, title: $0.title, id: $0.uuid)
       }
     }
     catch {
-      logger.error(
-        "Error when fetching moment for \(participantID.uuidString): \(error.localizedDescription, privacy: .public)"
+      Log.Widget.timeline.error(
+        "Failed to fetch widget moments: \(error.localizedDescription)"
       )
       return []
     }

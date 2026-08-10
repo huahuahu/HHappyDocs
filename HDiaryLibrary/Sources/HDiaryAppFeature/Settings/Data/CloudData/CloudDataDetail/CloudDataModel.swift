@@ -82,7 +82,7 @@ final class CloudDataModel<T: CloudRecord> {
 
   func refresh() async {
     state = .loading
-    Log.data.info("Loading items for \(T.recordType, privacy: .public)")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "Loading items for \(T.recordType, privacy: .public)")
     let predicate = NSPredicate(value: true)
     let query = CKQuery(recordType: T.recordType, predicate: predicate)
 
@@ -97,7 +97,7 @@ final class CloudDataModel<T: CloudRecord> {
         let (_, result) = matchedResult
         switch result {
         case .success(let record):
-          Log.data.debug("Success got one \(T.recordType, privacy: .public)  record")
+          Log.data.log(level: DiagnosticLogging.level(for: .debug), "Success got one \(T.recordType, privacy: .public)  record")
           let name = record[T.nameFieldInCloud] as? String
           return .loaded(record: record, name: name ?? record.recordID.recordName)
         case .failure(let err):
@@ -127,7 +127,7 @@ final class CloudDataModel<T: CloudRecord> {
 
     state = .continueLoading(previousResult: currentResult)
 
-    Log.data.info("continueFetch  for \(T.recordType, privacy: .public)")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "continueFetch  for \(T.recordType, privacy: .public)")
     do {
       let (matchedResults, queryCursor) = try await storage.database.records(continuingMatchFrom: currentCursor, resultsLimit: storage.fetchBatchSize)
 
@@ -135,7 +135,7 @@ final class CloudDataModel<T: CloudRecord> {
         let (_, result) = matchedResult
         switch result {
         case .success(let record):
-          Log.data.debug("Success got one \(T.recordType, privacy: .public)  record")
+          Log.data.log(level: DiagnosticLogging.level(for: .debug), "Success got one \(T.recordType, privacy: .public)  record")
 
           let name = record[T.nameFieldInCloud] as? String
           return .loaded(record: record, name: name ?? record.recordID.recordName)

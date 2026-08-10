@@ -37,10 +37,10 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate {
     }
     switch identifier {
     case .dailyReminer:
-      Log.notification.info("did recive daily reminder")
+      Log.notification.log(level: DiagnosticLogging.level(for: .info), "did recive daily reminder")
       if let url = DeepLink.getAddMomentUrl() {
         let result = await UIApplication.shared.open(url)
-        Log.notification.info("open add moment url \(result)")
+        Log.notification.log(level: DiagnosticLogging.level(for: .info), "open add moment url \(result)")
       }
     }
   }
@@ -57,7 +57,7 @@ extension LocalNotificationManager {
   func scheduleDailyNotification(hour: Int, minute: Int) async throws -> Bool {
     let granted = try await localNotificationCenter.requestAuthorization(options: [.alert, .sound, .badge])
     if !granted {
-      Log.notification.info("failed to get notification permission")
+      Log.notification.log(level: DiagnosticLogging.level(for: .info), "failed to get notification permission")
       return false
     }
 
@@ -78,9 +78,9 @@ extension LocalNotificationManager {
     let request = UNNotificationRequest(identifier: Identider.dailyReminer.rawValue, content: content, trigger: trigger)
 
     // 将通知请求添加到通知中心
-    Log.notification.info("try set new daily reminder")
+    Log.notification.log(level: DiagnosticLogging.level(for: .info), "try set new daily reminder")
     try await localNotificationCenter.add(request)
-    Log.notification.info("set new daily reminder success")
+    Log.notification.log(level: DiagnosticLogging.level(for: .info), "set new daily reminder success")
     return true
   }
 
@@ -99,7 +99,7 @@ extension LocalNotificationManager {
 
   func removeDailyNotification() {
     localNotificationCenter.removePendingNotificationRequests(withIdentifiers: [Identider.dailyReminer.rawValue])
-    Log.notification.info("remove previous daily reminder")
+    Log.notification.log(level: DiagnosticLogging.level(for: .info), "remove previous daily reminder")
   }
 }
 

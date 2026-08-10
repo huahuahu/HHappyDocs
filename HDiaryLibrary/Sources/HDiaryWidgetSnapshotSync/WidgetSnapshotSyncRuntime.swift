@@ -42,9 +42,17 @@
 
     public func start(primaryContainer: ModelContainer) {
       guard !hasStarted else {
+        Log.Widget.snapshot.log(
+          level: DiagnosticLogging.level(for: .debug),
+          "Ignored duplicate widget snapshot runtime start"
+        )
         return
       }
       hasStarted = true
+      Log.Widget.snapshot.log(
+        level: DiagnosticLogging.level(for: .info),
+        "Starting widget snapshot runtime"
+      )
 
       do {
         let coordinator = try makeCoordinator(primaryContainer)
@@ -53,7 +61,9 @@
         requestRebuild(coordinator)
       }
       catch {
-        Log.data.error("Failed to initialize widget snapshot runtime: \(error.localizedDescription)")
+        Log.Widget.snapshot.error(
+          "Failed to initialize widget snapshot runtime: \(error.localizedDescription)"
+        )
       }
     }
   }

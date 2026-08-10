@@ -52,7 +52,7 @@ struct BaseTabView: View {
         return
       }
       hasPerformedStartupTask = true
-      Log.common.info("Performing startup task")
+      Log.common.log(level: DiagnosticLogging.level(for: .info), "Performing startup task")
       StartupDataMaintenanceService().runLoggingFailures(in: modelContext)
       modelContext.undoManager = undoManager
     }

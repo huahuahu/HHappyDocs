@@ -35,7 +35,7 @@ struct AllMomentListScreen: View {
       toolBarContent
     }
     .onChange(of: moments.count) { _, _ in
-      Log.common.info("moments count change to \(moments.count)")
+      Log.common.log(level: DiagnosticLogging.level(for: .info), "moments count change to \(moments.count)")
       WidgetCenter.shared.reloadAllTimelines()
     }
     .task {

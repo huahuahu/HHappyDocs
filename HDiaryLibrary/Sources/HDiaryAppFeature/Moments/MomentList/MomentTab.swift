@@ -40,12 +40,12 @@ import SwiftUI
     .environment(appRoute.contentNavigationStore)
     .onOpenURL(perform: { url in
       if isSelected {
-        Log.Navigation.common.info("handle url in moment list tab")
+        Log.Navigation.common.log(level: DiagnosticLogging.level(for: .info), "handle url in moment list tab")
         appRoute.contentNavigationStore.handle(url)
       }
     })
     .onChange(of: isSearching, initial: true, { oldValue, newValue in
-      Log.search.debug("isSearching: \(oldValue) -> \(newValue)")
+      Log.search.log(level: DiagnosticLogging.level(for: .debug), "isSearching: \(oldValue) -> \(newValue)")
       if oldValue != newValue, newValue {
         searchViewModel.startRecommend()
       }

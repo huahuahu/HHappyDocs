@@ -21,10 +21,13 @@ actor HDiaryShop {
     for await unfinishedTransaction in Transaction.unfinished {
       do {
         try await unfinishedTransaction.payloadValue.finish()
-        Log.iap.info("finish transaction \(unfinishedTransaction.jwsRepresentation) success")
+        Log.iap.log(
+          level: DiagnosticLogging.level(for: .info),
+          "Finished an unfinished transaction"
+        )
       }
       catch {
-        Log.iap.info("finish transaction \(unfinishedTransaction.jwsRepresentation) with error \(error, privacy: .public)")
+        Log.iap.error("Failed to finish an unfinished transaction: \(error)")
       }
     }
   }
@@ -33,16 +36,19 @@ actor HDiaryShop {
     for status in statuses {
       do {
         let payloadValue = try status.transaction.payloadValue
-        Log.iap.info("expirationDate for productID \(payloadValue.productID, privacy: .public) is \(payloadValue.expirationDate?.formatted() ?? "nil", privacy: .public), revoke date is \(payloadValue.revocationDate?.formatted() ?? "nil", privacy: .public)")
+        Log.iap.log(level: DiagnosticLogging.level(for: .info), "expirationDate for productID \(payloadValue.productID, privacy: .public) is \(payloadValue.expirationDate?.formatted() ?? "nil"), revoke date is \(payloadValue.revocationDate?.formatted() ?? "nil")")
         switch status.transaction {
         case .verified:
-          Log.iap.info("productID \(payloadValue.productID, privacy: .public) is verified")
+          Log.iap.log(level: DiagnosticLogging.level(for: .info), "productID \(payloadValue.productID, privacy: .public) is verified")
         case let .unverified(_, error):
-          Log.iap.error("productID \(payloadValue.productID, privacy: .public) unverified \(error)")
+          Log.iap.log(
+            level: DiagnosticLogging.level(for: .info),
+            "productID \(payloadValue.productID, privacy: .public) is unverified: \(error)"
+          )
         }
       }
       catch {
-        Log.iap.error("Get iap status error \(error, privacy: .public)")
+        Log.iap.error("Failed to read IAP status: \(error)")
       }
     }
     let effectiveStatus = statuses.max { lhs, rhs in

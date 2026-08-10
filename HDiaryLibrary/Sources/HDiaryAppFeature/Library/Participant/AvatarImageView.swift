@@ -7,6 +7,7 @@
 
 #if os(iOS)
 
+import HDiaryConstants
 import SwiftUI
 
 struct AvatarImageView: View {
@@ -55,7 +56,7 @@ struct AvatarImageView: View {
 #Preview("NoPreview") {
   AvatarImageView(size: 50, image: UIImage(resource: .defaultPerson))
     .onTapGesture(perform: {
-      print("tapped")
+      Log.common.log(level: DiagnosticLogging.level(for: .debug), "Preview avatar tapped")
     })
 }
 

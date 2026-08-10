@@ -88,13 +88,13 @@ public final class Moment {
     let newMediaItemIds: Set<UUID> = mediaItems.reduce(into: []) {
       $0.insert($1.uuid)
     }
-    Log.data.debug("newMediaItemIds are \(newMediaItemIds)")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "newMediaItemIds are \(newMediaItemIds)")
 
     self.mediaItems?.forEach({ currentMediaItem in
       guard newMediaItemIds.contains(currentMediaItem.uuid) else {
         currentMediaItem.moment = nil
         modelContext?.delete(currentMediaItem)
-        Log.data.debug("deleted media item \(currentMediaItem.uuid) from moment \(self.uuid)")
+        Log.data.log(level: DiagnosticLogging.level(for: .debug), "deleted media item \(currentMediaItem.uuid) from moment \(self.uuid)")
         return
       }
     })
@@ -109,13 +109,13 @@ public final class Moment {
     let newImageIds: Set<UUID> = images.reduce(into: []) {
       $0.insert($1.uuid)
     }
-    Log.data.debug("newImageIds are \(newImageIds)")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "newImageIds are \(newImageIds)")
 
     self.images?.forEach({ currentImage in
       guard newImageIds.contains(currentImage.uuid) else {
         currentImage.moment = nil
         modelContext?.delete(currentImage)
-        Log.data.debug("deleted legacy image \(currentImage.uuid) from moment \(self.uuid)")
+        Log.data.log(level: DiagnosticLogging.level(for: .debug), "deleted legacy image \(currentImage.uuid) from moment \(self.uuid)")
         return
       }
     })
@@ -182,4 +182,3 @@ extension Moment: Encodable {
     case tags
   }
 }
-

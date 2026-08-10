@@ -47,7 +47,7 @@ import Foundation
         Task.detached {
           do {
             try await AppStore.sync()
-            Log.iap.info("restore purchase finished")
+          Log.iap.log(level: DiagnosticLogging.level(for: .info), "restore purchase finished")
             await MainActor.run {
               restoreState = .success
             }

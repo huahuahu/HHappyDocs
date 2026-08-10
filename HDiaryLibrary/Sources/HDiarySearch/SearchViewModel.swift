@@ -51,7 +51,7 @@
 
     public func startRecommend() {
       Task {
-        Log.search.info("Start Recommend")
+      Log.search.log(level: DiagnosticLogging.level(for: .info), "Start Recommend")
         let recommendedMomentIDs = await self.recommendEngine.getRecommendedMomentIDs()
         let recommendedMoments = self.moments(for: recommendedMomentIDs)
 
@@ -65,10 +65,10 @@
       searchTask?.cancel()
       guard !queryText.isEmpty else {
         reset()
-        Log.search.info("Query text is empty, reset")
+      Log.search.log(level: DiagnosticLogging.level(for: .info), "Query text is empty, reset")
         return
       }
-      Log.search.info("Searching for: \(self.queryText)")
+    Log.search.log(level: DiagnosticLogging.level(for: .info), "Searching for: \(self.queryText)")
 
       let query = self.queryText
       state = .searching(queryText: query)
@@ -80,7 +80,7 @@
             try await Task.sleep(nanoseconds: Constants.throttleDurationInMs * NSEC_PER_MSEC)
           }
           catch {
-            Log.search.debug("Search cancelled before actual search for \(query)")
+          Log.search.log(level: DiagnosticLogging.level(for: .debug), "Search cancelled before actual search for \(query)")
             return
           }
 
@@ -88,7 +88,7 @@
           let searchStartTime = clock.now
 
           do {
-            Log.search.info("Search actual logic started for \(query)")
+          Log.search.log(level: DiagnosticLogging.level(for: .info), "Search actual logic started for \(query)")
 
             let matchedMomentIDs = try await self.searchEngine.searchMomentIDs(for: query, isCancelled: isCancelled)
             let matchedMoment = self.moments(for: matchedMomentIDs)
@@ -99,16 +99,16 @@
             try Task.checkCancellation()
 
             state = .searchSucceed(moments: matchedMoment)
-            Log.search.info("Search finished  after \(searchDuration.formatted(.units(allowed: [.seconds, .milliseconds])), privacy: .public) for \(query), result count: \(matchedMoment.count, privacy: .public)")
+          Log.search.log(level: DiagnosticLogging.level(for: .info), "Search finished  after \(searchDuration.formatted(.units(allowed: [.seconds, .milliseconds])), privacy: .public) for \(query), result count: \(matchedMoment.count, privacy: .public)")
           }
           catch {
             let searchEndTime = clock.now
             let searchDuration = searchStartTime.duration(to: searchEndTime)
             if error is CancellationError {
-              Log.search.info("Search cancelled for \(query) after \(searchDuration.formatted(.units(allowed: [.seconds, .milliseconds])), privacy: .public)")
+            Log.search.log(level: DiagnosticLogging.level(for: .info), "Search cancelled for \(query) after \(searchDuration.formatted(.units(allowed: [.seconds, .milliseconds])), privacy: .public)")
             }
             else if query != self.queryText {
-              Log.search.info("Search cancelled because query changed for \(query) after \(searchDuration.formatted(.units(allowed: [.seconds, .milliseconds])), privacy: .public)")
+            Log.search.log(level: DiagnosticLogging.level(for: .info), "Search cancelled because query changed for \(query) after \(searchDuration.formatted(.units(allowed: [.seconds, .milliseconds])), privacy: .public)")
             }
             else {
               Log.search.error("Failed to fetch moments for \(query): \(error) after \(searchDuration.formatted(.units(allowed: [.seconds, .milliseconds])), privacy: .public)")

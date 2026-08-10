@@ -5,30 +5,33 @@
 //  Created by tigerguo on 2024/3/10.
 //
 
-import Foundation
 import OSLog
 
-private let bundleID = "com.tiger.suzhou.hdiary"
-
 public enum Log {
-  public static let common = Logger(subsystem: bundleID, category: "common")
+  public static let subsystem = "com.tiger.suzhou.hdiary"
 
-  public static let iap = Logger(subsystem: bundleID, category: "iap")
+  public static let common = Logger(subsystem: subsystem, category: "common")
 
-  public static let data = Logger(subsystem: bundleID, category: "data")
+  public static let iap = Logger(subsystem: subsystem, category: "iap")
 
-  public static let search = Logger(subsystem: bundleID, category: "search")
-  public static let notification = Logger(subsystem: bundleID, category: "notification")
+  public static let data = Logger(subsystem: subsystem, category: "data")
+
+  public static let search = Logger(subsystem: subsystem, category: "search")
+  public static let notification = Logger(subsystem: subsystem, category: "notification")
+
+  public enum Widget {
+    public static let snapshot = Logger(subsystem: Log.subsystem, category: "widget.snapshot")
+    public static let timeline = Logger(subsystem: Log.subsystem, category: "widget.timeline")
+    public static let intent = Logger(subsystem: Log.subsystem, category: "widget.intent")
+  }
 
   public enum DB {
-    public static let subsystem = "database"
-    public static let common = Logger(subsystem: Self.subsystem, category: "common")
-    public static let migration = Logger(subsystem: Self.subsystem, category: "migration")
-    public static let export = Logger(subsystem: Self.subsystem, category: "export")
+    public static let common = Logger(subsystem: Log.subsystem, category: "database.common")
+    public static let migration = Logger(subsystem: Log.subsystem, category: "database.migration")
+    public static let export = Logger(subsystem: Log.subsystem, category: "database.export")
   }
 
   public enum Navigation {
-    public static let subsystem = "Navigation"
-    public static let common = Logger(subsystem: Self.subsystem, category: "common")
+    public static let common = Logger(subsystem: Log.subsystem, category: "navigation")
   }
 }

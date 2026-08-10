@@ -2574,6 +2574,182 @@
         }
       }
     },
+    "diagnostics.collectedEntries" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已收集条目"
+          }
+        }
+      }
+    },
+    "diagnostics.collectedLogs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已收集日志"
+          }
+        }
+      }
+    },
+    "diagnostics.collectionFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日志收集失败"
+          }
+        }
+      }
+    },
+    "diagnostics.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "诊断日志"
+          }
+        }
+      }
+    },
+    "diagnostics.enable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启诊断日志"
+          }
+        }
+      }
+    },
+    "diagnostics.empty.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启诊断日志并复现问题，然后刷新此页面。"
+          }
+        }
+      }
+    },
+    "diagnostics.export" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出日志"
+          }
+        }
+      }
+    },
+    "diagnostics.sharePreviewTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HDiary 诊断日志"
+          }
+        }
+      }
+    },
+    "diagnostics.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在加载日志"
+          }
+        }
+      }
+    },
+    "diagnostics.empty.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无诊断日志"
+          }
+        }
+      }
+    },
+    "diagnostics.refresh" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刷新日志"
+          }
+        }
+      }
+    },
+    "diagnostics.sessionStarted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会话开始时间"
+          }
+        }
+      }
+    },
+    "diagnostics.preview.footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预览最多显示最近 100 条，导出文件包含全部已收集条目。"
+          }
+        }
+      }
+    },
+    "diagnostics.enable.footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启后，debug 和 info 诊断日志会提升为 notice，以便系统保留；错误日志始终记录。"
+          }
+        }
+      }
+    },
+    "diagnostics.widget.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小组件日志"
+          }
+        }
+      }
+    },
+    "diagnostics.widget.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此导出不包含小组件日志，因为 Apple 只允许 App 读取自身进程的日志。请连接设备后使用 Console、log collect 或 sysdiagnose 获取小组件日志。"
+          }
+        }
+      }
+    },
     "tab.library" : {
       "comment" : "Used as tab item label for library",
       "extractionState" : "stale",

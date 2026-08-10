@@ -21,13 +21,13 @@ extension View {
       .searchable(text: searchViewModel.queryText)
       .onSubmit(of: .search) {
         Task {
-          Log.search.info("search when submit")
+          Log.search.log(level: DiagnosticLogging.level(for: .info), "search when submit")
           await searchViewModel.wrappedValue.search()
         }
       }
       .onChange(of: searchViewModel.queryText.wrappedValue, {
         Task {
-          Log.search.info("search when text change")
+          Log.search.log(level: DiagnosticLogging.level(for: .info), "search when text change")
           await searchViewModel.wrappedValue.search()
         }
       })
