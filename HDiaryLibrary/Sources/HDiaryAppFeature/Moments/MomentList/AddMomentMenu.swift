@@ -67,9 +67,9 @@ struct AddMomentMenu: View {
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
           AddMomentMenu(addEmptyMoment: {
-            Log.common.info("add moment")
+            Log.common.log(level: DiagnosticLogging.level(for: .info), "add moment")
           }, addMomentFromSuggestion: {
-            Log.common.info("add moment from suggestion")
+            Log.common.log(level: DiagnosticLogging.level(for: .info), "add moment from suggestion")
           })
         }
       }

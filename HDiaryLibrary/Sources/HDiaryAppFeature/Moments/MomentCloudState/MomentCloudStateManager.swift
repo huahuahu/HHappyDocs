@@ -47,7 +47,7 @@ final class MomentCloudStateManager {
   private func syncMoment(_ momentUUID: UUID) async {
     #if DEBUG
       guard shouldSync else {
-        Log.data.info("No need to sync moment")
+        Log.data.log(level: DiagnosticLogging.level(for: .info), "No need to sync moment")
         return
       }
     #endif
@@ -57,40 +57,40 @@ final class MomentCloudStateManager {
     let query = CKQuery(recordType: Moment.recordType, predicate: predicate)
 
     do {
-      Log.data.info("Checking moment in cloud: \(momentUUID, privacy: .public)")
+      Log.data.log(level: DiagnosticLogging.level(for: .info), "Checking moment in cloud: \(momentUUID)")
       let (matchedResults, _) = try await database.records(matching: query, desiredKeys: [Moment.nameFieldInCloud], resultsLimit: 1)
       if matchedResults.contains(where: { matchedResult in
         let (_, result) = matchedResult
         switch result {
         case .success:
-          Log.data.info("Moment already synced to cloud: \(momentUUID, privacy: .public)")
+          Log.data.log(level: DiagnosticLogging.level(for: .info), "Moment already synced to cloud: \(momentUUID)")
           return true
         case .failure(let failure):
-          Log.data.error("Failed to sync moment from cloud: \(failure, privacy: .public), moment: \(momentUUID, privacy: .public)")
+          Log.data.error("Failed to sync moment from cloud: \(failure), moment: \(momentUUID)")
           return false
         }
       }) {
         momentCloudStatus[momentUUID] = .synced
       }
       else {
-        Log.data.info("Moment has not synced to cloud: \(momentUUID, privacy: .public)")
+        Log.data.log(level: DiagnosticLogging.level(for: .info), "Moment has not synced to cloud: \(momentUUID)")
         momentCloudStatus[momentUUID] = .notSynced
       }
     }
     catch {
-      Log.data.error("Failed to sync moment from cloud: \(error, privacy: .public), moment: \(momentUUID, privacy: .public)")
+      Log.data.error("Failed to sync moment from cloud: \(error), moment: \(momentUUID)")
     }
   }
 
   private func startCheckUnSyncedMoment() async {
     #if DEBUG
       guard shouldSync else {
-        Log.data.info("No need to sync moment")
+        Log.data.log(level: DiagnosticLogging.level(for: .info), "No need to sync moment")
         return
       }
     #endif
 
-    Log.data.info("Start check unSynced moment")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "Start check unSynced moment")
     var unSyncedMomentCount = 0
     for (momentUUID, status) in momentCloudStatus {
       if status == .notSynced {
@@ -98,13 +98,16 @@ final class MomentCloudStateManager {
         await syncMoment(momentUUID)
       }
     }
-    Log.data.info("Check unSynced moment finished, \(unSyncedMomentCount) unSynced moments")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "Check unSynced moment finished, \(unSyncedMomentCount) unSynced moments")
 
     do {
       try await Task.sleep(nanoseconds: 30 * NSEC_PER_SEC)
     }
     catch {
-      Log.data.error("Failed to sleep: \(error, privacy: .public)")
+      Log.data.log(
+        level: DiagnosticLogging.level(for: .debug),
+        "Stopped waiting before the next cloud sync check: \(error)"
+      )
     }
     await startCheckUnSyncedMoment()
   }

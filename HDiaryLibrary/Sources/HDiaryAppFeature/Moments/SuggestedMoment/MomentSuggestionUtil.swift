@@ -61,7 +61,7 @@ import UIKit
     // MARK: handle all kinds of suggestion items
 
     nonisolated private static func getMomentSlice(from suggestionItem: JournalingSuggestion.ItemContent) async -> MomentSliceFromSuggestionItem? {
-      Log.common.info("getMomentSlice from suggestionItem with representations \(suggestionItem.representations)")
+      Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from suggestionItem with representations \(suggestionItem.representations)")
       var slice: MomentSliceFromSuggestionItem?
       if let song = try? await suggestionItem.content(forType: JournalingSuggestion.Song.self) {
         slice = await getMomentSlice(from: song)
@@ -125,7 +125,7 @@ import UIKit
       if let imageUrl = song.artwork {
         do {
           let data = try Data(contentsOf: imageUrl)
-          Log.common.info("getMomentSlice from song image url path extension: \(imageUrl.pathExtension, privacy: .public)")
+          Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from song image url path extension: \(imageUrl.pathExtension, privacy: .public)")
           media = MomentSliceFromSuggestionItem.Media(
             data: data,
             mediaType: .image,
@@ -160,7 +160,7 @@ import UIKit
             mediaType: .image,
             pathExtension: iconUrl.pathExtension
           )
-          Log.common.info("getMomentSlice from motionActivity, image url path extension: \(iconUrl.pathExtension, privacy: .public)")
+          Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from motionActivity, image url path extension: \(iconUrl.pathExtension, privacy: .public)")
         }
         catch {
           Log.common.error("Failed to get data from image url for motionActivity")
@@ -198,7 +198,7 @@ import UIKit
       if let imageUrl = genericMedia.appIcon {
         do {
           let data = try Data(contentsOf: imageUrl)
-          Log.common.info("getMomentSlice from GenericMedia, image url path extension: \(imageUrl.pathExtension, privacy: .public)")
+          Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from GenericMedia, image url path extension: \(imageUrl.pathExtension, privacy: .public)")
           media = MomentSliceFromSuggestionItem.Media(
             data: data,
             mediaType: .image,
@@ -217,7 +217,7 @@ import UIKit
       do {
         let data = try Data(contentsOf: livePhoto.image)
         // Do not support video now
-        Log.common.info("getMomentSlice from livePhoto, image url path extension: \(livePhoto.image.pathExtension, privacy: .public)")
+        Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from livePhoto, image url path extension: \(livePhoto.image.pathExtension, privacy: .public)")
         let media = MomentSliceFromSuggestionItem.Media(
           data: data,
           mediaType: .image,
@@ -246,7 +246,7 @@ import UIKit
       do {
         let data = try Data(contentsOf: photo.photo)
         // Do not support video now
-        Log.common.info("getMomentSlice from Photo, image url path extension: \(photo.photo.pathExtension, privacy: .public)")
+        Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from Photo, image url path extension: \(photo.photo.pathExtension, privacy: .public)")
         let media = MomentSliceFromSuggestionItem.Media(
           data: data,
           mediaType: .image,
@@ -270,7 +270,7 @@ import UIKit
       if let imageUrl = podcast.artwork {
         do {
           let data = try Data(contentsOf: imageUrl)
-          Log.common.info("getMomentSlice from podcast image url path extension: \(imageUrl.pathExtension, privacy: .public)")
+          Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from podcast image url path extension: \(imageUrl.pathExtension, privacy: .public)")
           media = MomentSliceFromSuggestionItem.Media(
             data: data,
             mediaType: .image,
@@ -293,7 +293,7 @@ import UIKit
       do {
         let data = try Data(contentsOf: iconUrl)
         // Do not support video now
-        Log.common.info("getMomentSlice from stateOfMind, image url path extension: \(iconUrl.pathExtension, privacy: .public)")
+        Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from stateOfMind, image url path extension: \(iconUrl.pathExtension, privacy: .public)")
         let media = MomentSliceFromSuggestionItem.Media(
           data: data,
           mediaType: .image,
@@ -314,7 +314,7 @@ import UIKit
       if let imageUrl = workout.icon {
         do {
           let data = try Data(contentsOf: imageUrl)
-          Log.common.info("getMomentSlice from workout image url path extension: \(imageUrl.pathExtension, privacy: .public)")
+          Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from workout image url path extension: \(imageUrl.pathExtension, privacy: .public)")
           media = MomentSliceFromSuggestionItem.Media(
             data: data,
             mediaType: .image,
@@ -366,7 +366,7 @@ import UIKit
       if let imageUrl = workoutGroup.icon {
         do {
           let data = try Data(contentsOf: imageUrl)
-          Log.common.info("getMomentSlice from workoutGroup image url path extension: \(imageUrl.pathExtension, privacy: .public)")
+          Log.common.log(level: DiagnosticLogging.level(for: .info), "getMomentSlice from workoutGroup image url path extension: \(imageUrl.pathExtension, privacy: .public)")
           media = MomentSliceFromSuggestionItem.Media(
             data: data,
             mediaType: .image,

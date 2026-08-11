@@ -30,7 +30,7 @@
     ) {
       do {
         let result = try migrateLegacyImages(in: modelContext)
-        Log.DB.migration.info("legacy image migration successed, converted: \(result.convertedLegacyImages, privacy: .public), deleted orphan legacy images: \(result.deletedOrphanLegacyImages, privacy: .public)")
+        Log.DB.migration.log(level: DiagnosticLogging.level(for: .info), "legacy image migration successed, converted: \(result.convertedLegacyImages, privacy: .public), deleted orphan legacy images: \(result.deletedOrphanLegacyImages, privacy: .public)")
       }
       catch {
         Log.DB.migration.error("Migrate legacy image fail \(error)")
@@ -38,7 +38,7 @@
 
       do {
         let result = try updateMissingMediaStorageSizes(in: modelContext)
-        Log.DB.migration.info("media item storage size update finished, updated count: \(result.updatedMediaItemIDs.count, privacy: .public)")
+        Log.DB.migration.log(level: DiagnosticLogging.level(for: .info), "media item storage size update finished, updated count: \(result.updatedMediaItemIDs.count, privacy: .public)")
       }
       catch {
         Log.DB.migration.error("media item update storage size fail \(error)")
@@ -46,7 +46,10 @@
 
       do {
         let result = try cleanUpOrphanMediaItems(in: modelContext)
-        Log.data.info("Finish to clean up data, deleted media items: \(result.deletedMediaItemIDs, privacy: .public), valid media items: \(result.validMediaItemCount, privacy: .public)")
+        Log.data.log(
+          level: DiagnosticLogging.level(for: .info),
+          "Finished cleaning up data, deleted media item count: \(result.deletedMediaItemIDs.count, privacy: .public), valid media item count: \(result.validMediaItemCount, privacy: .public)"
+        )
       }
       catch {
         Log.data.error("Failed to clean up data: \(error)")
@@ -55,7 +58,7 @@
       do {
         let deleteTimeThreshold = Date(timeIntervalSinceNow: -deletedMomentRetention)
         let result = try cleanUpDeletedMoments(in: modelContext, deleteTimeThreshold: deleteTimeThreshold)
-        Log.data.info("Finish to clean up deleted moments, deleted moments count: \(result.deletedMomentCount, privacy: .public)")
+        Log.data.log(level: DiagnosticLogging.level(for: .info), "Finish to clean up deleted moments, deleted moments count: \(result.deletedMomentCount, privacy: .public)")
       }
       catch {
         Log.data.error("Failed to clean up deleted moments: \(error)")
@@ -77,12 +80,12 @@
           modelContext.insert(mediaItem)
           modelContext.delete(image)
           convertedLegacyImages += 1
-          Log.DB.migration.info("update thumbnail for image \(image.uuid)")
+          Log.DB.migration.log(level: DiagnosticLogging.level(for: .info), "update thumbnail for image \(image.uuid)")
         }
         else {
           modelContext.delete(image)
           deletedOrphanLegacyImages += 1
-          Log.DB.migration.info("delete image  \(image.uuid) because no moments")
+          Log.DB.migration.log(level: DiagnosticLogging.level(for: .info), "delete image  \(image.uuid) because no moments")
         }
       }
 
@@ -103,7 +106,7 @@
         if mediaItem.storageSize == nil {
           mediaItem.updateStorageSizeIfNeeded()
           updatedMediaItemIDs.append(mediaItem.uuid)
-          Log.DB.migration.info("media item \(mediaItem.uuid) update storage size successed")
+          Log.DB.migration.log(level: DiagnosticLogging.level(for: .info), "media item \(mediaItem.uuid) update storage size successed")
         }
       }
       try modelContext.save()
@@ -111,14 +114,17 @@
     }
 
     public func cleanUpOrphanMediaItems(in modelContext: ModelContext) throws -> OrphanMediaCleanupResult {
-      Log.data.info("Start to clean up data")
+      Log.data.log(level: DiagnosticLogging.level(for: .info), "Start to clean up data")
       var deletedMediaItemIDs: [UUID] = []
       var validMediaItemIDs: [UUID] = []
 
       try modelContext.enumerate(FetchDescriptor<MediaItem>(), batchSize: 5) { mediaItem in
         if mediaItem.moment == nil {
           deletedMediaItemIDs.append(mediaItem.uuid)
-          Log.data.info("delete media item \(mediaItem.uuid, privacy: .public)")
+          Log.data.log(
+            level: DiagnosticLogging.level(for: .info),
+            "Deleting orphan media item \(mediaItem.uuid)"
+          )
           modelContext.delete(mediaItem)
         }
         else {
@@ -137,7 +143,7 @@
       in modelContext: ModelContext,
       deleteTimeThreshold: Date
     ) throws -> DeletedMomentCleanupResult {
-      Log.data.info("Start to clean up deleted moments")
+      Log.data.log(level: DiagnosticLogging.level(for: .info), "Start to clean up deleted moments")
       let momentsCountBeforeDeletion = try modelContext.fetchCount(FetchDescriptor<Moment>())
       let predicate = #Predicate<Moment> {
         if $0.markedAsDelete {

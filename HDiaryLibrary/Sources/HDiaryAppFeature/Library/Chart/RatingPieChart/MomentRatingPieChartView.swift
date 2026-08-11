@@ -8,6 +8,7 @@
 #if os(iOS)
 
 import Charts
+import HDiaryConstants
 import HDiaryModel
 import HUIComponent
 import SwiftData
@@ -114,7 +115,10 @@ struct MomentRatingPieChartView: View {
   @Query(filter: #Predicate<Moment> { !$0.markedAsDelete }, sort: [SortDescriptor<Moment>(\.timestamp, order: .reverse)]) private var moments: [Moment]
   @State var selectedAngle: Double? {
     didSet {
-      print("selected rating \($selectedAngle)")
+      Log.data.log(
+        level: DiagnosticLogging.level(for: .debug),
+        "Selected rating angle: \(String(describing: selectedAngle))"
+      )
     }
   }
 

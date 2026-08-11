@@ -72,8 +72,8 @@
     }
 
     public func insertMoments(count: Int, dateRange: ClosedRange<Date>) throws {
-      Log.data.debug("insertMoments \(count) start")
-      Log.data.debug("insertMoments current thread: \(Thread.current), is main thread: \(Thread.isMainThread)")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "insertMoments \(count) start")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "insertMoments current thread: \(Thread.current), is main thread: \(Thread.isMainThread)")
       let modelContext = ModelContext(container)
       var availableTags: [Tag] = try modelContext.fetch(FetchDescriptor())
       if availableTags.isEmpty {
@@ -99,27 +99,27 @@
       }
       sampleMoments.forEach { modelContext.insert($0) }
       try modelContext.save()
-      Log.data.debug("insertMoments \(count) end")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "insertMoments \(count) end")
     }
 
     public func clearAllData() throws {
       let modelContext = ModelContext(container)
-      Log.data.debug("clearAllData start")
-      Log.data.debug("clearAllData current thread: \(Thread.current), is main thread: \(Thread.isMainThread)")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "clearAllData start")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "clearAllData current thread: \(Thread.current), is main thread: \(Thread.isMainThread)")
       try modelContext.delete(model: Moment.self)
       try modelContext.delete(model: Tag.self)
       try modelContext.delete(model: Participant.self)
       try modelContext.delete(model: MediaItem.self)
       try modelContext.delete(model: HappyImage.self)
       try modelContext.save()
-      Log.data.debug("delete all data")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "delete all data")
 //
     }
 
     public func insertSampleData() throws {
-      Log.data.debug("insertSampleData start")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "insertSampleData start")
       let modelContext = ModelContext(container)
-      Log.data.debug("insertSampleData current thread: \(Thread.current), is main thread: \(Thread.isMainThread)")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "insertSampleData current thread: \(Thread.current), is main thread: \(Thread.isMainThread)")
       let sampleTags = Tag.getSampleTags()
       for tag in sampleTags {
         modelContext.insert(tag)
@@ -151,7 +151,7 @@
       sampleMoments.forEach { modelContext.insert($0) }
       try modelContext.save()
 
-      Log.data.debug("insertSampleData end")
+    Log.data.log(level: DiagnosticLogging.level(for: .debug), "insertSampleData end")
     }
 
     deinit {

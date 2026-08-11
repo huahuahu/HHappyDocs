@@ -8,13 +8,11 @@
 #if os(iOS)
 
 import AppIntents
+import HDiaryConstants
 import HDiaryWidgetData
-import OSLog
 import SwiftUI
 import UIKit
 import WidgetKit
-
-private let logger = Logger(subsystem: "com.tiger.suzhou.hdiary", category: "MomentWidgetIntent")
 
 public struct MomentWidgetIntent: WidgetConfigurationIntent {
   public static let title: LocalizedStringResource = LocalizedStringResource(
@@ -105,15 +103,19 @@ public struct ParticipantOptionsProvider: DynamicOptionsProvider {
   public nonisolated init() {}
 
   public func results() async throws -> IntentItemCollection<String> {
-    logger.info("Loading participant options...")
+    DiagnosticLogging.refreshFromSharedDefaults()
+    Log.Widget.intent.log(
+      level: DiagnosticLogging.level(for: .info),
+      "Loading widget participant options"
+    )
     let participants: [WidgetParticipantValue]
     if let dataSource = MomentWidgetUtil.dataSource {
       do {
         participants = try dataSource.fetchParticipants()
       }
       catch {
-        logger.error(
-          "Failed to fetch participant options: \(error.localizedDescription, privacy: .public)"
+        Log.Widget.intent.error(
+          "Failed to fetch widget participant options: \(error.localizedDescription)"
         )
         participants = []
       }
@@ -125,7 +127,10 @@ public struct ParticipantOptionsProvider: DynamicOptionsProvider {
       + participants.map { value in
         IntentItem(value.uuid.uuidString, title: "\(value.nickName)")
       }
-    logger.info("Found \(participants.count) participant options")
+    Log.Widget.intent.log(
+      level: DiagnosticLogging.level(for: .info),
+      "Loaded widget participant options: count=\(participants.count, privacy: .public)"
+    )
     return IntentItemCollection(sections: [IntentItemSection(items: items)])
   }
 }

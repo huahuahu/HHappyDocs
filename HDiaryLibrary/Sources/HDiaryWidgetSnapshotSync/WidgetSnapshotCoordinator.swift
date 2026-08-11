@@ -45,6 +45,12 @@
     }
 
     func requestRebuild() -> Task<Void, Never> {
+      if debounceTask != nil {
+        Log.Widget.snapshot.log(
+          level: DiagnosticLogging.level(for: .debug),
+          "Coalescing pending widget snapshot rebuild request"
+        )
+      }
       debounceTask?.cancel()
       let sleep = self.sleep
       let task = Task { @MainActor [weak self, sleep] in
@@ -56,7 +62,7 @@
           return
         }
         catch {
-          Log.data.error("Failed to debounce widget snapshot rebuild: \(error)")
+          Log.Widget.snapshot.error("Failed to debounce widget snapshot rebuild: \(error)")
           return
         }
 
@@ -77,6 +83,10 @@
     private func runRebuildLoop() async {
       if isRebuilding {
         needsAnotherRebuild = true
+        Log.Widget.snapshot.log(
+          level: DiagnosticLogging.level(for: .debug),
+          "Queued follow-up widget snapshot rebuild"
+        )
         return
       }
 
@@ -91,15 +101,25 @@
     }
 
     private func rebuildSnapshot() async {
+      let start = ContinuousClock.now
+      Log.Widget.snapshot.log(
+        level: DiagnosticLogging.level(for: .debug),
+        "Widget snapshot rebuild started"
+      )
       do {
         let snapshot = try await builder.build()
         let didChange = try await writer.replace(with: snapshot)
         if didChange {
           reloadTimeline()
         }
+        let duration = start.duration(to: .now)
+        Log.Widget.snapshot.log(
+          level: DiagnosticLogging.level(for: .info),
+          "Widget snapshot rebuild finished: participants=\(snapshot.participants.count, privacy: .public), moments=\(snapshot.moments.count, privacy: .public), changed=\(didChange, privacy: .public), duration=\(duration, privacy: .public)"
+        )
       }
       catch {
-        Log.data.error("Failed to rebuild widget snapshot: \(error)")
+        Log.Widget.snapshot.error("Failed to rebuild widget snapshot: \(error)")
       }
     }
 

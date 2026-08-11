@@ -60,7 +60,7 @@ final class RecentMomentListModel {
       return
     }
 
-    Log.data.info("all moment count is \(allMomentCount)")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "all moment count is \(allMomentCount)")
 
     if allMomentCount < Constants.showAllMomentThreshold {
       self.mode = .showAllMoment
@@ -74,7 +74,7 @@ final class RecentMomentListModel {
   }
 
   private func onSave() {
-    Log.data.info("ModelContext saved, re-calculate moment count")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "ModelContext saved, re-calculate moment count")
     if let modelContext {
       innerUpdate(with: modelContext)
     }

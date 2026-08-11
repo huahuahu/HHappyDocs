@@ -21,13 +21,13 @@
     func searchMomentIDs(for query: String, isCancelled: ManagedAtomic<Bool>) async throws -> [PersistentIdentifier] {
       assert(!Thread.isMainThread, "Should not perform search on main thread")
       if isCancelled.load(ordering: .relaxed) {
-        Log.search.debug("Actual search cancelled for \(query) before fetch")
+      Log.search.log(level: DiagnosticLogging.level(for: .debug), "Actual search cancelled for \(query) before fetch")
         throw CancellationError()
       }
       let fetchDescriptor = FetchDescriptor<Moment>(sortBy: [.init(\.timestamp, order: .reverse)])
       let moments: [Moment] = try modelContext.fetch(fetchDescriptor)
       if isCancelled.load(ordering: .relaxed) {
-        Log.search.debug("Actual search cancelled for \(query) before filter")
+      Log.search.log(level: DiagnosticLogging.level(for: .debug), "Actual search cancelled for \(query) before filter")
         throw CancellationError()
       }
       return moments.filter { moment in

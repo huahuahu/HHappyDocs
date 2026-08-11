@@ -8,11 +8,9 @@
 #if os(iOS)
 
 import Foundation
+import HDiaryConstants
 import HDiaryWidgetData
-import OSLog
 import SwiftData
-
-private let logger = Logger(subsystem: "com.tiger.suzhou.hdiary", category: "MomentWidgetUtil")
 
 @MainActor
 public final class MomentWidgetDataSource {
@@ -71,8 +69,8 @@ public final class MomentWidgetDataSourceProvider {
       return dataSource
     }
     catch {
-      logger.error(
-        "Failed to create widget snapshot reader: \(error.localizedDescription, privacy: .public)"
+      Log.Widget.intent.error(
+        "Failed to create widget snapshot reader: \(error.localizedDescription)"
       )
       return nil
     }

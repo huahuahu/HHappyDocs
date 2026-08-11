@@ -1,5 +1,6 @@
 #if os(iOS)
 
+  import HDiaryConstants
   import HDiaryWidgetData
   import SwiftData
 
@@ -15,6 +16,10 @@
     func build() async throws -> WidgetSnapshotValue {
       let limit = 8
       let source = try await sourceReader.read(limit: limit)
+      Log.Widget.snapshot.log(
+        level: DiagnosticLogging.level(for: .debug),
+        "Read widget snapshot source: participants=\(source.participants.count, privacy: .public), moments=\(source.moments.count, privacy: .public)"
+      )
 
       return await WidgetSnapshotProjector.project(
         participants: source.participants,

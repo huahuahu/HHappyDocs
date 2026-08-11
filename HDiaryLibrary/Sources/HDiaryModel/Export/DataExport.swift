@@ -20,20 +20,20 @@ public struct RawDataCollection: Transferable {
 
   public static var transferRepresentation: some TransferRepresentation {
     FileRepresentation(exportedContentType: .appleArchive, shouldAllowToOpenInPlace: false) { item in
-      Log.DB.export.info("exporting all data as file")
+      Log.DB.export.log(level: DiagnosticLogging.level(for: .info), "exporting all data as file")
       let url = try await item.writeToTempFile()
       return SentTransferredFile(url)
     }
 
 //    DataRepresentation(exportedContentType: .json, exporting: { item in
-//      Log.DB.export.info("exporting all data as data")
+//      Log.DB.export.log(level: DiagnosticLogging.level(for: .info), "exporting all data as data")
     ////        try await Task.sleep(nanoseconds: 5 * NSEC_PER_SEC)
 //      let data = try await item.prepareData()
 //      return data
 //    })
 
 //      DataRepresentation(exportedContentType: .zip, exporting: { item in
-//        Log.DB.export.info("exporting all data as data")
+//        Log.DB.export.log(level: DiagnosticLogging.level(for: .info), "exporting all data as data")
 //        let data = try await item.prepareData()
 //        return data
 //      })
@@ -76,7 +76,7 @@ public struct RawDataCollection: Transferable {
     let batchSize = 1
 
     do {
-      Log.DB.export.info("sourceFolderURL url is \(sourceFolderURL)")
+      Log.DB.export.log(level: DiagnosticLogging.level(for: .info), "sourceFolderURL url is \(sourceFolderURL)")
       try fileManager.createDirectory(at: sourceFolderURL, withIntermediateDirectories: true, attributes: nil)
 
       // write Models
@@ -85,7 +85,7 @@ public struct RawDataCollection: Transferable {
       try autoreleasepool {
         try modelContext.enumerate(FetchDescriptor<Moment>(), batchSize: batchSize) { moment in
           try autoreleasepool {
-            Log.DB.export.debug("writing moment \(moment.uuid)")
+            Log.DB.export.log(level: DiagnosticLogging.level(for: .debug), "writing moment \(moment.uuid)")
             let data = try encoder.encode(moment)
             let url = modelFolder.appending(path: moment.uuid.uuidString, directoryHint: .notDirectory).appendingPathExtension(for: .json)
             try data.write(to: url, options: .atomic)
@@ -98,7 +98,7 @@ public struct RawDataCollection: Transferable {
       try fileManager.createDirectory(at: participantFolder, withIntermediateDirectories: true, attributes: nil)
       try modelContext.enumerate(FetchDescriptor<Participant>(), batchSize: batchSize) { participant in
         try autoreleasepool {
-          Log.DB.export.debug("writing participant \(participant.uuid)")
+          Log.DB.export.log(level: DiagnosticLogging.level(for: .debug), "writing participant \(participant.uuid)")
           let data = try encoder.encode(participant)
           let url = participantFolder.appending(path: participant.uuid.uuidString, directoryHint: .notDirectory).appendingPathExtension(for: .json)
           try data.write(to: url, options: .atomic)
@@ -110,7 +110,7 @@ public struct RawDataCollection: Transferable {
       try fileManager.createDirectory(at: tagFolder, withIntermediateDirectories: true, attributes: nil)
       try modelContext.enumerate(FetchDescriptor<Tag>(), batchSize: batchSize) { tag in
         try autoreleasepool {
-          Log.DB.export.debug("writing tag \(tag.uuid)")
+          Log.DB.export.log(level: DiagnosticLogging.level(for: .debug), "writing tag \(tag.uuid)")
           let data = try encoder.encode(tag)
           let url = tagFolder.appending(path: tag.uuid.uuidString, directoryHint: .notDirectory).appendingPathExtension(for: .json)
           try data.write(to: url, options: .atomic)
@@ -122,7 +122,7 @@ public struct RawDataCollection: Transferable {
       try fileManager.createDirectory(at: mediaFolder, withIntermediateDirectories: true, attributes: nil)
       try modelContext.enumerate(FetchDescriptor<MediaItem>(), batchSize: batchSize) { mediaItem in
         try autoreleasepool {
-          Log.DB.export.debug("writing mediaItem \(mediaItem.uuid)")
+          Log.DB.export.log(level: DiagnosticLogging.level(for: .debug), "writing mediaItem \(mediaItem.uuid)")
           let mediaExportItem = MeidaExportItem(mediaItem: mediaItem)
           let data = try encoder.encode(mediaExportItem)
           let url = mediaFolder.appending(path: mediaItem.uuid.uuidString, directoryHint: .notDirectory).appendingPathExtension(for: .json)
@@ -136,7 +136,7 @@ public struct RawDataCollection: Transferable {
       // write happyImages
       try modelContext.enumerate(FetchDescriptor<HappyImage>(), batchSize: batchSize) { happyImage in
         try autoreleasepool {
-          Log.DB.export.debug("writing happyImage \(happyImage.uuid)")
+          Log.DB.export.log(level: DiagnosticLogging.level(for: .debug), "writing happyImage \(happyImage.uuid)")
           let mediaExportItem = MeidaExportItem(happyImage: happyImage)
           let data = try encoder.encode(mediaExportItem)
           let url = mediaFolder.appending(path: happyImage.uuid.uuidString, directoryHint: .notDirectory).appendingPathExtension(for: .json)
@@ -161,7 +161,7 @@ public struct RawDataCollection: Transferable {
     let folder = FileManager.default.temporaryDirectory.appending(path: Constants.exportFolderName, directoryHint: .isDirectory)
     do {
       try FileManager.default.removeItem(at: folder)
-      Log.DB.export.info("clear export folder success \(folder.path(percentEncoded: false))")
+      Log.DB.export.log(level: DiagnosticLogging.level(for: .info), "clear export folder success \(folder.path(percentEncoded: false))")
     }
     catch {
       Log.DB.export.error("clear export folder error \(error)")

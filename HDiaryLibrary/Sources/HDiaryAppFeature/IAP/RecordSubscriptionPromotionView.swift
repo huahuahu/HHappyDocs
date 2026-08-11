@@ -92,7 +92,7 @@ public struct RecordSubscriptionPromotionView: View {
 
   private var purchaseButton: some View {
     Button(action: {
-      Log.iap.info("subscribe button tapped in  RecordSubscriptionPromotionView")
+      Log.iap.log(level: DiagnosticLogging.level(for: .info), "subscribe button tapped in  RecordSubscriptionPromotionView")
       showIAPView = true
     }, label: {
       Label(
@@ -114,7 +114,7 @@ public struct RecordSubscriptionPromotionView: View {
 
   private var skipButton: some View {
     Button(action: {
-      Log.iap.info("skip tapped in  RecordSubscriptionPromotionView")
+      Log.iap.log(level: DiagnosticLogging.level(for: .info), "skip tapped in  RecordSubscriptionPromotionView")
       skipButtonTapped()
     }, label: {
       Label(
@@ -133,7 +133,7 @@ public struct RecordSubscriptionPromotionView: View {
   let userPreferences = UserPreferences.shared
   userPreferences.hasShownRecordPromotionView = false
   return RecordSubscriptionPromotionView(currentMomentCount: 0) {
-    print("skip tapped")
+    Log.iap.log(level: DiagnosticLogging.level(for: .debug), "Preview skip button tapped")
   }
   .environment(userPreferences)
   .environment(\.locale, .cnMainland)
@@ -143,7 +143,7 @@ public struct RecordSubscriptionPromotionView: View {
   let userPreferences = UserPreferences.shared
   userPreferences.hasShownRecordPromotionView = false
   return RecordSubscriptionPromotionView(currentMomentCount: 0) {
-    print("skip tapped")
+    Log.iap.log(level: DiagnosticLogging.level(for: .debug), "Preview skip button tapped")
   }
   .environment(userPreferences)
   .environment(\.locale, .en)

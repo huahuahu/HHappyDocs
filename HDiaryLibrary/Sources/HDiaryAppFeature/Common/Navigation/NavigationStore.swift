@@ -25,7 +25,7 @@ import SwiftUI
   private let activityHandler: ActivityHandler
   var presentedSheet: SheetDestination? {
     didSet {
-      Log.common.info("presentation sheet -> \(String(describing: self.presentedSheet))")
+      Log.common.log(level: DiagnosticLogging.level(for: .info), "presentation sheet -> \(String(describing: self.presentedSheet))")
     }
   }
 
@@ -34,7 +34,7 @@ import SwiftUI
   }
 
   private init(urlHandler: UrlHandler, activityHandler: ActivityHandler) {
-    Log.common.info("\(UUID()) navigationstore init")
+    Log.common.log(level: DiagnosticLogging.level(for: .info), "\(UUID()) navigationstore init")
     self.urlHandler = urlHandler
     self.activityHandler = activityHandler
   }

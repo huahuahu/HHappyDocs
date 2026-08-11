@@ -61,9 +61,13 @@
       cancellables.removeAll()
 
       guard let primaryStoreURL = primaryContainer.configurations.first?.url else {
-        Log.data.error("Failed to attach widget snapshot observers: primary store URL is missing")
+        Log.Widget.snapshot.error("Failed to attach widget snapshot observers: primary store URL is missing")
         return
       }
+      Log.Widget.snapshot.log(
+        level: DiagnosticLogging.level(for: .info),
+        "Attached widget snapshot observers"
+      )
       let primaryLocalSaveAdapter = PrimaryLocalSaveNotificationAdapter(
         primaryContainerIdentifier: ObjectIdentifier(primaryContainer)
       )
@@ -77,6 +81,10 @@
           guard let self, let coordinator else {
             return
           }
+          Log.Widget.snapshot.log(
+            level: DiagnosticLogging.level(for: .debug),
+            "Widget snapshot rebuild requested by remote change"
+          )
           _ = self.requestRebuild(coordinator)
         }
         .store(in: &cancellables)
@@ -89,6 +97,10 @@
           guard let self, let coordinator else {
             return
           }
+          Log.Widget.snapshot.log(
+            level: DiagnosticLogging.level(for: .debug),
+            "Widget snapshot rebuild requested by local save"
+          )
           _ = self.requestRebuild(coordinator)
         }
         .store(in: &cancellables)

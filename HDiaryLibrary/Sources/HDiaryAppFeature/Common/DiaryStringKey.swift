@@ -322,6 +322,107 @@ extension DiaryStringKey {
 }
 
 extension DiaryStringKey {
+  enum Diagnostics {
+    static let title = LocalizedStringResource(
+      "diagnostics.title",
+      defaultValue: "Diagnostic Logs",
+      bundle: .module,
+      comment: "Title for the diagnostic logs screen and settings entry"
+    )
+    static let enable = LocalizedStringResource(
+      "diagnostics.enable",
+      defaultValue: "Enable Diagnostic Logging",
+      bundle: .module,
+      comment: "Label for the switch that enables diagnostic logging"
+    )
+    static let sessionStarted = LocalizedStringResource(
+      "diagnostics.sessionStarted",
+      defaultValue: "Session Started",
+      bundle: .module,
+      comment: "Label for the diagnostic session start date"
+    )
+    static let enableFooter = LocalizedStringResource(
+      "diagnostics.enable.footer",
+      defaultValue: "When enabled, debug and info diagnostics are promoted to notice so the system can retain them. Errors are always recorded.",
+      bundle: .module,
+      comment: "Explanation below the diagnostic logging switch"
+    )
+    static let refresh = LocalizedStringResource(
+      "diagnostics.refresh",
+      defaultValue: "Refresh Logs",
+      bundle: .module,
+      comment: "Button label for refreshing collected diagnostic logs"
+    )
+    static let sharePreviewTitle = LocalizedStringResource(
+      "diagnostics.sharePreviewTitle",
+      defaultValue: "HDiary Diagnostic Logs",
+      bundle: .module,
+      comment: "Title shown in the share sheet preview for diagnostic logs"
+    )
+    static let export = LocalizedStringResource(
+      "diagnostics.export",
+      defaultValue: "Export Logs",
+      bundle: .module,
+      comment: "Button label for exporting diagnostic logs"
+    )
+    static let collectedEntries = LocalizedStringResource(
+      "diagnostics.collectedEntries",
+      defaultValue: "Collected Entries",
+      bundle: .module,
+      comment: "Label for the number of collected diagnostic log entries"
+    )
+    static let loading = LocalizedStringResource(
+      "diagnostics.loading",
+      defaultValue: "Loading Logs",
+      bundle: .module,
+      comment: "Progress label shown while diagnostic logs are loading"
+    )
+    static let collectionFailed = LocalizedStringResource(
+      "diagnostics.collectionFailed",
+      defaultValue: "Collection Failed",
+      bundle: .module,
+      comment: "Section title shown when diagnostic log collection fails"
+    )
+    static let collectedLogs = LocalizedStringResource(
+      "diagnostics.collectedLogs",
+      defaultValue: "Collected Logs",
+      bundle: .module,
+      comment: "Section title for collected diagnostic log entries"
+    )
+    static let previewFooter = LocalizedStringResource(
+      "diagnostics.preview.footer",
+      defaultValue: "The preview shows at most the latest 100 entries. The export contains every collected entry.",
+      bundle: .module,
+      comment: "Explanation below the diagnostic log preview"
+    )
+    static let emptyTitle = LocalizedStringResource(
+      "diagnostics.empty.title",
+      defaultValue: "No Diagnostic Logs",
+      bundle: .module,
+      comment: "Title shown when no diagnostic logs have been collected"
+    )
+    static let emptyDescription = LocalizedStringResource(
+      "diagnostics.empty.description",
+      defaultValue: "Enable diagnostics, reproduce the issue, then refresh this page.",
+      bundle: .module,
+      comment: "Instructions shown when no diagnostic logs have been collected"
+    )
+    static let widgetTitle = LocalizedStringResource(
+      "diagnostics.widget.title",
+      defaultValue: "Widget Logs",
+      bundle: .module,
+      comment: "Section title for information about collecting Widget logs"
+    )
+    static let widgetDescription = LocalizedStringResource(
+      "diagnostics.widget.description",
+      defaultValue: "Widget logs are not included in this export because Apple only lets the app read its own process log. Use Console, log collect, or sysdiagnose on a connected device to retrieve Widget logs.",
+      bundle: .module,
+      comment: "Instructions for collecting Widget extension logs"
+    )
+  }
+}
+
+extension DiaryStringKey {
   enum Data {
     public static let privacyPolicyLabel = LocalizedStringResource("privacy.policy.label", defaultValue: "Privacy Policy", table: "Localizable", bundle: .module, comment: "label for privacy policy")
     public static let termOfUseLabel = LocalizedStringResource("privacy.termOfUse.label", defaultValue: "Terms of Use", table: "Localizable", bundle: .module, comment: "label for Terms of Use")

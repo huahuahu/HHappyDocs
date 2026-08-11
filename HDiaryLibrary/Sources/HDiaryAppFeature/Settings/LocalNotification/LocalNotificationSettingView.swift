@@ -132,11 +132,11 @@ struct LocalNotificationSettingView: View {
     let components = calendar.dateComponents([.hour, .minute], from: selectedDate)
 
     if let hour = components.hour, let minute = components.minute {
-      Log.notification.info("save hour \(hour), minute \(minute)")
+      Log.notification.log(level: DiagnosticLogging.level(for: .info), "save hour \(hour), minute \(minute)")
       Task {
         do {
           let success = try await LocalNotificationManager.shared.scheduleDailyNotification(hour: hour, minute: minute)
-          Log.notification.info("set daily reminder finish, result is  \(success)")
+          Log.notification.log(level: DiagnosticLogging.level(for: .info), "set daily reminder finish, result is  \(success)")
           if !success {
             await MainActor.run {
               showFailAlert = true
@@ -161,7 +161,7 @@ struct LocalNotificationSettingView: View {
       }
     }
     else {
-      Log.notification.info("Failed to extract hour and minute")
+      Log.notification.log(level: DiagnosticLogging.level(for: .info), "Failed to extract hour and minute")
     }
   }
 

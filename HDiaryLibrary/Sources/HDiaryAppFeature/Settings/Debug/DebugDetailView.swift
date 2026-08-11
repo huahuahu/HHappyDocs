@@ -39,7 +39,7 @@ enum DebugEntry: Hashable, CaseIterable, Identifiable {
     case .rawData:
       "Raw Data"
     case .collectLog:
-      "Collect Log"
+      "Diagnostic Logs"
     case .swiftData:
       "Swift Data Debugger"
     case .search:
@@ -57,7 +57,7 @@ enum DebugEntry: Hashable, CaseIterable, Identifiable {
     case .rawData:
       RawDataView()
     case .collectLog:
-      CollectLogView()
+      DiagnosticLogView()
     case .swiftData:
       SwiftDataDebugView()
     case .search:

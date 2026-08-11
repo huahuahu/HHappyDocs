@@ -13,6 +13,12 @@ enum UserDefaultKey: String, CaseIterable {
   case hasShownRecordPromotionView
   case recordSubscriptionStatus
 
+  // MARK: - Diagnostic logging
+
+  // 显式保留原始字符串，避免调整代码结构后丢失已经持久化的诊断状态。
+  case diagnosticLoggingIsEnabled = "diagnosticLogging.isEnabled"
+  case diagnosticLoggingStartedAtMilliseconds = "diagnosticLogging.startedAtMilliseconds"
+
   // MARK: - Debug start
 
   case swiftDataContainerType

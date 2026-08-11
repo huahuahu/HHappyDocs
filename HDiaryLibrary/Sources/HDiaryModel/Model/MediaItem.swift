@@ -61,7 +61,7 @@
       self.thumbnailData500px = thumbnailData500px
       self.thumbnailData1000px = thumbnailData1000px
       self.storageSize = data.count
-      Log.data.info("Created mediaItem \(self.uuid)")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "Created mediaItem \(self.uuid)")
     }
 
     public func updateStorageSizeIfNeeded() {

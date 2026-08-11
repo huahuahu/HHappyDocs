@@ -28,7 +28,7 @@ extension StorageUsageView {
         Text(DiaryStringKey.Data.StorageUsage.cachedStorageDescription)
       }
       .task(id: uuid) {
-        Log.data.info("calculate using id \(uuid)")
+        Log.data.log(level: DiagnosticLogging.level(for: .info), "calculate using id \(uuid)")
         let tmpFileSize = await calculateTmpFileSize()
         withAnimation {
           state = .calculated(sizeInByte: tmpFileSize)
@@ -65,7 +65,7 @@ extension StorageUsageView {
 
 extension StorageUsageView.LocalCacheView {
   nonisolated func calculateTmpFileSize() async -> UInt64 {
-    Log.data.info("#\(#function) in main thread? \(Thread.isMainThread)")
+    Log.data.log(level: DiagnosticLogging.level(for: .info), "#\(#function) in main thread? \(Thread.isMainThread)")
     let tmpPath = FileManager.default.temporaryDirectory.path(percentEncoded: false)
     var isDirectory: ObjCBool = false
 
@@ -107,21 +107,24 @@ extension StorageUsageView.LocalCacheView {
       let fileManager = FileManager.default
       do {
         let contents = try fileManager.contentsOfDirectory(atPath: directoryToClear)
-        Log.data.info("#\(#function) in main thread? \(Thread.isMainThread)")
+        Log.data.log(level: DiagnosticLogging.level(for: .info), "#\(#function) in main thread? \(Thread.isMainThread)")
         for item in contents {
           let fullPath = (directoryToClear as NSString).appendingPathComponent(item)
 
           do {
             try fileManager.removeItem(atPath: fullPath)
-            Log.data.info("Successfully removed item at path: \(fullPath, privacy: .public)")
+            Log.data.log(
+              level: DiagnosticLogging.level(for: .info),
+              "Successfully removed cached item at path: \(fullPath)"
+            )
           }
           catch {
-            Log.data.error("Could not remove item at path: \(fullPath, privacy: .public). Error: \(error.localizedDescription, privacy: .public)")
+            Log.data.error("Could not remove cached item at path \(fullPath): \(error)")
           }
         }
       }
       catch {
-        Log.data.error("Error reading contents of directory at path: \(directoryToClear, privacy: .public). Error: \(error.localizedDescription, privacy: .public)")
+        Log.data.error("Could not read cache directory at path \(directoryToClear): \(error)")
       }
     }
   }
