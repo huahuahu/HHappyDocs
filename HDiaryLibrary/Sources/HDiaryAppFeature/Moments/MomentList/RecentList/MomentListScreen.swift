@@ -19,11 +19,21 @@ struct MomentListScreen: View {
   @Environment(UserPreferences.self) private var userPreferences: UserPreferences
   @Environment(MomentCloudStateManager.self) private var momentCloudStateManager
   @Environment(\.modelContext) private var modelContext
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   @Query(filter: #Predicate<Moment> { !$0.markedAsDelete }, sort: [SortDescriptor<Moment>(\.timestamp, order: .reverse)]) private var moments: [Moment]
 
   @State private var momentGroups: [InstanceGroup<Moment>] = []
-  @State private var addMomentOrigin: AddMomentNavigationView.Origin?
+  @Namespace private var addMomentTransitionNamespace
+  private let addMomentSourceID = "add-moment"
+
+  private struct AddMomentRequest: Identifiable {
+    let origin: AddMomentNavigationView.Origin
+    let usesZoom: Bool
+    var id: AddMomentNavigationView.Origin { origin }
+  }
+
+  @State private var addMomentRequest: AddMomentRequest?
   let model: RecentMomentListModel.Model
 //    @State private var recentMomentListModel = RecentMomentListModel()
 
@@ -64,8 +74,16 @@ struct MomentListScreen: View {
     .toolbar {
       toolBarContent
     }
-    .sheet(item: $addMomentOrigin, content: { origin in
-      AddMomentNavigationView(origin: origin, currentMomentCount: currentMomentCount)
+    .sheet(item: $addMomentRequest, content: { request in
+      // Sample the transition when opening so accessibility changes cannot replace
+      // the sheet's view identity (and its unsaved Moment) during editing.
+      if request.usesZoom {
+        AddMomentNavigationView(origin: request.origin, currentMomentCount: currentMomentCount)
+          .navigationTransition(.zoom(sourceID: addMomentSourceID, in: addMomentTransitionNamespace))
+      }
+      else {
+        AddMomentNavigationView(origin: request.origin, currentMomentCount: currentMomentCount)
+      }
     })
     .onAppear {
       if UserPreferences.shared.swiftDataContainerType != .iCloud {
@@ -89,12 +107,22 @@ struct MomentListScreen: View {
   @ToolbarContentBuilder
   private var toolBarContent: some ToolbarContent {
     ToolbarItem(placement: .topBarTrailing) {
-      AddMomentMenu {
-        addMomentOrigin = .empty
-      } addMomentFromSuggestion: {
-        addMomentOrigin = .fromSuggestion
-      }
+      addMomentMenu
+        .matchedTransitionSource(id: addMomentSourceID, in: addMomentTransitionNamespace)
     }
+  }
+
+  private var addMomentMenu: some View {
+    // The persistent toolbar control is the source, never a transient menu item.
+    AddMomentMenu {
+      presentAddMoment(from: .empty)
+    } addMomentFromSuggestion: {
+      presentAddMoment(from: .fromSuggestion)
+    }
+  }
+
+  private func presentAddMoment(from origin: AddMomentNavigationView.Origin) {
+    addMomentRequest = AddMomentRequest(origin: origin, usesZoom: !reduceMotion)
   }
 }
 

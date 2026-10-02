@@ -143,7 +143,8 @@ struct AddMomentNavigationView: View {
     case .presentRecordSubscriptionView:
       RecordSubscriptionView()
     case .none:
-      EmptyView()
+      // Show a loading placeholder until the initial access check chooses a screen.
+      ProgressView()
     }
   }
 
