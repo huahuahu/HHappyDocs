@@ -15,18 +15,17 @@ import UIKit
 import WidgetKit
 
 public struct MomentWidgetIntent: WidgetConfigurationIntent {
+  // Use the default main bundle: Xcode 27.1 metadata extraction rejects an explicit `.main`.
   public static let title: LocalizedStringResource = LocalizedStringResource(
     "widget.moment.intent.title",
     defaultValue: "Select participant",
-    table: "Intents",
-    bundle: .main
+    table: "Intents"
   )
   public static let description: IntentDescription? = IntentDescription(
     LocalizedStringResource(
       "widget.moment.intent.description",
       defaultValue: "Select a participant to show their moments",
-      table: "Intents",
-      bundle: .main
+      table: "Intents"
     )
   )
 
@@ -34,8 +33,7 @@ public struct MomentWidgetIntent: WidgetConfigurationIntent {
     title: LocalizedStringResource(
       "widget.moment.intent.parameter.participant.title",
       defaultValue: "Participant",
-      table: "Intents",
-      bundle: .main
+      table: "Intents"
     ),
     optionsProvider: ParticipantOptionsProvider()
   )
@@ -91,8 +89,7 @@ public struct ParticipantEntity: Identifiable {
     name: String(localized: LocalizedStringResource(
       "participant.all",
       defaultValue: "All participants",
-      table: "Intents",
-      bundle: .main
+      table: "Intents"
     )),
     avatar: ParticipantEntity.defaultAvatar
   )
