@@ -12,13 +12,10 @@ import HDiaryModel
 import Observation
 import SwiftData
 import SwiftUI
-import WidgetKit
 
 @MainActor
 struct MomentListScreen: View {
-  @Environment(UserPreferences.self) private var userPreferences: UserPreferences
-  @Environment(MomentCloudStateManager.self) private var momentCloudStateManager
-  @Environment(\.modelContext) private var modelContext
+  @Environment(\.calendar) private var calendar
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   @Query(filter: #Predicate<Moment> { !$0.markedAsDelete }, sort: [SortDescriptor<Moment>(\.timestamp, order: .reverse)]) private var moments: [Moment]
@@ -35,10 +32,18 @@ struct MomentListScreen: View {
 
   @State private var addMomentRequest: AddMomentRequest?
   let model: RecentMomentListModel.Model
+  private let referenceDate: Date?
+  private let initiallyExpanded: Bool
 //    @State private var recentMomentListModel = RecentMomentListModel()
 
-  init(model: RecentMomentListModel.Model = .showAllMoment) {
+  init(
+    model: RecentMomentListModel.Model = .showAllMoment,
+    referenceDate: Date? = nil,
+    initiallyExpanded: Bool = false
+  ) {
     self.model = model
+    self.referenceDate = referenceDate
+    self.initiallyExpanded = initiallyExpanded
     //        self._moments = Query(
     switch model {
     case .showAllMoment:
@@ -58,8 +63,8 @@ struct MomentListScreen: View {
 
   var body: some View {
     List {
-      ForEach(InstanceGrouper().group(moments, relative: .now)) { momentGroup in
-        SectionView(momentGroup: momentGroup)
+      ForEach(InstanceGrouper().group(moments, relative: referenceDate ?? .now, calendar: calendar)) { momentGroup in
+        SectionView(momentGroup: momentGroup, initiallyExpanded: initiallyExpanded)
       }
       if case .showRecentMoment = model {
         RecentSection(moreMomentCount: currentMomentCount - moments.count)
@@ -85,12 +90,6 @@ struct MomentListScreen: View {
         AddMomentNavigationView(origin: request.origin, currentMomentCount: currentMomentCount)
       }
     })
-    .onAppear {
-      if UserPreferences.shared.swiftDataContainerType != .iCloud {
-        momentCloudStateManager.shouldSync = false
-      }
-      WidgetCenter.shared.reloadAllTimelines()
-    }
   }
 
   private var currentMomentCount: Int {
@@ -125,16 +124,5 @@ struct MomentListScreen: View {
     addMomentRequest = AddMomentRequest(origin: origin, usesZoom: !reduceMotion)
   }
 }
-
-#if DEBUG
-  #Preview {
-    NavigationStack {
-      MomentListScreen()
-    }
-    .previewEnvironment()
-    .modelContainer(HDiaryContainer.inMemoryPreviewContainer)
-  }
-
-#endif
 
 #endif

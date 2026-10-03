@@ -38,14 +38,14 @@ struct BaseTabView: View {
   @State private var searchViewModel = SearchViewModel()
   var body: some View {
     @Bindable var appRoute = appRoute
-    TabView(selection: $appRoute.selectedTab) {
-      contentView
-        .tag(HDiaryTab.content)
-      libraryView
-        .tag(HDiaryTab.library)
-      settingView
-        .tag(HDiaryTab.setting)
-    }
+    HDiaryTabShell(
+      selection: $appRoute.selectedTab,
+      searchViewModel: $searchViewModel,
+      supportsSearch: shouldSupportSearch,
+      content: MomentTab(isSelected: appRoute.selectedTab == .content).environment(searchViewModel),
+      library: libraryView,
+      settings: settingView
+    )
     .sensoryFeedback(.selection, trigger: appRoute.selectedTab)
     .onAppear {
       guard !hasPerformedStartupTask else {
@@ -56,23 +56,6 @@ struct BaseTabView: View {
       StartupDataMaintenanceService().runLoggingFailures(in: modelContext)
       modelContext.undoManager = undoManager
     }
-  }
-
-  @ViewBuilder
-  private var contentView: some View {
-    MomentTab(isSelected: appRoute.selectedTab == .content)
-      .environment(searchViewModel)
-      .if(shouldSupportSearch, transform: { content in
-        content
-          .searchable(searchViewModel: $searchViewModel)
-      })
-      .tabItem {
-        Label {
-          Text(DiaryStringKey.moments)
-        } icon: {
-          Image(systemName: "list.dash")
-        }
-      }
   }
 
   private var shouldSupportSearch: Bool {
@@ -90,9 +73,7 @@ struct BaseTabView: View {
       appRoute.selectedTab == .setting
     }, set: { _ in
 
-    })).tabItem {
-      Label(HLocalizedString.setting, systemImage: "gear")
-    }
+    }))
   }
 
   @ViewBuilder
@@ -101,14 +82,50 @@ struct BaseTabView: View {
       appRoute.selectedTab == .library
     }, set: { _ in
 
-    })).tabItem {
-      Label(
-        title: { Text(DiaryStringKey.libraryTabItemLabel) },
-        icon: { Image(systemName: "cube.box") }
-      )
-    }
+    }))
   }
 
+}
+
+/// The real app and page snapshots share tab labels, selection, and search placement.
+@MainActor
+struct HDiaryTabShell<Content: View, Library: View, Settings: View>: View {
+  @Binding var selection: HDiaryTab
+  @Binding var searchViewModel: SearchViewModel
+  let supportsSearch: Bool
+  let content: Content
+  let library: Library
+  let settings: Settings
+
+  var body: some View {
+    TabView(selection: $selection) {
+      content
+        .if(supportsSearch, transform: { view in
+          view.searchable(searchViewModel: $searchViewModel)
+        })
+        .tabItem {
+          Label {
+            Text(DiaryStringKey.moments)
+          } icon: {
+            Image(systemName: "list.dash")
+          }
+        }
+        .tag(HDiaryTab.content)
+      library
+        .tabItem {
+          Label(
+            title: { Text(DiaryStringKey.libraryTabItemLabel) },
+            icon: { Image(systemName: "cube.box") }
+          )
+        }
+        .tag(HDiaryTab.library)
+      settings
+        .tabItem {
+          Label(HLocalizedString.setting, systemImage: "gear")
+        }
+        .tag(HDiaryTab.setting)
+    }
+  }
 }
 
 #endif

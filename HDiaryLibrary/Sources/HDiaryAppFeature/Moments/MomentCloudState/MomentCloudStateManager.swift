@@ -26,8 +26,10 @@ final class MomentCloudStateManager {
 
   static let shared = MomentCloudStateManager()
 
-  var shouldSync = true
-  private init() {
+  var shouldSync: Bool
+  init(shouldSync: Bool = true) {
+    self.shouldSync = shouldSync
+    guard shouldSync else { return }
     Task {
       await startCheckUnSyncedMoment()
     }

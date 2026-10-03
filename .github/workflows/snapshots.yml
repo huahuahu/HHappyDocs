@@ -1,0 +1,118 @@
+name: iOS snapshots
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: snapshots-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  snapshots:
+    name: Moment list snapshots
+    runs-on: xcode-27
+    timeout-minutes: 45
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1_beta.app/Contents/Developer
+      # TEST_RUNNER_ forwards these values to the simulator test process.
+      TEST_RUNNER_HDIARY_RECORD_SNAPSHOTS: "0"
+      TEST_RUNNER_SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/SnapshotResults/Images
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Verify snapshot environment
+        run: |
+          xcodebuild -version
+          test "$(xcodebuild -version | tail -1)" = 'Build version 27A9269'
+          swift --version
+          xcrun simctl list devices available
+          mkdir -p SnapshotResults
+
+      - name: Cache iOS 26.5 runtime download
+        uses: actions/cache@v5
+        with:
+          path: SimulatorRuntimeDownloads
+          key: snapshot-runtime-ios-26.5-arm64
+
+      - name: Prepare snapshot simulator
+        run: |
+          mkdir -p SimulatorRuntimeDownloads
+          runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
+          if [ -z "$runtime_dmg" ]; then
+            xcodebuild -downloadPlatform iOS -buildVersion 26.5 \
+              -architectureVariant arm64 -exportPath SimulatorRuntimeDownloads
+            runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
+          fi
+          test -n "$runtime_dmg"
+          xcodebuild -importPlatform "$runtime_dmg"
+          snapshot_simulator_id="$(xcrun simctl create 'Snapshot iPhone 17 Pro' \
+            com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro \
+            com.apple.CoreSimulator.SimRuntime.iOS-26-5)"
+          # Match the accessibility setting used by the committed baselines.
+          # Write the file directly: host defaults/cfprefsd can defer absolute-path writes.
+          python3 - "$snapshot_simulator_id" <<'PY'
+          import plistlib
+          import sys
+          from pathlib import Path
+          preferences = Path.home() / "Library/Developer/CoreSimulator/Devices" / sys.argv[1] / "data/Library/Preferences/com.apple.Accessibility.plist"
+          preferences.parent.mkdir(parents=True, exist_ok=True)
+          values = plistlib.loads(preferences.read_bytes()) if preferences.exists() else {}
+          expected = {
+              "DifferentiateWithoutColor": True,
+              "AccessibilityEnabled": True,
+              "AXSDidResetD22Preferences": True,
+          }
+          values.update(expected)
+          preferences.write_bytes(plistlib.dumps(values))
+          actual = plistlib.loads(preferences.read_bytes())
+          assert all(actual[key] == value for key, value in expected.items())
+          print("Verified snapshot accessibility preferences:", expected)
+          PY
+          echo "SNAPSHOT_SIMULATOR_ID=$snapshot_simulator_id" >> "$GITHUB_ENV"
+
+      - name: Cache SwiftPM dependencies
+        uses: actions/cache@v5
+        with:
+          path: DerivedData/Snapshots/SourcePackages
+          key: snapshots-swiftpm-27A9269-${{ hashFiles('HDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+
+      - name: Compare moment list snapshots
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project HDiary.xcodeproj \
+            -scheme HDiary \
+            -configuration Debug \
+            -testPlan HDiarySnapshots \
+            -destination "platform=iOS Simulator,id=$SNAPSHOT_SIMULATOR_ID" \
+            -parallel-testing-enabled NO \
+            -collect-test-diagnostics never \
+            -onlyUsePackageVersionsFromResolvedFile \
+            -derivedDataPath DerivedData/Snapshots \
+            -resultBundlePath SnapshotResults/MomentList.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            2>&1 | tee SnapshotResults/xcodebuild.log
+
+      - name: Export screenshot attachments
+        if: ${{ always() }}
+        run: |
+          if [ -d SnapshotResults/MomentList.xcresult ]; then
+            xcrun xcresulttool export attachments \
+              --path SnapshotResults/MomentList.xcresult \
+              --output-path SnapshotResults/Attachments
+          fi
+
+      - name: Upload snapshot results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: moment-list-snapshots
+          path: SnapshotResults/
+          if-no-files-found: warn
+          retention-days: 14

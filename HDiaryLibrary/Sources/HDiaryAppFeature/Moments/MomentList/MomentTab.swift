@@ -12,6 +12,7 @@ import HDiaryModel
 import HDiarySearch
 import SwiftData
 import SwiftUI
+import WidgetKit
 
 @MainActor struct MomentTab: View {
   @Environment(SearchViewModel.self) private var searchViewModel
@@ -55,9 +56,16 @@ import SwiftUI
 
 private struct MomentContainerView: View {
   @Environment(\.modelContext) private var modelContext
+  @Environment(MomentCloudStateManager.self) private var momentCloudStateManager
   @State private var recentListModel = RecentMomentListModel()
   var body: some View {
     MomentListScreen(model: recentListModel.mode)
+      .onAppear {
+        if UserPreferences.shared.swiftDataContainerType != .iCloud {
+          momentCloudStateManager.shouldSync = false
+        }
+        WidgetCenter.shared.reloadAllTimelines()
+      }
       .task {
         recentListModel.updateMode(modelContext: modelContext)
       }

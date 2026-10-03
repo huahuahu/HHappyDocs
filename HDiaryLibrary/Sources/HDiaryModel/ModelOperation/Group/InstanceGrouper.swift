@@ -55,9 +55,8 @@
   public struct InstanceGrouper<T: DateGrouppable> {
     public init() {}
 
-    public func group(_ moments: [T], relative to: Date) -> [InstanceGroup<T>] {
+    public func group(_ moments: [T], relative to: Date, calendar: Calendar = .current) -> [InstanceGroup<T>] {
       let sortedMoments = moments.sorted { $0.timestamp > $1.timestamp }
-      let calendar = Calendar.current
 
       let startOfRelativeDate = calendar.startOfDay(for: to)
       let yesterdayStart = calendar.date(byAdding: .day, value: -1, to: startOfRelativeDate)
@@ -93,4 +92,3 @@
       }
     }
   }
-
