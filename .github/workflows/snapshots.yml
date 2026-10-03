@@ -35,7 +35,7 @@ jobs:
           mkdir -p SnapshotResults
 
       - name: Cache iOS 26.5 runtime download
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: SimulatorRuntimeDownloads
           key: snapshot-runtime-ios-26.5-arm64
@@ -77,7 +77,7 @@ jobs:
           echo "SNAPSHOT_SIMULATOR_ID=$snapshot_simulator_id" >> "$GITHUB_ENV"
 
       - name: Cache SwiftPM dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: DerivedData/Snapshots/SourcePackages
           key: snapshots-swiftpm-27A9269-${{ hashFiles('HDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
@@ -110,7 +110,7 @@ jobs:
 
       - name: Upload snapshot results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: moment-list-snapshots
           path: SnapshotResults/
