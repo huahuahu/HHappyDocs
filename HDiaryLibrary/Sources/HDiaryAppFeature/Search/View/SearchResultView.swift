@@ -17,7 +17,7 @@ extension SearchView {
     var body: some View {
       List {
         ForEach(searchResult) { moment in
-          NavigationLink(value: HDiaryDestination.moment(moment, editEnabled: true)) {
+          MomentNavigationLink(moment: moment) {
             MomentListItemView(moment: moment)
           }
         }

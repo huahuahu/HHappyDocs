@@ -136,7 +136,7 @@ private extension Moment {
 
     return NavigationStack {
       List(moments.prefix(2)) { moment in
-        NavigationLink(value: HDiaryDestination.moment(moment, editEnabled: true)) {
+        MomentNavigationLink(moment: moment) {
           MomentListItemView(moment: moment)
         }
       }

@@ -22,6 +22,11 @@ struct DiaryNavigatorModifier: ViewModifier {
   }
 }
 
+struct MomentZoomSource: Hashable {
+  let id: UUID
+  let namespace: Namespace.ID
+}
+
 enum HDiaryDestination: Hashable {
   case diagnosticLogs
   case debugView
@@ -37,7 +42,7 @@ enum HDiaryDestination: Hashable {
   case cloudDataEntry
   case cloudDataDetail(for: CloudRecordDestination)
   case deleteMediaItem(mediaItem: MediaItem)
-  case moment(Moment, editEnabled: Bool)
+  case moment(Moment, editEnabled: Bool, zoomSource: MomentZoomSource? = nil)
   case libraryEntry(entry: LibraryEntry)
   case tag(tag: Tag)
   case participant(Participant)
@@ -77,8 +82,15 @@ enum HDiaryDestination: Hashable {
       cloudDataDestination.destinationView
     case .deleteMediaItem(mediaItem: let item):
       MediaItemDeleteView(mediaItem: item)
-    case .moment(let moment, editEnabled: let editEnabled):
-      MomentDetailView(moment: moment, canEdit: editEnabled)
+    case .moment(let moment, let editEnabled, let zoomSource):
+      // The source is fixed by the route, so editing cannot switch these branches.
+      if let zoomSource {
+        MomentDetailView(moment: moment, canEdit: editEnabled)
+          .navigationTransition(.zoom(sourceID: zoomSource.id, in: zoomSource.namespace))
+      }
+      else {
+        MomentDetailView(moment: moment, canEdit: editEnabled)
+      }
     case .libraryEntry(entry: let entry):
       LibraryEntryDetailWrapperView(entry: entry)
       #if os(iOS)

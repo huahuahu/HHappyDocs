@@ -21,23 +21,20 @@ struct MomentItemView: View {
   @ScaledMetric private var backgroundConerRadius = 20.0
   private let moment: Moment
   var body: some View {
-    ZStack {
-      Color.clear
-      NavigationLink(value: HDiaryDestination.moment(moment, editEnabled: true)) {
-        HStack {
-          VStack(alignment: .leading, content: {
-            Text(moment.title)
-              .lineLimit(1)
+    MomentNavigationLink(moment: moment) {
+      HStack {
+        VStack(alignment: .leading, content: {
+          Text(moment.title)
+            .lineLimit(1)
 
-            bottomView
-          })
-          .padding(.horizontal)
-          Spacer()
-        }
+          bottomView
+        })
+        .padding(.horizontal)
+        Spacer()
       }
+      .padding()
+      .background(.regularMaterial, in: .rect(cornerRadius: backgroundConerRadius))
     }
-    .padding()
-    .background(.regularMaterial, in: .rect(cornerRadius: backgroundConerRadius))
   }
 
   private var bottomView: some View {

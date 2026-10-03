@@ -93,7 +93,7 @@ private struct ParticipantDetailInnerView: View {
     if let moments = participant.moments, !moments.isEmpty {
       Section {
         ForEach(moments) { moment in
-          NavigationLink(value: HDiaryDestination.moment(moment, editEnabled: true)) {
+          MomentNavigationLink(moment: moment) {
             HStack {
               Text(moment.title)
             }
