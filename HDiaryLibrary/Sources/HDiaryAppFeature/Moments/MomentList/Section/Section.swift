@@ -24,7 +24,7 @@ extension MomentListScreen {
         isExpanded: $isExpanded,
         content: {
           ForEach(momentGroup.instances) { moment in
-            NavigationLink(value: HDiaryDestination.moment(moment, editEnabled: true)) {
+            MomentNavigationLink(moment: moment) {
               MomentListItemView(moment: moment)
             }
           }

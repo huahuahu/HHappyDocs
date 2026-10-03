@@ -20,7 +20,7 @@ extension SearchView {
         List {
           Section {
             ForEach(recommendedMoments) { moment in
-              NavigationLink(value: HDiaryDestination.moment(moment, editEnabled: true)) {
+              MomentNavigationLink(moment: moment) {
                 MomentListItemView(moment: moment)
               }
             }
