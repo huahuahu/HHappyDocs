@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        A22C00000000000000000070 = {isa = PBXBuildFile; fileRef = A22C0000000000000000000D; };
+        A22C00000000000000000067 = {isa = PBXBuildFile; fileRef = A22C00000000000000000065; };
+		A22C00000000000000000001 = {isa = PBXBuildFile; fileRef = A22C0000000000000000000B; };
+		A22C00000000000000000002 = {isa = PBXBuildFile; fileRef = A22C0000000000000000000C; };
+		A22C00000000000000000003 = {isa = PBXBuildFile; fileRef = A22C0000000000000000000D; };
+		A22C00000000000000000004 = {isa = PBXBuildFile; productRef = A22C00000000000000000029; };
+		A22C00000000000000000005 = {isa = PBXBuildFile; productRef = A22C0000000000000000002A; };
+		A22C00000000000000000006 = {isa = PBXBuildFile; productRef = A22C0000000000000000002B; };
 		601EEFAE2B9D3E0E0073BA37 /* HDiaryConstants in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFAD2B9D3E0E0073BA37 /* HDiaryConstants */; };
 		601EEFB02B9D3E1B0073BA37 /* HDiaryConstants in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFAF2B9D3E1B0073BA37 /* HDiaryConstants */; };
 		601EEFB22B9D645E0073BA37 /* HDiaryIAP in Frameworks */ = {isa = PBXBuildFile; productRef = 601EEFB12B9D645E0073BA37 /* HDiaryIAP */; };
@@ -30,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+        A22C0000000000000000006E = {isa = PBXContainerItemProxy; containerPortal = 60A4E1F42A3DDCE1000E68A0; proxyType = 1; remoteGlobalIDString = A22C00000000000000000064; remoteInfo = HDiarySnapshotHost; };
 		6072D3B42A6161DC0020B7AF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 60A4E1F42A3DDCE1000E68A0 /* Project object */;
@@ -61,6 +70,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+        A22C00000000000000000065 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDiaryLibrary/Tests/SnapshotHost/SnapshotHostApp.swift; sourceTree = SOURCE_ROOT; };
+        A22C00000000000000000066 = {isa = PBXFileReference; explicitFileType = wrapper.application; path = HDiarySnapshotHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A22C0000000000000000000B = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDiaryLibrary/Tests/HDiarySnapshotTests/MomentListSnapshotTests.swift; sourceTree = SOURCE_ROOT; };
+		A22C0000000000000000000C = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDiaryLibrary/Tests/HDiarySnapshotTests/MomentListFixtureTests.swift; sourceTree = SOURCE_ROOT; };
+		A22C0000000000000000000D = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = HDiary/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
+		A22C0000000000000000000E = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HDiarySnapshotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		601133662A45759300837D72 /* HFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		602093C32FFD241500675F04 /* HDiaryWidgetExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HDiaryWidgetExtensionDebug.entitlements; sourceTree = "<group>"; };
 		604877CF2A6264C400EC2058 /* HDiaryLibrary */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = HDiaryLibrary; sourceTree = "<group>"; };
@@ -122,6 +137,8 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+        A22C0000000000000000006A = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		A22C00000000000000000017 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (A22C00000000000000000004, A22C00000000000000000005, A22C00000000000000000006, ); runOnlyForDeploymentPostprocessing = 0; };
 		6072D3A02A6161DB0020B7AF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -162,9 +179,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A22C0000000000000000000F /* Snapshot unit tests */ = {isa = PBXGroup; children = (A22C00000000000000000065, A22C0000000000000000000B, A22C0000000000000000000C, A22C0000000000000000000D, ); name = "Snapshot unit tests"; sourceTree = "<group>"; };
 		60A4E1F32A3DDCE1000E68A0 = {
 			isa = PBXGroup;
 			children = (
+				A22C0000000000000000000F,
 				602093C32FFD241500675F04 /* HDiaryWidgetExtensionDebug.entitlements */,
 				6091A73D2BB3A1BA00D6223E /* PrivacyInfo.xcprivacy */,
 				604877CF2A6264C400EC2058 /* HDiaryLibrary */,
@@ -181,6 +200,8 @@
 		60A4E1FD2A3DDCE1000E68A0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				A22C00000000000000000066,
+				A22C0000000000000000000E,
 				60A4E1FC2A3DDCE1000E68A0 /* HDiary.app */,
 				60A4E21A2A3DDCE3000E68A0 /* HDiaryUITests.xctest */,
 				6072D3A32A6161DB0020B7AF /* HDiaryWidgetExtension.appex */,
@@ -210,6 +231,18 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+        A22C00000000000000000064 /* HDiarySnapshotHost */ = {isa = PBXNativeTarget; buildConfigurationList = A22C0000000000000000006D; buildPhases = (A22C00000000000000000068, A22C0000000000000000006A, A22C00000000000000000069, ); buildRules = (); dependencies = (); name = HDiarySnapshotHost; productName = HDiarySnapshotHost; productReference = A22C00000000000000000066; productType = "com.apple.product-type.application"; };
+		A22C00000000000000000014 /* HDiarySnapshotTests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = A22C00000000000000000021;
+            buildPhases = (A22C00000000000000000015, A22C00000000000000000017, A22C00000000000000000016, );
+            buildRules = (); dependencies = (A22C0000000000000000006F, );
+            name = HDiarySnapshotTests;
+            packageProductDependencies = (A22C00000000000000000029, A22C0000000000000000002A, A22C0000000000000000002B, );
+            productName = HDiarySnapshotTests;
+            productReference = A22C0000000000000000000E;
+            productType = "com.apple.product-type.bundle.unit-test";
+        };
 		6072D3A22A6161DB0020B7AF /* HDiaryWidgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6072D3BA2A6161DC0020B7AF /* Build configuration list for PBXNativeTarget "HDiaryWidgetExtension" */;
@@ -324,12 +357,15 @@
 			);
 			mainGroup = 60A4E1F32A3DDCE1000E68A0;
 			packageReferences = (
+				A22C00000000000000000028,
 				60E099262D93D3B800493EF6 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 			);
 			productRefGroup = 60A4E1FD2A3DDCE1000E68A0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				A22C00000000000000000064 /* HDiarySnapshotHost */,
+				A22C00000000000000000014 /* HDiarySnapshotTests */,
 				60A4E1FB2A3DDCE1000E68A0 /* HDiary */,
 				60A4E2192A3DDCE3000E68A0 /* HDiaryUITests */,
 				6072D3A22A6161DB0020B7AF /* HDiaryWidgetExtension */,
@@ -338,6 +374,8 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+        A22C00000000000000000069 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A22C00000000000000000070, ); runOnlyForDeploymentPostprocessing = 0; };
+		A22C00000000000000000016 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A22C00000000000000000003, ); runOnlyForDeploymentPostprocessing = 0; };
 		6072D3A12A6161DB0020B7AF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -365,6 +403,8 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+        A22C00000000000000000068 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A22C00000000000000000067, ); runOnlyForDeploymentPostprocessing = 0; };
+		A22C00000000000000000015 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A22C00000000000000000001, A22C00000000000000000002, ); runOnlyForDeploymentPostprocessing = 0; };
 		6072D39F2A6161DB0020B7AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -389,6 +429,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+        A22C0000000000000000006F = {isa = PBXTargetDependency; target = A22C00000000000000000064; targetProxy = A22C0000000000000000006E; };
 		6072D3B52A6161DC0020B7AF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6072D3A22A6161DB0020B7AF /* HDiaryWidgetExtension */;
@@ -402,6 +443,42 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+        A22C0000000000000000006C = {isa = XCBuildConfiguration; baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB; baseConfigurationReferenceRelativePath = "Configs/release.xcconfig"; buildSettings = {PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = com.tiger.suzhou.HDiarySnapshotHost; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIStatusBarHidden = YES; }; name = Release; };
+        A22C0000000000000000006B = {isa = XCBuildConfiguration; baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB; baseConfigurationReferenceRelativePath = "Configs/debug.xcconfig"; buildSettings = {PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = com.tiger.suzhou.HDiarySnapshotHost; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIStatusBarHidden = YES; }; name = Debug; };
+		A22C00000000000000000020 = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB;
+            baseConfigurationReferenceRelativePath = "Configs/release.xcconfig";
+            buildSettings = {
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                PRODUCT_BUNDLE_IDENTIFIER = com.tiger.suzhou.HDiarySnapshotTests;
+                SDKROOT = iphoneos;
+                SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+                SWIFT_EMIT_LOC_STRINGS = NO;
+                ENABLE_TESTABILITY = YES;
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HDiarySnapshotHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HDiarySnapshotHost";
+                GENERATE_INFOPLIST_FILE = YES;
+            };
+            name = Release;
+        };
+		A22C0000000000000000001F = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB;
+            baseConfigurationReferenceRelativePath = "Configs/debug.xcconfig";
+            buildSettings = {
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                PRODUCT_BUNDLE_IDENTIFIER = com.tiger.suzhou.HDiarySnapshotTests;
+                SDKROOT = iphoneos;
+                SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+                SWIFT_EMIT_LOC_STRINGS = NO;
+                ENABLE_TESTABILITY = YES;
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HDiarySnapshotHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HDiarySnapshotHost";
+                GENERATE_INFOPLIST_FILE = YES;
+            };
+            name = Debug;
+        };
 		6072D3B82A6161DC0020B7AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB /* HDiary */;
@@ -470,6 +547,8 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+        A22C0000000000000000006D = {isa = XCConfigurationList; buildConfigurations = (A22C0000000000000000006B, A22C0000000000000000006C, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		A22C00000000000000000021 = {isa = XCConfigurationList; buildConfigurations = (A22C0000000000000000001F, A22C00000000000000000020, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 		6072D3BA2A6161DC0020B7AF /* Build configuration list for PBXNativeTarget "HDiaryWidgetExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -509,6 +588,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A22C00000000000000000028 = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing"; requirement = {kind = exactVersion; version = 1.19.6; }; };
 		60E099262D93D3B800493EF6 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SFSafeSymbols/SFSafeSymbols";
@@ -520,6 +600,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A22C0000000000000000002B = {isa = XCSwiftPackageProductDependency; productName = HDiaryModel; };
+		A22C0000000000000000002A = {isa = XCSwiftPackageProductDependency; productName = HDiaryAppFeature; };
+		A22C00000000000000000029 = {isa = XCSwiftPackageProductDependency; package = A22C00000000000000000028; productName = SnapshotTesting; };
 		601EEFAD2B9D3E0E0073BA37 /* HDiaryConstants */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HDiaryConstants;

@@ -1,0 +1,25 @@
+{
+  "configurations": [
+    {
+      "id": "B98CED68-B427-4F61-B270-F1F4B8B18749",
+      "name": "Moment list snapshots",
+      "options": {}
+    }
+  ],
+  "defaultOptions": {
+    "codeCoverage": false,
+    "testLanguage": "zh-Hans",
+    "testRegion": "CN"
+  },
+  "testTargets": [
+    {
+      "parallelizable": false,
+      "target": {
+        "containerPath": "container:HDiary.xcodeproj",
+        "identifier": "A22C00000000000000000014",
+        "name": "HDiarySnapshotTests"
+      }
+    }
+  ],
+  "version": 1
+}

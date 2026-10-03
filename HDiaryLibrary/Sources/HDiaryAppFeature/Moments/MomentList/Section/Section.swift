@@ -19,6 +19,11 @@ extension MomentListScreen {
     @State private var isExpanded = false
     let momentGroup: InstanceGroup<Moment>
 
+    init(momentGroup: InstanceGroup<Moment>, initiallyExpanded: Bool = false) {
+      self.momentGroup = momentGroup
+      _isExpanded = State(initialValue: initiallyExpanded)
+    }
+
     var body: some View {
       DisclosureGroup(
         isExpanded: $isExpanded,

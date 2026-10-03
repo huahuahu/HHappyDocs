@@ -1,0 +1,68 @@
+name: iOS snapshots
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: snapshots-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  snapshots:
+    name: Moment list snapshots
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.5.app/Contents/Developer
+      # TEST_RUNNER_ forwards these values to the simulator test process.
+      TEST_RUNNER_HDIARY_RECORD_SNAPSHOTS: "0"
+      TEST_RUNNER_SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/SnapshotResults/Images
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Verify snapshot environment
+        run: |
+          xcodebuild -version
+          swift --version
+          xcrun simctl list devices available
+          mkdir -p SnapshotResults
+
+      - name: Compare moment list snapshots
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project HDiary.xcodeproj \
+            -scheme HDiary \
+            -configuration Debug \
+            -testPlan HDiarySnapshots \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.5' \
+            -parallel-testing-enabled NO \
+            -onlyUsePackageVersionsFromResolvedFile \
+            -derivedDataPath DerivedData/Snapshots \
+            -resultBundlePath SnapshotResults/MomentList.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            2>&1 | tee SnapshotResults/xcodebuild.log
+
+      - name: Export screenshot attachments
+        if: ${{ always() }}
+        run: |
+          if [ -d SnapshotResults/MomentList.xcresult ]; then
+            xcrun xcresulttool export attachments \
+              --path SnapshotResults/MomentList.xcresult \
+              --output-path SnapshotResults/Attachments
+          fi
+
+      - name: Upload snapshot results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: moment-list-snapshots
+          path: SnapshotResults/
+          if-no-files-found: warn
+          retention-days: 14

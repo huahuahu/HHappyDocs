@@ -29,6 +29,9 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
+            reference = "container:HDiary/HDiarySnapshots.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
             reference = "container:HDiary/HDiary.xctestplan"
             default = "YES">
          </TestPlanReference>
