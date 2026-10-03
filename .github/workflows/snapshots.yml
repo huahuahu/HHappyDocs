@@ -15,10 +15,10 @@ concurrency:
 jobs:
   snapshots:
     name: Moment list snapshots
-    runs-on: macos-26
-    timeout-minutes: 30
+    runs-on: xcode-27
+    timeout-minutes: 45
     env:
-      DEVELOPER_DIR: /Applications/Xcode_26.5.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_27.1_beta.app/Contents/Developer
       # TEST_RUNNER_ forwards these values to the simulator test process.
       TEST_RUNNER_HDIARY_RECORD_SNAPSHOTS: "0"
       TEST_RUNNER_SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/SnapshotResults/Images
@@ -29,9 +29,38 @@ jobs:
       - name: Verify snapshot environment
         run: |
           xcodebuild -version
+          test "$(xcodebuild -version | tail -1)" = 'Build version 27A9269'
           swift --version
           xcrun simctl list devices available
           mkdir -p SnapshotResults
+
+      - name: Cache iOS 26.5 runtime download
+        uses: actions/cache@v4
+        with:
+          path: SimulatorRuntimeDownloads
+          key: snapshot-runtime-ios-26.5-arm64
+
+      - name: Prepare snapshot simulator
+        run: |
+          mkdir -p SimulatorRuntimeDownloads
+          runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
+          if [ -z "$runtime_dmg" ]; then
+            xcodebuild -downloadPlatform iOS -buildVersion 26.5 \
+              -architectureVariant arm64 -exportPath SimulatorRuntimeDownloads
+            runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
+          fi
+          test -n "$runtime_dmg"
+          xcodebuild -importPlatform "$runtime_dmg"
+          snapshot_simulator_id="$(xcrun simctl create 'Snapshot iPhone 17 Pro' \
+            com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro \
+            com.apple.CoreSimulator.SimRuntime.iOS-26-5)"
+          echo "SNAPSHOT_SIMULATOR_ID=$snapshot_simulator_id" >> "$GITHUB_ENV"
+
+      - name: Cache SwiftPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: DerivedData/Snapshots/SourcePackages
+          key: snapshots-swiftpm-27A9269-${{ hashFiles('HDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
 
       - name: Compare moment list snapshots
         run: |
@@ -41,7 +70,7 @@ jobs:
             -scheme HDiary \
             -configuration Debug \
             -testPlan HDiarySnapshots \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.5' \
+            -destination "platform=iOS Simulator,id=$SNAPSHOT_SIMULATOR_ID" \
             -parallel-testing-enabled NO \
             -onlyUsePackageVersionsFromResolvedFile \
             -derivedDataPath DerivedData/Snapshots \

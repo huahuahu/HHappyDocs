@@ -26,6 +26,6 @@
 
 外层结构直接复用 App 的 TabView、Tab 标签和搜索修饰器。快照固定选中“乐事”；未选中的资料库和设置页使用空内容，不运行其业务逻辑。本测试覆盖列表页面与外层结构，不覆盖搜索交互、Tab 切换或系统状态栏。
 
-GitHub Actions 的 `iOS snapshots` 工作流在 push、pull request 和手动运行时执行同一 `HDiarySnapshots` 测试计划。CI 固定 macOS 26 runner、Xcode 26.5、iPhone 17 Pro / iOS 26.5，关闭并行测试和基准录制。依赖版本来自提交的 `Package.resolved`。本地当前使用 Xcode 27.1 Beta，CI 工具链首次比较需要单独验证；不要为了让 CI 变绿而自动录制或覆盖基准。
+GitHub Actions 的 `iOS snapshots` 工作流在 push、pull request 和手动运行时执行同一 `HDiarySnapshots` 测试计划。CI 使用 `xcode-27` runner，固定与本地相同的 Xcode 27.1 Beta（27A9269）、iPhone 17 Pro / iOS 26.5，关闭并行测试和基准录制。依赖版本来自提交的 `Package.resolved`。工作流检查 Xcode build 号，并下载、缓存和导入固定的 iOS 26.5 runtime。Xcode 26 的 DisclosureGroup 箭头样式与本地基准不同，因此不能用该工具链比较这一套图片。不要为了让 CI 变绿而自动录制或覆盖基准。
 
 运行结束后，在 Actions 的 `moment-list-snapshots` artifact 中下载 `xcodebuild.log`、可由 Xcode 打开的 `MomentList.xcresult`，以及截图附件。图片不匹配时包含 reference、actual 和 difference 附件，便于审核是否为预期的界面变化。报告保留 14 天。
