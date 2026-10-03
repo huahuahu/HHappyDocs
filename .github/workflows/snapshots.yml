@@ -54,6 +54,10 @@ jobs:
           snapshot_simulator_id="$(xcrun simctl create 'Snapshot iPhone 17 Pro' \
             com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro \
             com.apple.CoreSimulator.SimRuntime.iOS-26-5)"
+          # Match the accessibility setting used by the committed baselines.
+          mkdir -p "$HOME/Library/Developer/CoreSimulator/Devices/$snapshot_simulator_id/data/Library/Preferences"
+          defaults write "$HOME/Library/Developer/CoreSimulator/Devices/$snapshot_simulator_id/data/Library/Preferences/com.apple.Accessibility.plist" \
+            DifferentiateWithoutColor -bool YES
           echo "SNAPSHOT_SIMULATOR_ID=$snapshot_simulator_id" >> "$GITHUB_ENV"
 
       - name: Cache SwiftPM dependencies
@@ -72,6 +76,7 @@ jobs:
             -testPlan HDiarySnapshots \
             -destination "platform=iOS Simulator,id=$SNAPSHOT_SIMULATOR_ID" \
             -parallel-testing-enabled NO \
+            -collect-test-diagnostics never \
             -onlyUsePackageVersionsFromResolvedFile \
             -derivedDataPath DerivedData/Snapshots \
             -resultBundlePath SnapshotResults/MomentList.xcresult \
