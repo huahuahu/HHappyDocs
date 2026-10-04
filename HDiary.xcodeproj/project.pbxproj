@@ -35,6 +35,8 @@
 		60F100122E00000100000001 /* HDiaryWidgetFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100132E00000100000001 /* HDiaryWidgetFeature */; };
 		60F100142E00000100000001 /* HDiaryWidgetIntents in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100152E00000100000001 /* HDiaryWidgetIntents */; };
 		60F100182E00000100000001 /* HDiaryWidgetIntents in Frameworks */ = {isa = PBXBuildFile; productRef = 60F100192E00000100000001 /* HDiaryWidgetIntents */; };
+		A22C00000000000000000071 = {isa = PBXBuildFile; fileRef = A22C00000000000000000072; };
+		A22C00000000000000000073 = {isa = PBXBuildFile; fileRef = A22C00000000000000000074; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,7 +75,7 @@
         A22C00000000000000000065 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDiaryLibrary/Tests/SnapshotHost/SnapshotHostApp.swift; sourceTree = SOURCE_ROOT; };
         A22C00000000000000000066 = {isa = PBXFileReference; explicitFileType = wrapper.application; path = HDiarySnapshotHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A22C0000000000000000000B = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDiaryLibrary/Tests/HDiarySnapshotTests/MomentListSnapshotTests.swift; sourceTree = SOURCE_ROOT; };
-		A22C0000000000000000000C = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDiaryLibrary/Tests/HDiarySnapshotTests/MomentListFixtureTests.swift; sourceTree = SOURCE_ROOT; };
+		A22C0000000000000000000C = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDiaryLibrary/Tests/HDiarySnapshotTests/AllTagsSnapshotTests.swift; sourceTree = SOURCE_ROOT; };
 		A22C0000000000000000000D = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = HDiary/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
 		A22C0000000000000000000E = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HDiarySnapshotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		601133662A45759300837D72 /* HFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,8 @@
 		60A4E21A2A3DDCE3000E68A0 /* HDiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HDiaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A4E27B2A3DF197000E68A0 /* HUIComponent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HUIComponent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A4E27F2A3DF19E000E68A0 /* HLocalization.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HLocalization.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A22C00000000000000000072 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDiaryLibrary/Tests/HDiarySnapshotTests/ListSnapshotFixtures.swift; sourceTree = SOURCE_ROOT; };
+		A22C00000000000000000074 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDiaryLibrary/Tests/HDiarySnapshotTests/ListSnapshotConfiguration.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -179,7 +183,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A22C0000000000000000000F /* Snapshot unit tests */ = {isa = PBXGroup; children = (A22C00000000000000000065, A22C0000000000000000000B, A22C0000000000000000000C, A22C0000000000000000000D, ); name = "Snapshot unit tests"; sourceTree = "<group>"; };
+		A22C0000000000000000000F /* Snapshot unit tests */ = {isa = PBXGroup; children = (A22C00000000000000000074, A22C00000000000000000072, A22C00000000000000000065, A22C0000000000000000000B, A22C0000000000000000000C, A22C0000000000000000000D, ); name = "Snapshot unit tests"; sourceTree = "<group>"; };
 		60A4E1F32A3DDCE1000E68A0 = {
 			isa = PBXGroup;
 			children = (
@@ -404,7 +408,7 @@
 
 /* Begin PBXSourcesBuildPhase section */
         A22C00000000000000000068 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A22C00000000000000000067, ); runOnlyForDeploymentPostprocessing = 0; };
-		A22C00000000000000000015 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A22C00000000000000000001, A22C00000000000000000002, ); runOnlyForDeploymentPostprocessing = 0; };
+		A22C00000000000000000015 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A22C00000000000000000001, A22C00000000000000000073, A22C00000000000000000071, A22C00000000000000000002, ); runOnlyForDeploymentPostprocessing = 0; };
 		6072D39F2A6161DB0020B7AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;

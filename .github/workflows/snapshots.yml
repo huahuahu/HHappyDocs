@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   snapshots:
-    name: Moment list snapshots
+    name: List snapshots
     runs-on: xcode-27
     timeout-minutes: 45
     env:
@@ -82,7 +82,7 @@ jobs:
           path: DerivedData/Snapshots/SourcePackages
           key: snapshots-swiftpm-27A9269-${{ hashFiles('HDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
 
-      - name: Compare moment list snapshots
+      - name: Compare list snapshots
         run: |
           set -o pipefail
           xcodebuild test \
@@ -95,16 +95,16 @@ jobs:
             -collect-test-diagnostics never \
             -onlyUsePackageVersionsFromResolvedFile \
             -derivedDataPath DerivedData/Snapshots \
-            -resultBundlePath SnapshotResults/MomentList.xcresult \
+            -resultBundlePath SnapshotResults/Lists.xcresult \
             CODE_SIGNING_ALLOWED=NO \
             2>&1 | tee SnapshotResults/xcodebuild.log
 
       - name: Export screenshot attachments
         if: ${{ always() }}
         run: |
-          if [ -d SnapshotResults/MomentList.xcresult ]; then
+          if [ -d SnapshotResults/Lists.xcresult ]; then
             xcrun xcresulttool export attachments \
-              --path SnapshotResults/MomentList.xcresult \
+              --path SnapshotResults/Lists.xcresult \
               --output-path SnapshotResults/Attachments
           fi
 
@@ -112,7 +112,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v6
         with:
-          name: moment-list-snapshots
+          name: list-snapshots
           path: SnapshotResults/
           if-no-files-found: warn
           retention-days: 14
