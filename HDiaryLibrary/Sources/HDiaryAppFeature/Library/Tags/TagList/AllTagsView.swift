@@ -100,25 +100,4 @@ struct AllTagsView: View {
   }
 }
 
-#if DEBUG
-  #Preview("non-empty") { @MainActor in
-//    let container = HDiaryContai/*n*/er.inMemoryPreviewContainer
-    return NavigationStack {
-      AllTagsView()
-        .modelContainer(HDiaryContainer.inMemoryPreviewContainer)
-        .navigationTitle(Text(verbatim: "Tags"))
-        .toolbarTitleDisplayMode(.inline)
-    }
-  }
-
-  #Preview("empty") { @MainActor in
-    return NavigationStack {
-      AllTagsView()
-        .modelContainer(HDiaryContainer.inMemoryEmptyPreviewContainer)
-        .navigationTitle(Text(verbatim: "Tags"))
-        .toolbarTitleDisplayMode(.inline)
-    }
-  }
-#endif
-
 #endif
