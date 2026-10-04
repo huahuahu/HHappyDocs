@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1610"
+   LastUpgradeVersion = "2710"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "YES">
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -14,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "60A4E1FB2A3DDCE1000E68A0"
-               BuildableName = "HDiary.app"
-               BlueprintName = "HDiary"
+               BlueprintIdentifier = "A22C00000000000000000064"
+               BuildableName = "HDiarySnapshotHost.app"
+               BlueprintName = "HDiarySnapshotHost"
                ReferencedContainer = "container:HDiary.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,58 +30,32 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:HDiary/HDiary.xctestplan"
+            reference = "container:HDiarySnapshotTests/HDiarySnapshots.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "60A4E2192A3DDCE3000E68A0"
-               BuildableName = "HDiaryUITests.xctest"
-               BlueprintName = "HDiaryUITests"
-               ReferencedContainer = "container:HDiary.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = "zh-Hans"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      queueDebuggingEnabled = "No">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "60A4E1FB2A3DDCE1000E68A0"
-            BuildableName = "HDiary.app"
-            BlueprintName = "HDiary"
+            BlueprintIdentifier = "A22C00000000000000000064"
+            BuildableName = "HDiarySnapshotHost.app"
+            BlueprintName = "HDiarySnapshotHost"
             ReferencedContainer = "container:HDiary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "-com.apple.CoreData.ConcurrencyDebug 1 "
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-com.apple.CoreData.SQLDebug 1 "
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
-      <StoreKitConfigurationFileReference
-         identifier = "../HDiary/IAP/HDiary.storekit">
-      </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -92,9 +67,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "60A4E1FB2A3DDCE1000E68A0"
-            BuildableName = "HDiary.app"
-            BlueprintName = "HDiary"
+            BlueprintIdentifier = "A22C00000000000000000064"
+            BuildableName = "HDiarySnapshotHost.app"
+            BlueprintName = "HDiarySnapshotHost"
             ReferencedContainer = "container:HDiary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
