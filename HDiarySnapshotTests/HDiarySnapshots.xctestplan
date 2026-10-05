@@ -8,6 +8,11 @@
   ],
   "defaultOptions": {
     "codeCoverage": false,
+    "targetForVariableExpansion": {
+      "containerPath": "container:HDiary.xcodeproj",
+      "identifier": "A22C00000000000000000064",
+      "name": "HDiarySnapshotHost"
+    },
     "testLanguage": "zh-Hans",
     "testRegion": "CN"
   },
@@ -25,17 +30,10 @@
       "selectedTests": {
         "suites": [
           {
-            "name": "AllTagsFixtureTests",
-            "testFunctions": [
-              "isolatesScenarios()",
-              "preservesMomentCounts()"
-            ]
+            "name": "AllTagsFixtureTests"
           },
           {
-            "name": "MomentListFixtureTests",
-            "testFunctions": [
-              "isolatesScenarios()"
-            ]
+            "name": "MomentListFixtureTests"
           }
         ],
         "xctestClasses": [

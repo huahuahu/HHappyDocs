@@ -10,7 +10,7 @@
   }
 
   /// 定义持久化快照并报告内容是否变化的能力。
-  protocol WidgetSnapshotWriting: Sendable {
+  nonisolated protocol WidgetSnapshotWriting: Sendable {
     func replace(with snapshot: WidgetSnapshotValue) async throws -> Bool
   }
 

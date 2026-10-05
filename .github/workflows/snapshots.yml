@@ -18,7 +18,7 @@ jobs:
     runs-on: xcode-27
     timeout-minutes: 45
     env:
-      DEVELOPER_DIR: /Applications/Xcode_27.1_beta.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
       # TEST_RUNNER_ forwards these values to the simulator test process.
       TEST_RUNNER_HDIARY_RECORD_SNAPSHOTS: "0"
       TEST_RUNNER_SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/SnapshotResults/Images
@@ -27,12 +27,18 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Verify snapshot environment
+        id: snapshot-environment
         run: |
-          xcodebuild -version
-          test "$(xcodebuild -version | tail -1)" = 'Build version 27A9269'
+          set -o pipefail
+          mkdir -p SnapshotResults
+          xcodebuild -version | tee SnapshotResults/xcode-version.txt
+          # 固定公开版本；具体 build 只用于记录和缓存隔离，不作为通过条件。
+          snapshot_xcode_version="$(awk '/^Xcode / {print $2}' SnapshotResults/xcode-version.txt)"
+          test "$snapshot_xcode_version" = '27.1'
+          snapshot_xcode_build="$(awk '/^Build version / {print $3}' SnapshotResults/xcode-version.txt)"
+          printf 'xcode-build=%s\n' "$snapshot_xcode_build" >> "$GITHUB_OUTPUT"
           swift --version
           xcrun simctl list devices available
-          mkdir -p SnapshotResults
 
       - name: Cache iOS 26.5 runtime download
         uses: actions/cache@v5
@@ -42,52 +48,43 @@ jobs:
 
       - name: Prepare snapshot simulator
         run: |
+          # 查找上一步缓存恢复的 runtime 安装包；缓存保存的是 DMG 文件。
           mkdir -p SimulatorRuntimeDownloads
           runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
           if [ -z "$runtime_dmg" ]; then
+            # 没有缓存时，下载固定的 iOS 26.5 / arm64 系统镜像，并找到下载后的文件。
             xcodebuild -downloadPlatform iOS -buildVersion 26.5 \
               -architectureVariant arm64 -exportPath SimulatorRuntimeDownloads
             runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
           fi
+          # 确认已找到安装包；找不到时让该步骤失败，避免继续创建模拟器。
           test -n "$runtime_dmg"
+
+          # 将 DMG 导入当前 runner 的模拟器运行环境；有安装包不代表 runtime 已安装。
+          # 当前每次都会导入，尚未检查同版本 runtime 是否已经安装且可用。
           xcodebuild -importPlatform "$runtime_dmg"
+
+          # 使用指定型号和 runtime 新建设备，隔离每次测试的 App 数据和设置。
+          # create 返回设备 UUID；这里只创建，后续 xcodebuild test 会负责启动设备。
           snapshot_simulator_id="$(xcrun simctl create 'Snapshot iPhone 17 Pro' \
             com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro \
             com.apple.CoreSimulator.SimRuntime.iOS-26-5)"
-          # Match the accessibility setting used by the committed baselines.
-          # Write the file directly: host defaults/cfprefsd can defer absolute-path writes.
-          python3 - "$snapshot_simulator_id" <<'PY'
-          import plistlib
-          import sys
-          from pathlib import Path
-          preferences = Path.home() / "Library/Developer/CoreSimulator/Devices" / sys.argv[1] / "data/Library/Preferences/com.apple.Accessibility.plist"
-          preferences.parent.mkdir(parents=True, exist_ok=True)
-          values = plistlib.loads(preferences.read_bytes()) if preferences.exists() else {}
-          expected = {
-              "DifferentiateWithoutColor": True,
-              "AccessibilityEnabled": True,
-              "AXSDidResetD22Preferences": True,
-          }
-          values.update(expected)
-          preferences.write_bytes(plistlib.dumps(values))
-          actual = plistlib.loads(preferences.read_bytes())
-          assert all(actual[key] == value for key, value in expected.items())
-          print("Verified snapshot accessibility preferences:", expected)
-          PY
+
+          # 将 UUID 传给后续 Actions 步骤，确保截图测试选择这台新设备。
           echo "SNAPSHOT_SIMULATOR_ID=$snapshot_simulator_id" >> "$GITHUB_ENV"
 
       - name: Cache SwiftPM dependencies
         uses: actions/cache@v5
         with:
           path: DerivedData/Snapshots/SourcePackages
-          key: snapshots-swiftpm-27A9269-${{ hashFiles('HDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          key: snapshots-swiftpm-${{ steps.snapshot-environment.outputs.xcode-build }}-${{ hashFiles('HDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
 
       - name: Compare list snapshots
         run: |
           set -o pipefail
           xcodebuild test \
             -project HDiary.xcodeproj \
-            -scheme HDiary \
+            -scheme HDiarySnapshotHost \
             -configuration Debug \
             -testPlan HDiarySnapshots \
             -destination "platform=iOS Simulator,id=$SNAPSHOT_SIMULATOR_ID" \
