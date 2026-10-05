@@ -34,6 +34,9 @@
           },
           {
             "name": "MomentListFixtureTests"
+          },
+          {
+            "name": "TagDetailFixtureTests"
           }
         ],
         "xctestClasses": [

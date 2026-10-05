@@ -38,17 +38,35 @@ struct MomentItemView: View {
   }
 
   private var bottomView: some View {
-    HStack {
-      HRatingView(
-        model: HRatingModel(onColor: .accentColor),
-        rating: .constant(HRating(rawValue: moment.rating))
-      )
-      .allowsHitTesting(false)
-      .scaleEffect(0.65, anchor: .leading)
-      Spacer()
-      Text(moment.timestamp, style: .date)
-        .font(.caption)
+    ViewThatFits(in: .horizontal) {
+      HStack {
+        ratingView
+        Spacer(minLength: 8)
+        dateView
+          .fixedSize(horizontal: true, vertical: false)
+      }
+      VStack(alignment: .leading, spacing: 4) {
+        ratingView
+        dateView
+          .fixedSize(horizontal: false, vertical: true)
+      }
     }
+    .frame(maxWidth: .infinity, alignment: .leading)
+  }
+
+  private var ratingView: some View {
+    HRatingView(
+      model: HRatingModel(onColor: .accentColor),
+      rating: .constant(HRating(rawValue: moment.rating))
+    )
+    .font(.caption)
+    .fixedSize()
+    .allowsHitTesting(false)
+  }
+
+  private var dateView: some View {
+    Text(moment.timestamp, style: .date)
+      .font(.caption)
   }
 }
 

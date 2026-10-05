@@ -94,35 +94,4 @@ private struct TageDetailInnerView: View {
   }
 }
 
-#if DEBUG
-  #Preview("has moments") {
-    let container = HDiaryContainer.inMemoryPreviewContainer
-    let tag: Tag = {
-      let tag = try? container.mainContext.fetch(FetchDescriptor<Tag>()).first
-      tag?.comments = "This is a tag"
-      return tag!
-    }()
-
-    NavigationStack {
-      TagDetailView(tag: tag)
-        .modelContainer(container)
-    }
-  }
-
-  #Preview("No moments") {
-    let container = HDiaryContainer.inMemoryPreviewContainer
-    let tag: Tag = {
-      let tag = try? container.mainContext.fetch(FetchDescriptor<Tag>()).first
-      tag?.comments = ""
-      return tag!
-    }()
-
-    NavigationStack {
-      TagDetailView(tag: tag)
-        .modelContainer(container)
-    }
-  }
-
-#endif
-
 #endif
