@@ -10,6 +10,7 @@
 
     let moments: [MomentListPreviewScenario: MomentListPreviewFixture]
     let tags: [AllTagsPreviewScenario: AllTagsPreviewFixture]
+    let tagDetails: [TagDetailPreviewScenario: TagDetailPreviewFixture]
 
     private init() throws {
       moments = try Dictionary(uniqueKeysWithValues: MomentListPreviewScenario.allCases.map {
@@ -17,6 +18,9 @@
       })
       tags = try Dictionary(uniqueKeysWithValues: AllTagsPreviewScenario.allCases.map {
         try ($0, AllTagsPreviewFixture(scenario: $0))
+      })
+      tagDetails = try Dictionary(uniqueKeysWithValues: TagDetailPreviewScenario.allCases.map {
+        try ($0, TagDetailPreviewFixture(scenario: $0))
       })
     }
   }

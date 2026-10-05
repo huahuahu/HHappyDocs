@@ -10,7 +10,8 @@
 
     static func image<V: View>(
       style: UIUserInterfaceStyle = .light,
-      contentSize: UIContentSizeCategory = .large
+      contentSize: UIContentSizeCategory = .large,
+      width: CGFloat = 402
     ) -> Snapshotting<V, UIImage> {
       let traits = UITraitCollection {
         $0.userInterfaceStyle = style
@@ -19,7 +20,7 @@
       }
       let config = ViewImageConfig(
         safeArea: UIEdgeInsets(top: 62, left: 0, bottom: 34, right: 0),
-        size: CGSize(width: 402, height: 874), traits: traits
+        size: CGSize(width: width, height: 874), traits: traits
       )
       // System glass shadows vary by 1–2 RGB levels across local and CI renders.
       // Check every pixel; tolerate only the previously measured perceptual noise.

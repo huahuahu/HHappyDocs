@@ -144,6 +144,7 @@
 		A22C0000000000000000007A /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Assets.xcassets,
 				Localizable.xcstrings,
 			);
 			target = A22C00000000000000000064 /* HDiarySnapshotHost */;
@@ -580,6 +581,9 @@
 			baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB /* HDiary */;
 			baseConfigurationReferenceRelativePath = "Configs/app-debug.xcconfig";
 			buildSettings = {
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 			};
 			name = Debug;
 		};
@@ -588,6 +592,9 @@
 			baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB /* HDiary */;
 			baseConfigurationReferenceRelativePath = "Configs/app-release.xcconfig";
 			buildSettings = {
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 			};
 			name = Release;
 		};
@@ -646,6 +653,7 @@
 			baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB /* HDiary */;
 			baseConfigurationReferenceRelativePath = Configs/debug.xcconfig;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -662,6 +670,7 @@
 			baseConfigurationReferenceAnchor = 60F3DCB92CDDF1AF00C05BFB /* HDiary */;
 			baseConfigurationReferenceRelativePath = Configs/release.xcconfig;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
