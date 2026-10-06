@@ -48,7 +48,7 @@ struct ParticipantDetailView: View {
 private struct ParticipantDetailInnerView: View {
   let participant: Participant
 
-  @ScaledMetric private var avatarSize = Design.Avatar.size
+  @ScaledMetric(relativeTo: .body) private var avatarSize = 64.0
   @ScaledMetric private var spacing = 20
 
   var body: some View {
@@ -63,10 +63,10 @@ private struct ParticipantDetailInnerView: View {
   private var profileSection: some View {
     VStack(alignment: .leading) {
       HStack(alignment: .top, spacing: spacing) {
-        AvatarImageView(
+        ParticipantAvatarView(
+          participant: participant,
           size: avatarSize,
-          image: participant.getAvatarImage(),
-          supportPreview: true
+          supportsPreview: true
         )
         VStack(alignment: .leading) {
           Text(participant.nickName)
@@ -90,7 +90,7 @@ private struct ParticipantDetailInnerView: View {
 
   @ViewBuilder
   private var momentSection: some View {
-    if let moments = participant.moments, !moments.isEmpty {
+    if !moments.isEmpty {
       Section {
         ForEach(moments) { moment in
           MomentNavigationLink(moment: moment) {
@@ -103,6 +103,10 @@ private struct ParticipantDetailInnerView: View {
         Text(DiaryStringKey.moments)
       }
     }
+  }
+
+  private var moments: [Moment] {
+    participant.moments?.sorted { $0.timestamp > $1.timestamp } ?? []
   }
 
   private var deleteSection: some View {

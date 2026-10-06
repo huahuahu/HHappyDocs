@@ -232,6 +232,15 @@ public enum DiaryStringKey {
   public static let participantNote = LocalizedStringResource("library.participant.note", defaultValue: "note", bundle: .module, comment: "Used when need show participant's note")
 
   enum Participant {
+    static let viewAvatar = LocalizedStringResource(
+      "participant.viewAvatar", defaultValue: "View avatar", bundle: .module,
+      comment: "Accessibility label for the button that previews a participant's avatar"
+    )
+
+    public static func textForTotalParticipantCount(_ count: Int) -> LocalizedStringResource {
+      LocalizedStringResource("\(count) participants", bundle: .module, comment: "Number of participants above the participant grid")
+    }
+
     public static func messageWhenDeletingParticipant(with nickName: String) -> LocalizedStringResource {
       LocalizedStringResource(
         "participant.delete.message",

@@ -36,6 +36,12 @@
             "name": "MomentListFixtureTests"
           },
           {
+            "name": "ParticipantAvatarImageTests"
+          },
+          {
+            "name": "ParticipantAvatarLoaderTests"
+          },
+          {
             "name": "TagDetailFixtureTests"
           }
         ],
