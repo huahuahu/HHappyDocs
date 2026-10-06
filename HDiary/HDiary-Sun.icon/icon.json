@@ -1,0 +1,85 @@
+{
+  "fill" : {
+    "solid" : "extended-srgb:1.00000,0.92157,0.69412,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "04-ink.svg",
+          "name" : "04 表情与轮廓"
+        }
+      ],
+      "name" : "04 表情与轮廓",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0
+      }
+    },
+    {
+      "layers" : [
+        {
+          "glass" : false,
+          "image-name" : "03-cheeks.svg",
+          "name" : "03 腮红"
+        }
+      ],
+      "name" : "03 腮红",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0
+      }
+    },
+    {
+      "blur-material" : null,
+      "hidden" : false,
+      "layers" : [
+        {
+          "glass" : true,
+          "image-name" : "02-sun.svg",
+          "name" : "02 太阳"
+        }
+      ],
+      "name" : "02 太阳",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.15
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "layers" : [
+        {
+          "glass" : false,
+          "image-name" : "01-rays.svg",
+          "name" : "01 光芒"
+        }
+      ],
+      "name" : "01 光芒",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : "shared"
+  }
+}
