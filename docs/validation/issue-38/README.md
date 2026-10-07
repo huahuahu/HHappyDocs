@@ -8,18 +8,19 @@
 | --- | --- |
 | 乐事列表加号停留顶部 | 自定义菜单带有转场修饰，不能仅依赖 `.primaryAction` 推断竖向表现；在 iOS 27.1+ 对整个 toolbar item 指定 `.axisBehavior(.verticalPreferred)`，保留菜单和缩放转场。 |
 | 详情参与者行与侧栏重叠 | 原来是嵌套的横向滚动行；改为按容器可用宽度换行的 `HFlowLayout`，保留每位参与者的详情入口，无需固定侧栏宽度或设备判断。 |
-| 参与者列表的添加按钮停留顶部 | 原按钮只有文字，系统按规则将其留在水平栏；改为同时提供本地化标题和 plus 图标的 `Label`，让系统选择竖向图标表现。 |
+| 参与者列表的添加按钮停留顶部 | 原按钮只有文字，系统按规则将其留在水平栏；iOS 27.1+ 改为同时提供本地化标题和 plus 图标的 `Label`，让系统选择竖向图标表现；旧系统保留文字按钮。 |
+| 参与者编辑页的确认按钮停留顶部 | 保留 `.confirmationAction`，在 iOS 27.1+ 为按钮提供 checkmark 图标，使其支持右侧竖栏；旧系统保留文字按钮，保存逻辑不变。 |
 | Duo 竖屏侧栏布局中，顶部标题随滚动收起的行为不同 | 原来各页使用 `.automatic`，其行为受 `.searchable` 配置影响。现在在 `toolbarVerticalEdge` 非空时统一使用 `.toolbarMinimizationBehavior(.onScrollDown, for: .navigationBar)`，顶部标题随上滑收起、下滑恢复，右侧按钮保持固定；普通水平导航栏仍使用系统默认策略。内容必须足够长、可以滚动才能观察这一行为。 |
 
 依据：[Apple Duo 工具栏讲解](https://developer.apple.com/videos/play/tech-talks/111462/)、[axisBehavior](https://developer.apple.com/documentation/swiftui/toolbarcontent/axisbehavior(_:))、[默认导航栏收起行为](https://developer.apple.com/documentation/swiftui/toolbarminimizationbehavior/automatic)。
 
 ## 保留范围与撤回项
 
-按必要性逐项收窄后，源码从 19 个文件、215 行新增/93 行删除，缩减为 10 个文件、61 行新增/17 行删除。
+2026-10-06 按必要性逐项收窄后，源码从 19 个文件、215 行新增/93 行删除，缩减为 10 个文件、61 行新增/17 行删除。2026-10-07 补充上述参与者确认按钮，并将工具栏图标限定在 iOS 27.1+，保留旧系统外观。
 
 除上述四处修复外，仅保留：
 
-- 编辑器取消、确认按钮使用带图标的 `Label`，确认按钮使用 `.confirmationAction`，支持 Duo 竖向工具栏的系统呈现；不改保存逻辑。
+- 编辑器取消、确认按钮在 iOS 27.1+ 使用带图标的 `Label`，确认按钮使用 `.confirmationAction`，支持 Duo 竖向工具栏的系统呈现；不改保存逻辑。
 - 隐私、条款页面只忽略上下安全区，保留 Duo 侧边栏需要的横向安全区。
 
 已撤回缺少必要 Duo 适配依据的改动：详情 `GeometryReader`、图片高度公式和 820pt 正文宽度；图片填充改为适应；列表标题行数、缩略图裁切；编辑器多行标题、正文高度、日期标签、键盘按钮、参与者换行和固定缩略图尺寸；评分样式、触控和辅助功能改造；没有业务调用的 `ZoomImageView` 修改；相关本地化与临时测试标识。
@@ -33,6 +34,8 @@
 ## 构建与静态检查
 
 沿用原有的数据编辑和保存方式；独立草稿、保存失败恢复及对应测试已按要求移除。收窄后的源码已于 2026-10-06 22:41 CST 通过原生 Xcode `BuildProject`（18.313 秒，0 错误），使用共享配置的 `HDiary` scheme 与 `hdiary 17pro` 目标。22:14 的构建只对应收窄前版本。
+
+2026-10-07 的参与者确认按钮及旧系统兼容修改已于 10:08 CST 通过原生 Xcode `BuildProject`（8.233 秒，0 错误）。此前远端应用构建与测试已在 Xcode 27.1 通过；截图 CI 的六个参与者场景因“添加”文字变成 plus 图标失败，因此保留 iOS 26.5 的文字分支。没有修改截图基准或比较容差；修复后的截图结果另行验证。
 
 `git diff --check` 通过。本机 SwiftLint 为 0.63.3，仓库配置锁定 0.58.0；用只去掉版本锁的临时配置检查剩余 10 个源码文件，发现的 7 项违规与 HEAD 基线逐项一致，无新增违规。不能将其称为仓库原配置严格 lint 通过。
 

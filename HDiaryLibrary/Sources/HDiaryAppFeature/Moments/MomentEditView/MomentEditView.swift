@@ -173,7 +173,12 @@ struct MomentEditInnerView: View {
         }
         dismiss()
       } label: {
-        Label { Text(DiaryStringKey.Common.cancel) } icon: { Image(systemName: "xmark") }
+        if #available(iOS 27.1, *) {
+          Label { Text(DiaryStringKey.Common.cancel) } icon: { Image(systemName: "xmark") }
+        }
+        else {
+          Text(DiaryStringKey.Common.cancel)
+        }
       }
     }
 
@@ -183,7 +188,12 @@ struct MomentEditInnerView: View {
         onMomentAdded(moment)
         self.taskFinished = true
       }, label: {
-        Label { Text(confirmButtonLabel) } icon: { Image(systemName: "checkmark") }
+        if #available(iOS 27.1, *) {
+          Label { Text(confirmButtonLabel) } icon: { Image(systemName: "checkmark") }
+        }
+        else {
+          Text(confirmButtonLabel)
+        }
       })
       .sensoryFeedback(.success, trigger: taskFinished)
     }

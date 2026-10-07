@@ -30,10 +30,15 @@
         Button(action: {
           isAdding = true
         }, label: {
-          Label {
+          if #available(iOS 27.1, *) {
+            Label {
+              Text(DiaryStringKey.add)
+            } icon: {
+              Image(systemName: "plus")
+            }
+          }
+          else {
             Text(DiaryStringKey.add)
-          } icon: {
-            Image(systemName: "plus")
           }
         })
       }
