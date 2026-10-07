@@ -164,9 +164,18 @@ jobs:
             --last 30m --style compact \
             --predicate 'process == "testmanagerd" OR process == "HDiarySnapshotHost" OR process == "xctest" OR process == "runningboardd"'
 
+      - name: Stop snapshot simulator
+        if: ${{ always() && env.SNAPSHOT_SIMULATOR_ID != '' }}
+        timeout-minutes: 2
+        continue-on-error: true
+        # 测试和诊断结束后释放模拟器资源，避免后台系统进程继续拖慢结果导出和上传。
+        run: xcrun simctl shutdown "$SNAPSHOT_SIMULATOR_ID"
+
       - name: Export screenshot attachments
         if: ${{ always() }}
         timeout-minutes: 2
+        # 辅助导出失败时仍上传原始 xcresult；测试步骤和结果上传继续决定 job 是否失败。
+        continue-on-error: true
         run: |
           if [ -d SnapshotResults/Lists.xcresult ]; then
             xcrun xcresulttool export attachments \
@@ -176,6 +185,7 @@ jobs:
 
       - name: Upload snapshot results
         if: ${{ always() }}
+        timeout-minutes: 5
         uses: actions/upload-artifact@v6
         with:
           name: list-snapshots-${{ matrix.device }}
