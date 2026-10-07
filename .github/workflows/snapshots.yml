@@ -185,7 +185,7 @@ jobs:
 
       - name: Upload snapshot results
         if: ${{ always() }}
-        timeout-minutes: 5
+        timeout-minutes: 15
         uses: actions/upload-artifact@v6
         with:
           name: list-snapshots-${{ matrix.device }}
