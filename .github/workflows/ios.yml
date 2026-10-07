@@ -32,6 +32,13 @@ jobs:
           swift --version
           xcrun simctl list devices available
 
+      - name: Create test simulator
+        run: |
+          simulator_id="$(xcrun simctl create 'CI iPhone 17 Pro' \
+            com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro \
+            com.apple.CoreSimulator.SimRuntime.iOS-27-0)"
+          echo "IOS_SIMULATOR_ID=$simulator_id" >> "$GITHUB_ENV"
+
       - name: Cache SwiftPM dependencies
         uses: actions/cache@v5
         with:
@@ -44,7 +51,7 @@ jobs:
             -project HDiary.xcodeproj \
             -scheme HDiary \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" \
             -derivedDataPath DerivedData/iOS \
             -onlyUsePackageVersionsFromResolvedFile \
             CODE_SIGN_IDENTITY="-" \
@@ -58,7 +65,7 @@ jobs:
             -project HDiary.xcodeproj \
             -scheme HDiary \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" \
             -derivedDataPath DerivedData/iOS \
             -onlyUsePackageVersionsFromResolvedFile \
             CODE_SIGN_IDENTITY="-"
@@ -69,7 +76,7 @@ jobs:
             -project HDiary.xcodeproj \
             -scheme HDiary \
             -configuration Release \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" \
             -derivedDataPath DerivedData/iOS \
             -onlyUsePackageVersionsFromResolvedFile \
             CODE_SIGN_IDENTITY="-" \
