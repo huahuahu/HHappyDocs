@@ -101,7 +101,7 @@ jobs:
           '
 
           # 使用指定型号和 runtime 新建设备，隔离每次测试的 App 数据和设置。
-          # create 返回设备 UUID；这里只创建，后续 xcodebuild test 会负责启动设备。
+          # 创建和启动分开记录，避免将模拟器启动等待误认为截图测试卡住。
           snapshot_simulator_id="$(xcrun simctl create 'Snapshot ${{ matrix.device }}' \
             'com.apple.CoreSimulator.SimDeviceType.${{ matrix.model }}' \
             "$SNAPSHOT_RUNTIME_ID")"
@@ -115,25 +115,54 @@ jobs:
           path: DerivedData/Snapshots/SourcePackages
           key: snapshots-swiftpm-${{ steps.snapshot-environment.outputs.xcode-build }}-${{ hashFiles('Package.resolved', 'HDiaryLibrary/Package.swift', 'HSharedCode/Package.swift') }}
 
-      - name: Compare list snapshots
+      - name: Boot snapshot simulator
         run: |
-          set -o pipefail
-          xcodebuild test \
+          python3 scripts/ci-snapshot-phase.py boot 300 \
+            xcrun simctl bootstatus "$SNAPSHOT_SIMULATOR_ID" -b
+
+      - name: Build snapshot tests
+        run: |
+          python3 scripts/ci-snapshot-phase.py build 720 \
+            xcodebuild build-for-testing \
             -project HDiary.xcodeproj \
             -scheme HDiarySnapshotHost \
             -configuration Debug \
             -testPlan HDiarySnapshots \
             -destination "platform=iOS Simulator,id=$SNAPSHOT_SIMULATOR_ID" \
             -parallel-testing-enabled NO \
-            -collect-test-diagnostics never \
+            -onlyUsePackageVersionsFromResolvedFile \
+            -derivedDataPath DerivedData/Snapshots \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run snapshot tests
+        run: |
+          # 在 job 的 45 分钟上限前终止异常等待，为诊断和 artifact 上传留出时间。
+          python3 scripts/ci-snapshot-phase.py test 1200 \
+            xcodebuild test-without-building \
+            -project HDiary.xcodeproj \
+            -scheme HDiarySnapshotHost \
+            -configuration Debug \
+            -testPlan HDiarySnapshots \
+            -destination "platform=iOS Simulator,id=$SNAPSHOT_SIMULATOR_ID" \
+            -parallel-testing-enabled NO \
+            -collect-test-diagnostics on-failure \
             -onlyUsePackageVersionsFromResolvedFile \
             -derivedDataPath DerivedData/Snapshots \
             -resultBundlePath SnapshotResults/Lists.xcresult \
-            CODE_SIGNING_ALLOWED=NO \
-            2>&1 | tee SnapshotResults/xcodebuild.log
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Collect simulator logs on failure
+        if: ${{ failure() && env.SNAPSHOT_SIMULATOR_ID != '' }}
+        timeout-minutes: 2
+        run: |
+          python3 scripts/ci-snapshot-phase.py simulator-log 60 \
+            xcrun simctl spawn "$SNAPSHOT_SIMULATOR_ID" log show \
+            --last 30m --style compact \
+            --predicate 'process == "testmanagerd" OR process == "HDiarySnapshotHost" OR process == "xctest" OR process == "runningboardd"'
 
       - name: Export screenshot attachments
         if: ${{ always() }}
+        timeout-minutes: 2
         run: |
           if [ -d SnapshotResults/Lists.xcresult ]; then
             xcrun xcresulttool export attachments \
