@@ -1,25 +1,27 @@
-function buildScheme {
-    set -e
+#!/bin/bash
 
-    scheme=$1
-    onlyIOS=$2
-    destinationIOS="\"platform=iOS Simulator,name=iPhone 17 Pro\""
-    destinationMac="'platform=macOS,arch=x86_64'"
-
-    destination1="-destination $destinationIOS -destination $destinationMac"
-
-    if [ "$onlyIOS" = "--only-ios" ]; then
-        destination1="-destination $destinationIOS"
+# Keep the sourced buildScheme API as well as supporting direct execution.
+function buildScheme() (
+    set -euo pipefail
+    if [[ -n "${ZSH_VERSION:-}" ]]; then
+        helper_path="${(%):-%x}"
+    else
+        helper_path="${BASH_SOURCE[0]}"
     fi
-    
-    project="HDiary.xcodeproj"
-    command="xcodebuild -project $project"
-    command="$command -scheme $scheme"
-    command="$command -configuration Debug"
-    command="$command $destination1"
-    command="$command CODE_SIGN_IDENTITY=\"-\""
-    command="$command build"
-    echo $command
+    repo_root="$(cd "$(dirname "$helper_path")/.." && pwd)"
+    "$repo_root/scripts/generate-project.sh"
+    destinations=(-destination "${HDIARY_DESTINATION:-platform=iOS Simulator,name=iPhone 17 Pro}")
+    if [[ "${2:-}" != "--only-ios" ]]; then
+        destinations+=(-destination 'platform=macOS,arch=x86_64')
+    fi
+    xcodebuild -project "$repo_root/HDiary.xcodeproj" \
+        -scheme "${1:-HDiary}" -configuration "${CONFIGURATION:-Debug}" \
+        "${destinations[@]}" -onlyUsePackageVersionsFromResolvedFile \
+        CODE_SIGN_IDENTITY="-" build
+)
 
-    eval $command
-}
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+    if [[ "$ZSH_EVAL_CONTEXT" == toplevel ]]; then buildScheme "$@"; fi
+elif [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    buildScheme "$@"
+fi

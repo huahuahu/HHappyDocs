@@ -15,7 +15,14 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v5
 
+      - name: Install pinned XcodeGen
+        run: ./scripts/install-xcodegen.sh
+
+      - name: Generate and verify Xcode project
+        run: python3 scripts/verify-project-generation.py
+
       - name: Select latest Xcode
+        id: xcode
         run: |
           latest_xcode="/Applications/Xcode.app"
           if [ ! -d "${latest_xcode}" ]; then
@@ -24,8 +31,15 @@ jobs:
           echo "Using ${latest_xcode}"
           sudo xcode-select -s "${latest_xcode}/Contents/Developer"
           xcodebuild -version
+          echo "build=$(xcodebuild -version | awk '/Build version/ {print $3}')" >> "$GITHUB_OUTPUT"
           swift --version
           xcrun simctl list devices available
+
+      - name: Cache SwiftPM dependencies
+        uses: actions/cache@v5
+        with:
+          path: DerivedData/iOS/SourcePackages
+          key: ios-swiftpm-${{ steps.xcode.outputs.build }}-${{ hashFiles('Package.resolved', 'HDiaryLibrary/Package.swift', 'HSharedCode/Package.swift') }}
 
       - name: Build HDiary
         run: |
@@ -34,6 +48,8 @@ jobs:
             -scheme HDiary \
             -configuration Debug \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -derivedDataPath DerivedData/iOS \
+            -onlyUsePackageVersionsFromResolvedFile \
             CODE_SIGN_IDENTITY="-" \
             build
 
@@ -46,4 +62,18 @@ jobs:
             -scheme HDiary \
             -configuration Debug \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -derivedDataPath DerivedData/iOS \
+            -onlyUsePackageVersionsFromResolvedFile \
             CODE_SIGN_IDENTITY="-"
+
+      - name: Build Release configuration
+        run: |
+          xcodebuild \
+            -project HDiary.xcodeproj \
+            -scheme HDiary \
+            -configuration Release \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -derivedDataPath DerivedData/iOS \
+            -onlyUsePackageVersionsFromResolvedFile \
+            CODE_SIGN_IDENTITY="-" \
+            build

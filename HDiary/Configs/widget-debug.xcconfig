@@ -2,3 +2,4 @@
 #include "./widget.xcconfig"
 
 PRODUCT_BUNDLE_IDENTIFIER = com.tiger.suzhou.HDiary-Debug.HDiaryWidget
+CODE_SIGN_ENTITLEMENTS = HDiaryWidgetExtensionDebug.entitlements
