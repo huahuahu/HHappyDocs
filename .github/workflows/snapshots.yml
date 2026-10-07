@@ -76,14 +76,15 @@ jobs:
         run: |
           if [ '${{ steps.snapshot-environment.outputs.runtime-installed }}' != 'true' ]; then
             mkdir -p SimulatorRuntimeDownloads
-            runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
-            if [ -z "$runtime_dmg" ]; then
+            # 新版 runtime 的 exportedBundle 包含导入元数据，不能选择其内部 Restore/*.dmg。
+            runtime_package="$(find SimulatorRuntimeDownloads -maxdepth 1 \( -name '*.exportedBundle' -o -name '*.dmg' \) -print -quit)"
+            if [ -z "$runtime_package" ]; then
               xcodebuild -downloadPlatform iOS -buildVersion '${{ matrix.ios }}' \
                 -architectureVariant arm64 -exportPath SimulatorRuntimeDownloads
-              runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
+              runtime_package="$(find SimulatorRuntimeDownloads -maxdepth 1 \( -name '*.exportedBundle' -o -name '*.dmg' \) -print -quit)"
             fi
-            test -n "$runtime_dmg"
-            xcodebuild -importPlatform "$runtime_dmg"
+            test -n "$runtime_package"
+            xcodebuild -importPlatform "$runtime_package"
           fi
 
           # 使用指定型号和 runtime 新建设备，隔离每次测试的 App 数据和设置。
