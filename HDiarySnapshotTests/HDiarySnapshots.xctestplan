@@ -10,7 +10,7 @@
     "codeCoverage": false,
     "targetForVariableExpansion": {
       "containerPath": "container:HDiary.xcodeproj",
-      "identifier": "A22C00000000000000000064",
+      "identifier": "FA0EC0AF856EB36C7FF1F7BB",
       "name": "HDiarySnapshotHost"
     },
     "testLanguage": "zh-Hans",
@@ -21,7 +21,7 @@
       "parallelizable": false,
       "target": {
         "containerPath": "container:HDiary.xcodeproj",
-        "identifier": "A22C00000000000000000014",
+        "identifier": "29274960C040F55BF2F40B6C",
         "name": "HDiarySnapshotTests"
       }
     },

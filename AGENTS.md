@@ -5,6 +5,8 @@
 
 ## XcodeBuildMcp
 
+- `HDiary.xcodeproj` is generated and ignored. Run `./scripts/generate-project.sh` before opening, building, or testing a fresh checkout, and after changing `project.yml`, xcconfigs, sources, or resources. Install the pinned XcodeGen with `./scripts/install-xcodegen.sh` if needed.
+- Maintain project structure in `project.yml` and build settings in `HDiary/Configs/`; never edit generated `project.pbxproj`. The canonical Xcode dependency lock is root `Package.resolved`, restored into the generated workspace by the generation hook.
 - The xcodebuildmcp is installed as a CLI. Prefer it over `xcrun simctl`.
 - Project defaults live in `.xcodebuildmcp/config.yaml`.
 - At the start of each new agent session, before the first xcodebuildmcp build/run/test call, show active defaults with `session_show_defaults`.
@@ -38,4 +40,3 @@
 - Open the exact local URL printed by `serve-sim` (normally `http://localhost:3200`) in the Codex in-app browser. Do not report success until the status is `live`, a real app frame is visible, and one simulator interaction such as switching tabs has visibly changed the app.
 - If the in-app browser reports that its webview did not attach, keep the existing browser binding, create a fresh tab, and retry the local URL. Navigation can replace the browser tab ID; if a later action says the tab is missing, list tabs and reacquire the current `Simulator - <device name>` tab instead of restarting the simulator mirror.
 - If `serve-sim` shows `Connecting...`, inspect its terminal. Framebuffer/encoder-ready messages prove capture started but not that the control socket is usable. Restart the mirror with the proxy variables removed as above; after it becomes `live`, browser coordinate clicks can operate the streamed simulator UI.
-

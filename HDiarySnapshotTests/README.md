@@ -4,7 +4,7 @@
 
 `HDiarySnapshotTests` 是普通的 Xcode Unit Testing target；“Snapshot”只描述图片断言方式。SnapshotTesting 可以用于 Swift Package 的 `.testTarget`，简单组件的截图也不需要专门的宿主 App。但当前 SwiftPM 的测试 target 没有指定自定义 Host Application 的配置项。这里要捕获导航栏和 Tab 栏的系统玻璃效果，使用 `drawHierarchyInKeyWindow: true`，因此通过 Xcode 单元测试 target 的 `TEST_HOST` 配置现有的空白 `HDiarySnapshotHost`。测试直接导入 `HDiaryAppFeature` 等 Package 产品。
 
-测试源码、独立计划 `HDiarySnapshots.xctestplan` 和二十六张基准保存在仓库根目录的 `HDiarySnapshotTests/`，宿主保存在 `HDiarySnapshotHost/`。Xcode 使用与实际目录一致的同步文件夹，各显示一次；Package 的 `Tests/` 只保留 Package 自己的测试。测试计划、`README.md` 和 `__Snapshots__/` 不加入测试 bundle；SnapshotTesting 根据测试源码路径读取基准。App 的 `HDiary/Localizable.xcstrings` 通过 target membership 同时提供给宿主和测试，不重复展示或复制翻译文件。
+测试源码、独立计划 `HDiarySnapshots.xctestplan` 和二十六张基准保存在仓库根目录的 `HDiarySnapshotTests/`，宿主保存在 `HDiarySnapshotHost/`。XcodeGen 根据 `project.yml` 生成与实际目录对应的分组；添加或移除文件后重新生成工程。Package 的 `Tests/` 只保留 Package 自己的测试。测试计划、`README.md` 和 `__Snapshots__/` 不加入测试 bundle；SnapshotTesting 根据测试源码路径读取基准。App 的 `HDiary/Localizable.xcstrings` 通过 target membership 同时提供给宿主和测试，不复制翻译文件。
 
 相关说明：[SnapshotTesting 的 SwiftPM 用法](https://github.com/pointfreeco/swift-snapshot-testing/blob/1.19.6/README.md#swift-package-manager)、[维护者关于系统玻璃效果和宿主的说明](https://github.com/pointfreeco/swift-snapshot-testing/issues/1029#issuecomment-3366942138)。
 
@@ -53,7 +53,7 @@ Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Mo
 
 在 Xcode 中运行：
 
-1. 打开 `HDiary.xcodeproj`，选择 `HDiarySnapshotHost` scheme。
+1. 按[根目录说明](../README.md)安装固定的 XcodeGen 2.46.0，运行 `./scripts/generate-project.sh`，再打开 `HDiary.xcodeproj`，选择 `HDiarySnapshotHost` scheme。
 2. 选择项目配置的 `hdiary 17pro` 模拟器（iOS 26.5）。
 3. 使用系统默认的辅助功能设置；如果本地曾开启“非颜色区分”，在模拟器设置 → 辅助功能 → 显示与文字大小中将它恢复为默认关闭，与 CI 新建模拟器保持一致。
 4. 使用该 scheme 默认的 `HDiarySnapshots` 测试计划，按 Command-U 运行截图及相关数据／状态测试。只运行截图时，在 Test Navigator 中运行 `HDiarySnapshotTests`。主 App 的 `HDiary` scheme 继续使用原有通用计划，不包含截图 target。
@@ -72,6 +72,6 @@ Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Mo
 
 外层结构直接复用 App 的 TabView、Tab 标签和搜索修饰器。Moment 快照固定选中“乐事”，Tag、Participant 及各自详情快照固定选中“资料库”。Tag 使用独立 NavigationStack 及实际 `.libraryEntry(entry: .tag)` destination；Tag detail 以实际标签列表 destination 为父页面，预先推入 `.tag(tag:)` destination。由于预填路径跳过了父页面的导航栏过渡，详情 Preview 显式使用正常导航后继承的内联标题模式，返回和编辑按钮仍由真实页面提供。未选中的 Tab 使用空内容，不运行其业务逻辑。参与者列表使用实际 `.libraryEntry(entry: .participant)` destination；参与者详情以该列表为父页面，预先推入 `.participant` destination，提供独立的 `NavigationStore`。本测试覆盖列表、标签详情、参与者详情页面与外层结构，不覆盖搜索、排序菜单点击、编辑操作、增删、导航交互、Tab 切换或系统状态栏。
 
-GitHub Actions 的 `iOS snapshots` 工作流在 push、pull request 和手动运行时，使用 `-scheme HDiarySnapshotHost -testPlan HDiarySnapshots` 运行独立计划，命令不再维护 `-only-testing` 清单。CI 使用 `xcode-27` runner，固定 Xcode 27.1、iPhone 17 Pro / iOS 26.5，关闭并行测试和基准录制。依赖版本来自提交的 `Package.resolved`。工作流检查 Xcode 公开版本，记录实际 build 号并用于依赖缓存隔离，同时下载、缓存和导入固定的 iOS 26.5 runtime。关闭失败时的 sysdiagnose 收集，保留 XCTest 图片附件，避免模拟器诊断超时拖慢运行。CI 使用新建模拟器的默认辅助功能设置，不写入系统 Accessibility 偏好；基准使用默认关闭的“非颜色区分”。不要为了让 CI 变绿而自动录制或覆盖基准。
+GitHub Actions 的 `iOS snapshots` 工作流在 push、pull request 和手动运行时，使用 `-scheme HDiarySnapshotHost -testPlan HDiarySnapshots` 运行独立计划，命令不再维护 `-only-testing` 清单。CI 使用 `xcode-27` runner，固定 Xcode 27.1、iPhone 17 Pro / iOS 26.5，关闭并行测试和基准录制。依赖版本来自根目录提交的 `Package.resolved`；CI 先安装固定版本 XcodeGen 并生成工程，生成 hook 将锁文件恢复到工程 workspace 后，再通过 `-onlyUsePackageVersionsFromResolvedFile` 解析依赖。工作流检查 Xcode 公开版本，记录实际 build 号并用于依赖缓存隔离，同时下载、缓存和导入固定的 iOS 26.5 runtime。关闭失败时的 sysdiagnose 收集，保留 XCTest 图片附件，避免模拟器诊断超时拖慢运行。CI 使用新建模拟器的默认辅助功能设置，不写入系统 Accessibility 偏好；基准使用默认关闭的“非颜色区分”。不要为了让 CI 变绿而自动录制或覆盖基准。
 
 运行结束后，在 Actions 的 `list-snapshots` artifact 中下载 `xcodebuild.log`、可由 Xcode 打开的 `Lists.xcresult`，以及截图附件。图片不匹配时包含 reference、actual 和 difference 附件，便于审核是否为预期的界面变化。报告保留 14 天。
