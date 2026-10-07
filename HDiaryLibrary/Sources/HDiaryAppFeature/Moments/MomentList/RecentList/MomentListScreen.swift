@@ -105,7 +105,17 @@ struct MomentListScreen: View {
 
   @ToolbarContentBuilder
   private var toolBarContent: some ToolbarContent {
-    ToolbarItem(placement: .topBarTrailing) {
+    if #available(iOS 27.1, *) {
+      addMomentToolbarItem
+        .axisBehavior(.verticalPreferred)
+    }
+    else {
+      addMomentToolbarItem
+    }
+  }
+
+  private var addMomentToolbarItem: some ToolbarContent {
+    ToolbarItem(placement: .primaryAction) {
       addMomentMenu
         .matchedTransitionSource(id: addMomentSourceID, in: addMomentTransitionNamespace)
     }

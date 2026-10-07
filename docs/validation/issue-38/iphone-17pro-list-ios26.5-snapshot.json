@@ -1,0 +1,64 @@
+{
+  "schema": "xcodebuildmcp.output.capture-result",
+  "schemaVersion": "2",
+  "didError": false,
+  "error": null,
+  "data": {
+    "summary": {
+      "status": "SUCCEEDED"
+    },
+    "artifacts": {
+      "simulatorId": "A044BA15-7770-48E6-8E28-E2123A772ACD"
+    },
+    "capture": {
+      "type": "runtime-snapshot",
+      "rs": "1",
+      "screenHash": "1yeiq3u",
+      "seq": 2,
+      "count": 80,
+      "targets": [
+        "e19|typeText|text-field||搜索|",
+        "e17|tap|button|新建乐事||",
+        "e32|tap|button|九月、14||",
+        "e35|tap|button|||",
+        "e40|tap|button|八月、6||",
+        "e43|tap|button|||",
+        "e58|tap|tab|乐事|1|",
+        "e60|tap|tab|资料库|0|",
+        "e62|tap|tab|设置|0|"
+      ],
+      "scroll": [
+        "e2|swipe|other|||",
+        "e3|swipe|other|||",
+        "e4|swipe|other|||",
+        "e5|swipe|other|||",
+        "e6|swipe|other|||",
+        "e7|swipe|other|||",
+        "e8|swipe|other|||",
+        "e9|swipe|other|||",
+        "e10|swipe|other|||",
+        "e11|swipe|other|||",
+        "e12|swipe|other|||",
+        "e13|swipe|other|||",
+        "e21|swipe|other|||",
+        "e22|swipe|other|||",
+        "e23|swipe|other|||",
+        "e24|swipe|other|||",
+        "e25|swipe|other|||"
+      ],
+      "text": [
+        "e33|text|text|九月||",
+        "e34|text|text|14||",
+        "e41|text|text|八月||",
+        "e42|text|text|6||"
+      ],
+      "udid": "A044BA15-7770-48E6-8E28-E2123A772ACD"
+    }
+  },
+  "nextSteps": [
+    "Refresh after layout changes: xcodebuildmcp ui-automation snapshot-ui --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD",
+    "Wait for UI to settle: xcodebuildmcp ui-automation wait-for-ui --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --predicate settled",
+    "Batch same-screen taps: xcodebuildmcp ui-automation batch --json '{\"simulatorId\":\"A044BA15-7770-48E6-8E28-E2123A772ACD\",\"steps\":[{\"action\":\"tap\",\"elementRef\":\"e17\"},{\"action\":\"tap\",\"elementRef\":\"e32\"}]}'",
+    "Tap an elementRef: xcodebuildmcp ui-automation tap --simulator-id A044BA15-7770-48E6-8E28-E2123A772ACD --element-ref e17"
+  ]
+}

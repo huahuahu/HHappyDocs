@@ -1,0 +1,76 @@
+{
+  "schema": "xcodebuildmcp.output.capture-result",
+  "schemaVersion": "2",
+  "didError": false,
+  "error": null,
+  "data": {
+    "summary": {
+      "status": "SUCCEEDED"
+    },
+    "artifacts": {
+      "simulatorId": "2D15C1CC-968A-4A02-B13A-20166E188204"
+    },
+    "capture": {
+      "type": "runtime-snapshot",
+      "rs": "1",
+      "screenHash": "0ce6n48",
+      "seq": 15,
+      "count": 78,
+      "targets": [
+        "e27|typeText|text-field||搜索|",
+        "e11|tap|tab|乐事|1|list.dash",
+        "e12|tap|tab|乐事|1|list.dash",
+        "e13|tap|tab|资料库|0|cube.box",
+        "e14|tap|tab|资料库|0|cube.box",
+        "e15|tap|tab|设置|0|gear",
+        "e16|tap|tab|设置|0|gear",
+        "e26|tap|button|新建乐事||",
+        "e41|tap|button|昨天、1||",
+        "e44|tap|button|||",
+        "e49|tap|button|最近7天、1||",
+        "e52|tap|button|||",
+        "e58|tap|button|九月、10||",
+        "e61|tap|button|||",
+        "e67|tap|button|八月、8||",
+        "e70|tap|button|||"
+      ],
+      "scroll": [
+        "e2|swipe|other|||",
+        "e3|swipe|other|||",
+        "e4|swipe|other|||",
+        "e5|swipe|other|||",
+        "e6|swipe|other|||",
+        "e7|swipe|other|||",
+        "e8|swipe|other|||",
+        "e17|swipe|other|||",
+        "e18|swipe|other|||",
+        "e19|swipe|other|||",
+        "e20|swipe|other|||",
+        "e21|swipe|other|||",
+        "e22|swipe|other|||",
+        "e30|swipe|other|||",
+        "e31|swipe|other|||",
+        "e32|swipe|other|||",
+        "e33|swipe|other|||",
+        "e34|swipe|other|||"
+      ],
+      "text": [
+        "e42|text|text|昨天||",
+        "e43|text|text|1||",
+        "e50|text|text|最近7天||",
+        "e51|text|text|1||",
+        "e59|text|text|九月||",
+        "e60|text|text|10||",
+        "e68|text|text|八月||",
+        "e69|text|text|8||"
+      ],
+      "udid": "2D15C1CC-968A-4A02-B13A-20166E188204"
+    }
+  },
+  "nextSteps": [
+    "Refresh after layout changes: xcodebuildmcp ui-automation snapshot-ui --simulator-id 2D15C1CC-968A-4A02-B13A-20166E188204",
+    "Wait for UI to settle: xcodebuildmcp ui-automation wait-for-ui --simulator-id 2D15C1CC-968A-4A02-B13A-20166E188204 --predicate settled",
+    "Batch same-screen taps: xcodebuildmcp ui-automation batch --json '{\"simulatorId\":\"2D15C1CC-968A-4A02-B13A-20166E188204\",\"steps\":[{\"action\":\"tap\",\"elementRef\":\"e26\"},{\"action\":\"tap\",\"elementRef\":\"e41\"}]}'",
+    "Tap an elementRef: xcodebuildmcp ui-automation tap --simulator-id 2D15C1CC-968A-4A02-B13A-20166E188204 --element-ref e26"
+  ]
+}

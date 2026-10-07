@@ -66,6 +66,7 @@ struct SettingsView: View {
       }
 //      .withSheetDestinations(sheetDestinations: $navigationStore.presentedSheet)
       .navigationTitle(HLocalizedString.setting)
+      .hDiaryScrollingNavigationBar()
     }
     .environment(appRoute.settingNavigationStore)
 //    .onAppear {

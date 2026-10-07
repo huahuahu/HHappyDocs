@@ -51,8 +51,14 @@ enum HDiaryDestination: Hashable {
   case settingEntry(SettingEntry)
   case allMomentsScreen
 
-  @ViewBuilder @MainActor
+  @MainActor
   var targetView: some View {
+    targetContent
+      .hDiaryScrollingNavigationBar()
+  }
+
+  @ViewBuilder @MainActor
+  private var targetContent: some View {
     switch self {
     case .diagnosticLogs:
       DiagnosticLogView()
@@ -116,6 +122,29 @@ enum HDiaryDestination: Hashable {
 extension View {
   func hDiaryNavigator() -> some View {
     modifier(DiaryNavigatorModifier())
+  }
+
+  @ViewBuilder
+  func hDiaryScrollingNavigationBar() -> some View {
+    if #available(iOS 27.1, *) {
+      modifier(VerticalNavigationBarScrollingModifier())
+    }
+    else {
+      self
+    }
+  }
+}
+
+@available(iOS 27.1, *)
+private struct VerticalNavigationBarScrollingModifier: ViewModifier {
+  @Environment(\.toolbarVerticalEdge) private var verticalEdge
+
+  func body(content: Content) -> some View {
+    content
+      .toolbarMinimizationBehavior(
+        verticalEdge == nil ? .automatic : .onScrollDown,
+        for: .navigationBar
+      )
   }
 }
 

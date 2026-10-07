@@ -30,7 +30,11 @@
         Button(action: {
           isAdding = true
         }, label: {
-          Text(DiaryStringKey.add)
+          Label {
+            Text(DiaryStringKey.add)
+          } icon: {
+            Image(systemName: "plus")
+          }
         })
       }
     }
