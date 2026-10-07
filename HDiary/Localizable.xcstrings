@@ -2484,6 +2484,60 @@
         }
       }
     },
+    "participant.avatarPreview.failed" : {
+      "comment" : "Title of the alert when preparing an avatar preview file fails",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to preview avatar"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法预览头像"
+          }
+        }
+      }
+    },
+    "participant.avatarPreview.failureMessage" : {
+      "comment" : "Explains an avatar preview preparation failure and how to recover",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The image could not be prepared. Please try again. If this continues, check available storage."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂时无法准备图片，请重试。如果仍然失败，请检查设备的可用存储空间。"
+          }
+        }
+      }
+    },
+    "participant.avatarPreview.retry" : {
+      "comment" : "Button that retries preparing an avatar preview after a failure",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Again"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重试"
+          }
+        }
+      }
+    },
     "participant.viewAvatar" : {
       "comment" : "Accessibility label for the button that previews a participant's avatar",
       "extractionState" : "manual",

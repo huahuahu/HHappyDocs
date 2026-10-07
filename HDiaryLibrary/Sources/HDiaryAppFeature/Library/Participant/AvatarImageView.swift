@@ -11,16 +11,13 @@ import HDiaryConstants
 import SwiftUI
 
 struct AvatarImageView: View {
-  init(size: CGFloat, image: UIImage, supportPreview: Bool = false) {
+  init(size: CGFloat, image: UIImage) {
     self.size = size
     self.image = image
-    self.supportPreview = supportPreview
   }
 
   private let size: CGFloat
   private let image: UIImage
-  private let supportPreview: Bool
-  @State private var isPreviewingAvatar = false
   var body: some View {
     VStack {
       Image(uiImage: image)
@@ -28,14 +25,6 @@ struct AvatarImageView: View {
         .aspectRatio(contentMode: .fit)
         .frame(width: size, height: size)
         .padding([.all], padding)
-        .overlay(content: {
-          if supportPreview {
-            HPreviewButton(item: HPreviewItem(image), shouldPreview: $isPreviewingAvatar)
-              .onTapGesture {
-                isPreviewingAvatar = true
-              }
-          }
-        })
         .overlay(content: {
           RoundedRectangle(cornerRadius: radius, style: .continuous)
             .strokeBorder(Color.accentColor, lineWidth: padding)
@@ -58,14 +47,6 @@ struct AvatarImageView: View {
     .onTapGesture(perform: {
       Log.common.log(level: DiagnosticLogging.level(for: .debug), "Preview avatar tapped")
     })
-}
-
-#Preview("Preview") {
-  AvatarImageView(
-    size: 50,
-    image: UIImage(resource: .defaultPerson),
-    supportPreview: true
-  )
 }
 
 #endif

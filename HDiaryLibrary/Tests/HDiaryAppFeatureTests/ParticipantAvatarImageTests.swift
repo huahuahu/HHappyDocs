@@ -58,7 +58,7 @@
     }
 
     @Test
-    func thumbnailIsBoundedButPreviewKeepsOriginalImage() async throws {
+    func thumbnailIsBounded() async throws {
       let format = UIGraphicsImageRendererFormat()
       format.scale = 1
       let size = CGSize(width: 400, height: 200)
@@ -70,10 +70,6 @@
       let thumbnail = try #require(await ParticipantAvatarImage.decode(data, maxPixelSize: 80))
       #expect(thumbnail.cgImage?.width == 80)
       #expect(thumbnail.cgImage?.height == 40)
-      let preview = try #require(ParticipantAvatarImage.previewItem(for: data))
-      #expect(preview.data == data)
-      #expect(preview.previewType == .pngImage)
-      #expect(UIImage(data: preview.data)?.size == size)
     }
 
     private func makeImageData(
