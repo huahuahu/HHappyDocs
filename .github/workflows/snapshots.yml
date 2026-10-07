@@ -24,14 +24,17 @@ jobs:
           - device: iphone
             model: iPhone-17-Pro
             ios: "27.0"
+            build: "24A94232"
             runtime: com.apple.CoreSimulator.SimRuntime.iOS-27-0
           - device: iphone-duo
             model: iPhone-Duo
             ios: "27.1"
+            build: "24A94401"
             runtime: com.apple.CoreSimulator.SimRuntime.iOS-27-1
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
       SNAPSHOT_RUNTIME_ID: ${{ matrix.runtime }}
+      SNAPSHOT_RUNTIME_BUILD: ${{ matrix.build }}
       # TEST_RUNNER_ forwards these values to the simulator test process.
       TEST_RUNNER_HDIARY_RECORD_SNAPSHOTS: "0"
       TEST_RUNNER_SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/SnapshotResults/Images
@@ -60,7 +63,8 @@ jobs:
           xcrun simctl list devices available
           xcrun simctl list runtimes --json | python3 -c '
           import json, os, sys
-          available = any(r["identifier"] == os.environ["SNAPSHOT_RUNTIME_ID"] and r["isAvailable"]
+          available = any(r["identifier"] == os.environ["SNAPSHOT_RUNTIME_ID"] and r["buildversion"] == os.environ["SNAPSHOT_RUNTIME_BUILD"]
+                          and r["isAvailable"]
                           for r in json.load(sys.stdin)["runtimes"])
           print(f"runtime-installed={str(available).lower()}")
           ' >> "$GITHUB_OUTPUT"
@@ -70,7 +74,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: SimulatorRuntimeDownloads
-          key: snapshot-runtime-ios-${{ matrix.ios }}-arm64
+          key: snapshot-runtime-ios-${{ matrix.ios }}-${{ matrix.build }}-arm64
 
       - name: Prepare snapshot simulator
         run: |
@@ -79,13 +83,22 @@ jobs:
             # 新版 runtime 的 exportedBundle 包含导入元数据，不能选择其内部 Restore/*.dmg。
             runtime_package="$(find SimulatorRuntimeDownloads -maxdepth 1 \( -name '*.exportedBundle' -o -name '*.dmg' \) -print -quit)"
             if [ -z "$runtime_package" ]; then
-              xcodebuild -downloadPlatform iOS -buildVersion '${{ matrix.ios }}' \
+              xcodebuild -downloadPlatform iOS -buildVersion "$SNAPSHOT_RUNTIME_BUILD" \
                 -architectureVariant arm64 -exportPath SimulatorRuntimeDownloads
               runtime_package="$(find SimulatorRuntimeDownloads -maxdepth 1 \( -name '*.exportedBundle' -o -name '*.dmg' \) -print -quit)"
             fi
             test -n "$runtime_package"
             xcodebuild -importPlatform "$runtime_package"
           fi
+
+          # 同一 iOS 版本的不同 build 也可能改变系统 List 布局，必须与基准一致。
+          xcrun simctl list runtimes --json | python3 -c '
+          import json, os, sys
+          runtimes = json.load(sys.stdin)["runtimes"]
+          assert any(r["identifier"] == os.environ["SNAPSHOT_RUNTIME_ID"]
+                     and r["buildversion"] == os.environ["SNAPSHOT_RUNTIME_BUILD"]
+                     and r["isAvailable"] for r in runtimes), runtimes
+          '
 
           # 使用指定型号和 runtime 新建设备，隔离每次测试的 App 数据和设置。
           # create 返回设备 UUID；这里只创建，后续 xcodebuild test 会负责启动设备。
