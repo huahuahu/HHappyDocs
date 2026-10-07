@@ -47,7 +47,7 @@
 
 | 设备 | 系统 | 基准尺寸 | 文件后缀 |
 | --- | --- | --- | --- |
-| iPhone 17 Pro | iOS 27.0 (24A94232) | 402 × 874 pt，3x | `-iphone.png` |
+| iPhone 17 Pro | iOS 27.0 (24A434) | 402 × 874 pt，3x | `-iphone.png` |
 | iPhone Duo，Closed 竖屏 | iOS 27.1 (24A94401) | 466 × 678 pt，3x | `-iphone-duo.png` |
 
 两者均使用 Xcode 27.1。当前安装的 iOS 27.1 runtime 只支持 Duo，因此普通 iPhone 使用 iOS 27.0；原有 `compact-accessibility` 场景继续限制为 320 pt 宽。CI 对这两个目标分别新建模拟器、运行同一 `HDiarySnapshots` 计划并保存独立 artifact，关闭基准录制。
