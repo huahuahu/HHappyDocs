@@ -4,7 +4,7 @@ HDiary is an iOS app for recording happy moments.
 
 ## 开始开发
 
-工程由 **XcodeGen 2.46.0** 生成，版本记录在 `.xcodegen-version`。使用 Xcode 27.1 及 iOS Simulator；快照测试固定使用 iPhone 17 Pro / iOS 26.5。
+工程由 **XcodeGen 2.46.0** 生成，版本记录在 `.xcodegen-version`。使用 Xcode 27.1 及 iOS Simulator；快照测试分别使用 iPhone 17 Pro / iOS 27.0 与 iPhone Duo / iOS 27.1。
 
 全新 checkout 后，在仓库根目录运行：
 
@@ -48,7 +48,7 @@ HDIARY_DESTINATION='platform=iOS Simulator,name=hdiary 17pro' \
 - `scripts/finalize-project.py` 只补齐 XcodeGen 2.46.0 未提供的 scheme 字段：Widget 的 SpringBoard runnable、Profile 宿主，以及快照 host 的 queue debugging 设置。升级生成器时重新检查是否仍需这些兼容处理。
 - 升级 XcodeGen 时一起更新 `.xcodegen-version`、`project.yml` 的最低版本和安装脚本中的官方发布包 SHA-256，再验证工程生成、Debug／Release 构建和测试。
 
-两个 GitHub Actions 工作流都使用 Xcode 27.1，并安装固定版本 XcodeGen 后生成工程。普通构建／测试流程创建 iPhone 17 Pro / iOS 27.0 模拟器；快照流程保持 iPhone 17 Pro / iOS 26.5。SwiftPM 缓存键使用根目录锁文件及两个 Package manifest；快照工作流继续强制 `-onlyUsePackageVersionsFromResolvedFile`，不更新快照基准。
+两个 GitHub Actions 工作流都使用 Xcode 27.1，并安装固定版本 XcodeGen 后生成工程。普通构建／测试流程创建 iPhone 17 Pro / iOS 27.0 模拟器；快照流程用设备矩阵分别运行 iPhone 17 Pro / iOS 27.0 和 iPhone Duo / iOS 27.1。SwiftPM 缓存键使用根目录锁文件及两个 Package manifest；快照工作流继续强制 `-onlyUsePackageVersionsFromResolvedFile`，不更新快照基准。
 
 ## Project layout
 

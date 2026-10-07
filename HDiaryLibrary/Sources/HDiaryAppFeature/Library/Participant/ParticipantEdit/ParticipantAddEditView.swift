@@ -113,15 +113,10 @@ private struct ParticipantAddEditInnerView: View {
         dismiss()
         taskFinished = true
       }, label: {
-        if #available(iOS 27.1, *) {
-          Label {
-            Text(confirmButtonLabel)
-          } icon: {
-            Image(systemName: "checkmark")
-          }
-        }
-        else {
+        Label {
           Text(confirmButtonLabel)
+        } icon: {
+          Image(systemName: "checkmark")
         }
       })
       .sensoryFeedback(trigger: taskFinished, { _, newValue in

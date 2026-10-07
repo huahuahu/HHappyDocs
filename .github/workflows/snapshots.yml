@@ -14,11 +14,24 @@ concurrency:
 
 jobs:
   snapshots:
-    name: List snapshots
+    name: List snapshots (${{ matrix.device }})
     runs-on: xcode-27
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - device: iphone
+            model: iPhone-17-Pro
+            ios: "27.0"
+            runtime: com.apple.CoreSimulator.SimRuntime.iOS-27-0
+          - device: iphone-duo
+            model: iPhone-Duo
+            ios: "27.1"
+            runtime: com.apple.CoreSimulator.SimRuntime.iOS-27-1
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
+      SNAPSHOT_RUNTIME_ID: ${{ matrix.runtime }}
       # TEST_RUNNER_ forwards these values to the simulator test process.
       TEST_RUNNER_HDIARY_RECORD_SNAPSHOTS: "0"
       TEST_RUNNER_SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/SnapshotResults/Images
@@ -45,36 +58,39 @@ jobs:
           printf 'xcode-build=%s\n' "$snapshot_xcode_build" >> "$GITHUB_OUTPUT"
           swift --version
           xcrun simctl list devices available
+          xcrun simctl list runtimes --json | python3 -c '
+          import json, os, sys
+          available = any(r["identifier"] == os.environ["SNAPSHOT_RUNTIME_ID"] and r["isAvailable"]
+                          for r in json.load(sys.stdin)["runtimes"])
+          print(f"runtime-installed={str(available).lower()}")
+          ' >> "$GITHUB_OUTPUT"
 
-      - name: Cache iOS 26.5 runtime download
+      - name: Cache iOS ${{ matrix.ios }} runtime download
+        if: steps.snapshot-environment.outputs.runtime-installed != 'true'
         uses: actions/cache@v5
         with:
           path: SimulatorRuntimeDownloads
-          key: snapshot-runtime-ios-26.5-arm64
+          key: snapshot-runtime-ios-${{ matrix.ios }}-arm64
 
       - name: Prepare snapshot simulator
         run: |
-          # 查找上一步缓存恢复的 runtime 安装包；缓存保存的是 DMG 文件。
-          mkdir -p SimulatorRuntimeDownloads
-          runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
-          if [ -z "$runtime_dmg" ]; then
-            # 没有缓存时，下载固定的 iOS 26.5 / arm64 系统镜像，并找到下载后的文件。
-            xcodebuild -downloadPlatform iOS -buildVersion 26.5 \
-              -architectureVariant arm64 -exportPath SimulatorRuntimeDownloads
+          if [ '${{ steps.snapshot-environment.outputs.runtime-installed }}' != 'true' ]; then
+            mkdir -p SimulatorRuntimeDownloads
             runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
+            if [ -z "$runtime_dmg" ]; then
+              xcodebuild -downloadPlatform iOS -buildVersion '${{ matrix.ios }}' \
+                -architectureVariant arm64 -exportPath SimulatorRuntimeDownloads
+              runtime_dmg="$(find SimulatorRuntimeDownloads -name '*.dmg' -print -quit)"
+            fi
+            test -n "$runtime_dmg"
+            xcodebuild -importPlatform "$runtime_dmg"
           fi
-          # 确认已找到安装包；找不到时让该步骤失败，避免继续创建模拟器。
-          test -n "$runtime_dmg"
-
-          # 将 DMG 导入当前 runner 的模拟器运行环境；有安装包不代表 runtime 已安装。
-          # 当前每次都会导入，尚未检查同版本 runtime 是否已经安装且可用。
-          xcodebuild -importPlatform "$runtime_dmg"
 
           # 使用指定型号和 runtime 新建设备，隔离每次测试的 App 数据和设置。
           # create 返回设备 UUID；这里只创建，后续 xcodebuild test 会负责启动设备。
-          snapshot_simulator_id="$(xcrun simctl create 'Snapshot iPhone 17 Pro' \
-            com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro \
-            com.apple.CoreSimulator.SimRuntime.iOS-26-5)"
+          snapshot_simulator_id="$(xcrun simctl create 'Snapshot ${{ matrix.device }}' \
+            'com.apple.CoreSimulator.SimDeviceType.${{ matrix.model }}' \
+            "$SNAPSHOT_RUNTIME_ID")"
 
           # 将 UUID 传给后续 Actions 步骤，确保截图测试选择这台新设备。
           echo "SNAPSHOT_SIMULATOR_ID=$snapshot_simulator_id" >> "$GITHUB_ENV"
@@ -115,7 +131,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v6
         with:
-          name: list-snapshots
+          name: list-snapshots-${{ matrix.device }}
           path: SnapshotResults/
           if-no-files-found: warn
           retention-days: 14

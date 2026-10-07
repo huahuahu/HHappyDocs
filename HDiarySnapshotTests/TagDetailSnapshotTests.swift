@@ -21,12 +21,12 @@
       }
       assertSnapshot(
         of: TagDetailPreview(fixture: fixture),
-        as: ListSnapshotConfiguration.image(
+        as: try ListSnapshotConfiguration.image(
           style: scenario == .dark ? .dark : .light,
           contentSize: contentSize,
-          width: scenario == .compactAccessibility ? 320 : 402
+          width: scenario == .compactAccessibility ? 320 : nil
         ),
-        named: scenario.rawValue, record: ListSnapshotConfiguration.record,
+        named: try ListSnapshotConfiguration.name(scenario.rawValue), record: ListSnapshotConfiguration.record,
         testName: "tag-detail"
       )
     }
