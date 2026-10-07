@@ -40,6 +40,8 @@ def main():
             try:
                 result = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                         text=True, errors="replace", timeout=seconds)
+                if result.returncode:
+                    return f"Diagnostic unavailable: {args[0]} exited {result.returncode}: {result.stdout}\n"
                 return result.stdout
             except (OSError, subprocess.TimeoutExpired) as error:
                 return f"Diagnostic unavailable: {error}\n"
@@ -48,17 +50,23 @@ def main():
             emit(inspect(["uptime"]).strip())
             emit(inspect(["vm_stat"]).strip())
             processes = inspect(["ps", "-axo", "pid,ppid,etime,%cpu,%mem,state,comm"])
+            (results / f"{phase}-{int(time.monotonic() - started)}-processes.txt").write_text(processes)
+            if processes.startswith("Diagnostic unavailable:"):
+                emit(processes.strip())
+            else:
+                ranked = sorted(processes.splitlines()[1:], key=lambda row: float(row.split()[3]), reverse=True)
+                emit("Highest CPU processes:\n" + "\n".join(ranked[:15]))
             rows = [line for line in processes.splitlines() if relevant.search(line)]
             emit("Relevant processes (PID PPID ELAPSED %CPU %MEM STATE COMMAND):\n" + "\n".join(rows))
             if sample:
                 # Sample before stopping a stalled test so its waiting stack is preserved.
                 candidates = [line for line in rows if re.search(
                     r"xcodebuild|testmanagerd|HDiarySnapshotHost|xctest|CoreSimulatorService", line)]
-                for row in candidates[:8]:
-                    pid = row.split()[0]
-                    if pid.isdigit():
-                        path = results / f"{phase}-{int(time.monotonic() - started)}-pid-{pid}.sample.txt"
-                        emit(inspect(["sample", pid, "1", "10", "-file", str(path)], 8).strip())
+                # Even ps can time out on an overloaded runner; always sample our child.
+                pids = list(dict.fromkeys([str(process.pid)] + [row.split()[0] for row in candidates]))
+                for pid in pids[:8]:
+                    path = results / f"{phase}-{int(time.monotonic() - started)}-pid-{pid}.sample.txt"
+                    emit(inspect(["sample", pid, "1", "10", "-file", str(path)], 8).strip())
 
         def request_stop(_signum, _frame):
             nonlocal interrupted

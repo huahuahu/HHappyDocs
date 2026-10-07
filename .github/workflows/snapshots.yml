@@ -115,12 +115,8 @@ jobs:
           path: DerivedData/Snapshots/SourcePackages
           key: snapshots-swiftpm-${{ steps.snapshot-environment.outputs.xcode-build }}-${{ hashFiles('Package.resolved', 'HDiaryLibrary/Package.swift', 'HSharedCode/Package.swift') }}
 
-      - name: Boot snapshot simulator
-        run: |
-          python3 scripts/ci-snapshot-phase.py boot 300 \
-            xcrun simctl bootstatus "$SNAPSHOT_SIMULATOR_ID" -b
-
       - name: Build snapshot tests
+        timeout-minutes: 14
         run: |
           python3 scripts/ci-snapshot-phase.py build 720 \
             xcodebuild build-for-testing \
@@ -134,7 +130,15 @@ jobs:
             -derivedDataPath DerivedData/Snapshots \
             CODE_SIGNING_ALLOWED=NO
 
+      - name: Boot snapshot simulator
+        timeout-minutes: 7
+        run: |
+          # 保持先编译再启动的顺序，避免模拟器的首次启动与编译争用 runner 资源。
+          python3 scripts/ci-snapshot-phase.py boot 300 \
+            xcrun simctl bootstatus "$SNAPSHOT_SIMULATOR_ID" -b
+
       - name: Run snapshot tests
+        timeout-minutes: 23
         run: |
           # 在 job 的 45 分钟上限前终止异常等待，为诊断和 artifact 上传留出时间。
           python3 scripts/ci-snapshot-phase.py test 1200 \
