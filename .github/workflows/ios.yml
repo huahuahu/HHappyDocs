@@ -9,23 +9,27 @@ on:
 jobs:
   build-and-test:
     name: Build and test HDiary
-    runs-on: macos-26
+    runs-on: xcode-27
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
 
-      - name: Select latest Xcode
+      - name: Verify Xcode 27.1
         run: |
-          latest_xcode="/Applications/Xcode.app"
-          if [ ! -d "${latest_xcode}" ]; then
-            latest_xcode="$(find /Applications -maxdepth 1 -type d -name 'Xcode*.app' | sort | tail -1)"
-          fi
-          echo "Using ${latest_xcode}"
-          sudo xcode-select -s "${latest_xcode}/Contents/Developer"
           xcodebuild -version
+          ci_xcode_version="$(xcodebuild -version | awk '/^Xcode / {print $2}')"
+          test "$ci_xcode_version" = '27.1'
           swift --version
           xcrun simctl list devices available
+
+      - name: Prepare test simulator
+        run: |
+          ci_simulator_id="$(xcrun simctl create 'CI iPhone 17 Pro' \
+            com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro)"
+          echo "CI_SIMULATOR_ID=$ci_simulator_id" >> "$GITHUB_ENV"
 
       - name: Build HDiary
         run: |
@@ -33,7 +37,7 @@ jobs:
             -project HDiary.xcodeproj \
             -scheme HDiary \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -destination "platform=iOS Simulator,id=$CI_SIMULATOR_ID" \
             CODE_SIGN_IDENTITY="-" \
             build
 
@@ -45,5 +49,5 @@ jobs:
             -project HDiary.xcodeproj \
             -scheme HDiary \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -destination "platform=iOS Simulator,id=$CI_SIMULATOR_ID" \
             CODE_SIGN_IDENTITY="-"
