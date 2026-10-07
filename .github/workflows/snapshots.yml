@@ -26,6 +26,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v5
 
+      - name: Install pinned XcodeGen
+        run: ./scripts/install-xcodegen.sh
+
+      - name: Generate Xcode project and restore dependency lock
+        run: ./scripts/generate-project.sh
+
       - name: Verify snapshot environment
         id: snapshot-environment
         run: |
@@ -77,7 +83,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: DerivedData/Snapshots/SourcePackages
-          key: snapshots-swiftpm-${{ steps.snapshot-environment.outputs.xcode-build }}-${{ hashFiles('HDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          key: snapshots-swiftpm-${{ steps.snapshot-environment.outputs.xcode-build }}-${{ hashFiles('Package.resolved', 'HDiaryLibrary/Package.swift', 'HSharedCode/Package.swift') }}
 
       - name: Compare list snapshots
         run: |

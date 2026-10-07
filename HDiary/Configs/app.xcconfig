@@ -8,6 +8,7 @@ DEVELOPMENT_ASSET_PATHS = HDiary/Preview\ Content
 ENABLE_HARDENED_RUNTIME = YES
 ENABLE_PREVIEWS = YES
 INFOPLIST_FILE = HDiary/Info.plist
+INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO
 INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*] = YES
 INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*] = YES
 INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*] = YES

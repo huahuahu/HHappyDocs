@@ -17,19 +17,33 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v5
 
-      - name: Verify Xcode 27.1
+      - name: Install pinned XcodeGen
+        run: ./scripts/install-xcodegen.sh
+
+      - name: Generate and verify Xcode project
+        run: python3 scripts/verify-project-generation.py
+
+      - name: Verify Xcode version
+        id: xcode
         run: |
           xcodebuild -version
-          ci_xcode_version="$(xcodebuild -version | awk '/^Xcode / {print $2}')"
-          test "$ci_xcode_version" = '27.1'
+          test "$(xcodebuild -version | awk '/^Xcode / {print $2}')" = '27.1'
+          echo "build=$(xcodebuild -version | awk '/Build version/ {print $3}')" >> "$GITHUB_OUTPUT"
           swift --version
           xcrun simctl list devices available
 
-      - name: Prepare test simulator
+      - name: Create test simulator
         run: |
-          ci_simulator_id="$(xcrun simctl create 'CI iPhone 17 Pro' \
-            com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro)"
-          echo "CI_SIMULATOR_ID=$ci_simulator_id" >> "$GITHUB_ENV"
+          simulator_id="$(xcrun simctl create 'CI iPhone 17 Pro' \
+            com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro \
+            com.apple.CoreSimulator.SimRuntime.iOS-27-0)"
+          echo "IOS_SIMULATOR_ID=$simulator_id" >> "$GITHUB_ENV"
+
+      - name: Cache SwiftPM dependencies
+        uses: actions/cache@v5
+        with:
+          path: DerivedData/iOS/SourcePackages
+          key: ios-swiftpm-${{ steps.xcode.outputs.build }}-${{ hashFiles('Package.resolved', 'HDiaryLibrary/Package.swift', 'HSharedCode/Package.swift') }}
 
       - name: Build HDiary
         run: |
@@ -37,7 +51,9 @@ jobs:
             -project HDiary.xcodeproj \
             -scheme HDiary \
             -configuration Debug \
-            -destination "platform=iOS Simulator,id=$CI_SIMULATOR_ID" \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" \
+            -derivedDataPath DerivedData/iOS \
+            -onlyUsePackageVersionsFromResolvedFile \
             CODE_SIGN_IDENTITY="-" \
             build
 
@@ -49,5 +65,19 @@ jobs:
             -project HDiary.xcodeproj \
             -scheme HDiary \
             -configuration Debug \
-            -destination "platform=iOS Simulator,id=$CI_SIMULATOR_ID" \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" \
+            -derivedDataPath DerivedData/iOS \
+            -onlyUsePackageVersionsFromResolvedFile \
             CODE_SIGN_IDENTITY="-"
+
+      - name: Build Release configuration
+        run: |
+          xcodebuild \
+            -project HDiary.xcodeproj \
+            -scheme HDiary \
+            -configuration Release \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" \
+            -derivedDataPath DerivedData/iOS \
+            -onlyUsePackageVersionsFromResolvedFile \
+            CODE_SIGN_IDENTITY="-" \
+            build

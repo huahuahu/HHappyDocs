@@ -1,0 +1,218 @@
+name: HDiary
+
+options:
+  minimumXcodeGenVersion: 2.46.0
+  projectFormat: xcode16_0
+  xcodeVersion: "27.1"
+  # The existing xcconfigs own build settings, including supported platforms.
+  settingPresets: none
+  defaultConfig: Release
+  developmentLanguage: en
+  schemePathPrefix: "../"
+  fileTypes:
+    icon:
+      file: true
+      buildPhase: resources
+  preGenCommand: ./scripts/check-xcodegen-version.sh
+  postGenCommand: ./scripts/restore-package-lock.sh && python3 scripts/finalize-project.py
+
+configs:
+  Debug: debug
+  Release: release
+configFiles:
+  Debug: HDiary/Configs/debug.xcconfig
+  Release: HDiary/Configs/release.xcconfig
+
+fileGroups:
+  - project.yml
+  - Package.resolved
+  - HDiary/Configs
+  - HDiaryWidgetExtension.entitlements
+  - HDiaryWidgetExtensionDebug.entitlements
+
+packages:
+  HDiaryLibrary:
+    path: HDiaryLibrary
+  HSharedCode:
+    path: HSharedCode
+  SFSafeSymbols:
+    url: https://github.com/SFSafeSymbols/SFSafeSymbols
+    from: 6.2.0
+  SnapshotTesting:
+    url: https://github.com/pointfreeco/swift-snapshot-testing
+    exactVersion: 1.19.6
+
+targets:
+  HDiary:
+    type: application
+    platform: iOS
+    configFiles:
+      Debug: HDiary/Configs/app-debug.xcconfig
+      Release: HDiary/Configs/app-release.xcconfig
+    sources:
+      - path: HDiary
+        excludes:
+          - Configs
+          - Info.plist
+      - path: PrivacyInfo.xcprivacy
+    dependencies:
+      - target: HDiaryWidgetExtension
+        embed: true
+        codeSign: false
+      - package: HDiaryLibrary
+        products:
+          - HDiaryAppFeature
+          - HDiaryWidgetIntents
+          - HDiaryIAP
+          - HDiarySearch
+          - HDiaryConstants
+          - HDiaryModel
+      - package: HSharedCode
+        products:
+          - HMedia
+          - HLocalization
+          - HFoundation
+          - HUIComponent
+      - package: SFSafeSymbols
+
+  HDiaryWidgetExtension:
+    type: app-extension
+    platform: iOS
+    configFiles:
+      Debug: HDiary/Configs/widget-debug.xcconfig
+      Release: HDiary/Configs/widget-release.xcconfig
+    sources:
+      - path: HDiaryWidget
+        excludes: [Info.plist]
+      - path: HDiary
+        includes: [Assets.xcassets, Intents.xcstrings]
+      - path: PrivacyInfo.xcprivacy
+    dependencies:
+      - package: HDiaryLibrary
+        products: [HDiaryWidgetFeature, HDiaryWidgetIntents, HDiaryConstants]
+      - sdk: SwiftUI.framework
+      - sdk: WidgetKit.framework
+
+  HDiaryUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    settings:
+      # XcodeGen derives Xcode's TestTargetID from an explicit setting here.
+      TEST_TARGET_NAME: HDiary
+    configFiles:
+      Debug: HDiary/Configs/ui-tests-debug.xcconfig
+      Release: HDiary/Configs/ui-tests-release.xcconfig
+    sources:
+      - HDiaryLibrary/UITests/HDiaryUITests
+    dependencies:
+      - target: HDiary
+
+  HDiarySnapshotHost:
+    type: application
+    platform: iOS
+    settings:
+      # Prevent inference of the business App's plist from shared resources.
+      INFOPLIST_FILE: ""
+    configFiles:
+      Debug: HDiary/Configs/snapshot-host.xcconfig
+      Release: HDiary/Configs/snapshot-host.xcconfig
+    sources:
+      - HDiarySnapshotHost
+      - path: HDiary
+        includes: [Assets.xcassets, Localizable.xcstrings]
+
+  HDiarySnapshotTests:
+    type: bundle.unit-test
+    platform: iOS
+    settings:
+      INFOPLIST_FILE: ""
+    configFiles:
+      Debug: HDiary/Configs/snapshot-tests.xcconfig
+      Release: HDiary/Configs/snapshot-tests.xcconfig
+    sources:
+      - path: HDiarySnapshotTests
+        excludes: [HDiarySnapshots.xctestplan, README.md, __Snapshots__]
+      - path: HDiary
+        includes: [Localizable.xcstrings]
+    dependencies:
+      - target: HDiarySnapshotHost
+      - package: SnapshotTesting
+      - package: HDiaryLibrary
+        products: [HDiaryAppFeature, HDiaryModel]
+
+schemes:
+  HDiary:
+    build:
+      targets:
+        HDiary: all
+    run:
+      config: Debug
+      language: zh-Hans
+      commandLineArguments:
+        "-com.apple.CoreData.ConcurrencyDebug 1 ": true
+        "-com.apple.CoreData.SQLDebug 1 ": true
+      storeKitConfiguration: HDiary/IAP/HDiary.storekit
+    test:
+      config: Debug
+      testPlans:
+        - path: HDiary/HDiary.xctestplan
+          defaultPlan: true
+      targets:
+        - name: HDiaryUITests
+          parallelizable: true
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+
+  HDiaryWidgetExtension:
+    build:
+      targets:
+        HDiaryWidgetExtension: all
+        HDiary: all
+    run:
+      config: Debug
+      executable: HDiaryWidgetExtension
+      language: zh-Hans
+      debugEnabled: false
+      askForAppToLaunch: true
+      launchAutomaticallySubstyle: "2"
+      macroExpansion: HDiary
+      commandLineArguments:
+        "-com.apple.CoreData.SQLDebug 1 ": true
+      environmentVariables:
+        _XCWidgetKind: ""
+        _XCWidgetDefaultView: timeline
+        _XCWidgetFamily: systemMedium
+    test:
+      config: Debug
+      targets:
+        - name: HDiaryUITests
+          parallelizable: true
+    profile:
+      config: Release
+      askForAppToLaunch: true
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+
+  HDiarySnapshotHost:
+    build:
+      targets:
+        HDiarySnapshotHost: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      testPlans:
+        - path: HDiarySnapshotTests/HDiarySnapshots.xctestplan
+          defaultPlan: true
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

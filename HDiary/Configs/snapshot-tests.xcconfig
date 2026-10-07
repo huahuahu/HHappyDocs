@@ -1,0 +1,12 @@
+// Debug / Release settings are inherited from the project configuration.
+#include "./base.xcconfig"
+
+BUNDLE_LOADER = $(TEST_HOST)
+ENABLE_TESTABILITY = YES
+GENERATE_INFOPLIST_FILE = YES
+PRODUCT_BUNDLE_IDENTIFIER = com.tiger.suzhou.HDiarySnapshotTests
+PRODUCT_NAME = $(TARGET_NAME)
+SDKROOT = iphoneos
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator
+SWIFT_EMIT_LOC_STRINGS = NO
+TEST_HOST = $(BUILT_PRODUCTS_DIR)/HDiarySnapshotHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HDiarySnapshotHost
