@@ -9,7 +9,9 @@ on:
 jobs:
   build-and-test:
     name: Build and test HDiary
-    runs-on: macos-26
+    runs-on: xcode-27
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
 
     steps:
       - name: Check out repository
@@ -21,16 +23,11 @@ jobs:
       - name: Generate and verify Xcode project
         run: python3 scripts/verify-project-generation.py
 
-      - name: Select latest Xcode
+      - name: Verify Xcode version
         id: xcode
         run: |
-          latest_xcode="/Applications/Xcode.app"
-          if [ ! -d "${latest_xcode}" ]; then
-            latest_xcode="$(find /Applications -maxdepth 1 -type d -name 'Xcode*.app' | sort | tail -1)"
-          fi
-          echo "Using ${latest_xcode}"
-          sudo xcode-select -s "${latest_xcode}/Contents/Developer"
           xcodebuild -version
+          test "$(xcodebuild -version | awk '/^Xcode / {print $2}')" = '27.1'
           echo "build=$(xcodebuild -version | awk '/Build version/ {print $3}')" >> "$GITHUB_OUTPUT"
           swift --version
           xcrun simctl list devices available
