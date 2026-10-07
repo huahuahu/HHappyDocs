@@ -1,7 +1,5 @@
 #if os(iOS)
-  import ImageIO
   import UIKit
-  import UniformTypeIdentifiers
 
   nonisolated enum ParticipantAvatarImage {
     @concurrent
@@ -14,26 +12,6 @@
             !Task.isCancelled
       else { return nil }
       return UIImage(cgImage: decoded, scale: source.scale, orientation: source.imageOrientation)
-    }
-
-    @MainActor
-    static func previewItem(for data: Data) -> HPreviewItem? {
-      guard let source = CGImageSourceCreateWithData(data as CFData, nil),
-            let identifier = CGImageSourceGetType(source),
-            let type = UTType(identifier as String)
-      else { return nil }
-
-      // Quick Look gets the original bytes, never the downsampled avatar.
-      let previewType: HPreviewItemType
-      switch type {
-      case .jpeg: previewType = .jpegImage
-      case .png: previewType = .pngImage
-      case .heic, .heif: previewType = .heicImage
-      case .gif: previewType = .gif
-      default:
-        return UIImage(data: data).map(HPreviewItem.init)
-      }
-      return HPreviewItem(data: data, previewType: previewType)
     }
 
     private static func visibleRaster(_ image: CGImage, maxPixelSize: Int?) -> CGImage? {

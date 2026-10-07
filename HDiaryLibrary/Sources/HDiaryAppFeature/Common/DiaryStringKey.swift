@@ -232,6 +232,20 @@ public enum DiaryStringKey {
   public static let participantNote = LocalizedStringResource("library.participant.note", defaultValue: "note", bundle: .module, comment: "Used when need show participant's note")
 
   enum Participant {
+    static let avatarPreviewFailed = LocalizedStringResource(
+      "participant.avatarPreview.failed", defaultValue: "Unable to preview avatar", bundle: .module,
+      comment: "Title of the alert when preparing an avatar preview file fails"
+    )
+    static let avatarPreviewFailureMessage = LocalizedStringResource(
+      "participant.avatarPreview.failureMessage",
+      defaultValue: "The image could not be prepared. Please try again. If this continues, check available storage.",
+      bundle: .module, comment: "Explains an avatar preview preparation failure and how to recover"
+    )
+    static let retryAvatarPreview = LocalizedStringResource(
+      "participant.avatarPreview.retry", defaultValue: "Try Again", bundle: .module,
+      comment: "Button that retries preparing an avatar preview after a failure"
+    )
+
     static let viewAvatar = LocalizedStringResource(
       "participant.viewAvatar", defaultValue: "View avatar", bundle: .module,
       comment: "Accessibility label for the button that previews a participant's avatar"

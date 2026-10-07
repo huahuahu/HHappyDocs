@@ -8,6 +8,17 @@
     private typealias Request = ParticipantAvatarLoader.Request
 
     @Test
+    func onlyTheCurrentLoadedOriginalCanBePreviewed() {
+      let data = Data([1])
+      let presentation = ParticipantAvatarLoader.Presentation.image(UIImage(), data: data)
+      #expect(presentation.previewData(matching: data) == data)
+      #expect(presentation.previewData(matching: Data([2])) == nil)
+      #expect(presentation.previewData(matching: nil) == nil)
+      #expect(ParticipantAvatarLoader.Presentation.loading.previewData(matching: data) == nil)
+      #expect(ParticipantAvatarLoader.Presentation.placeholder.previewData(matching: data) == nil)
+    }
+
+    @Test
     func newViewUsesCachedPhotoBeforeItsTaskStarts() async {
       let photo = UIImage()
       var decodeCount = 0

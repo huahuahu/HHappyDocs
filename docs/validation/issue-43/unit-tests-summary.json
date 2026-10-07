@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-07",
+  "summary": {
+    "status": "SUCCEEDED",
+    "durationMs": 24968,
+    "counts": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
+    "target": "simulator"
+  },
+  "artifacts": {
+    "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-e9e5d6b6803f/logs/test_sim_2026-10-07T11-09-38-867Z_pid98274_e00563b2.log",
+    "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-e9e5d6b6803f/result-bundles/test_sim_2026-10-07T11-09-38-867Z_pid98274_1211c7d6.xcresult",
+    "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-e9e5d6b6803f/test-products/test_sim_2026-10-07T11-09-38-867Z_pid98274_30903b82.xctestproducts"
+  },
+  "testFailures": []
+}

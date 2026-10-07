@@ -14,6 +14,11 @@
       case loading
       case placeholder
       case image(UIImage, data: Data)
+
+      func previewData(matching currentData: Data?) -> Data? {
+        guard case let .image(_, data) = self, data == currentData else { return nil }
+        return data
+      }
     }
 
     private struct LoadedAvatar {
