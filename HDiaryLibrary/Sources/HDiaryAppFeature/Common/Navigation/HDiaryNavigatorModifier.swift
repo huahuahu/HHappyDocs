@@ -51,8 +51,14 @@ enum HDiaryDestination: Hashable {
   case settingEntry(SettingEntry)
   case allMomentsScreen
 
-  @ViewBuilder @MainActor
+  @MainActor
   var targetView: some View {
+    targetContent
+      .hDiaryScrollingNavigationBar()
+  }
+
+  @ViewBuilder @MainActor
+  private var targetContent: some View {
     switch self {
     case .diagnosticLogs:
       DiagnosticLogView()
@@ -116,6 +122,32 @@ enum HDiaryDestination: Hashable {
 extension View {
   func hDiaryNavigator() -> some View {
     modifier(DiaryNavigatorModifier())
+  }
+
+  @ViewBuilder
+  func hDiaryScrollingNavigationBar() -> some View {
+    if #available(iOS 27.1, *) {
+      modifier(VerticalNavigationBarScrollingModifier())
+    }
+    else {
+      self
+    }
+  }
+}
+
+@available(iOS 27.1, *)
+private struct VerticalNavigationBarScrollingModifier: ViewModifier {
+  // 读取系统当前的工具栏布局，可随 Duo 形态变化，无需判断设备型号或方向。
+  @Environment(\.toolbarVerticalEdge) private var verticalEdge
+
+  func body(content: Content) -> some View {
+    // 竖栏布局下，automatic 会受 searchable 等页面配置影响，导致顶部标题收起行为不一致。
+    // 统一为上滑收起、下滑恢复，侧栏按钮保持固定；水平导航栏仍沿用系统默认行为。
+    content
+      .toolbarMinimizationBehavior(
+        verticalEdge == nil ? .automatic : .onScrollDown,
+        for: .navigationBar
+      )
   }
 }
 

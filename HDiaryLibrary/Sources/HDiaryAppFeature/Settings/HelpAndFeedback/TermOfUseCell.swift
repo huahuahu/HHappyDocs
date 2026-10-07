@@ -34,7 +34,7 @@ extension SettingsView {
               entersReaderIfAvailable: true,
               tintColor: UIColor(Color.accentColor)
             )
-            .ignoresSafeArea()
+            .ignoresSafeArea(.container, edges: .vertical)
           }
         )
       }

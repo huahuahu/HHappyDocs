@@ -14,11 +14,11 @@
       try await ParticipantSnapshotPreparation.prepareAvatars(fixture.participants)
       assertSnapshot(
         of: AllParticipantsPreview(fixture: fixture),
-        as: ListSnapshotConfiguration.image(
+        as: try ListSnapshotConfiguration.image(
           style: scenario == .dark ? .dark : .light,
           contentSize: scenario == .accessibility ? .accessibilityExtraLarge : .large
         ),
-        named: scenario.rawValue, record: ListSnapshotConfiguration.record,
+        named: try ListSnapshotConfiguration.name(scenario.rawValue), record: ListSnapshotConfiguration.record,
         testName: "all-participants"
       )
     }

@@ -24,8 +24,8 @@
       let fixture = try XCTUnwrap(ListSnapshotFixtures.shared.get().moments[scenario])
       assertSnapshot(
         of: MomentListPreview(fixture: fixture).tint(.orange),
-        as: ListSnapshotConfiguration.image(),
-        named: scenario.rawValue, record: ListSnapshotConfiguration.record, testName: "moment-list"
+        as: try ListSnapshotConfiguration.image(),
+        named: try ListSnapshotConfiguration.name(scenario.rawValue), record: ListSnapshotConfiguration.record, testName: "moment-list"
       )
     }
   }

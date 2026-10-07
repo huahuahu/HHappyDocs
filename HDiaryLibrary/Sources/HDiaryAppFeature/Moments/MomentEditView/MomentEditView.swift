@@ -173,17 +173,17 @@ struct MomentEditInnerView: View {
         }
         dismiss()
       } label: {
-        Text(DiaryStringKey.Common.cancel)
+        Label { Text(DiaryStringKey.Common.cancel) } icon: { Image(systemName: "xmark") }
       }
     }
 
-    ToolbarItem(placement: .primaryAction) {
+    ToolbarItem(placement: .confirmationAction) {
       Button(action: {
         dismiss()
         onMomentAdded(moment)
         self.taskFinished = true
       }, label: {
-        Text(confirmButtonLabel)
+        Label { Text(confirmButtonLabel) } icon: { Image(systemName: "checkmark") }
       })
       .sensoryFeedback(.success, trigger: taskFinished)
     }

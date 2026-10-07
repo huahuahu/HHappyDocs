@@ -13,11 +13,11 @@
       let fixture = try #require(ListSnapshotFixtures.shared.get().tags[scenario])
       assertSnapshot(
         of: AllTagsPreview(fixture: fixture),
-        as: ListSnapshotConfiguration.image(
+        as: try ListSnapshotConfiguration.image(
           style: scenario == .dark ? .dark : .light,
           contentSize: scenario == .accessibility ? .accessibilityLarge : .large
         ),
-        named: scenario.rawValue, record: ListSnapshotConfiguration.record,
+        named: try ListSnapshotConfiguration.name(scenario.rawValue), record: ListSnapshotConfiguration.record,
         testName: "all-tags"
       )
     }

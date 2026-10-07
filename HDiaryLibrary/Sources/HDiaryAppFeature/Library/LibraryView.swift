@@ -42,6 +42,7 @@ struct LibraryView: View {
         }
       })
       .navigationTitle(Text(DiaryStringKey.libraryTabItemLabel))
+      .hDiaryScrollingNavigationBar()
     }
     .environment(appRoute.libraryNavigationStore)
   }

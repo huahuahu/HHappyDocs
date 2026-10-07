@@ -129,18 +129,16 @@ private struct MomentDetailInnerView: View {
 
   @ViewBuilder
   private var participantView: some View {
-    ScrollView(.horizontal, showsIndicators: false) {
-      HStack {
-        Image(systemName: "person")
-        ForEach(moment.sortedParticipants) { participant in
-          NavigationLink(value: HDiaryDestination.participant(participant)) {
-            Text(participant.nickName)
-          }
+    HFlowLayout(itemSpace: 8, rowSpace: 8) {
+      Image(systemName: "person")
+      ForEach(moment.sortedParticipants) { participant in
+        NavigationLink(value: HDiaryDestination.participant(participant)) {
+          Text(participant.nickName)
         }
       }
-      .padding(.horizontal)
-      .foregroundStyle(.gray)
     }
+    .padding(.horizontal)
+    .foregroundStyle(.gray)
   }
 }
 

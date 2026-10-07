@@ -37,6 +37,7 @@ import WidgetKit
         }
       }
       .navigationTitle(Text(DiaryStringKey.happyListNavigationTitle))
+      .hDiaryScrollingNavigationBar()
     }
     .environment(appRoute.contentNavigationStore)
     .onOpenURL(perform: { url in
