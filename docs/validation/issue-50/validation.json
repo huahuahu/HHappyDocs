@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-11",
+  "baselineCommit": "0ed7fd3c74c750de56f59b383d45028b4de4b9f2",
+  "project": "HDiary.xcodeproj",
+  "scheme": "HDiary",
+  "configuration": "Debug",
+  "simulator": {
+    "name": "hdiary 17pro",
+    "id": "A044BA15-7770-48E6-8E28-E2123A772ACD",
+    "runtime": "iOS 26.5",
+    "device": "iPhone 17 Pro",
+    "screenPixels": [
+      1206,
+      2622
+    ]
+  },
+  "homeScreen": {
+    "size": "small",
+    "darkMode": "always",
+    "systemAppearance": "light",
+    "iconFramePixels": {
+      "x": 648,
+      "y": 573,
+      "width": 192,
+      "height": 192
+    },
+    "capture": "simctl io screenshot; lossless original PNG"
+  },
+  "change": {
+    "layer": "01 光芒",
+    "appearance": "dark",
+    "color": "#D8A74E",
+    "svgAssetsUnchanged": true
+  },
+  "build": {
+    "status": "SUCCEEDED",
+    "durationMs": 121719,
+    "target": "simulator"
+  },
+  "renderChecks": [
+    {
+      "designGeneration": 26,
+      "rendition": "Default",
+      "sizePoints": [
+        64,
+        64
+      ],
+      "scale": 3,
+      "changedPixels": 0,
+      "sunCenterChangedPixels": 0
+    },
+    {
+      "designGeneration": 26,
+      "rendition": "Dark",
+      "sizePoints": [
+        64,
+        64
+      ],
+      "scale": 3,
+      "changedPixels": 1121,
+      "sunCenterChangedPixels": 0
+    },
+    {
+      "designGeneration": 27,
+      "rendition": "Default",
+      "sizePoints": [
+        64,
+        64
+      ],
+      "scale": 3,
+      "changedPixels": 0,
+      "sunCenterChangedPixels": 0
+    },
+    {
+      "designGeneration": 27,
+      "rendition": "Dark",
+      "sizePoints": [
+        64,
+        64
+      ],
+      "scale": 3,
+      "changedPixels": 1121,
+      "sunCenterChangedPixels": 0
+    }
+  ],
+  "limitations": [
+    "No physical-device validation",
+    "iOS 27 checked via Icon Composer exports, not SpringBoard screenshots"
+  ]
+}
