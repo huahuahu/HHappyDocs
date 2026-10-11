@@ -1,0 +1,4 @@
+#include "./snapshot-tests.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.tiger.suzhou.HDiaryWidgetSnapshotTests
+SUPPORTED_PLATFORMS = iphonesimulator

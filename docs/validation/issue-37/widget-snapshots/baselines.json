@@ -1,0 +1,206 @@
+[
+  {
+    "file": "moment-widget.large-accessibility-light.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "5e911c1ce03ee2081f2876e318cfb8a9aade62e63aa7cfd969804b5f4756ba9c"
+  },
+  {
+    "file": "moment-widget.large-allParticipants-light.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "ffb02cc5eb72b36d89c77f6f5cc823b99a9950cd57e09ba2472673950d29571d"
+  },
+  {
+    "file": "moment-widget.large-empty-light.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "1ad9940031777d38a29602e93ef56a67822f579a163c169f6475aae38ec37660"
+  },
+  {
+    "file": "moment-widget.large-longContent-light.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "39152a0fd7491e6289e87d898f139fd07402ba548713b2dcace612766452b6bc"
+  },
+  {
+    "file": "moment-widget.large-photo-clearDark.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "4d0e35d7cc9cc6de626ad59f25e6ea98b924b5043d0dc796e0a12119a9e64528"
+  },
+  {
+    "file": "moment-widget.large-photo-clearLight.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "459bbe1bf6863f6afe6353c84f7fc476c84abf65c276d87ab1a8311ea3bea6f0"
+  },
+  {
+    "file": "moment-widget.large-photo-dark.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "d39da894abfd7bd65e0b14802b3694d452d5ccb05f4380e9d4fb0ea1b08e501f"
+  },
+  {
+    "file": "moment-widget.large-photo-light.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "014a0cb1ee5593e915cdd9bf0bb6880650828cc088db53683c5b5ce234ff9084"
+  },
+  {
+    "file": "moment-widget.large-photo-tintedDark.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "fe8d98a13224c0d9744c6acd5b183aa2d4d353837dfc933e1e864efeb4a7c147"
+  },
+  {
+    "file": "moment-widget.large-photo-tintedLight.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "2b636c2ff60df874f196ee39789e5e7c49cd5cf51de957db0d1c8e70e2b81e8e"
+  },
+  {
+    "file": "moment-widget.large-populated-clearDark.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "8a365b74637765cd87a6ae352d7bb46699b3442838c3cb98748f1b9f6fe77fb6"
+  },
+  {
+    "file": "moment-widget.large-populated-clearLight.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "bb660a5584fb4684a12264c643cd36f41b90531fd7c864bfe2e4fdbe8b2bdaa3"
+  },
+  {
+    "file": "moment-widget.large-populated-dark.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "5831c5054bb95653c7e40b10889a52315bf64d2ee89310adc3345cac1b15ba3f"
+  },
+  {
+    "file": "moment-widget.large-populated-light.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "8f258b652c19de8b0feb66da08fc94b53b775db277317d9daa8b6ed8e6db2d87"
+  },
+  {
+    "file": "moment-widget.large-populated-tintedDark.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "50743d50b8c1f73d9e02c42cf61a7f4b75fd7dd11f115cefef9a15d54c61e51d"
+  },
+  {
+    "file": "moment-widget.large-populated-tintedLight.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "969f633366543887c823e9c6b086ef48b99ff4c56b254fa0e5a4ccb518093d83"
+  },
+  {
+    "file": "moment-widget.large-single-light.png",
+    "width": 1048,
+    "height": 1094,
+    "sha256": "a5d7cc5677946691f7c4e7b7bef10358acd31c5c9994f1148bb76e80d2657768"
+  },
+  {
+    "file": "moment-widget.medium-accessibility-light.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "28d4543b8fecda75fee4f99bab37c7e2332452ac83d64c0ace17ff7da50a75b9"
+  },
+  {
+    "file": "moment-widget.medium-allParticipants-light.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "a2ab398af400924c7adfc7315a01ffdb11aad6b30965052b097d583cb3fcdf6d"
+  },
+  {
+    "file": "moment-widget.medium-empty-light.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "9fb4fd4fc46bfe37d22f0a3411e96faa0e8bf8238169a04b6739234633f28f2a"
+  },
+  {
+    "file": "moment-widget.medium-longContent-light.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "d990efb459438a36749bb2e70c372bfb458a6285aeea203d1e6bed4bbaaab0e1"
+  },
+  {
+    "file": "moment-widget.medium-photo-clearDark.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "ade2ad303efb3cd12f13788417a0ed1690dd260679411ddf5c06ff6a71ee6b6e"
+  },
+  {
+    "file": "moment-widget.medium-photo-clearLight.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "95002936164224a9e5e087911ac235ed2948f284f241fd79485b49bbdd3dbd0f"
+  },
+  {
+    "file": "moment-widget.medium-photo-dark.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "d278726a7e37eebf48aa073d5462e1c6ca2b600e643a7d537f1ad3b668ccf095"
+  },
+  {
+    "file": "moment-widget.medium-photo-light.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "a11ea9cf7cd77dcce92fbb38c3de9d0993ec1674d81cd79221a113f26c463141"
+  },
+  {
+    "file": "moment-widget.medium-photo-tintedDark.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "ded135f27bd637d765e8eaa6582b44c302f7e487763500184ba605cbceb14184"
+  },
+  {
+    "file": "moment-widget.medium-photo-tintedLight.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "072753e8ea4ff697440570e6a33359a610af99275db6bbd04e3baf09d5072770"
+  },
+  {
+    "file": "moment-widget.medium-populated-clearDark.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "4beaf702d2a3e8f1194359d9ddf316cca2f7915a857def0ca96e6e13576d6e1c"
+  },
+  {
+    "file": "moment-widget.medium-populated-clearLight.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "67a03a956353d880cd6b4f29aa9656052e65fac35e76674f2233ff1580a8ee1d"
+  },
+  {
+    "file": "moment-widget.medium-populated-dark.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "b04b4f3430c37719ee1e292f1046cfca89452a0eaf52a2e80baaabf2879d8ff4"
+  },
+  {
+    "file": "moment-widget.medium-populated-light.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "76544514bff5a3824b35249254cd8f14e92cfb709bc180d0cc65c26f4e3b5c2d"
+  },
+  {
+    "file": "moment-widget.medium-populated-tintedDark.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "799db436a88f26f73587048b9e749fafa2e92b41e195bed818affcba1f06aa64"
+  },
+  {
+    "file": "moment-widget.medium-populated-tintedLight.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "d1f6a9f74ffbaf924190be08e107fa1c57e0839510f6e1b7960a03664c4798cc"
+  },
+  {
+    "file": "moment-widget.medium-single-light.png",
+    "width": 1048,
+    "height": 492,
+    "sha256": "e00e00af6b4c7380a00f1aa9e9a8c566341f30232bff4e082d0bfcda67820d3f"
+  }
+]

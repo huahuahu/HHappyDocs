@@ -203,7 +203,11 @@ let package = Package(
       dependencies: [
         "HDiaryModel",
         "HDiaryWidgetData",
+        "HDiaryWidgetIntents",
         "HDiaryWidgetSnapshotSync",
+      ],
+      resources: [
+        .copy("Fixtures/avatar-10bit.heic"),
       ],
       swiftSettings: packageSwiftSettings
     ),

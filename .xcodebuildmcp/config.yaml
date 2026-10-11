@@ -15,5 +15,6 @@ setupPreferences:
 sessionDefaults:
   projectPath: HDiary.xcodeproj
   scheme: HDiary
-  simulatorId: A044BA15-7770-48E6-8E28-E2123A772ACD
-  simulatorName: hdiary 17pro
+  # iPhone 17 Pro / iOS 27.0 (24A434), matching the iPhone CI snapshot runtime.
+  simulatorId: 040ECFE5-4ED3-4795-AC27-23490CF57596
+  simulatorName: HDiary Snapshot iPhone 17 Pro

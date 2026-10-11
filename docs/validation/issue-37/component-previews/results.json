@@ -1,0 +1,168 @@
+{
+  "date": "2026-10-11",
+  "sourceFile": "HDiaryWidget/MomentWidgetPreviews.swift",
+  "build": "The project built successfully.",
+  "previewCount": 9,
+  "previews": [
+    {
+      "index": 0,
+      "name": "Entry · Medium",
+      "sourceLine": 8,
+      "screenshot": "entry-medium.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "timelineIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "errors": []
+    },
+    {
+      "index": 1,
+      "name": "Entry · Large",
+      "sourceLine": 18,
+      "screenshot": "entry-large.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "timelineIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "errors": []
+    },
+    {
+      "index": 2,
+      "name": "Header",
+      "sourceLine": 28,
+      "screenshot": "header.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "timelineIndexes": [
+        0,
+        1,
+        2
+      ],
+      "errors": []
+    },
+    {
+      "index": 3,
+      "name": "Moments · Medium",
+      "sourceLine": 36,
+      "screenshot": "moments-medium.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "timelineIndexes": [
+        0,
+        1,
+        2
+      ],
+      "errors": []
+    },
+    {
+      "index": 4,
+      "name": "Moments · Large",
+      "sourceLine": 44,
+      "screenshot": "moments-large.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "timelineIndexes": [
+        0,
+        1,
+        2
+      ],
+      "errors": []
+    },
+    {
+      "index": 5,
+      "name": "Row · Medium",
+      "sourceLine": 52,
+      "screenshot": "row-medium.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "timelineIndexes": [
+        0,
+        1
+      ],
+      "errors": []
+    },
+    {
+      "index": 6,
+      "name": "Row · Large",
+      "sourceLine": 59,
+      "screenshot": "row-large.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "timelineIndexes": [
+        0,
+        1
+      ],
+      "errors": []
+    },
+    {
+      "index": 7,
+      "name": "Empty · Medium",
+      "sourceLine": 66,
+      "screenshot": "empty-medium.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "timelineIndexes": [
+        0
+      ],
+      "errors": []
+    },
+    {
+      "index": 8,
+      "name": "Empty · Large",
+      "sourceLine": 72,
+      "screenshot": "empty-large.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "timelineIndexes": [
+        0
+      ],
+      "errors": []
+    }
+  ]
+}

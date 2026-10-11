@@ -1,0 +1,170 @@
+[
+  {
+    "file": "moment-widget-content.large-accessibility1-fullColorLight.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "c8828f14d85294f6427e7aae7382899f0cbe3de9211c4b508d1f354849ec1333"
+  },
+  {
+    "file": "moment-widget-content.large-allParticipants-fullColorLight.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "6bed530c87e6ba6003844b0a14827f16dad23be7b3afaa5fa7f521e4435d9be9"
+  },
+  {
+    "file": "moment-widget-content.large-empty-fullColorLight.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "1a634b894efca79f4908821fca8e4d298aa287f59821555b4daf498d5eb6c1fc"
+  },
+  {
+    "file": "moment-widget-content.large-longContent-fullColorLight.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "845007775d229086f4a70b52deb1f744b35c0528c2e2fcc3403e2c81a4849847"
+  },
+  {
+    "file": "moment-widget-content.large-photo-accentedDark.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "42d7e3897d13e0f126fe15fe39c98c8611cafcf85d7da80caebd51fbce68de59"
+  },
+  {
+    "file": "moment-widget-content.large-photo-accentedLight.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "877b8cd799957a0327f6682e2a10776c24b65c915d477d942460875f988e56c8"
+  },
+  {
+    "file": "moment-widget-content.large-photo-fullColorDark.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "a75b023426d7411f00d55b4651bd86c6bc8c4e4b80f7f07b4dc3f80be1d1cdd5"
+  },
+  {
+    "file": "moment-widget-content.large-photo-fullColorLight.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "4ad75d4936903020400e62a0ccae78cb32c77549fff31a33c70b09086d36494f"
+  },
+  {
+    "file": "moment-widget-content.large-populated-accentedDark.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "2272d3bc98ff4d3962ab66dd21364bbce64fb64880144c73632d8324667e8de3"
+  },
+  {
+    "file": "moment-widget-content.large-populated-accentedLight.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "9a287a066e81cb7e4c4fa7c0219e994e4c929dee9c0257a5d7bd4ee0a7b9e81a"
+  },
+  {
+    "file": "moment-widget-content.large-populated-fullColorDark.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "6957278195b3eb31be9de08303ec41218934942a2541b1eecaab9ba751182b9f"
+  },
+  {
+    "file": "moment-widget-content.large-populated-fullColorLight.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "d508325fb6b47ae5b99fde7c630b310b250dbf2a16f8e053b99b1ea6f7eae906"
+  },
+  {
+    "file": "moment-widget-content.large-row-accessibility5.png",
+    "width": 1050,
+    "height": 435,
+    "sha256": "7cafadb518f6884840cf2874ee7ab6987d4c1d772587206bca6643517aad29f2"
+  },
+  {
+    "file": "moment-widget-content.large-single-fullColorLight.png",
+    "width": 1050,
+    "height": 1095,
+    "sha256": "88d0d43488ea18b6a3947b48e87f791049a2a925367317fe84e1b59e087d52f1"
+  },
+  {
+    "file": "moment-widget-content.medium-accessibility1-fullColorLight.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "81d1d494af1063026205bddc1b053487296495851094478b4e30effb4340e1dc"
+  },
+  {
+    "file": "moment-widget-content.medium-allParticipants-fullColorLight.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "3b4209a230ec7a03b165a97cd7e0471fffd8f0e5a7397f8a091621628eefed0a"
+  },
+  {
+    "file": "moment-widget-content.medium-empty-fullColorLight.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "d8a303393c73c13b7ddc120e1b27eaa19638acb41e98ef5a226d3a952d9c40cd"
+  },
+  {
+    "file": "moment-widget-content.medium-longContent-fullColorLight.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "f2718f3abc6db0c7e47b5ae080c318c4f227dc9ad9d7fa41c0ae41b53f650147"
+  },
+  {
+    "file": "moment-widget-content.medium-photo-accentedDark.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "fd535221da062982df5064851770e94198986a74ae2517789a2d274a0d19cd12"
+  },
+  {
+    "file": "moment-widget-content.medium-photo-accentedLight.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "eaf136b3322fc8f0657f7bd139b1c05f85458fa03d515f74723ae301bdb2e898"
+  },
+  {
+    "file": "moment-widget-content.medium-photo-fullColorDark.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "9829ffb6fc4a53bb30fef772e46173777c97a0cd6dd3439f6cce88b5be0de4d4"
+  },
+  {
+    "file": "moment-widget-content.medium-photo-fullColorLight.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "3a45a7807b2e095bcdf7d127b8906534293c220a34575d62053803e7b3e97904"
+  },
+  {
+    "file": "moment-widget-content.medium-populated-accentedDark.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "709af0744916d52825d8e02dbd30abeb8d18fb30976076f579d3050bdb046699"
+  },
+  {
+    "file": "moment-widget-content.medium-populated-accentedLight.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "003938cb67d23957179f5c126b7834f94965b6b0df971fad170918c47439f69a"
+  },
+  {
+    "file": "moment-widget-content.medium-populated-fullColorDark.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "01b2c00c9beb7f374c6f59da9b9c870c82bb575e5780d868e662ee6cb7476b25"
+  },
+  {
+    "file": "moment-widget-content.medium-populated-fullColorLight.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "279c2c7f4e26328887c8cffd025d135945b88d351531feb19aecbf13a36a0f58"
+  },
+  {
+    "file": "moment-widget-content.medium-row-accessibility5.png",
+    "width": 1050,
+    "height": 435,
+    "sha256": "7cafadb518f6884840cf2874ee7ab6987d4c1d772587206bca6643517aad29f2"
+  },
+  {
+    "file": "moment-widget-content.medium-single-fullColorLight.png",
+    "width": 1050,
+    "height": 492,
+    "sha256": "47c13c4bed6da8654b4daa3a16163aa4ba26c5c672fd9ea2ca552fbaa3d7f9fe"
+  }
+]

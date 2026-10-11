@@ -1,0 +1,20 @@
+[
+  {
+    "file": "HDiarySnapshotTests/__Snapshots__/MomentListSnapshotTests/moment-list.empty-iphone.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "d73a2c8a2bd38916a389ce1311bfb0c89661d9a23330bdcabee9e1c5f36e65c6"
+  },
+  {
+    "file": "HDiarySnapshotTests/__Snapshots__/MomentListSnapshotTests/moment-list.expanded-iphone.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "30d8ba943b1f9b3e4d5280d15ad2578a0966051ef59b81774329cb9a8e95fc8a"
+  },
+  {
+    "file": "HDiarySnapshotTests/__Snapshots__/MomentListSnapshotTests/moment-list.grouped-iphone.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "5536b3173a4a6b7d96c2bfdcdb71d0f7a80933eccc53517340dc29a08af51753"
+  }
+]

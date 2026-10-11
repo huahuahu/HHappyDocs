@@ -119,7 +119,25 @@ targets:
     sources:
       - HDiarySnapshotHost
       - path: HDiary
-        includes: [Assets.xcassets, Localizable.xcstrings]
+        includes: [Assets.xcassets, Localizable.xcstrings, Intents.xcstrings]
+
+  HDiaryWidgetSnapshotTests:
+    type: bundle.unit-test
+    platform: iOS
+    settings:
+      INFOPLIST_FILE: ""
+    configFiles:
+      Debug: HDiary/Configs/widget-snapshot-tests.xcconfig
+      Release: HDiary/Configs/widget-snapshot-tests.xcconfig
+    sources:
+      - path: HDiaryWidgetSnapshotTests/Tests
+        excludes: [__Snapshots__]
+      - HDiaryWidget/MomentWidgetPreviewFixtures.swift
+    dependencies:
+      - target: HDiarySnapshotHost
+      - package: SnapshotTesting
+      - package: HDiaryLibrary
+        products: [HDiaryWidgetFeature, HDiaryWidgetIntents]
 
   HDiarySnapshotTests:
     type: bundle.unit-test
@@ -141,6 +159,18 @@ targets:
         products: [HDiaryAppFeature, HDiaryModel]
 
 schemes:
+  HDiaryWidgetSnapshots:
+    build:
+      targets:
+        HDiarySnapshotHost: all
+    test:
+      config: Debug
+      language: zh-Hans
+      region: CN
+      targets:
+        - name: HDiaryWidgetSnapshotTests
+          parallelizable: false
+
   HDiary:
     build:
       targets:

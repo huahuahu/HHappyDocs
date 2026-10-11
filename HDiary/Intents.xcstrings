@@ -137,6 +137,23 @@
         }
       }
     },
+    "widget.moment.empty.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open HDiary to record a happy moment."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开 HDiary，记录值得回味的时刻。"
+          }
+        }
+      }
+    },
     "widget.moment.intent.description" : {
       "extractionState" : "manual",
       "localizations" : {

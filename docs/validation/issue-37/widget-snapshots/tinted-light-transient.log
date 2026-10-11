@@ -1,0 +1,28 @@
+Test Case '-[HDiaryWidgetSnapshotTests.MomentWidgetSnapshotTests testMedium]' started.
+    t =     8.58s medium · populated-light
+    t =    31.69s medium · photo-light
+    t =    40.56s medium · populated-dark
+    t =    68.64s medium · photo-dark
+    t =    77.63s medium · populated-tintedLight
+WIDGET_TINT Gradient slider: teal
+WIDGET_TINT Luma slider: 76%
+/Users/tigerguo/.codex/worktrees/0f49/HHappyDocs/HDiaryWidgetSnapshotTests/Tests/MomentWidgetSnapshotTests.swift:45: error: -[HDiaryWidgetSnapshotTests.MomentWidgetSnapshotTests testMedium] : failed - Snapshot "medium-populated-tintedLight" does not match reference.
+    t =   128.43s medium · photo-tintedLight
+/Users/tigerguo/.codex/worktrees/0f49/HHappyDocs/HDiaryWidgetSnapshotTests/Tests/MomentWidgetSnapshotTests.swift:45: error: -[HDiaryWidgetSnapshotTests.MomentWidgetSnapshotTests testMedium] : failed - Snapshot "medium-photo-tintedLight" does not match reference.
+    t =   137.99s medium · populated-tintedDark
+WIDGET_TINT Gradient slider: teal
+WIDGET_TINT Luma slider: 51%
+    t =   174.60s medium · photo-tintedDark
+    t =   183.73s medium · populated-clearLight
+    t =   211.85s medium · photo-clearLight
+    t =   221.23s medium · populated-clearDark
+    t =   248.57s medium · photo-clearDark
+    t =   257.69s medium · longContent-light
+    t =   280.91s medium · single-light
+    t =   289.57s medium · empty-light
+    t =   298.42s medium · allParticipants-light
+    t =   307.52s medium · accessibility-light
+Test Case '-[HDiaryWidgetSnapshotTests.MomentWidgetSnapshotTests testMedium]' failed (342.900 seconds).
+	 Executed 1 test, with 2 failures (0 unexpected) in 342.900 (342.911) seconds
+	 Executed 1 test, with 2 failures (0 unexpected) in 342.900 (342.920) seconds
+	 Executed 1 test, with 2 failures (0 unexpected) in 342.900 (342.923) seconds

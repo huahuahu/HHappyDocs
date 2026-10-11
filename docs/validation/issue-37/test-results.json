@@ -1,0 +1,129 @@
+{
+  "date": "2026-10-08",
+  "tool": "Xcode MCP RunSomeTests",
+  "scheme": "HDiary",
+  "testPlan": "HDiary",
+  "destination": {
+    "name": "hdiary 17pro",
+    "model": "iPhone 17 Pro",
+    "system": "iOS 26.5 (23F77)",
+    "architecture": "arm64",
+    "simulatorId": "A044BA15-7770-48E6-8E28-E2123A772ACD"
+  },
+  "counts": {
+    "expectedFailures": 0,
+    "failed": 0,
+    "notRun": 0,
+    "passed": 15,
+    "skipped": 0,
+    "total": 15
+  },
+  "summary": "15 tests: 15 passed, 0 failed, 0 skipped, 0 expected failures, 0 not run",
+  "results": [
+    {
+      "displayName": "testWidgetIntentsDeclaresAppIntentsPackage()",
+      "errorMessages": [],
+      "identifier": "MomentWidgetIntentTests/testWidgetIntentsDeclaresAppIntentsPackage()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "testSelectedParticipantIDUsesStoredUUIDString()",
+      "errorMessages": [],
+      "identifier": "MomentWidgetIntentTests/testSelectedParticipantIDUsesStoredUUIDString()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "testSelectedParticipantIDIsNilForInvalidStoredString()",
+      "errorMessages": [],
+      "identifier": "MomentWidgetIntentTests/testSelectedParticipantIDIsNilForInvalidStoredString()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "testSelectedParticipantIDSupportsAllParticipantsSentinelString()",
+      "errorMessages": [],
+      "identifier": "MomentWidgetIntentTests/testSelectedParticipantIDSupportsAllParticipantsSentinelString()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "testMomentWidgetDataSourceReadsIsolatedSnapshotStore()",
+      "errorMessages": [],
+      "identifier": "MomentWidgetIntentTests/testMomentWidgetDataSourceReadsIsolatedSnapshotStore()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "testDataSourceProviderRetriesAfterSnapshotStoreBecomesAvailable()",
+      "errorMessages": [],
+      "identifier": "MomentWidgetIntentTests/testDataSourceProviderRetriesAfterSnapshotStoreBecomesAvailable()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "testParticipantEntityMapsSnapshotThumbnailAndNickname()",
+      "errorMessages": [],
+      "identifier": "MomentWidgetIntentTests/testParticipantEntityMapsSnapshotThumbnailAndNickname()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "testParticipantEntityUsesStableFallbackForMissingOrInvalidThumbnail()",
+      "errorMessages": [],
+      "identifier": "MomentWidgetIntentTests/testParticipantEntityUsesStableFallbackForMissingOrInvalidThumbnail()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "writer 报告 no-op 时不刷新 timeline",
+      "errorMessages": [],
+      "identifier": "WidgetSnapshotCoordinatorChangeTests/unchangedSnapshotDoesNotReloadTimeline()",
+      "state": "Passed",
+      "targetName": "HDiaryWidgetSnapshotSyncTests"
+    },
+    {
+      "displayName": "testSuccessfulRebuildWritesThenReloadsTimeline()",
+      "errorMessages": [],
+      "identifier": "WidgetSnapshotCoordinatorTests/testSuccessfulRebuildWritesThenReloadsTimeline()",
+      "state": "Passed",
+      "targetName": "HDiaryWidgetSnapshotSyncTests"
+    },
+    {
+      "displayName": "testTimelineDoesNotReloadUntilWriteCompletes()",
+      "errorMessages": [],
+      "identifier": "WidgetSnapshotCoordinatorTests/testTimelineDoesNotReloadUntilWriteCompletes()",
+      "state": "Passed",
+      "targetName": "HDiaryWidgetSnapshotSyncTests"
+    },
+    {
+      "displayName": "testBuildFailureDoesNotWriteOrReloadTimeline()",
+      "errorMessages": [],
+      "identifier": "WidgetSnapshotCoordinatorTests/testBuildFailureDoesNotWriteOrReloadTimeline()",
+      "state": "Passed",
+      "targetName": "HDiaryWidgetSnapshotSyncTests"
+    },
+    {
+      "displayName": "testWriteFailureKeepsPreviousSnapshotAndDoesNotReload()",
+      "errorMessages": [],
+      "identifier": "WidgetSnapshotCoordinatorTests/testWriteFailureKeepsPreviousSnapshotAndDoesNotReload()",
+      "state": "Passed",
+      "targetName": "HDiaryWidgetSnapshotSyncTests"
+    },
+    {
+      "displayName": "testTwoPendingRequestsCoalesceIntoOneRebuild()",
+      "errorMessages": [],
+      "identifier": "WidgetSnapshotCoordinatorTests/testTwoPendingRequestsCoalesceIntoOneRebuild()",
+      "state": "Passed",
+      "targetName": "HDiaryWidgetSnapshotSyncTests"
+    },
+    {
+      "displayName": "testRequestDuringRebuildRunsOneSerializedFollowUpWithLatestState()",
+      "errorMessages": [],
+      "identifier": "WidgetSnapshotCoordinatorTests/testRequestDuringRebuildRunsOneSerializedFollowUpWithLatestState()",
+      "state": "Passed",
+      "targetName": "HDiaryWidgetSnapshotSyncTests"
+    }
+  ]
+}

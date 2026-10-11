@@ -1,0 +1,41 @@
+{
+  "activeTestPlanName": "HDiarySnapshots",
+  "counts": {
+    "expectedFailures": 0,
+    "failed": 0,
+    "notRun": 0,
+    "passed": 3,
+    "skipped": 0,
+    "total": 3
+  },
+  "fullConsoleLogsPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/test-console-log-2026-10-11T12-24-35+08-00.txt",
+  "fullSummaryPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/55CB57E2-DE09-4F8C-AFC6-A6EAF376EC28.txt",
+  "results": [
+    {
+      "displayName": "testGroupedList()",
+      "errorMessages": [],
+      "identifier": "MomentListSnapshotTests/testGroupedList()",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": "testExpandedList()",
+      "errorMessages": [],
+      "identifier": "MomentListSnapshotTests/testExpandedList()",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": "testEmptyList()",
+      "errorMessages": [],
+      "identifier": "MomentListSnapshotTests/testEmptyList()",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    }
+  ],
+  "schemeName": "HDiarySnapshotHost",
+  "summary": "3 tests: 3 passed, 0 failed, 0 skipped, 0 expected failures, 0 not run",
+  "totalResults": 3,
+  "truncated": false,
+  "xcresultBundlePath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/Test-HDiarySnapshotHost-2026.10.11_12-24-35-+0800.xcresult"
+}

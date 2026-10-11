@@ -21,6 +21,8 @@ open HDiary.xcodeproj
 
 选择 `HDiary` scheme 可运行 App 或执行原有通用测试计划；`HDiaryWidgetExtension` 保留 Widget 调试环境和宿主关系；`HDiarySnapshotHost` 使用独立的 `HDiarySnapshots` 计划。快照运行与基准维护见 [快照测试说明](HDiarySnapshotTests/README.md)。
 
+`HDiaryWidgetSnapshots` 使用单元测试直接渲染正式 Widget 内容，覆盖 Medium／Large、浅深色、accented 代码分支及内容配置，见 [Widget 单元截图说明](HDiaryWidgetSnapshotTests/README.md)。系统 Tinted／Clear（Glass）合成通过 Widget Preview 和主屏人工检查。
+
 ## 构建和测试
 
 本地 helper 会先重新生成工程，然后仅使用锁文件中的依赖版本：

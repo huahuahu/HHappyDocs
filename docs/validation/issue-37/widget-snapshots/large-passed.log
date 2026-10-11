@@ -1,0 +1,27 @@
+Test Case '-[HDiaryWidgetSnapshotTests.MomentWidgetSnapshotTests testLarge]' started.
+    t =    40.37s large · populated-light
+    t =    62.94s large · photo-light
+    t =    72.15s large · populated-dark
+    t =    99.79s large · photo-dark
+    t =   108.79s large · populated-tintedLight
+WIDGET_TINT Gradient slider: teal
+WIDGET_TINT Luma slider: 76%
+    t =   144.88s large · photo-tintedLight
+    t =   154.54s large · populated-tintedDark
+WIDGET_TINT Gradient slider: teal
+WIDGET_TINT Luma slider: 51%
+    t =   194.47s large · photo-tintedDark
+    t =   203.70s large · populated-clearLight
+    t =   234.38s large · photo-clearLight
+    t =   243.55s large · populated-clearDark
+    t =   270.22s large · photo-clearDark
+    t =   279.17s large · longContent-light
+    t =   301.27s large · single-light
+    t =   309.79s large · empty-light
+    t =   318.31s large · allParticipants-light
+    t =   326.92s large · accessibility-light
+Test Case '-[HDiaryWidgetSnapshotTests.MomentWidgetSnapshotTests testLarge]' passed (357.479 seconds).
+	 Executed 1 test, with 0 failures (0 unexpected) in 357.479 (357.485) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 357.479 (357.486) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 357.479 (357.489) seconds
+** TEST EXECUTE SUCCEEDED **

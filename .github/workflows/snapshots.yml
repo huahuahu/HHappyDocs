@@ -14,9 +14,9 @@ concurrency:
 
 jobs:
   snapshots:
-    name: List snapshots (${{ matrix.device }})
+    name: Snapshots (${{ matrix.device }})
     runs-on: xcode-27
-    timeout-minutes: 45
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -37,6 +37,7 @@ jobs:
       SNAPSHOT_RUNTIME_BUILD: ${{ matrix.build }}
       # TEST_RUNNER_ forwards these values to the simulator test process.
       TEST_RUNNER_HDIARY_RECORD_SNAPSHOTS: "0"
+      TEST_RUNNER_HDIARY_RECORD_WIDGET_SNAPSHOTS: "0"
       TEST_RUNNER_SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/SnapshotResults/Images
     steps:
       - name: Check out repository
@@ -130,6 +131,19 @@ jobs:
             -derivedDataPath DerivedData/Snapshots \
             CODE_SIGNING_ALLOWED=NO
 
+      - name: Build Widget snapshot unit tests
+        if: matrix.device == 'iphone'
+        timeout-minutes: 8
+        run: |
+          python3 scripts/ci-snapshot-phase.py widget-build 420 \
+            xcodebuild build-for-testing \
+            -project HDiary.xcodeproj -scheme HDiaryWidgetSnapshots \
+            -configuration Debug \
+            -destination "platform=iOS Simulator,id=$SNAPSHOT_SIMULATOR_ID" \
+            -parallel-testing-enabled NO -onlyUsePackageVersionsFromResolvedFile \
+            -derivedDataPath DerivedData/Snapshots \
+            CODE_SIGNING_ALLOWED=NO
+
       - name: Boot snapshot simulator
         timeout-minutes: 7
         run: |
@@ -140,7 +154,7 @@ jobs:
       - name: Run snapshot tests
         timeout-minutes: 23
         run: |
-          # 在 job 的 45 分钟上限前终止异常等待，为诊断和 artifact 上传留出时间。
+          # 在 job 的上限前终止异常等待，为诊断和 artifact 上传留出时间。
           python3 scripts/ci-snapshot-phase.py test 1200 \
             xcodebuild test-without-building \
             -project HDiary.xcodeproj \
@@ -153,6 +167,21 @@ jobs:
             -onlyUsePackageVersionsFromResolvedFile \
             -derivedDataPath DerivedData/Snapshots \
             -resultBundlePath SnapshotResults/Lists.xcresult \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Compare Widget view snapshots
+        if: matrix.device == 'iphone'
+        timeout-minutes: 23
+        run: |
+          python3 scripts/ci-snapshot-phase.py widgets 1200 \
+            xcodebuild test-without-building \
+            -project HDiary.xcodeproj -scheme HDiaryWidgetSnapshots \
+            -configuration Debug \
+            -destination "platform=iOS Simulator,id=$SNAPSHOT_SIMULATOR_ID" \
+            -parallel-testing-enabled NO -collect-test-diagnostics never \
+            -onlyUsePackageVersionsFromResolvedFile \
+            -derivedDataPath DerivedData/Snapshots \
+            -resultBundlePath SnapshotResults/Widgets.xcresult \
             CODE_SIGNING_ALLOWED=NO
 
       - name: Collect simulator logs on failure
@@ -181,6 +210,11 @@ jobs:
             xcrun xcresulttool export attachments \
               --path SnapshotResults/Lists.xcresult \
               --output-path SnapshotResults/Attachments
+          fi
+          if [ -d SnapshotResults/Widgets.xcresult ]; then
+            xcrun xcresulttool export attachments \
+              --path SnapshotResults/Widgets.xcresult \
+              --output-path SnapshotResults/WidgetAttachments
           fi
 
       - name: Upload snapshot results
