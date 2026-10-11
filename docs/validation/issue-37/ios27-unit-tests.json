@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-11",
+  "sourceCommit": "13e8b0669d96b0f7c092c66b66c05e9ba13186cf",
+  "simulator": {
+    "name": "HDiary Snapshot iPhone 17 Pro",
+    "model": "iPhone 17 Pro",
+    "runtime": "iOS 27.0 (24A434)",
+    "id": "040ECFE5-4ED3-4795-AC27-23490CF57596"
+  },
+  "recordingEnabled": false,
+  "unitTests": {
+    "scheme": "HDiary",
+    "testPlan": "HDiary",
+    "counts": {
+      "expectedFailures": 0,
+      "failed": 0,
+      "notRun": 3,
+      "passed": 120,
+      "skipped": 0,
+      "total": 123
+    },
+    "summary": "123 tests: 120 passed, 0 failed, 0 skipped, 0 expected failures, 3 not run",
+    "fullSummaryPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/F777DFE1-B490-4D0A-AC2B-FF28E4A62D87.txt",
+    "fullConsoleLogsPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/test-console-log-2026-10-11T19-52-41+08-00.txt",
+    "xcresultBundlePath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/Test-HDiary-2026.10.11_19-52-41-+0800.xcresult"
+  },
+  "snapshotPlan": {
+    "scheme": "HDiarySnapshotHost",
+    "testPlan": "HDiarySnapshots",
+    "counts": {
+      "expectedFailures": 0,
+      "failed": 0,
+      "notRun": 26,
+      "passed": 50,
+      "skipped": 0,
+      "total": 76
+    },
+    "summary": "76 tests: 50 passed, 0 failed, 0 skipped, 0 expected failures, 26 not run",
+    "fullSummaryPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/B5338B0A-0098-4A93-9588-36FA83B7C565.txt",
+    "fullConsoleLogsPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/test-console-log-2026-10-11T19-55-14+08-00.txt",
+    "xcresultBundlePath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/Test-HDiarySnapshotHost-2026.10.11_19-55-14-+0800.xcresult"
+  },
+  "widgetSnapshots": {
+    "scheme": "HDiaryWidgetSnapshots",
+    "counts": {
+      "expectedFailures": 0,
+      "failed": 0,
+      "notRun": 0,
+      "passed": 3,
+      "skipped": 0,
+      "total": 3
+    },
+    "summary": "3 tests: 3 passed, 0 failed, 0 skipped, 0 expected failures, 0 not run",
+    "fullSummaryPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/A67C5F4B-FE66-449B-AFFE-C11C50AD245D.txt",
+    "fullConsoleLogsPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/test-console-log-2026-10-11T19-55-58+08-00.txt",
+    "xcresultBundlePath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/Test-HDiaryWidgetSnapshots-2026.10.11_19-55-58-+0800.xcresult",
+    "snapshotCount": 28
+  },
+  "notes": [
+    "所有测试均通过原生 Xcode MCP 运行，从当前源码构建。",
+    "HDiary 的 120 项 iOS 测试通过。原生 MCP 列出的 3 个 No result 均为 #if os(macOS) 下的 API 测试，不在 iOS 编译。",
+    "HDiarySnapshots 的 50 项包括 26 个截图用例与 24 个选定的数据/头像用例。原生 MCP 另列的 26 项 No result 不在该测试计划的 selectedTests 中；它们在完整 HDiary 计划中已运行通过。",
+    "Widget 三个测试方法比较 28 张 PNG 基准，全部通过。",
+    "此次没有录制或修改基准，也没有调整测试容差。"
+  ]
+}

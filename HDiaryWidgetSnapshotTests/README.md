@@ -53,10 +53,12 @@ CI 在 `iOS snapshots` 的 iPhone job 中运行此 scheme，显式禁用录制�
 
 ## 本次验证
 
+2026-10-11 最新完整复跑：项目共享默认设备已统一为 `HDiary Snapshot iPhone 17 Pro`，iOS 27.0（24A434），与 CI 的 iPhone runtime 一致。原生 Xcode MCP 的 `HDiary` 单元测试 120 项通过，`HDiarySnapshots` 的 26 个截图及 24 个数据／头像用例全部通过，Widget 三个测试方法的 28 张截图全部通过；此次未开启录制。详见 [完整复跑记录](../docs/validation/issue-37/ios27-unit-tests.json)。
+
 2026-10-11：按用户要求，从当前源码重新构建并录制单元截图基准。Widget 的 28 张图片与上一轮单元截图基准完全一致；关闭录制后，**28 张比较通过，3 个测试方法通过，0 失败／跳过**。方法执行合计 0.757 秒，含启动的工具总耗时 9.191 秒。此次测试构建无 warning／error；迁移时的正式 App 和 Widget Debug 构建成功记录仍保留在结果文件中。
 
 Review：[中号总览](../docs/validation/issue-37/widget-unit-snapshots/medium.png)、[大号总览](../docs/validation/issue-37/widget-unit-snapshots/large.png)、[结果与产物路径](../docs/validation/issue-37/widget-unit-snapshots/results.json)。历史主屏截图证据保留在 `docs/validation/issue-37/widget-snapshots`，不作为当前单元测试通过的证据。
 
 共用宿主的列表三项按整组重新录制后，关闭录制连续两次 **3／3 通过**。最终仅 `moment-list.empty-iphone.png` 的文件内容变化，玻璃区域相差最多 2 级 RGB 值；展开和分组列表的最终基准与本轮之前一致。此次未修改测试源码或比较容差。
 
-原先的 `testExpandedList` 差异，以及本轮单独录制后再运行整组时出现的差异，保留在 [基准刷新记录](../docs/validation/issue-37/widget-unit-snapshots/baseline-refresh.json)。差异根因尚未确认；列表本来就是单元截图测试，不能归因于 Widget 从 UI 自动化迁移。旧 [差分区域](../docs/validation/issue-37/widget-unit-snapshots/list-smoke-difference.png) 是刷新前的历史证据。本轮未运行其他 snapshot 用例、其他设备或远端 CI。
+原先的 `testExpandedList` 差异，以及单独录制后再运行整组时出现的差异，保留在 [基准刷新记录](../docs/validation/issue-37/widget-unit-snapshots/baseline-refresh.json)。差异根因尚未确认；列表本来就是单元截图测试，不能归因于 Widget 从 UI 自动化迁移。旧 [差分区域](../docs/validation/issue-37/widget-unit-snapshots/list-smoke-difference.png) 是刷新前的历史证据。上方最新复跑已覆盖完整 iPhone 截图计划；其他设备和远端 CI 的结果以各自实际运行记录为准。

@@ -68,7 +68,8 @@
 - 按用户要求，从当前源码重新构建并录制最新基准；Widget 的 28 张图与上一轮单元截图基准完全一致。关闭录制后，**28 张全部比较通过，3 个方法通过、0 失败／跳过**；方法合计 0.757 秒，含启动总耗时 9.191 秒。
 - 测试 target 编译无 error／warning。正式 App／Widget Debug 构建成功，另有 7 条来自未修改的 CloudData／ExportData 源码及宏的 warning。
 - 共用宿主的既有列表三项按整组重新录制后，关闭录制连续两次 3／3 通过。最终只有空列表基准出现最多 2 级 RGB 值的玻璃像素变化；展开和分组列表基准与本轮之前一致。测试源码和容差保持不变。
-- 列表本来就是单元截图测试；此前展开列表失败、本轮单独录制与整组运行的差异根因尚未确认，不能归因于 Widget 测试迁移。过程和产物见 [基准刷新记录](widget-unit-snapshots/baseline-refresh.json)，刷新前的失败记录仍保留。本轮未运行其他 snapshot 用例或设备。
+- 列表本来就是单元截图测试；此前展开列表失败、单独录制与整组运行的差异根因尚未确认，不能归因于 Widget 测试迁移。过程和产物见 [基准刷新记录](widget-unit-snapshots/baseline-refresh.json)，刷新前的失败记录仍保留。
+- 最新完整复跑：本地默认设备已统一为 iPhone 17 Pro／iOS 27.0（24A434）。`HDiary` 的 120 项 iOS 单元测试、`HDiarySnapshots` 的 26 个截图及 24 个数据／头像用例、Widget 的 28 张截图全部通过；录制关闭，基准和容差均未调整。见 [完整复跑记录](ios27-unit-tests.json)。
 - CI 已改为运行单元截图；远端尚未执行。
 
 [运行说明与覆盖边界](../../../HDiaryWidgetSnapshotTests/README.md)、[中号总览](widget-unit-snapshots/medium.png)、[大号总览](widget-unit-snapshots/large.png)、[结果记录](widget-unit-snapshots/results.json)。Tinted／Clear 的最终系统合成仍需 Widget Preview／主屏人工检查，注入 `.accented` 只能覆盖我们的代码分支。
