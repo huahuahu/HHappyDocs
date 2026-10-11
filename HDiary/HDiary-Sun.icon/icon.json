@@ -63,6 +63,14 @@
     {
       "layers" : [
         {
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "extended-srgb:0.84706,0.65490,0.30588,1.00000"
+              }
+            }
+          ],
           "glass" : false,
           "image-name" : "01-rays.svg",
           "name" : "01 光芒"
