@@ -98,12 +98,22 @@ private struct MomentDetailInnerView: View {
 
   @ViewBuilder
   private var timestampView: some View {
-    ScrollView(.horizontal) {
-      HStack {
-        Image(systemName: "clock")
-        Text(moment.timestamp, style: .date)
-        Text(moment.timestamp, style: .time)
+    HStack(alignment: .firstTextBaseline) {
+      Image(systemName: "clock")
+      ViewThatFits(in: .horizontal) {
+        HStack {
+          Text(moment.timestamp, style: .date)
+          Text(moment.timestamp, style: .time)
+        }
+        .fixedSize()
+
+        VStack(alignment: .leading) {
+          Text(moment.timestamp, style: .date)
+          Text(moment.timestamp, style: .time)
+        }
+        .fixedSize(horizontal: false, vertical: true)
       }
+      .frame(maxWidth: .infinity, alignment: .leading)
     }
     .padding(.horizontal)
     .foregroundStyle(.gray)

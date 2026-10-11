@@ -19,27 +19,51 @@
     @Binding private var rating: HRating?
 
     public var body: some View {
-      HStack {
-        if model.label.isEmpty == false {
-          Text(model.label)
-        }
-
-        ForEach(HRating.minStar ... HRating.maxStar, id: \.self) { rating in
-          image(for: rating)
-            .foregroundColor(foregroundColor(for: rating))
-            .onTapGesture {
-              self.rating = rating
-            }
-        }
-        if model.canEdit {
-          Spacer()
-          Button(HLocalizedString.reset) {
-            self.rating = nil
+      if model.canEdit {
+        ViewThatFits(in: .horizontal) {
+          HStack {
+            ratingContent
+            Spacer()
+            resetButton
           }
-          .buttonStyle(.borderedProminent)
-          .buttonBorderShape(.capsule)
+
+          VStack(alignment: .leading, spacing: 12) {
+            HFlowLayout(itemSpace: 8, rowSpace: 8) {
+              ratingContent
+            }
+            resetButton
+          }
         }
       }
+      else {
+        HStack {
+          ratingContent
+        }
+      }
+    }
+
+    @ViewBuilder
+    private var ratingContent: some View {
+      if model.label.isEmpty == false {
+        Text(model.label)
+      }
+
+      ForEach(HRating.minStar ... HRating.maxStar, id: \.self) { rating in
+        image(for: rating)
+          .foregroundColor(foregroundColor(for: rating))
+          .onTapGesture {
+            self.rating = rating
+          }
+      }
+    }
+
+    private var resetButton: some View {
+      Button(HLocalizedString.reset) {
+        self.rating = nil
+      }
+      .buttonStyle(.borderedProminent)
+      .buttonBorderShape(.capsule)
+      .fixedSize()
     }
 
     private func foregroundColor(for rating: HRating) -> Color {
