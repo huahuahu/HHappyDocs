@@ -1,0 +1,341 @@
+{
+  "date": "2026-10-11",
+  "scheme": "HDiaryWidgetSnapshots",
+  "type": "XCTest hosted unit snapshots",
+  "simulator": {
+    "name": "HDiary Snapshot iPhone 17 Pro",
+    "id": "040ECFE5-4ED3-4795-AC27-23490CF57596",
+    "runtime": "iOS 27.0 (24A434)"
+  },
+  "snapshotCount": 28,
+  "cardSnapshots": 26,
+  "accessibility5RowSnapshots": 2,
+  "recordMode": "never",
+  "summary": {
+    "status": "SUCCEEDED",
+    "durationMs": 9191,
+    "counts": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "target": "simulator"
+  },
+  "testCases": [
+    {
+      "suite": "MomentWidgetSnapshotTests",
+      "test": "testAccessibility5Rows",
+      "status": "passed",
+      "durationMs": 182
+    },
+    {
+      "suite": "MomentWidgetSnapshotTests",
+      "test": "testLarge",
+      "status": "passed",
+      "durationMs": 347
+    },
+    {
+      "suite": "MomentWidgetSnapshotTests",
+      "test": "testMedium",
+      "status": "passed",
+      "durationMs": 228
+    }
+  ],
+  "artifacts": {
+    "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/test_sim_2026-10-11T11-40-47-448Z_pid16535_5aa519f7.log",
+    "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/result-bundles/test_sim_2026-10-11T11-40-47-448Z_pid16535_13578bd0.xcresult",
+    "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/test-products/test_sim_2026-10-11T11-40-14-945Z_pid16535_cb4a6a35.xctestproducts"
+  },
+  "build": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 13540,
+      "target": "simulator"
+    },
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/build_sim_2026-10-11T11-23-29-564Z_pid16535_b0dcf747.log",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/test-products/build_sim_2026-10-11T11-23-29-564Z_pid16535_e71a6360.xctestproducts",
+      "xctestrunPaths": [
+        "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/test-products/build_sim_2026-10-11T11-23-29-564Z_pid16535_e71a6360.xctestproducts/Tests/0/HDiaryWidgetSnapshots.xctestrun"
+      ]
+    },
+    "diagnostics": {
+      "warnings": [],
+      "errors": []
+    }
+  },
+  "appBuild": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 25196,
+      "target": "simulator"
+    },
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/build_sim_2026-10-11T11-25-02-576Z_pid16535_32a59d71.log"
+    },
+    "diagnostics": {
+      "warnings": [
+        {
+          "message": "conformance of 'T' to protocol 'CloudRecord' may be isolated and cannot be passed to main actor-isolated context [#IsolatedConformances]",
+          "location": "macro expansion @State:2"
+        },
+        {
+          "message": "conformance of 'T' to protocol 'CloudRecord' may be isolated and cannot be passed to main actor-isolated context [#IsolatedConformances]",
+          "location": "/Users/tigerguo/.codex/worktrees/0f49/HHappyDocs/HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/CloudDataDetail/CloudDataDetailScreen.swift:15"
+        },
+        {
+          "message": "conformance of 'T' to protocol 'CloudRecord' may be isolated and cannot be passed to main actor-isolated context [#IsolatedConformances]",
+          "location": "macro expansion @State:7"
+        },
+        {
+          "message": "conformance of 'T' to protocol 'CloudRecord' may be isolated and cannot be passed to main actor-isolated context [#IsolatedConformances]",
+          "location": "macro expansion @State:11"
+        },
+        {
+          "message": "conformance of 'T' to protocol 'CloudRecord' may be isolated and cannot be passed to main actor-isolated context [#IsolatedConformances]",
+          "location": "macro expansion @State:14"
+        },
+        {
+          "message": "conformance of 'T' to protocol 'CloudRecord' may be isolated and cannot be passed to main actor-isolated context [#IsolatedConformances]",
+          "location": "/Users/tigerguo/.codex/worktrees/0f49/HHappyDocs/HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/CloudData/Entry/DataEntryCell.swift:19"
+        },
+        {
+          "message": "cannot use class 'ModelContext' in a property declaration member of a type not marked '@_implementationOnly'; 'SwiftData' was not imported by this file",
+          "location": "/Users/tigerguo/.codex/worktrees/0f49/HHappyDocs/HDiaryLibrary/Sources/HDiaryAppFeature/Settings/Data/ExportDataCell.swift:19"
+        }
+      ],
+      "errors": []
+    }
+  },
+  "listSmoke": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 9810,
+      "counts": {
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0
+      },
+      "target": "simulator"
+    },
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/test_sim_2026-10-11T11-42-41-701Z_pid16535_fc5253e0.log",
+      "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/result-bundles/test_sim_2026-10-11T11-42-41-701Z_pid16535_404d63f9.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/test-products/test_sim_2026-10-11T11-41-08-018Z_pid16535_8dc37eca.xctestproducts"
+    },
+    "diagnostics": {
+      "warnings": [],
+      "errors": [],
+      "testFailures": []
+    },
+    "testCases": [
+      {
+        "suite": "MomentListSnapshotTests",
+        "test": "testEmptyList",
+        "status": "passed",
+        "durationMs": 995
+      },
+      {
+        "suite": "MomentListSnapshotTests",
+        "test": "testExpandedList",
+        "status": "passed",
+        "durationMs": 623
+      },
+      {
+        "suite": "MomentListSnapshotTests",
+        "test": "testGroupedList",
+        "status": "passed",
+        "durationMs": 358
+      }
+    ]
+  },
+  "listSmokeRecheck": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 10116,
+      "counts": {
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0
+      },
+      "target": "simulator"
+    },
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/test_sim_2026-10-11T11-43-22-550Z_pid16535_73bc7938.log",
+      "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/result-bundles/test_sim_2026-10-11T11-43-22-550Z_pid16535_ad0b3ec1.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/test-products/test_sim_2026-10-11T11-41-08-018Z_pid16535_8dc37eca.xctestproducts"
+    },
+    "diagnostics": {
+      "warnings": [],
+      "errors": [],
+      "testFailures": []
+    },
+    "testCases": [
+      {
+        "suite": "MomentListSnapshotTests",
+        "test": "testEmptyList",
+        "status": "passed",
+        "durationMs": 972
+      },
+      {
+        "suite": "MomentListSnapshotTests",
+        "test": "testExpandedList",
+        "status": "passed",
+        "durationMs": 632
+      },
+      {
+        "suite": "MomentListSnapshotTests",
+        "test": "testGroupedList",
+        "status": "passed",
+        "durationMs": 342
+      }
+    ]
+  },
+  "beforeBaselineRefresh": {
+    "summary": {
+      "status": "SUCCEEDED",
+      "durationMs": 9203,
+      "counts": {
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0
+      },
+      "target": "simulator"
+    },
+    "testCases": [
+      {
+        "suite": "MomentWidgetSnapshotTests",
+        "test": "testAccessibility5Rows",
+        "status": "passed",
+        "durationMs": 248
+      },
+      {
+        "suite": "MomentWidgetSnapshotTests",
+        "test": "testLarge",
+        "status": "passed",
+        "durationMs": 687
+      },
+      {
+        "suite": "MomentWidgetSnapshotTests",
+        "test": "testMedium",
+        "status": "passed",
+        "durationMs": 328
+      }
+    ],
+    "artifacts": {
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/test_sim_2026-10-11T11-24-53-318Z_pid16535_2e96b63a.log",
+      "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/result-bundles/test_sim_2026-10-11T11-24-53-318Z_pid16535_c254939d.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/test-products/build_sim_2026-10-11T11-23-29-564Z_pid16535_e71a6360.xctestproducts"
+    },
+    "listSmoke": {
+      "summary": {
+        "status": "FAILED",
+        "durationMs": 57913,
+        "counts": {
+          "passed": 2,
+          "failed": 1,
+          "skipped": 0
+        },
+        "target": "simulator"
+      },
+      "artifacts": {
+        "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/test_sim_2026-10-11T11-25-49-354Z_pid16535_b9d8d456.log",
+        "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/result-bundles/test_sim_2026-10-11T11-25-49-354Z_pid16535_a0aec2c6.xcresult",
+        "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/test-products/test_sim_2026-10-11T11-25-49-354Z_pid16535_36f30e73.xctestproducts"
+      },
+      "diagnostics": {
+        "warnings": [],
+        "errors": [],
+        "testFailures": [
+          {
+            "suite": "MomentListSnapshotTests",
+            "test": "testExpandedList",
+            "message": "Snapshot \"expanded-iphone\" does not match reference.",
+            "location": "/Users/tigerguo/.codex/worktrees/0f49/HHappyDocs/HDiarySnapshotTests/MomentListSnapshotTests.swift:25"
+          },
+          {
+            "suite": "MomentListSnapshotTests",
+            "test": "testExpandedList()",
+            "message": "failed - Snapshot \"expanded-iphone\" does not match reference.\n\n@−\n\"file:///Users/tigerguo/.codex/worktrees/0f49/HHappyDocs/HDiarySnapshotTests/__Snapshots__/MomentListSnapshotTests/moment-list.expanded-iphone.png\"\n@+\n\"file:///Users/tigerguo/Library/Developer/CoreSimulator/Devices/040ECFE5-4ED3-4795-AC27-23490CF57596/data/Containers/Data/Application/744C3974-18A5-475D-A753-947A513875E4/tmp/MomentListSnapshotTests/moment-list.expanded-iphone.png\"\n\nTo configure output for a custom diff tool, use 'withSnapshotTesting'. For example:\n\n    withSnapshotTesting(diffTool: .ksdiff) {\n      // ...\n    }\n\nThe percentage of pixels that match 0.9997755 is less than required 1.0\nThe lowest perceptual color precision 0.8126563 is less than required 0.94"
+          }
+        ]
+      },
+      "testCases": [
+        {
+          "suite": "MomentListSnapshotTests",
+          "test": "testEmptyList",
+          "status": "passed",
+          "durationMs": 1780
+        },
+        {
+          "suite": "MomentListSnapshotTests",
+          "test": "testExpandedList",
+          "status": "failed",
+          "durationMs": 2381
+        },
+        {
+          "suite": "MomentListSnapshotTests",
+          "test": "testGroupedList",
+          "status": "passed",
+          "durationMs": 614
+        }
+      ]
+    },
+    "listSmokeRecheck": {
+      "summary": {
+        "status": "FAILED",
+        "durationMs": 12071,
+        "counts": {
+          "passed": 2,
+          "failed": 1,
+          "skipped": 0
+        },
+        "target": "simulator"
+      },
+      "artifacts": {
+        "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/test_sim_2026-10-11T11-27-22-367Z_pid16535_6b3d5369.log",
+        "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/result-bundles/test_sim_2026-10-11T11-27-22-368Z_pid16535_3b5970c0.xcresult",
+        "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/test-products/test_sim_2026-10-11T11-25-49-354Z_pid16535_36f30e73.xctestproducts"
+      },
+      "diagnostics": {
+        "warnings": [],
+        "errors": [],
+        "testFailures": [
+          {
+            "suite": "MomentListSnapshotTests",
+            "test": "testExpandedList",
+            "message": "Snapshot \"expanded-iphone\" does not match reference.",
+            "location": "/Users/tigerguo/.codex/worktrees/0f49/HHappyDocs/HDiarySnapshotTests/MomentListSnapshotTests.swift:25"
+          },
+          {
+            "suite": "MomentListSnapshotTests",
+            "test": "testExpandedList()",
+            "message": "failed - Snapshot \"expanded-iphone\" does not match reference.\n\n@−\n\"file:///Users/tigerguo/.codex/worktrees/0f49/HHappyDocs/HDiarySnapshotTests/__Snapshots__/MomentListSnapshotTests/moment-list.expanded-iphone.png\"\n@+\n\"file:///Users/tigerguo/Library/Developer/CoreSimulator/Devices/040ECFE5-4ED3-4795-AC27-23490CF57596/data/Containers/Data/Application/D89BB5F5-905C-45C4-A247-171BA381EF99/tmp/MomentListSnapshotTests/moment-list.expanded-iphone.png\"\n\nTo configure output for a custom diff tool, use 'withSnapshotTesting'. For example:\n\n    withSnapshotTesting(diffTool: .ksdiff) {\n      // ...\n    }\n\nThe percentage of pixels that match 0.9997755 is less than required 1.0\nThe lowest perceptual color precision 0.8126563 is less than required 0.94"
+          }
+        ]
+      },
+      "testCases": [
+        {
+          "suite": "MomentListSnapshotTests",
+          "test": "testEmptyList",
+          "status": "passed",
+          "durationMs": 1745
+        },
+        {
+          "suite": "MomentListSnapshotTests",
+          "test": "testExpandedList",
+          "status": "failed",
+          "durationMs": 1648
+        },
+        {
+          "suite": "MomentListSnapshotTests",
+          "test": "testGroupedList",
+          "status": "passed",
+          "durationMs": 582
+        }
+      ]
+    }
+  },
+  "baselineRefresh": "baseline-refresh.json",
+  "buildVerificationNote": "build/appBuild 记录保留自本轮基准刷新之前的验证；本轮从当前源码重新构建测试的产物和日志见 baseline-refresh.json。"
+}

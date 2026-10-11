@@ -1,0 +1,232 @@
+[
+  {
+    "file": "after/large.png",
+    "preview": 1,
+    "timeline": 0,
+    "variants": {
+      "Color Scheme": "Light Appearance"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Large - 2026-10-08 at 06.59.05.png"
+  },
+  {
+    "file": "after/medium-long.png",
+    "preview": 0,
+    "timeline": 1,
+    "variants": {
+      "Color Scheme": "Light Appearance"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Medium - 2026-10-08 at 06.59.06.png"
+  },
+  {
+    "file": "after/large-long.png",
+    "preview": 1,
+    "timeline": 1,
+    "variants": {
+      "Color Scheme": "Light Appearance"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Large - 2026-10-08 at 06.59.20.png"
+  },
+  {
+    "file": "after/medium-empty.png",
+    "preview": 0,
+    "timeline": 3,
+    "variants": {
+      "Color Scheme": "Light Appearance"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Medium - 2026-10-08 at 06.59.21.png"
+  },
+  {
+    "file": "after/large-empty.png",
+    "preview": 1,
+    "timeline": 3,
+    "variants": {
+      "Color Scheme": "Light Appearance"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Large - 2026-10-08 at 06.59.22.png"
+  },
+  {
+    "file": "after/medium-single.png",
+    "preview": 0,
+    "timeline": 2,
+    "variants": {
+      "Color Scheme": "Light Appearance"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Medium - 2026-10-08 at 06.59.22.png"
+  },
+  {
+    "file": "after/large-single.png",
+    "preview": 1,
+    "timeline": 2,
+    "variants": {
+      "Color Scheme": "Light Appearance"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Large - 2026-10-08 at 06.59.23.png"
+  },
+  {
+    "file": "after/medium-all.png",
+    "preview": 0,
+    "timeline": 4,
+    "variants": {
+      "Color Scheme": "Light Appearance"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Medium - 2026-10-08 at 06.59.24.png"
+  },
+  {
+    "file": "after/large-all.png",
+    "preview": 1,
+    "timeline": 4,
+    "variants": {
+      "Color Scheme": "Light Appearance"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Large - 2026-10-08 at 06.59.24.png"
+  },
+  {
+    "file": "after/medium-dark.png",
+    "preview": 0,
+    "timeline": 0,
+    "variants": {
+      "Color Scheme": "Dark Appearance",
+      "Dynamic Type": "Large"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Medium - 2026-10-08 at 07.01.11.png"
+  },
+  {
+    "file": "after/large-dark.png",
+    "preview": 1,
+    "timeline": 0,
+    "variants": {
+      "Color Scheme": "Dark Appearance",
+      "Dynamic Type": "Large"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Large - 2026-10-08 at 07.01.12.png"
+  },
+  {
+    "file": "after/medium-empty-accessibility.png",
+    "preview": 0,
+    "timeline": 3,
+    "variants": {
+      "Color Scheme": "Light Appearance",
+      "Dynamic Type": "AX 5"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Medium - 2026-10-08 at 07.00.07.png"
+  },
+  {
+    "file": "after/medium-long-accessibility.png",
+    "preview": 0,
+    "timeline": 1,
+    "variants": {
+      "Color Scheme": "Light Appearance",
+      "Dynamic Type": "AX 5"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Medium - 2026-10-08 at 07.00.07 2.png"
+  },
+  {
+    "file": "after/large-long-accessibility.png",
+    "preview": 1,
+    "timeline": 1,
+    "variants": {
+      "Color Scheme": "Dark Appearance",
+      "Dynamic Type": "AX 5"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Large - 2026-10-08 at 07.01.13.png"
+  },
+  {
+    "file": "after/medium.png",
+    "preview": 0,
+    "timeline": 0,
+    "variants": {
+      "Color Scheme": "Light Appearance",
+      "Dynamic Type": "Large"
+    },
+    "destination": {
+      "deviceModelName": "iPhone Duo",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceImage": "Medium - 2026-10-08 at 06.58.35.png"
+  }
+]

@@ -1,0 +1,149 @@
+{
+  "date": "2026-10-11",
+  "scheme": "HDiaryWidgetSnapshots",
+  "comparison": {
+    "precision": 1,
+    "perceptualPrecision": 1,
+    "record": false
+  },
+  "baselineCount": 34,
+  "fullMatrix": {
+    "snapshotCount": 34,
+    "testMethodCount": 2,
+    "passedMethods": 2,
+    "failedMethods": 0,
+    "skippedMethods": 0,
+    "runs": [
+      "large",
+      "medium"
+    ]
+  },
+  "runs": [
+    {
+      "name": "large",
+      "snapshotCount": 17,
+      "snapshots": [
+        "large-populated-light",
+        "large-photo-light",
+        "large-populated-dark",
+        "large-photo-dark",
+        "large-populated-tintedLight",
+        "large-photo-tintedLight",
+        "large-populated-tintedDark",
+        "large-photo-tintedDark",
+        "large-populated-clearLight",
+        "large-photo-clearLight",
+        "large-populated-clearDark",
+        "large-photo-clearDark",
+        "large-longContent-light",
+        "large-single-light",
+        "large-empty-light",
+        "large-allParticipants-light",
+        "large-accessibility-light"
+      ],
+      "testMethodCount": 1,
+      "result": "Passed",
+      "failed": 0,
+      "skipped": 0,
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "44493F6D-C4EE-4A40-8A0B-DD107A2A3379",
+        "deviceName": "HDiary Widget Clean Start",
+        "modelName": "iPhone 17 Pro",
+        "osBuildNumber": "24A434",
+        "osVersion": "27.0",
+        "platform": "iOS Simulator"
+      },
+      "startedAt": "2026-10-11T04:58:20.972000+00:00",
+      "finishedAt": "2026-10-11T05:05:29.223000+00:00",
+      "xcresult": "/Users/tigerguo/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/result-bundles/test_sim_2026-10-11T04-58-19-531Z_pid16535_d73eaf63.xcresult",
+      "log": "/Users/tigerguo/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/test_sim_2026-10-11T04-58-19-531Z_pid16535_6a357985.log"
+    },
+    {
+      "name": "medium",
+      "snapshotCount": 17,
+      "snapshots": [
+        "medium-populated-light",
+        "medium-photo-light",
+        "medium-populated-dark",
+        "medium-photo-dark",
+        "medium-populated-tintedLight",
+        "medium-photo-tintedLight",
+        "medium-populated-tintedDark",
+        "medium-photo-tintedDark",
+        "medium-populated-clearLight",
+        "medium-photo-clearLight",
+        "medium-populated-clearDark",
+        "medium-photo-clearDark",
+        "medium-longContent-light",
+        "medium-single-light",
+        "medium-empty-light",
+        "medium-allParticipants-light",
+        "medium-accessibility-light"
+      ],
+      "testMethodCount": 1,
+      "result": "Passed",
+      "failed": 0,
+      "skipped": 0,
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "44493F6D-C4EE-4A40-8A0B-DD107A2A3379",
+        "deviceName": "HDiary Widget Clean Start",
+        "modelName": "iPhone 17 Pro",
+        "osBuildNumber": "24A434",
+        "osVersion": "27.0",
+        "platform": "iOS Simulator"
+      },
+      "startedAt": "2026-10-11T05:11:03.777000+00:00",
+      "finishedAt": "2026-10-11T05:17:43.497000+00:00",
+      "xcresult": "/Users/tigerguo/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/result-bundles/test_sim_2026-10-11T05-11-02-383Z_pid16535_25f90091.xcresult",
+      "log": "/Users/tigerguo/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/test_sim_2026-10-11T05-11-02-383Z_pid16535_86e4ed73.log"
+    },
+    {
+      "name": "medium-tintedLight-recheck",
+      "snapshotCount": 1,
+      "snapshots": [
+        "medium-photo-tintedLight"
+      ],
+      "testMethodCount": 1,
+      "result": "Passed",
+      "failed": 0,
+      "skipped": 0,
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "E6244A1D-9C57-47A2-9E80-CF3DF3D1C6DB",
+        "deviceName": "HDiary Widget Snapshot Verification",
+        "modelName": "iPhone 17 Pro",
+        "osBuildNumber": "24A434",
+        "osVersion": "27.0",
+        "platform": "iOS Simulator"
+      },
+      "startedAt": "2026-10-11T05:15:16.265000+00:00",
+      "finishedAt": "2026-10-11T05:17:08.446000+00:00",
+      "xcresult": "/Users/tigerguo/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/result-bundles/test_sim_2026-10-11T05-15-14-962Z_pid16535_9cb265af.xcresult",
+      "log": "/Users/tigerguo/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-bcf727e6e329/logs/test_sim_2026-10-11T05-15-14-962Z_pid16535_00dd2bd9.log"
+    }
+  ],
+  "earlierFailure": {
+    "deviceId": "E6244A1D-9C57-47A2-9E80-CF3DF3D1C6DB",
+    "failedSnapshots": [
+      "medium-populated-tintedLight",
+      "medium-photo-tintedLight"
+    ],
+    "observation": "System controls reported teal / 76%; captured pixels were gray. Cause is not determined. Manual attempts did not reproduce. The same-device filtered photo-tintedLight recheck passed. Baselines and precision were unchanged.",
+    "log": "tinted-light-transient.log",
+    "differenceImage": "tinted-light-transient.png"
+  },
+  "otherValidation": {
+    "listSnapshotSmoke": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "results": "list-smoke-results.json"
+    },
+    "snapshotHostReleaseBuild": "Passed",
+    "projectGeneration": "Passed",
+    "remoteCI": "Not run",
+    "physicalDevice": "Not run"
+  }
+}

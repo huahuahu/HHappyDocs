@@ -1,0 +1,9 @@
+Test Case '-[HDiaryWidgetSnapshotTests.MomentWidgetSnapshotTests testMedium]' started.
+    t =    36.79s medium · photo-tintedLight
+WIDGET_TINT Gradient slider: teal
+WIDGET_TINT Luma slider: 76%
+Test Case '-[HDiaryWidgetSnapshotTests.MomentWidgetSnapshotTests testMedium]' passed (105.023 seconds).
+	 Executed 1 test, with 0 failures (0 unexpected) in 105.023 (105.028) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 105.023 (105.030) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 105.023 (105.031) seconds
+** TEST EXECUTE SUCCEEDED **

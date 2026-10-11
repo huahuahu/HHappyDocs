@@ -9,7 +9,8 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parent.parent
 PROJECT = ROOT / "HDiary.xcodeproj"
 SCHEMES = PROJECT / "xcshareddata/xcschemes"
-TARGETS = {"HDiary", "HDiaryWidgetExtension", "HDiaryUITests", "HDiarySnapshotTests", "HDiarySnapshotHost"}
+TARGETS = {"HDiary", "HDiaryWidgetExtension", "HDiaryUITests", "HDiarySnapshotTests", "HDiarySnapshotHost",
+           "HDiaryWidgetSnapshotTests"}
 
 
 def generate():
@@ -32,8 +33,15 @@ targets = {value["name"]: key for key, value in objects.items() if value["isa"] 
 assert set(targets) == TARGETS, f"Unexpected targets: {targets}"
 attributes = objects[project["rootObject"]]["attributes"]["TargetAttributes"]
 assert attributes[targets["HDiaryUITests"]]["TestTargetID"] == targets["HDiary"], "UI test host is missing"
+assert objects[targets["HDiaryWidgetSnapshotTests"]]["productType"] == "com.apple.product-type.bundle.unit-test", "Widget snapshots must be unit tests"
+
+def target_dependencies(name):
+    return {objects[dependency].get("target") for dependency in objects[targets[name]]["dependencies"]}
+
+
+assert targets["HDiarySnapshotHost"] in target_dependencies("HDiaryWidgetSnapshotTests"), "Widget unit test host is missing"
 assert {p.stem for p in SCHEMES.glob("*.xcscheme")} == {
-    "HDiary", "HDiaryWidgetExtension", "HDiarySnapshotHost"
+    "HDiary", "HDiaryWidgetExtension", "HDiarySnapshotHost", "HDiaryWidgetSnapshots"
 }, "Shared schemes are missing or unexpected"
 
 for path in SCHEMES.glob("*.xcscheme"):
