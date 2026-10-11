@@ -1,5 +1,5 @@
 {
-  "verifiedAt": "2026-10-11T14:50:47.642432+00:00",
+  "verifiedAt": "2026-10-11T22:52:28.686917+00:00",
   "appId": "6470147729",
   "bundleId": "com.tiger.suzhou.HDiary",
   "version": "1.16",
@@ -11,14 +11,20 @@
     "versionId": "f08db20f-323f-4198-aa32-f2b7a4ceb59e",
     "state": "WAITING_FOR_REVIEW",
     "releaseType": "AFTER_APPROVAL",
-    "submissionId": "328c27a3-c659-4961-9a06-eac477064d09",
-    "submittedAt": "2026-10-11T14:46:15.343Z"
+    "submissionId": "f0214ab6-ebb3-4107-a355-359715892bed",
+    "submittedAt": "2026-10-11T22:52:06.804Z",
+    "submissionState": "WAITING_FOR_REVIEW",
+    "previousSubmission": {
+      "id": "328c27a3-c659-4961-9a06-eac477064d09",
+      "cancelled": true,
+      "reason": "Replace all App Store screenshots with newly captured dark appearance artwork."
+    }
   },
   "testFlight": {
     "autoNotifyEnabled": true,
     "internalBuildState": "IN_BETA_TESTING",
-    "externalBuildState": "WAITING_FOR_BETA_REVIEW",
-    "reviewState": "WAITING_FOR_REVIEW",
+    "externalBuildState": "IN_BETA_REVIEW",
+    "reviewState": "IN_REVIEW",
     "submittedAt": "2026-10-11T07:28:59-07:00",
     "internalGroupContainsBuild": true,
     "externalGroupContainsBuild": true
@@ -36,7 +42,10 @@
       "APP_IPHONE_65",
       "APP_IPAD_PRO_3GEN_129"
     ],
-    "optionalLegacyScreenshotCount": 0
+    "optionalLegacyScreenshotCount": 0,
+    "appearance": "dark",
+    "assetDirectory": "screenshots/dark/store",
+    "remoteVerification": "screenshots/dark/remote-verification.json"
   },
   "metadata": {
     "localValidationErrors": 0,
@@ -56,7 +65,13 @@
       "infos": 1,
       "blocking": 6
     },
-    "note": "asc 2.6.0 flags six empty optional legacy screenshot sets. Both required display types contain five COMPLETE images per locale. Apple accepted the review submission and confirmed WAITING_FOR_REVIEW."
+    "note": "asc 2.6.0 flags six empty optional legacy screenshot sets. Both required display types contain five COMPLETE images per locale. Apple accepted the review submission and confirmed WAITING_FOR_REVIEW.",
+    "afterDarkReplacement": {
+      "errors": 6,
+      "warnings": 2,
+      "infos": 1,
+      "blocking": 6
+    }
   },
   "ci": {
     "buildAndTest": {
@@ -65,12 +80,12 @@
       "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/38144310162"
     },
     "snapshots": {
-      "conclusion": "",
+      "conclusion": "failure",
       "jobs": [
         {
-          "conclusion": "",
+          "conclusion": "failure",
           "name": "Snapshots (iphone-duo)",
-          "status": "in_progress"
+          "status": "completed"
         },
         {
           "conclusion": "success",
@@ -78,12 +93,22 @@
           "status": "completed"
         }
       ],
-      "status": "in_progress",
-      "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/38144310164"
+      "status": "completed",
+      "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/38144310164",
+      "note": "Initial release snapshot run: iPhone succeeded; iPhone Duo failed. GitHub reported log not found for the failed job, so the failure cause is unverified. This run predates the dark screenshot fixture change."
     }
   },
   "sourceBaseCommit": "fa820abd600a79b0223b86e083dffd71a9ec156a",
   "releaseBinaryExcludesScreenshotLaunchFlag": true,
   "appStoreConnectURL": "https://appstoreconnect.apple.com/apps/6470147729",
-  "testFlightURL": "https://appstoreconnect.apple.com/apps/6470147729/testflight"
+  "testFlightURL": "https://appstoreconnect.apple.com/apps/6470147729/testflight",
+  "darkScreenshotVerification": {
+    "nativeDebugBuild": "succeeded",
+    "visualReviewCount": 20,
+    "localImageValidationErrors": 0,
+    "localImageValidationWarnings": 0,
+    "iphoneAndIPadListDetailLibraryNavigation": "passed",
+    "lightCompositionUnchanged": true,
+    "binaryReuploaded": false
+  }
 }

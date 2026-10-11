@@ -1,6 +1,6 @@
 # HDiary 1.16 / build 1
 
-本次发布使用 `fa820abd600a79b0223b86e083dffd71a9ec156a` 的应用功能，更新版本号为 1.16，并加入仅供 Debug 使用的离线截图入口。商店资料为简体中文和美式英语，截图采用暖白背景、橙色标题和应用的手绘太阳图标。
+本次发布使用 `fa820abd600a79b0223b86e083dffd71a9ec156a` 的应用功能，更新版本号为 1.16，并加入仅供 Debug 使用的离线截图入口。商店资料为简体中文和美式英语。截图保留暖白与暗色两套素材；暗色版使用真实深色应用界面、暖黑背景、橙色标题和应用的手绘太阳图标。
 
 ## 发布标识
 
@@ -13,7 +13,7 @@
 | 版本 / build | `1.16` / `1` |
 | 发布策略 | `AFTER_APPROVAL`，审核通过后自动发布 |
 
-最终核验的提交状态、截图校验和及验证结果记录在 `status.json`；这是提交时的快照，后续审核状态以 App Store Connect 为准。
+最终核验的提交状态、截图校验和及验证结果记录在 `status.json`；这是提交时的快照，后续审核状态以 App Store Connect 为准。`status-initial.json` 保留首次暖白截图提审时的原始记录。
 
 ## 资料
 
@@ -24,9 +24,11 @@
 - `screenshots/store/`：用于上传的 20 张 PNG。
 - `screenshots/review.html`：整套截图浏览页；`screenshots/preview/` 提供每组总览。
 - `screenshots/manifest.json`：上传图片的尺寸、颜色模式和 SHA-256。
+- `screenshots/dark/`：重新拍摄的深色原图 `raw/`、合成图 `store/`、总览 `preview/` 和浏览页 `review.html`，以及独立的原图、成品和远端校验记录。
+- `screenshots/dark/capture-verification.json`：真实设备交互与视觉检查记录。
 - `ExportOptions.plist`：App Store Connect 分发导出选项。
 
-上传后的 iPhone `IPHONE_65` 和 iPad `IPAD_PRO_3GEN_129` 各有五张图、两种语言。1.16 草稿中其他旧尺寸的截图被移除，让商店使用新版图片；线上 1.15 的截图未修改。
+上传后的 iPhone `IPHONE_65` 和 iPad `IPAD_PRO_3GEN_129` 各有五张图、两种语言。当前已提交主题与远端状态以 `status.json` 为准。首次暖白提交的素材和校验记录保留在 `screenshots/` 根目录；暗色替换的记录位于 `screenshots/dark/`。1.16 中其他旧尺寸的截图被移除，让商店使用新版图片；线上 1.15 的截图未修改。
 
 ## 截图复现
 
@@ -37,26 +39,27 @@
    -HDiaryStoreScreenshots YES
    -HDiaryScreenshotPage moments
    -HDiaryScreenshotLocale zh-Hans
+   -HDiaryScreenshotAppearance dark
    -AppleLanguages (zh-Hans)
    -AppleLocale zh_CN
    ```
 
-   页面依次为 `moments`、`detail`、`participants`、`tags`、`chart`。英语使用 `en-US`、`(en)`、`en_US`。如果 Xcode scheme 自带中文语言参数，需移除冲突参数或使用已构建 App 的单独启动能力；本次 native InstallAndRun 会在末尾重新附加 scheme 的中文参数。
-3. 等待界面层级出现目标页面的业务文字，再保存截图；启动 API 返回并不表示第一帧已就绪。状态栏使用 9:41、黑色满电。逐张检查语言、头像首字、正文和非白屏内容。
+   页面依次为 `moments`、`detail`、`participants`、`tags`、`chart`。英语使用 `en-US`、`(en)`、`en_US`。`-HDiaryScreenshotAppearance` 设为 `light` 可复现原暖白截图，不传该参数时默认 light。如果 Xcode scheme 自带中文语言参数，需移除冲突参数或使用已构建 App 的单独启动能力；本次 native InstallAndRun 会在末尾重新附加 scheme 的中文参数。
+3. 等待界面层级出现目标页面的业务文字，再保存截图；启动 API 返回并不表示第一帧已就绪。状态栏使用 9:41、满电且非充电状态，颜色跟随界面主题。逐张检查语言、头像首字、正文和非空白内容。
 4. 保存原生像素 PNG：iPhone 17 Pro 为 `1206×2622`，iPad Pro 13-inch 为 `2064×2752`。本次 native device-interaction 的 iPhone capture 仅输出 `402×874`，MCP screenshot 会缩小图像，因此最终原图使用 `simctl io screenshot` 获取。合成脚本会拒绝尺寸不符的原图。
 5. 在已具备 Python Pillow 和 `rsvg-convert` 的环境中，从仓库根目录运行：
 
    ```sh
-   python3 release/1.16/compose-screenshots.py
-   asc screenshots validate --path release/1.16/screenshots/store/en-US/iphone --device-type IPHONE_65
-   asc screenshots validate --path release/1.16/screenshots/store/zh-Hans/iphone --device-type IPHONE_65
-   asc screenshots validate --path release/1.16/screenshots/store/en-US/ipad --device-type IPAD_PRO_3GEN_129
-   asc screenshots validate --path release/1.16/screenshots/store/zh-Hans/ipad --device-type IPAD_PRO_3GEN_129
+   python3 release/1.16/compose-screenshots.py --theme dark
+   asc screenshots validate --path release/1.16/screenshots/dark/store/en-US/iphone --device-type IPHONE_65
+   asc screenshots validate --path release/1.16/screenshots/dark/store/zh-Hans/iphone --device-type IPHONE_65
+   asc screenshots validate --path release/1.16/screenshots/dark/store/en-US/ipad --device-type IPAD_PRO_3GEN_129
+   asc screenshots validate --path release/1.16/screenshots/dark/store/zh-Hans/ipad --device-type IPAD_PRO_3GEN_129
    ```
 
-合成结果：iPhone `1242×2688`，iPad `2064×2752`，RGB、无 alpha。原图内容不重绘；只加入商店文案、品牌元素和设备边框。
+合成结果：iPhone `1242×2688`，iPad `2064×2752`，RGB、无 alpha。原图内容不重绘；只加入商店文案、品牌元素和设备边框。默认 `--theme light` 仍从原目录读取并合成暖白素材，`--theme dark` 使用独立的 `screenshots/dark/` 目录。
 
-截图入口位于 `#if DEBUG && os(iOS)` 中，使用内存 SwiftData 和关闭的 CloudKit；不访问真实用户乐事，也不启动小组件快照同步。已检查上传 IPA 的可执行文件不含截图启动参数。
+截图入口位于 `#if DEBUG && os(iOS)` 中，使用内存 SwiftData 和关闭的 CloudKit；不访问真实用户乐事，也不启动小组件快照同步。已检查上传 IPA 的可执行文件不含截图启动参数。暗色重拍只增加 Debug 截图主题参数，继续使用已上传的 1.16（1），无需重新上传二进制。
 
 ## 构建与验证边界
 

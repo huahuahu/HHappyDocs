@@ -1,0 +1,130 @@
+{
+  "captureDate": "2026-10-12",
+  "appearance": "dark",
+  "iphone": {
+    "device": "HDiary Snapshot iPhone 17 Pro",
+    "simulatorId": "040ECFE5-4ED3-4795-AC27-23490CF57596",
+    "os": "iOS 27.0",
+    "listToDetail": {
+      "tool": "Xcode DeviceEventSynthesize",
+      "applicationState": "Running",
+      "observedLabels": [
+        "快乐日记",
+        "乐事",
+        "编辑",
+        "新建乐事",
+        "乐事详情",
+        "把秋天的阳光画下来",
+        "时钟",
+        "2026年10月12日",
+        "12:00",
+        "人物剪影",
+        "阿树",
+        "小雨",
+        "标记",
+        "朋友",
+        "自然",
+        "个人收藏",
+        "和小雨、阿树沿着湖边散步，把眼前的风景画了下来。阳光落在水面上，风轻轻吹过。\n\n原来，值得记住的快乐，就藏在这些平常的时刻里。",
+        "垂直滚动条, 1页",
+        "小圆圈标记，实心",
+        "垂直滚动条, 2页",
+        "工具栏",
+        "标签页栏",
+        "列表",
+        "资料库",
+        "方框",
+        "设置"
+      ]
+    },
+    "detailToLibrary": {
+      "tool": "Xcode DeviceEventSynthesize",
+      "applicationState": "Running",
+      "observedLabels": [
+        "快乐日记",
+        "资料库",
+        "标签",
+        "标记",
+        "参与者",
+        "人物剪影",
+        "图表",
+        "带趋势线的Xy轴",
+        "垂直滚动条, 1页",
+        "工具栏",
+        "标签页栏",
+        "乐事",
+        "列表",
+        "方框",
+        "设置"
+      ]
+    }
+  },
+  "ipad": {
+    "device": "iPad Pro 13-inch (M5)",
+    "simulatorId": "2D15C1CC-968A-4A02-B13A-20166E188204",
+    "os": "iOS 26.5",
+    "build": {
+      "buildResult": "The project built successfully.",
+      "elapsedTime": 8.495,
+      "errors": []
+    },
+    "listToDetail": {
+      "tool": "XcodeBuildMCP snapshot_ui",
+      "status": "SUCCEEDED",
+      "observedTargets": [
+        "e11|tap|tab|乐事|1|list.dash",
+        "e12|tap|tab|乐事|1|list.dash",
+        "e13|tap|tab|资料库|0|cube.box",
+        "e14|tap|tab|资料库|0|cube.box",
+        "e15|tap|tab|设置|0|gear",
+        "e16|tap|tab|设置|0|gear",
+        "e24|tap|button|乐事||BackButton",
+        "e25|tap|button|编辑||pencil",
+        "e41|tap|button|阿树||",
+        "e42|tap|button|小雨||",
+        "e44|tap|button|朋友||",
+        "e45|tap|button|自然||"
+      ],
+      "observedText": [
+        "e36|text|text|把秋天的阳光画下来||",
+        "e38|text|text|2026年10月12日||",
+        "e39|text|text|12:00||",
+        "e51|text|text|和小雨、阿树沿着湖边散步，把眼前的风景画了下来。阳光落在水面上，风轻轻吹过。 原来，值得记住的快乐，就藏在这些平常的时刻里。||"
+      ]
+    },
+    "detailToLibrary": {
+      "tool": "XcodeBuildMCP snapshot_ui",
+      "status": "SUCCEEDED",
+      "observedTargets": [
+        "e11|tap|tab|乐事|0|list.dash",
+        "e12|tap|tab|乐事|0|list.dash",
+        "e13|tap|tab|资料库|1|cube.box",
+        "e14|tap|tab|资料库|1|cube.box",
+        "e15|tap|tab|设置|0|gear",
+        "e16|tap|tab|设置|0|gear",
+        "e36|tap|button|标签||",
+        "e43|tap|button|参与者||",
+        "e51|tap|button|图表||"
+      ],
+      "observedText": [
+        "e38|text|text|标签||",
+        "e45|text|text|参与者||",
+        "e53|text|text|图表||"
+      ]
+    }
+  },
+  "qa": {
+    "visuallyReviewedImages": 20,
+    "fullResolutionPNG": true,
+    "darkBackground": true,
+    "whiteBatteryFullDischarging": true,
+    "statusBarTime": "09:41",
+    "initialAvatarsVisible": true,
+    "tagsAndChartReadable": true,
+    "notes": [
+      "iPad retains its real 11+1 participant layout, wide photo crop and whitespace.",
+      "Native interaction capture is point-sized; full-resolution PNG files use simctl io screenshot.",
+      "English launch uses XcodeBuildMCP to avoid scheme AppleLanguages override."
+    ]
+  }
+}

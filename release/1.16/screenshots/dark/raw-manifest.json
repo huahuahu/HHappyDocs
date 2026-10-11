@@ -1,0 +1,222 @@
+[
+  {
+    "path": "screenshots/dark/raw/en-US/ipad/01-moments.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "ipad",
+    "page": "moments",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 316444,
+    "sha256": "a09f28dbfa572b19eb9a7c8bb0034b8807afdb1769ca8729f22d1ecdc9ba17df"
+  },
+  {
+    "path": "screenshots/dark/raw/en-US/ipad/02-detail.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "ipad",
+    "page": "detail",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 234705,
+    "sha256": "a1d24ec9dc5f4d23ea1c6054e552390e7f5589e8215db126657a914a60cecd33"
+  },
+  {
+    "path": "screenshots/dark/raw/en-US/ipad/03-participants.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "ipad",
+    "page": "participants",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 179231,
+    "sha256": "673aa837e72252d4c7371d25af11a071a0b403cc0772f4fa456be579d10c11d2"
+  },
+  {
+    "path": "screenshots/dark/raw/en-US/ipad/04-tags.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "ipad",
+    "page": "tags",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 185813,
+    "sha256": "255327143175c62ee4c4212c0ee165efd8abcaa24aeb545201e754cf58675b4d"
+  },
+  {
+    "path": "screenshots/dark/raw/en-US/ipad/05-chart.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "ipad",
+    "page": "chart",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 245418,
+    "sha256": "17df554ac0bfbce9504b5423eddedae3293573f12bde9815335bece7c0c58e37"
+  },
+  {
+    "path": "screenshots/dark/raw/en-US/iphone/01-moments.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "iphone",
+    "page": "moments",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 288348,
+    "sha256": "2da24c3d4e2c7ff6f29e2ae7f2bb4d9d308c3a91a22c6434eec12ab0586efd01"
+  },
+  {
+    "path": "screenshots/dark/raw/en-US/iphone/02-detail.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "iphone",
+    "page": "detail",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 261781,
+    "sha256": "7646da88ceffa3c83fe493337575d068b8cb1455dfda5fd5841ec720b8b892ed"
+  },
+  {
+    "path": "screenshots/dark/raw/en-US/iphone/03-participants.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "iphone",
+    "page": "participants",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 181575,
+    "sha256": "2049d0a33dba03b7a5bc7e92261deae96bd0d8e3c8672aca2386f628ff8a63e8"
+  },
+  {
+    "path": "screenshots/dark/raw/en-US/iphone/04-tags.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "iphone",
+    "page": "tags",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 178874,
+    "sha256": "afa6e85ee54149964b5fbc9e8d13ec853b6af3c043f72b2d79f205355c361398"
+  },
+  {
+    "path": "screenshots/dark/raw/en-US/iphone/05-chart.png",
+    "appearance": "dark",
+    "locale": "en-US",
+    "device": "iphone",
+    "page": "chart",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 191652,
+    "sha256": "97d8b290ea103e5c45d10f8b4f2ea1ca870f4aa52cb31b766117a669e5618af2"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/ipad/01-moments.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "page": "moments",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 319720,
+    "sha256": "9dae11773d5a560f96972e047c2ef967713dbf0b9f17331cf1299a7f965d05e5"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/ipad/02-detail.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "page": "detail",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 244972,
+    "sha256": "563c8c7a3c16516b79b55861b14ff9b2e11682afc94eb00586a68124b87b0964"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/ipad/03-participants.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "page": "participants",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 184194,
+    "sha256": "c776c3a31098a62850d704cc528ae817713b9d052131fd2e75a995088369398f"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/ipad/04-tags.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "page": "tags",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 185636,
+    "sha256": "6b05bb5a9ca3ab9b26b7b0feb959ea4d51cac7a21e7f357f9f0afc5138637991"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/ipad/05-chart.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "page": "chart",
+    "width": 2064,
+    "height": 2752,
+    "bytes": 241867,
+    "sha256": "eefac2358e068d5be87ff090a79070fe7853f06f3c32fc13392a69ddb6d70802"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/iphone/01-moments.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "page": "moments",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 278011,
+    "sha256": "ba93ef3980b78a85f985eeddbc156af09bb2a9dcf4b00b53f4a2f994ed7aeba0"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/iphone/02-detail.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "page": "detail",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 259676,
+    "sha256": "448306fde0e84be267cca347b794711293fea9cda22f5bed2f3061e4e2cf8282"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/iphone/03-participants.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "page": "participants",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 190987,
+    "sha256": "2ede5309718b0e43269e04459cd64d9fce7a2ab5d54b13ad8ffaf07cf114f129"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/iphone/04-tags.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "page": "tags",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 180069,
+    "sha256": "fdffc63b59e1cdcd8ad4f8582a4b994e1a7e40cfd95f3ac3dc549c2b52113b88"
+  },
+  {
+    "path": "screenshots/dark/raw/zh-Hans/iphone/05-chart.png",
+    "appearance": "dark",
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "page": "chart",
+    "width": 1206,
+    "height": 2622,
+    "bytes": 186966,
+    "sha256": "57b5fc79985bb47d2bde252a1d5e42fb27ad23e2187b78a278d3fd98a12d22f6"
+  }
+]

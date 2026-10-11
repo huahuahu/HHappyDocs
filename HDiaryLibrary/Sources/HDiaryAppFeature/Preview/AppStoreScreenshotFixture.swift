@@ -21,6 +21,7 @@
     let navigation = NavigationStore()
     let page = UserDefaults.standard.string(forKey: "HDiaryScreenshotPage") ?? "moments"
     let locale = Locale(identifier: UserDefaults.standard.string(forKey: "HDiaryScreenshotLocale") ?? "zh-Hans")
+    let appearance: ColorScheme = UserDefaults.standard.string(forKey: "HDiaryScreenshotAppearance") == "dark" ? .dark : .light
     let referenceDate = Calendar.current.startOfDay(for: .now).addingTimeInterval(12 * 3600)
 
     private init() throws {
@@ -138,7 +139,7 @@
       .environment(UserPreferences.shared)
       .environment(\.locale, fixture.locale)
       .environment(\.dynamicTypeSize, .large)
-      .preferredColorScheme(.light)
+      .preferredColorScheme(fixture.appearance)
       .tint(.orange)
       .transaction { $0.animation = nil }
     }

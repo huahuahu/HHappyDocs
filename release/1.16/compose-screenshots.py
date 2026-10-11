@@ -11,9 +11,22 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
-RAW = ROOT / "screenshots/raw"
-OUT = ROOT / "screenshots/store"
-SUN = ROOT / "screenshots/sun.png"
+THEMES = {
+    "light": {
+        "background": "#FFF9EF", "accent": "#FFF0D6", "brand": "#473A29",
+        "title": "#3F352B", "highlight": "#D96C25", "subtitle": "#817264",
+        "frame": "#34302C", "border": "#BCAF9D", "island": "#171614",
+        "shadow": (91, 57, 29, 48), "preview": "#EEE8DF",
+        "description": "暖白背景 · 橙色标题 · 真实应用页面。",
+    },
+    "dark": {
+        "background": "#191716", "accent": "#2D211B", "brand": "#FFF1DE",
+        "title": "#FFF1DE", "highlight": "#FFAA6B", "subtitle": "#C0AEA0",
+        "frame": "#242220", "border": "#74655A", "island": "#000000",
+        "shadow": (0, 0, 0, 128), "preview": "#100F0E",
+        "description": "暖黑背景 · 橙色标题 · 真实深色应用页面。",
+    },
+}
 COPY = {
     "zh-Hans": [
         ("每一份小快乐", "都值得记住", "按时间整理乐事，回看生活里的闪光。"),
@@ -52,26 +65,31 @@ def centered(draw, text, y, width, face, fill):
     bounds = draw.textbbox((0, 0), text, font=face)
     draw.text(((width - (bounds[2] - bounds[0])) / 2, y - bounds[1]), text, font=face, fill=fill)
 
-def compose(path):
+def compose(path, output_dir, sun, theme):
     locale, device = path.parent.parent.name, path.parent.name
     index = int(path.stem.split("-")[0]) - 1
     chinese = locale == "zh-Hans"
     w, h = (1242, 2688) if device == "iphone" else (2064, 2752)
     scale = w / 1242
-    art = Image.new("RGB", (w, h), "#FFF9EF")
+    art = Image.new("RGB", (w, h), theme["background"])
     draw = ImageDraw.Draw(art)
     # Quiet, warm edge accents retain a clear field around the app itself.
-    draw.ellipse((w * .77, h * .21, w * 1.35, h * .49), fill="#FFF0D6")
-    draw.ellipse((-w * .29, h * .76, w * .21, h * 1.03), fill="#FFF0D6")
-    icon = Image.open(SUN).convert("RGBA")
+    draw.ellipse((w * .77, h * .21, w * 1.35, h * .49), fill=theme["accent"])
+    draw.ellipse((-w * .29, h * .76, w * .21, h * 1.03), fill=theme["accent"])
+    icon = Image.open(sun).convert("RGBA")
     logo_size = round(96 * scale) if device == "iphone" else 116
     icon.thumbnail((logo_size, logo_size), Image.Resampling.LANCZOS)
     logo_y = 77 if device == "iphone" else 57
     brand_font = font(42 if device == "iphone" else 50, bold=True)
     brand_width = draw.textbbox((0, 0), "HDiary", font=brand_font)[2]
     logo_x = int((w - logo_size - 22 - brand_width) / 2)
+    if theme is THEMES["dark"]:
+        # Preserve the sun artwork; a warm badge keeps its brown rays readable.
+        pad = 10
+        draw.ellipse((logo_x - pad, logo_y - pad, logo_x + logo_size + pad,
+                      logo_y + logo_size + pad), fill="#FFF0D6")
     art.paste(icon, (logo_x, logo_y), icon)
-    draw.text((logo_x + logo_size + 22, logo_y + (logo_size - 45) / 2 - 7), "HDiary", font=brand_font, fill="#473A29")
+    draw.text((logo_x + logo_size + 22, logo_y + (logo_size - 45) / 2 - 7), "HDiary", font=brand_font, fill=theme["brand"])
     title1, title2, subtitle = COPY[locale][index]
     title_size = (92 if chinese else 87) if device == "iphone" else (112 if chinese else 107)
     face = font(title_size, chinese, True)
@@ -80,14 +98,14 @@ def compose(path):
         face = font(title_size, chinese, True)
     top = 224 if device == "iphone" else 224
     line_height = title_size * 1.24
-    centered(draw, title1, top, w, face, "#3F352B")
-    centered(draw, title2, top + line_height, w, face, "#D96C25")
+    centered(draw, title1, top, w, face, theme["title"])
+    centered(draw, title2, top + line_height, w, face, theme["highlight"])
     subtitle_size = 38 if device == "iphone" else 50
     subface = font(subtitle_size, chinese)
     while draw.textbbox((0, 0), subtitle, font=subface)[2] > w * .9:
         subtitle_size -= 1
         subface = font(subtitle_size, chinese)
-    centered(draw, subtitle, top + line_height * 2 + 24, w, subface, "#817264")
+    centered(draw, subtitle, top + line_height * 2 + 24, w, subface, theme["subtitle"])
 
     screenshot = Image.open(path).convert("RGB")
     expected_size = (1206, 2622) if device == "iphone" else (2064, 2752)
@@ -103,11 +121,11 @@ def compose(path):
     outer_radius = 111 if device == "iphone" else 68
     shadow = Image.new("RGBA", (w, h))
     sd = ImageDraw.Draw(shadow)
-    sd.rounded_rectangle((x - 3, y + 20, x + frame_width + 3, y + frame_height + 22), radius=outer_radius, fill=(91, 57, 29, 48))
+    sd.rounded_rectangle((x - 3, y + 20, x + frame_width + 3, y + frame_height + 22), radius=outer_radius, fill=theme["shadow"])
     shadow = shadow.filter(ImageFilter.GaussianBlur(25))
     art = Image.alpha_composite(art.convert("RGBA"), shadow)
     draw = ImageDraw.Draw(art)
-    draw.rounded_rectangle((x, y, x + frame_width, y + frame_height), radius=outer_radius, fill="#34302C", outline="#BCAF9D", width=3)
+    draw.rounded_rectangle((x, y, x + frame_width, y + frame_height), radius=outer_radius, fill=theme["frame"], outline=theme["border"], width=3)
     mask = Image.new("L", screen.size)
     ImageDraw.Draw(mask).rounded_rectangle((0, 0, screen_width, screen_height), radius=outer_radius - bezel, fill=255)
     art.paste(screen, (x + bezel, y + bezel), mask)
@@ -116,68 +134,72 @@ def compose(path):
         island_w, island_h = 240, 64
         ix = (w - island_w) // 2
         iy = y + bezel + 25
-        draw.rounded_rectangle((ix, iy, ix + island_w, iy + island_h), radius=island_h // 2, fill="#171614")
-    destination = OUT / locale / device / path.name
+        draw.rounded_rectangle((ix, iy, ix + island_w, iy + island_h), radius=island_h // 2, fill=theme["island"])
+    destination = output_dir / locale / device / path.name
     destination.parent.mkdir(parents=True, exist_ok=True)
     art.convert("RGB").save(destination, optimize=True)
     return destination
 
-def create_review(outputs):
-    preview = ROOT / "screenshots/preview"
+def create_review(outputs, base, output_dir, theme):
+    preview = base / "preview"
     preview.mkdir(parents=True, exist_ok=True)
     sections = []
     for locale in COPY:
         for device in ("iphone", "ipad"):
-            paths = [path for path in outputs if path.parent == OUT / locale / device]
+            paths = [path for path in outputs if path.parent == output_dir / locale / device]
             if not paths:
                 continue
-            sheet = Image.new("RGB", (310 * len(paths), 720 if device == "iphone" else 452), "#EEE8DF")
+            sheet = Image.new("RGB", (310 * len(paths), 720 if device == "iphone" else 452), theme["preview"])
             draw = ImageDraw.Draw(sheet)
             cards = []
             for index, path in enumerate(paths):
                 shot = Image.open(path).convert("RGB")
                 shot.thumbnail((300, 670), Image.Resampling.LANCZOS)
                 sheet.paste(shot, (index * 310 + 5, 32))
-                draw.text((index * 310 + 12, 10), path.stem, fill="#3F352B")
-                relative = html.escape(str(path.relative_to(ROOT / "screenshots")))
+                draw.text((index * 310 + 12, 10), path.stem, fill=theme["title"])
+                relative = html.escape(str(path.relative_to(base)))
                 cards.append(f'<a href="{relative}"><img src="{relative}" alt="{path.stem}"></a>')
             sheet.save(preview / f"{locale}-{device}.jpg", quality=94)
             sections.append(f'<h2>{locale} · {device}</h2><div class="grid">{"".join(cards)}</div>')
-    (ROOT / "screenshots/review.html").write_text(
+    (base / "review.html").write_text(
         '<!doctype html><html lang="zh-Hans"><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
         '<title>HDiary 1.16 App Store screenshots</title><style>'
-        'body{margin:32px;background:#fff9ef;color:#3f352b;font-family:system-ui}'
+        f'body{{margin:32px;background:{theme["background"].lower()};color:{theme["title"].lower()};font-family:system-ui}}'
         'h1{font-size:28px}h2{margin-top:40px;font-size:20px}'
         '.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}'
         'img{width:100%;border-radius:10px;box-shadow:0 4px 16px #473a2920}'
         '@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}'
         '</style><h1>HDiary 1.16 · App Store 截图</h1>'
-        '<p>暖白背景 · 橙色标题 · 真实应用页面。点击图片查看原尺寸。</p>'
+        f'<p>{theme["description"]}点击图片查看原尺寸。</p>'
         + "".join(sections) + '</html>\n'
     )
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--theme", choices=THEMES, default="light", help="Dark uses a separate screenshots/dark directory")
     parser.add_argument("--allow-partial", action="store_true", help="Compose completed groups while capture is in progress")
     options = parser.parse_args()
-    expected = [RAW / locale / device / f"{page}.png"
+    theme = THEMES[options.theme]
+    base = ROOT / "screenshots" if options.theme == "light" else ROOT / "screenshots/dark"
+    raw, output_dir, sun = base / "raw", base / "store", base / "sun.png"
+    expected = [raw / locale / device / f"{page}.png"
                 for locale in COPY for device in ("iphone", "ipad") for page in PAGES]
     missing = [str(path.relative_to(ROOT)) for path in expected if not path.is_file()]
     if missing and not options.allow_partial:
         parser.error("Missing source screenshots: " + ", ".join(missing))
-    SUN.parent.mkdir(parents=True, exist_ok=True)
-    subprocess.run(["rsvg-convert", "--width", "384", "--height", "384", "--output", str(SUN),
+    sun.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(["rsvg-convert", "--width", "384", "--height", "384", "--output", str(sun),
                     str(REPO / "HDiary/Assets.xcassets/WidgetAppIcon.imageset/WidgetAppIcon.svg")], check=True)
-    outputs = [compose(path) for path in sorted(RAW.glob("*/*/*.png"))]
+    outputs = [compose(path, output_dir, sun, theme) for path in sorted(raw.glob("*/*/*.png"))]
     manifest = []
     for path in outputs:
         with Image.open(path) as image:
             manifest.append({"path": str(path.relative_to(ROOT)), "width": image.width, "height": image.height, "mode": image.mode,
                              "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
-    (ROOT / "screenshots/manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
-    create_review(outputs)
-    print(f"Composed {len(outputs)} screenshots")
+    (base / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    create_review(outputs, base, output_dir, theme)
+    print(f"Composed {len(outputs)} {options.theme} screenshots")
 
 if __name__ == "__main__":
     main()
