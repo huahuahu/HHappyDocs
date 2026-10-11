@@ -1,0 +1,7 @@
+{
+  "description": "这是一个帮助你记录快乐瞬间的应用程序。你可以给快乐瞬间添加标签、参与者、评分和照片。还可以通过图表查看最近的快乐瞬间，并支持小组件。\n\n用户协议: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+  "keywords": "日记，快乐，瞬间，乐事",
+  "promotionalText": "1. 记录快乐瞬间\n2. 以图表形式查看快乐瞬间\n3. 支持小组件",
+  "supportUrl": "https://tohostwebsites.z7.web.core.windows.net/hdiary/index.html",
+  "whatsNew": "让日常的小快乐，多一点阳光。\n\n- 换上全新的手绘太阳图标，深色模式下也更清晰。\n- 优化参与者网格与头像展示，更容易找到回忆里的人。\n- 改进乐事小组件的布局，让更新更高效。\n- 新增和查看乐事时，页面过渡更自然。\n- 优化日期、评分与工具栏布局，改善大字号和 iPhone Duo 上的使用体验。"
+}

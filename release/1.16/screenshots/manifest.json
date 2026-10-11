@@ -1,0 +1,142 @@
+[
+  {
+    "path": "screenshots/store/en-US/ipad/01-moments.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "3ce933a952838c457f071e2cf54e711aafe64f061e991285a08e5e5e0f45f0dc"
+  },
+  {
+    "path": "screenshots/store/en-US/ipad/02-detail.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "a0df9112b8bdea0fd723d56b8e1bd899e5250abf746fd0b12ef6c87465e9317a"
+  },
+  {
+    "path": "screenshots/store/en-US/ipad/03-participants.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "c32fa0016eeb5bf95ecfbdad871882ba72aecfd6e3360a11c482a6ea1d6d5a9f"
+  },
+  {
+    "path": "screenshots/store/en-US/ipad/04-tags.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "fb0479f9ad104034db542466b22e7fa4de695225555d2e4f476808316786a523"
+  },
+  {
+    "path": "screenshots/store/en-US/ipad/05-chart.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "20c373b1b7075c56602d096414cee19a8ee40a90397e6f8023ecbe989d24fd3f"
+  },
+  {
+    "path": "screenshots/store/en-US/iphone/01-moments.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "7f23801c1810f8b27f12b9f1b56c6ac7cb7ea43852a52541e72f1d895700f223"
+  },
+  {
+    "path": "screenshots/store/en-US/iphone/02-detail.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "026e7fad937b4a97d179c058fb761d5ed414d1d519c6448797b215aa41c06165"
+  },
+  {
+    "path": "screenshots/store/en-US/iphone/03-participants.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "6cfde869cc2419c6e750ef5a5a4c9001e3c4b0d4a785a08fd970d40798d50135"
+  },
+  {
+    "path": "screenshots/store/en-US/iphone/04-tags.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "c2d223bf3d84d672f62ed292417d5aaaae3191cc89090bf3a4e86f9f78a13ee6"
+  },
+  {
+    "path": "screenshots/store/en-US/iphone/05-chart.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "fb981a3bf6d3fb392967867c4a88c65982543a36eb64b06afbc2cae8c55def3f"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/ipad/01-moments.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "17ddf4797241f7d1f8a0cd3fd0a452f68d21649f30f24ece815f92d7e8fbcd55"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/ipad/02-detail.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "7e309547c334f949d7a457cd7e6c8acc09d7b9e67358823d15856aab0ca356de"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/ipad/03-participants.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "936ccb59d4dc8484615a27d75c0d4aa8c3e4ca15c315aa6cbbe23676421f8113"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/ipad/04-tags.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "e84d8f8a321a57a5397707d2d8d75acc6e31ba68176420840c0d2746aae84900"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/ipad/05-chart.png",
+    "width": 2064,
+    "height": 2752,
+    "mode": "RGB",
+    "sha256": "c40429cde6d4d4cef260192f5ccdfd3681307a015516299472f02e0c278e90cb"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/iphone/01-moments.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "bb6c9a39f7a931008d5b9494be00a2082b4a148e7da62969d50d661fc9b01647"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/iphone/02-detail.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "d62a646a182d1de67f9c5202a4c088e4440b343f4c381c4885cdd99a8cf67c6e"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/iphone/03-participants.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "7a68a92822ff3391a42978fccd6d95cfd78cda9f69091798e9aee587c559bedf"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/iphone/04-tags.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "618c0188725d1a42acfbe54cec4cc177d0d1ca216ae29599e84dbb51c54cc22c"
+  },
+  {
+    "path": "screenshots/store/zh-Hans/iphone/05-chart.png",
+    "width": 1242,
+    "height": 2688,
+    "mode": "RGB",
+    "sha256": "a40d3acd627881613a2e712e4ac2e50eda8d48a99b4069d40ed5fd51b4f4adfb"
+  }
+]
