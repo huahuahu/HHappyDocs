@@ -15,6 +15,7 @@ import SwiftUI
 
   @ScaledMetric private var selectedFilterHorizontalPadding = 10.0
   @ScaledMetric private var selectedFilterVerticalPadding = 5.0
+  @ScaledMetric private var optionIndicatorWidth = 14.0
 
   init(selectedFilter: Binding<MomentFilter?>) {
     self._selectedFilter = selectedFilter
@@ -25,32 +26,14 @@ import SwiftUI
       Button {
         selectedFilter = nil
       } label: {
-        if selectedFilter == nil {
-          Label {
-            Text(DiaryStringKey.Moment.Filter.all)
-          } icon: {
-            Image(hDiarySymbol: .checkmark)
-          }
-        }
-        else {
-          Text(DiaryStringKey.Moment.Filter.all)
-        }
+        optionLabel(DiaryStringKey.Moment.Filter.all, isSelected: selectedFilter == nil)
       }
 
       ForEach(MomentFilter.allCases) { filter in
         Button {
           selectedFilter = filter
         } label: {
-          if let selectedFilter = selectedFilter, selectedFilter == filter {
-            Label {
-              Text(filter.title)
-            } icon: {
-              Image(hDiarySymbol: .checkmark)
-            }
-          }
-          else {
-            Text(filter.title)
-          }
+          optionLabel(filter.title, isSelected: selectedFilter == filter)
         }
       }
 
@@ -70,6 +53,19 @@ import SwiftUI
         }
         .labelStyle(.iconOnly)
       }
+    }
+  }
+
+  @ViewBuilder
+  private func optionLabel(_ title: LocalizedStringResource, isSelected: Bool) -> some View {
+    HStack(spacing: 8) {
+      Image(hDiarySymbol: .checkmark)
+        .opacity(isSelected ? 1 : 0)
+        .accessibilityHidden(!isSelected)
+        .frame(width: optionIndicatorWidth, alignment: .leading)
+
+      Text(title)
+        .frame(maxWidth: .infinity, alignment: .trailing)
     }
   }
 }
