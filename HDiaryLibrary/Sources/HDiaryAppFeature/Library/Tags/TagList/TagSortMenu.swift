@@ -14,7 +14,6 @@ import SwiftUI
 @MainActor
 struct TagSortMenu: View {
   @State private var selectedSortOrder: TagSortOrder = .name
-  @ScaledMetric private var optionIndicatorWidth = 14.0
 
   private let onSortOrderChanged: ((TagSortOrder) -> Void)?
 
@@ -24,12 +23,13 @@ struct TagSortMenu: View {
 
   var body: some View {
     Menu {
-      ForEach(TagSortOrder.allCases) { tagSortOrder in
-        Button {
-          selectedSortOrder = tagSortOrder
-        } label: {
-          optionLabel(tagSortOrder.label, isSelected: selectedSortOrder == tagSortOrder)
+      Picker(selection: $selectedSortOrder) {
+        ForEach(TagSortOrder.allCases) { tagSortOrder in
+          Text(tagSortOrder.label)
+            .tag(tagSortOrder)
         }
+      } label: {
+        Text(DiaryStringKey.Common.sort)
       }
     } label: {
       Label {
@@ -40,19 +40,6 @@ struct TagSortMenu: View {
     }
     .onChange(of: selectedSortOrder, initial: true) {
       onSortOrderChanged?(selectedSortOrder)
-    }
-  }
-
-  @ViewBuilder
-  private func optionLabel(_ title: LocalizedStringResource, isSelected: Bool) -> some View {
-    HStack(spacing: 8) {
-      Image(hDiarySymbol: .checkmark)
-        .opacity(isSelected ? 1 : 0)
-        .accessibilityHidden(!isSelected)
-        .frame(width: optionIndicatorWidth, alignment: .leading)
-
-      Text(title)
-        .frame(maxWidth: .infinity, alignment: .trailing)
     }
   }
 }
