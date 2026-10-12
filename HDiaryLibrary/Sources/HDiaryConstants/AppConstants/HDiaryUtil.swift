@@ -17,6 +17,8 @@ public enum HDiaryUtil {
     #if canImport(JournalingSuggestions)
       #if canImport(UIKit)
         if #available(iOS 17.2, *) {
+          // An iOS binary can run on macOS, where this framework is absent.
+          guard !ProcessInfo.processInfo.isiOSAppOnMac else { return false }
           return UIDevice.current.userInterfaceIdiom == .phone
         }
         return false
