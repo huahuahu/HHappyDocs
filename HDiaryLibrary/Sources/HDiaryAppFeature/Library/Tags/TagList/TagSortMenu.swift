@@ -23,21 +23,13 @@ struct TagSortMenu: View {
 
   var body: some View {
     Menu {
-      ForEach(TagSortOrder.allCases) { tagSortOrder in
-        Button {
-          selectedSortOrder = tagSortOrder
-        } label: {
-          if selectedSortOrder == tagSortOrder {
-            Label {
-              Text(tagSortOrder.label)
-            } icon: {
-              Image(hDiarySymbol: .checkmark)
-            }
-          }
-          else {
-            Text(tagSortOrder.label)
-          }
+      Picker(selection: $selectedSortOrder) {
+        ForEach(TagSortOrder.allCases) { tagSortOrder in
+          Text(tagSortOrder.label)
+            .tag(tagSortOrder)
         }
+      } label: {
+        Text(DiaryStringKey.Common.sort)
       }
     } label: {
       Label {

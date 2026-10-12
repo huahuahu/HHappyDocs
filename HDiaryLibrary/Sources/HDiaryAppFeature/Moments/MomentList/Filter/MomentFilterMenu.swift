@@ -22,38 +22,17 @@ import SwiftUI
 
   var body: some View {
     Menu {
-      Button {
-        selectedFilter = nil
+      Picker(selection: $selectedFilter) {
+        Text(DiaryStringKey.Moment.Filter.all)
+          .tag(nil as MomentFilter?)
+
+        ForEach(MomentFilter.allCases) { filter in
+          Text(filter.title)
+            .tag(Optional(filter))
+        }
       } label: {
-        if selectedFilter == nil {
-          Label {
-            Text(DiaryStringKey.Moment.Filter.all)
-          } icon: {
-            Image(hDiarySymbol: .checkmark)
-          }
-        }
-        else {
-          Text(DiaryStringKey.Moment.Filter.all)
-        }
+        Text(DiaryStringKey.Moment.Filter.filter)
       }
-
-      ForEach(MomentFilter.allCases) { filter in
-        Button {
-          selectedFilter = filter
-        } label: {
-          if let selectedFilter = selectedFilter, selectedFilter == filter {
-            Label {
-              Text(filter.title)
-            } icon: {
-              Image(hDiarySymbol: .checkmark)
-            }
-          }
-          else {
-            Text(filter.title)
-          }
-        }
-      }
-
     } label: {
       if let selectedFilter {
         Text(selectedFilter.title)
