@@ -1,0 +1,7 @@
+{
+  "description": "An app that helps you capture joyful moments. You can add tags, participants, ratings, and photos to these happy moments. It allows you to view recent happy moments through charts and also supports widgets.\n\nTerms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+  "keywords": "diary, moments, happy",
+  "promotionalText": "1. Record Joyful Moments\n2. View Joyful Moments in charts\n3. Support Widgets",
+  "supportUrl": "https://tohostwebsites.z7.web.core.windows.net/hdiary/index.html",
+  "whatsNew": "A little more sunshine for your everyday moments.\n\n- A new hand-drawn sun app icon, with a clearer appearance in Dark Mode.\n- Refreshed participant grids and avatars, making it easier to find the people in your memories.\n- Improved moment widgets and more efficient updates.\n- Smoother transitions when adding and opening moments.\n- Better date, rating, and toolbar layouts, including support for larger text and iPhone Duo."
+}

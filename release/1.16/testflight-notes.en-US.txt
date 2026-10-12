@@ -1,0 +1,7 @@
+HDiary 1.16 brings a hand-drawn sun icon, refreshed participant avatars, improved widgets, and smoother moment screens.
+
+Please try:
+- Add a moment with a photo, participants, tags, and a rating, then open and edit it.
+- Browse the participant grid and check that names and avatar initials are visible.
+- Add the moment widgets to your Home Screen and check their content after editing a moment.
+- Check dates, ratings, and toolbars with larger text, in Dark Mode, and on iPad or iPhone Duo where available.

@@ -1,0 +1,122 @@
+[
+  {
+    "path": "screenshots/raw/en-US/ipad/01-moments.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "c807519e1467d951f83c0c27255f5a8d04942479e97fe48fe1ea8aae14aa1afb"
+  },
+  {
+    "path": "screenshots/raw/en-US/ipad/02-detail.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "40492340e3518fd5c85e38050505c519bab7a914a611c9fba2423614234686f2"
+  },
+  {
+    "path": "screenshots/raw/en-US/ipad/03-participants.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "6abb9e4369a27e136ccc415fc26d072fdeafa6fe8265820cafcba2844c62cb17"
+  },
+  {
+    "path": "screenshots/raw/en-US/ipad/04-tags.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "246317a8fb1062367a6ed2290e65029da39950507b5783541f2d06002755d650"
+  },
+  {
+    "path": "screenshots/raw/en-US/ipad/05-chart.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "677646222ebfa54f30528e774ac512c1dc5f22f87c2ef573b197f2cd1e686e69"
+  },
+  {
+    "path": "screenshots/raw/en-US/iphone/01-moments.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "639c188d719c49c348439c35b3f5eaa95d65b38e03c6ec491f975ed6afa2e9ac"
+  },
+  {
+    "path": "screenshots/raw/en-US/iphone/02-detail.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "be8af85db39e500ebd28b879f3e145d81b591a79c6234b7c6ebbf6a02b44993d"
+  },
+  {
+    "path": "screenshots/raw/en-US/iphone/03-participants.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "b775de424a225645da8e07212e59df5a9749c72eda9370df771d7558ef2cfb0d"
+  },
+  {
+    "path": "screenshots/raw/en-US/iphone/04-tags.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "39ac181548b2260c5d0a9a00a2eb28292dc0f397df711fd7ff20a37d017aa34c"
+  },
+  {
+    "path": "screenshots/raw/en-US/iphone/05-chart.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "55b423d2a556036a3db98abc9cde4b1d6626cab269ed9b25f76ae5be624abdaa"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/ipad/01-moments.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "79b5ba95f8e508de6c60d09ec1c68692ed293f4d8d97aa38f2a4e836ffc0527b"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/ipad/02-detail.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "74779871344eb51513af3f9ca5adf0ec4abe4a518f57c6a077bf71fd32cebd5e"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/ipad/03-participants.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "7eeeb1b0103b985540e2c15f4cc730c0942c6aeea46d7dc585447a7532514b3f"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/ipad/04-tags.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "1bb8f6ff5c5a9f995604cd8a28ff21d99195a35b46a411ec63319d906f14c4d6"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/ipad/05-chart.png",
+    "width": 2064,
+    "height": 2752,
+    "sha256": "181afa7334f09ac1aad619e30a49d6539e5dc79b40c81088091e5b77be538c76"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/iphone/01-moments.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "143d8c53d23d27120c2abc3e9c037e00c364315f2c39cdd866d6e83120e1e36b"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/iphone/02-detail.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "e4670c8405dbd88b1be75223b588b3214ad7b93eb780fada960c1ac69ee1fa27"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/iphone/03-participants.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "de5281f63bee5339de5e083754f2a2a0ff04fb9e11b44807b1e9400b6c10bf21"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/iphone/04-tags.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "7aee750407a678971d2014f2e598bfcd5e469847ad61eb50dc8efd1cc787ce7d"
+  },
+  {
+    "path": "screenshots/raw/zh-Hans/iphone/05-chart.png",
+    "width": 1206,
+    "height": 2622,
+    "sha256": "dd2b330de14cb0a9899b9ea9acd2c400b6dca340ae714bdd107c5f07a69c3fda"
+  }
+]

@@ -12,9 +12,6 @@ import HDiaryIAP
 import HDiaryModel
 import SwiftData
 import SwiftUI
-#if canImport(JournalingSuggestions)
-  @preconcurrency import JournalingSuggestions
-#endif
 
 enum AddMomentPresentation: Identifiable, Equatable, Hashable {
   case presentRecordSubscriptionView
@@ -160,27 +157,30 @@ struct AddMomentNavigationView: View {
       .progressViewStyle(.circular)
     case .needShow:
       #if canImport(JournalingSuggestions)
-        if #available(iOS 17.2, *) {
-          addMomentView(with: createdMoment)
-            .journalingSuggestionsPicker(isPresented: .init(get: {
+        if #available(iOS 17.2, *), HDiaryUtil.isJournalingSuggestionsAvailable {
+          MomentSuggestionPicker(
+            content: addMomentView(with: createdMoment),
+            isPresented: .init(get: {
               suggestionState.isNeedShow
             }, set: { showing in
               Log.common.log(level: DiagnosticLogging.level(for: .info), "Journaling suggestion picker is showing: \(showing)")
               if !showing {
                 suggestionState = .noNeedToShow
               }
-            })) { suggestion in
-              Log.common.log(level: DiagnosticLogging.level(for: .info), "Journaling suggestion selected: \(suggestion.title)")
+            }),
+            onSelection: {
               suggestionState = .convertingSuggestion
-              let suggestedMoment = await MomentSuggestionUtil.momentFrom(suggestion: suggestion)
+            },
+            onCompletion: { suggestedMoment in
               suggestionState = .suggestedMoment(suggestedMoment)
             }
+          )
         }
         else {
-          JournalSuggestionNotAvailableView()
+          addMomentView(with: createdMoment)
         }
       #else
-        JournalSuggestionNotAvailableView()
+        addMomentView(with: createdMoment)
       #endif
 
     case .suggestedMoment(let suggestedMoment):

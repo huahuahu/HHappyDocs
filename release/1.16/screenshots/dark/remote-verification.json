@@ -1,0 +1,162 @@
+[
+  {
+    "locale": "en-US",
+    "device": "iphone",
+    "filename": "01-moments.png",
+    "id": "64c00018-1a69-8e91-8006-05fa767d1127",
+    "state": "COMPLETE",
+    "md5": "05080846edfbafe6a5fb0ff86c43e9fa"
+  },
+  {
+    "locale": "en-US",
+    "device": "iphone",
+    "filename": "02-detail.png",
+    "id": "b5800018-1a69-8e91-8020-7b33dfb301ed",
+    "state": "COMPLETE",
+    "md5": "6baf52b670fa5c3b0b2d6e267a27592c"
+  },
+  {
+    "locale": "en-US",
+    "device": "iphone",
+    "filename": "03-participants.png",
+    "id": "c1c00018-1a69-8e91-801f-aaec8f5c51f8",
+    "state": "COMPLETE",
+    "md5": "0ac7ca16fba3589a7e06ae2ffbe01758"
+  },
+  {
+    "locale": "en-US",
+    "device": "iphone",
+    "filename": "04-tags.png",
+    "id": "e8400018-1a69-8e91-8039-5fa75fb206f5",
+    "state": "COMPLETE",
+    "md5": "1f80ad54e72e6bcead223c83e06019f3"
+  },
+  {
+    "locale": "en-US",
+    "device": "iphone",
+    "filename": "05-chart.png",
+    "id": "60000018-1a69-8e91-8029-f9aaac96988c",
+    "state": "COMPLETE",
+    "md5": "96467fb949e24f018ed0477f27ec02cc"
+  },
+  {
+    "locale": "en-US",
+    "device": "ipad",
+    "filename": "01-moments.png",
+    "id": "df400018-1a69-8e91-800d-60cc9d719e9b",
+    "state": "COMPLETE",
+    "md5": "dbd0693e620ab595808298e721022b45"
+  },
+  {
+    "locale": "en-US",
+    "device": "ipad",
+    "filename": "02-detail.png",
+    "id": "51800018-1a69-8e91-8014-b0fc24222340",
+    "state": "COMPLETE",
+    "md5": "fde5830a5236de2ee83494f2dd104661"
+  },
+  {
+    "locale": "en-US",
+    "device": "ipad",
+    "filename": "03-participants.png",
+    "id": "87c00018-1a69-8e91-8017-50d092293681",
+    "state": "COMPLETE",
+    "md5": "8326f78974e19937eec598682ca12357"
+  },
+  {
+    "locale": "en-US",
+    "device": "ipad",
+    "filename": "04-tags.png",
+    "id": "8e400018-1a69-8e91-8015-a9d347b45bbd",
+    "state": "COMPLETE",
+    "md5": "f42a5431bbe72685ea9c2b63d2ee4793"
+  },
+  {
+    "locale": "en-US",
+    "device": "ipad",
+    "filename": "05-chart.png",
+    "id": "0e000018-1a69-8e91-8002-b4cd4dbcd2d4",
+    "state": "COMPLETE",
+    "md5": "1caf0573b67aca14d14a1beb6e7486e7"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "filename": "01-moments.png",
+    "id": "a8c00018-1a69-8e91-8024-0a12028e7dae",
+    "state": "COMPLETE",
+    "md5": "f32bb68e48e166e7975d8249960f8d4e"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "filename": "02-detail.png",
+    "id": "d1400018-1a69-8e91-8023-6f202a1f8123",
+    "state": "COMPLETE",
+    "md5": "55fc78704eb167bbf6d3d2f746881c53"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "filename": "03-participants.png",
+    "id": "8dc00018-1a69-8e91-800b-5b7ca6f785f0",
+    "state": "COMPLETE",
+    "md5": "03f7e4ac4100a004c204f774fb3d7f02"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "filename": "04-tags.png",
+    "id": "1cc00018-1a69-8e91-803e-978720774a03",
+    "state": "COMPLETE",
+    "md5": "bce5d9694334e18358b90db345d1053f"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "iphone",
+    "filename": "05-chart.png",
+    "id": "ce000018-1a69-8e91-800f-cb650b3b57e4",
+    "state": "COMPLETE",
+    "md5": "c700b75fef8eb0137e35f8df293f8a1e"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "filename": "01-moments.png",
+    "id": "71800018-1a69-8e91-8011-bd460bef6835",
+    "state": "COMPLETE",
+    "md5": "ecfcb80c78c7d8606c79194b077efdac"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "filename": "02-detail.png",
+    "id": "71c00018-1a69-8e91-8026-6087f03d7a6b",
+    "state": "COMPLETE",
+    "md5": "4ba9e75e6331ef839a05b24c81c6f786"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "filename": "03-participants.png",
+    "id": "dec00018-1a69-8e91-8000-0f68248db6db",
+    "state": "COMPLETE",
+    "md5": "798337e254599b3662fc6bfccbcfd096"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "filename": "04-tags.png",
+    "id": "0dc00018-1a69-8e91-8008-ed6973f34b5d",
+    "state": "COMPLETE",
+    "md5": "509647ef2f8535c863d2cf0292da35da"
+  },
+  {
+    "locale": "zh-Hans",
+    "device": "ipad",
+    "filename": "05-chart.png",
+    "id": "21c00018-1a69-8e91-801b-d3c70a46547d",
+    "state": "COMPLETE",
+    "md5": "f6a2dc1e1ac3db021cf0396200d9b551"
+  }
+]

@@ -1,0 +1,188 @@
+{
+  "verifiedAt": "2026-10-12T13:48:17.819611+00:00",
+  "appId": "6470147729",
+  "bundleId": "com.tiger.suzhou.HDiary",
+  "version": "1.16",
+  "buildNumber": "2",
+  "buildId": "b457624e-5cfd-4c26-b021-95630fdc9faa",
+  "processingState": "VALID",
+  "ipaSHA256": "d363843225e471f6830e3adfb6552f598ac0d6b2a71c8a1ccca8f09dc06fc1ee",
+  "appStore": {
+    "versionId": "f08db20f-323f-4198-aa32-f2b7a4ceb59e",
+    "state": "WAITING_FOR_REVIEW",
+    "releaseType": "AFTER_APPROVAL",
+    "submissionId": "34c6b01e-4464-4cbf-a859-d8aa7976b2cd",
+    "submittedAt": "2026-10-12T13:45:17.772Z",
+    "submissionState": "WAITING_FOR_REVIEW",
+    "previousSubmission": {
+      "id": "72dfae6f-ad8d-4673-aa98-fcf3dbcb6960",
+      "cancelled": true,
+      "reason": "Replace build 1 with build 2 to fix ITMS-90863 JournalingSuggestions linking on iOS Apps on Mac."
+    },
+    "verifiedAt": "2026-10-12T13:48:17.819611+00:00"
+  },
+  "testFlight": {
+    "autoNotifyEnabled": true,
+    "internalBuildState": "IN_BETA_TESTING",
+    "externalBuildState": "READY_FOR_BETA_SUBMISSION",
+    "buildId": "b457624e-5cfd-4c26-b021-95630fdc9faa",
+    "verifiedAt": "2026-10-12T13:48:17.819611+00:00",
+    "scope": "Observed new build state only; no external beta submission or tester notification was requested in this side conversation."
+  },
+  "screenshots": {
+    "rawCount": 20,
+    "uploadedCount": 20,
+    "allComplete": true,
+    "remoteChecksumsMatchLocal": true,
+    "locales": [
+      "en-US",
+      "zh-Hans"
+    ],
+    "displayTypes": [
+      "APP_IPHONE_65",
+      "APP_IPAD_PRO_3GEN_129"
+    ],
+    "optionalLegacyScreenshotCount": 0,
+    "appearance": "mixed",
+    "assetDirectory": "screenshots/mixed/store",
+    "remoteVerification": "screenshots/mixed/remote-verification-build2.json",
+    "verifiedAt": "2026-10-12T13:48:17.819611+00:00",
+    "perGroupAppearances": [
+      "light",
+      "light",
+      "light",
+      "light",
+      "dark"
+    ],
+    "pageOrder": [
+      "moments",
+      "detail",
+      "participants",
+      "tags",
+      "chart"
+    ],
+    "remoteOrderingMatchesLocal": true
+  },
+  "metadata": {
+    "localValidationErrors": 0,
+    "localValidationWarnings": 0,
+    "remoteMatchesLocal": true,
+    "verifiedAt": "2026-10-11T22:52:28.686917+00:00"
+  },
+  "validation": {
+    "beforeLegacyCleanup": {
+      "errors": 0,
+      "warnings": 2,
+      "infos": 2,
+      "blocking": 0
+    },
+    "afterLegacyCleanup": {
+      "errors": 6,
+      "warnings": 2,
+      "infos": 1,
+      "blocking": 6
+    },
+    "note": "asc 2.6.0 flags six empty optional legacy screenshot sets. Both required display types contain five COMPLETE images per locale. Apple accepted the review submission and confirmed WAITING_FOR_REVIEW.",
+    "afterDarkReplacement": {
+      "errors": 6,
+      "warnings": 2,
+      "infos": 1,
+      "blocking": 6
+    },
+    "afterMixedReplacement": {
+      "errors": 6,
+      "warnings": 2,
+      "infos": 1,
+      "blocking": 6
+    },
+    "afterBuild2": {
+      "errors": 6,
+      "warnings": 2,
+      "infos": 1,
+      "blocking": 6
+    }
+  },
+  "ci": {
+    "buildAndTest": {
+      "conclusion": "success",
+      "status": "completed",
+      "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/38144310162"
+    },
+    "snapshots": {
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "conclusion": "failure",
+          "name": "Snapshots (iphone-duo)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Snapshots (iphone)",
+          "status": "completed"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/38144310164",
+      "note": "Initial release snapshot run: iPhone succeeded; iPhone Duo failed. GitHub reported log not found for the failed job, so the failure cause is unverified. This run predates the dark screenshot fixture change."
+    }
+  },
+  "sourceBaseCommit": "fa820abd600a79b0223b86e083dffd71a9ec156a",
+  "releaseBinaryExcludesScreenshotLaunchFlag": true,
+  "appStoreConnectURL": "https://appstoreconnect.apple.com/apps/6470147729",
+  "testFlightURL": "https://appstoreconnect.apple.com/apps/6470147729/testflight",
+  "darkScreenshotVerification": {
+    "nativeDebugBuild": "succeeded",
+    "visualReviewCount": 20,
+    "localImageValidationErrors": 0,
+    "localImageValidationWarnings": 0,
+    "iphoneAndIPadListDetailLibraryNavigation": "passed",
+    "lightCompositionUnchanged": true,
+    "binaryReuploaded": false
+  },
+  "verificationScope": "Build 2 signed IPA linkage and signature, Apple processing, App Store submission and preserved screenshots; historical metadata and CI evidence retain their original timestamps.",
+  "mixedScreenshotVerification": {
+    "visualReviewCount": 20,
+    "localImageValidationErrors": 0,
+    "localImageValidationWarnings": 0,
+    "groupCount": 4,
+    "imagesPerGroup": 5,
+    "lightImagesPerGroup": 4,
+    "darkImagesPerGroup": 1,
+    "sourceImageBytesUnchanged": true,
+    "duplicateImagesPerGroup": 0,
+    "remoteChecksumsMatchLocal": true,
+    "remoteOrderingMatchesLocal": true,
+    "binaryReuploaded": false,
+    "note": "Previous dark screenshot duplicates appeared during replacement; final post-submission reads contain exactly the selected five screenshots in each of four groups."
+  },
+  "sourceCommit": "17d0d9d628d533ebb2e28515154d26e17653649c",
+  "journalingMacCompatibility": {
+    "verifiedAt": "2026-10-12T13:36:45.063499+00:00",
+    "appId": "6470147729",
+    "bundleId": "com.tiger.suzhou.HDiary",
+    "version": "1.16",
+    "buildNumber": "2",
+    "sourceCommit": "17d0d9d628d533ebb2e28515154d26e17653649c",
+    "ipaSHA256": "d363843225e471f6830e3adfb6552f598ac0d6b2a71c8a1ccca8f09dc06fc1ee",
+    "codeSignatureVerified": true,
+    "journalingSuggestionsLoadCommand": "LC_LOAD_WEAK_DYLIB",
+    "weakImportCount": 83,
+    "strongImportCount": 0,
+    "imagesLinkingJournalingSuggestions": [
+      "HDiary"
+    ],
+    "widgetLinksJournalingSuggestions": false,
+    "releaseBinaryExcludesScreenshotLaunchFlags": true,
+    "usesNonExemptEncryption": false,
+    "appleBuildProcessing": "VALID",
+    "uploadAssetState": "COMPLETE",
+    "uploadAPIReportsWarnings": false,
+    "warningVisibilityNote": "No warnings or errors returned by build upload APIs. Apple email warning absence is not independently verified.",
+    "runtimeOnDesignedForIPadMac": "not verified",
+    "suggestionPickerOnPhysicalIPhone": "not verified",
+    "localAddMomentTestsPassed": 5,
+    "simulatorOrdinaryAddMomentFlow": "passed",
+    "evidenceDirectory": "build2"
+  }
+}

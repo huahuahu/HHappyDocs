@@ -1,0 +1,7 @@
+A little more sunshine for your everyday moments.
+
+- A new hand-drawn sun app icon, with a clearer appearance in Dark Mode.
+- Refreshed participant grids and avatars, making it easier to find the people in your memories.
+- Improved moment widgets and more efficient updates.
+- Smoother transitions when adding and opening moments.
+- Better date, rating, and toolbar layouts, including support for larger text and iPhone Duo.
