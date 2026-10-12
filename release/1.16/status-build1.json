@@ -1,0 +1,156 @@
+{
+  "verifiedAt": "2026-10-12T12:26:53.284714+00:00",
+  "appId": "6470147729",
+  "bundleId": "com.tiger.suzhou.HDiary",
+  "version": "1.16",
+  "buildNumber": "1",
+  "buildId": "b734cf6b-d385-4410-8cc2-89022f3812a9",
+  "processingState": "VALID",
+  "ipaSHA256": "5171b74cccc8b523b93832124a3c0c59d3380d0d07e867e2ec83724267964188",
+  "appStore": {
+    "versionId": "f08db20f-323f-4198-aa32-f2b7a4ceb59e",
+    "state": "WAITING_FOR_REVIEW",
+    "releaseType": "AFTER_APPROVAL",
+    "submissionId": "72dfae6f-ad8d-4673-aa98-fcf3dbcb6960",
+    "submittedAt": "2026-10-12T12:25:45.738Z",
+    "submissionState": "WAITING_FOR_REVIEW",
+    "previousSubmission": {
+      "id": "f0214ab6-ebb3-4107-a355-359715892bed",
+      "cancelled": true,
+      "reason": "Use four light feature screenshots followed by one dark chart per locale and device, as requested."
+    },
+    "verifiedAt": "2026-10-12T12:26:53.284714+00:00"
+  },
+  "testFlight": {
+    "autoNotifyEnabled": true,
+    "internalBuildState": "IN_BETA_TESTING",
+    "externalBuildState": "IN_BETA_TESTING",
+    "reviewState": "APPROVED",
+    "submittedAt": "2026-10-11T07:28:59-07:00",
+    "internalGroupContainsBuild": true,
+    "externalGroupContainsBuild": true,
+    "verifiedAt": "2026-10-12T12:26:53.284714+00:00",
+    "groupMembershipVerifiedAt": "2026-10-11T22:52:28.686917+00:00"
+  },
+  "screenshots": {
+    "rawCount": 20,
+    "uploadedCount": 20,
+    "allComplete": true,
+    "remoteChecksumsMatchLocal": true,
+    "locales": [
+      "en-US",
+      "zh-Hans"
+    ],
+    "displayTypes": [
+      "APP_IPHONE_65",
+      "APP_IPAD_PRO_3GEN_129"
+    ],
+    "optionalLegacyScreenshotCount": 0,
+    "appearance": "mixed",
+    "assetDirectory": "screenshots/mixed/store",
+    "remoteVerification": "screenshots/mixed/remote-verification.json",
+    "verifiedAt": "2026-10-12T12:26:21.540346+00:00",
+    "perGroupAppearances": [
+      "light",
+      "light",
+      "light",
+      "light",
+      "dark"
+    ],
+    "pageOrder": [
+      "moments",
+      "detail",
+      "participants",
+      "tags",
+      "chart"
+    ],
+    "remoteOrderingMatchesLocal": true
+  },
+  "metadata": {
+    "localValidationErrors": 0,
+    "localValidationWarnings": 0,
+    "remoteMatchesLocal": true,
+    "verifiedAt": "2026-10-11T22:52:28.686917+00:00"
+  },
+  "validation": {
+    "beforeLegacyCleanup": {
+      "errors": 0,
+      "warnings": 2,
+      "infos": 2,
+      "blocking": 0
+    },
+    "afterLegacyCleanup": {
+      "errors": 6,
+      "warnings": 2,
+      "infos": 1,
+      "blocking": 6
+    },
+    "note": "asc 2.6.0 flags six empty optional legacy screenshot sets. Both required display types contain five COMPLETE images per locale. Apple accepted the review submission and confirmed WAITING_FOR_REVIEW.",
+    "afterDarkReplacement": {
+      "errors": 6,
+      "warnings": 2,
+      "infos": 1,
+      "blocking": 6
+    },
+    "afterMixedReplacement": {
+      "errors": 6,
+      "warnings": 2,
+      "infos": 1,
+      "blocking": 6
+    }
+  },
+  "ci": {
+    "buildAndTest": {
+      "conclusion": "success",
+      "status": "completed",
+      "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/38144310162"
+    },
+    "snapshots": {
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "conclusion": "failure",
+          "name": "Snapshots (iphone-duo)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Snapshots (iphone)",
+          "status": "completed"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/38144310164",
+      "note": "Initial release snapshot run: iPhone succeeded; iPhone Duo failed. GitHub reported log not found for the failed job, so the failure cause is unverified. This run predates the dark screenshot fixture change."
+    }
+  },
+  "sourceBaseCommit": "fa820abd600a79b0223b86e083dffd71a9ec156a",
+  "releaseBinaryExcludesScreenshotLaunchFlag": true,
+  "appStoreConnectURL": "https://appstoreconnect.apple.com/apps/6470147729",
+  "testFlightURL": "https://appstoreconnect.apple.com/apps/6470147729/testflight",
+  "darkScreenshotVerification": {
+    "nativeDebugBuild": "succeeded",
+    "visualReviewCount": 20,
+    "localImageValidationErrors": 0,
+    "localImageValidationWarnings": 0,
+    "iphoneAndIPadListDetailLibraryNavigation": "passed",
+    "lightCompositionUnchanged": true,
+    "binaryReuploaded": false
+  },
+  "verificationScope": "App Store submission, selected screenshots, build processing and TestFlight states; prior source, metadata and CI evidence retained with historical timestamps.",
+  "mixedScreenshotVerification": {
+    "visualReviewCount": 20,
+    "localImageValidationErrors": 0,
+    "localImageValidationWarnings": 0,
+    "groupCount": 4,
+    "imagesPerGroup": 5,
+    "lightImagesPerGroup": 4,
+    "darkImagesPerGroup": 1,
+    "sourceImageBytesUnchanged": true,
+    "duplicateImagesPerGroup": 0,
+    "remoteChecksumsMatchLocal": true,
+    "remoteOrderingMatchesLocal": true,
+    "binaryReuploaded": false,
+    "note": "Previous dark screenshot duplicates appeared during replacement; final post-submission reads contain exactly the selected five screenshots in each of four groups."
+  }
+}

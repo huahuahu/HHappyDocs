@@ -1,0 +1,19 @@
+{
+  "verifiedAt": "2026-10-12T13:36:45.063499+00:00",
+  "appId": "6470147729",
+  "bundleId": "com.tiger.suzhou.HDiary",
+  "version": "1.16",
+  "buildNumber": "2",
+  "sourceCommit": "17d0d9d628d533ebb2e28515154d26e17653649c",
+  "ipaSHA256": "d363843225e471f6830e3adfb6552f598ac0d6b2a71c8a1ccca8f09dc06fc1ee",
+  "codeSignatureVerified": true,
+  "journalingSuggestionsLoadCommand": "LC_LOAD_WEAK_DYLIB",
+  "weakImportCount": 83,
+  "strongImportCount": 0,
+  "imagesLinkingJournalingSuggestions": [
+    "HDiary"
+  ],
+  "widgetLinksJournalingSuggestions": false,
+  "releaseBinaryExcludesScreenshotLaunchFlags": true,
+  "usesNonExemptEncryption": false
+}

@@ -1,6 +1,6 @@
-# HDiary 1.16 / build 1
+# HDiary 1.16 / build 2
 
-本次发布使用 `fa820abd600a79b0223b86e083dffd71a9ec156a` 的应用功能，更新版本号为 1.16，并加入仅供 Debug 使用的离线截图入口。商店资料为简体中文和美式英语。上架截图每组五张：列表、详情、人物、标签采用暖白背景与浅色应用界面，第五张统计采用暖黑背景与真实深色应用界面。五张分别介绍不同功能，没有重复放置同一页面的深浅两版；各组均使用橙色标题和应用的手绘太阳图标。
+本次发布在 1.16 原有功能与截图基础上，修复 Apple 报告的 ITMS-90863：将 JournalingSuggestions 改为弱链接，并在 iOS App 运行于 Mac 时避开建议入口。当前签名包来自 `17d0d9d628d533ebb2e28515154d26e17653649c`，版本为 1.16（2）。商店资料为简体中文和美式英语。上架截图每组五张：列表、详情、人物、标签采用暖白背景与浅色应用界面，第五张统计采用暖黑背景与真实深色应用界面。五张分别介绍不同功能，没有重复放置同一页面的深浅两版；各组均使用橙色标题和应用的手绘太阳图标。
 
 ## 发布标识
 
@@ -9,11 +9,13 @@
 | App ID | `6470147729` |
 | Bundle ID | `com.tiger.suzhou.HDiary` |
 | App Store version ID | `f08db20f-323f-4198-aa32-f2b7a4ceb59e` |
-| Build ID | `b734cf6b-d385-4410-8cc2-89022f3812a9` |
-| 版本 / build | `1.16` / `1` |
+| Build ID | `b457624e-5cfd-4c26-b021-95630fdc9faa` |
+| 版本 / build | `1.16` / `2` |
+| 审核提交 ID | `34c6b01e-4464-4cbf-a859-d8aa7976b2cd` |
+| 提交状态 | `WAITING_FOR_REVIEW`，2026-10-12 核验 |
 | 发布策略 | `AFTER_APPROVAL`，审核通过后自动发布 |
 
-最终核验的提交状态、截图校验和及验证结果记录在 `status.json`；这是提交时的快照，后续审核状态以 App Store Connect 为准。`status-initial.json` 和 `status-dark.json` 分别保留此前全浅色、全暗色截图提审时的记录。
+最终核验的提交状态、截图校验和及验证结果记录在 `status.json`；这是提交时的快照，后续审核状态以 App Store Connect 为准。`status-initial.json` 和 `status-dark.json` 分别保留此前全浅色、全暗色截图提审时的记录，`status-build1.json` 保留替换 Build 1 前的四浅一暗提交状态。`build2/` 保存新包的弱链接验证、正式提审回执和远端状态。
 
 ## 资料
 
@@ -62,11 +64,13 @@
 
 在两套成品均存在后，运行 `python3 release/1.16/compose-screenshots.py --theme mixed` 生成当前上架组合。命令复制每组前四张浅色图片与第五张暗色统计图，保留源文件字节与校验和，并生成独立的总览和清单。上传时使用 `screenshots/mixed/store/`，按两种语言、两个尺寸分别校验，每组必须恰好五张。
 
-截图入口位于 `#if DEBUG && os(iOS)` 中，使用内存 SwiftData 和关闭的 CloudKit；不访问真实用户乐事，也不启动小组件快照同步。已检查上传 IPA 的可执行文件不含截图启动参数。暗色重拍只增加 Debug 截图主题参数，继续使用已上传的 1.16（1），无需重新上传二进制。
+截图入口位于 `#if DEBUG && os(iOS)` 中，使用内存 SwiftData 和关闭的 CloudKit；不访问真实用户乐事，也不启动小组件快照同步。已检查上传 IPA 的可执行文件不含截图启动参数。此前深浅色截图调整沿用了 Build 1；本次为修复框架链接问题上传 Build 2，保留现有截图，最终校验见 `screenshots/mixed/remote-verification-build2.json`。
 
 ## 构建与验证边界
 
 - Release 签名归档、App Store IPA 导出和远端处理成功，build 为 `VALID`。
+- 实际上传的 Build 2 为 `LC_LOAD_WEAK_DYLIB`，83 个 JournalingSuggestions 符号均为弱引用。五个已有 AddMomentAccessTests 通过，模拟器普通新建记录流程通过；Designed for iPad 的 Mac 运行验证和真实 iPhone 的建议 picker 交互尚未实测。详细记录见 `docs/journaling-mac-compatibility.md`。
+- Build 2 已正式提审，状态为 `WAITING_FOR_REVIEW`。TestFlight 内部状态为 `IN_BETA_TESTING`，外部状态为 `READY_FOR_BETA_SUBMISSION`；本次没有提交外部 Beta 审核。
 - Debug 截图入口在 iPhone 和 iPad 运行，全部 20 张原图与合成图经过视觉检查。
 - canonical metadata 校验通过。替换前的提审检查无阻塞项；清理旧图后，asc 2.6.0 将六个空的可选尺寸集合报告为阻塞项，但两种必需尺寸均已完整上传，Apple 的正式提交 API 接受了本次提交。最终状态以已核验的提交回执为准。既有订阅的可选推广图片提示未修改。
 - 应用功能来自已通过 iOS build/test CI 的主分支提交。额外截图 CI 的最终状态记录在 `status.json`，不能将尚未结束的任务记为通过。
