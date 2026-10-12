@@ -41,11 +41,10 @@ struct MomentTimeLineProvider: AppIntentTimelineProvider {
     let participant = await getParticipant(with: participantID)
     let moments = await getMoments(with: participantID)
 
-    var entries = [MomentEntry]()
-    let momentEntry = MomentEntry(date: .now, summary: MomentWidgetSummary(participant: participant, moments: moments))
-    entries.append(momentEntry)
-
-    return Timeline(entries: entries, policy: .after(.now.advanced(by: 60)))
+    return MomentWidgetTimeline.make(
+      summary: MomentWidgetSummary(participant: participant, moments: moments),
+      now: .now, calendar: .autoupdatingCurrent
+    )
   }
 
   private func getParticipant(with participantID: UUID?) async -> ParticipantEntity? {
@@ -102,6 +101,8 @@ struct MomentEntry: TimelineEntry {
 }
 
 struct MomentWidgetSummary {
+  static let maximumMomentCount = 8
+
   init(participant: ParticipantEntity?, moments: [Self.Moment]) {
     self.participant = participant
     self.moments = moments

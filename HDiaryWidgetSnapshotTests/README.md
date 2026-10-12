@@ -8,7 +8,7 @@
 
 `MomentWidgetEntryView` 在真实 WidgetKit 环境读取只读的 `widgetFamily`，传给 `MomentWidgetContentView`。内容 View 将 family 传给列表和行，因此测试可以直接选择 Medium／Large，不需要修改系统环境或复制正式布局。`widgetRenderingMode` 是可写环境值，测试注入 `.fullColor`／`.accented` 来覆盖 Header 的图标选择分支。
 
-样例和 Preview 共用 `MomentWidgetPreviewFixtures`，固定日期、UUID、姓名、正文和头像；测试固定中文 locale、公历、UTC+8 和 3× 像素比例。保留当前生产代码的日期格式。资源仍来自正式 App 的 asset catalog 和 `Intents.xcstrings`。
+样例和 Preview 共用 `MomentWidgetPreviewFixtures`，固定日期、UUID、姓名、正文和头像；测试固定 locale、公历、UTC+8 和 3× 像素比例。日期遵循正式代码的近期相对时间／较早具体日期规则；组件截图通过 `widgetDatesUseLiveTime = false` 固定到 entry 的时间，使用与正式动态文本相同的 format style 和宽度预留。资源仍来自正式 App 的 asset catalog 和 `Intents.xcstrings`。
 
 复用已有 `HDiarySnapshotHost` 作为 **hosted unit test** 的容器；它提供窗口、中文环境和 `Bundle.main` 资源，也供列表单元截图使用。Host App 的存在不意味着 UI 自动化。宿主不再嵌入 fixture Widget，也不需要 App Group entitlement。
 
@@ -19,9 +19,10 @@
 | fullColor／accented × 浅色／深色 × 符号头像／彩色头像 | 8 | 8 |
 | 长姓名和正文、单条、空数据、所有参与者、AX1 整卡 | 5 | 5 |
 | AX5 的单行降级组件（按内容高度截图） | 1 | 1 |
-| 合计 | 14 | 14 |
+| 中文／英文 × 当天及近期／满 7 天及往年，配合长标题 | 4 | 4 |
+| 合计 | 18 | 18 |
 
-共 28 张基准，由 `testMedium`、`testLarge`、`testAccessibility5Rows` 三个测试方法执行。整卡画布是固定的 350×164 pt／350×365 pt，内边距 16 pt；这是组件回归约束，不能当作所有设备的系统 Widget 尺寸。背景是普通浅色／深色画布，不伪造系统圆角、壁纸或玻璃材质。
+共 36 张基准，由 `testMedium`、`testLarge`、`testAccessibility5Rows`、`testDateLabels` 四个测试方法执行。整卡画布是固定的 350×164 pt／350×365 pt，内边距 16 pt；这是组件回归约束，不能当作所有设备的系统 Widget 尺寸。背景是普通浅色／深色画布，不伪造系统圆角、壁纸或玻璃材质。
 
 **accented 截图不是最终 Tinted／Glass 截图。** 它验证应用自己的条件分支，例如选择 `WidgetAppIconAccented`；它不能验证系统最终的染色、图片去色、accent 分组、透明背景和 Liquid Glass 合成。[Apple HIG](https://developer.apple.com/design/human-interface-guidelines/widgets#Appearances) 说明这些效果由系统应用。最终效果需通过正式 Widget 的 Xcode Preview 外观选择及主屏检查。
 

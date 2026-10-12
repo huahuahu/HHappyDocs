@@ -5,6 +5,7 @@
   struct MomentWidgetRow: View {
     let moment: MomentWidgetSummary.Moment
     let family: WidgetFamily
+    let referenceDate: Date
     var titleLineLimit = 2
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -21,7 +22,10 @@
           .lineLimit(titleLineLimit)
           .multilineTextAlignment(.leading)
           .frame(maxWidth: .infinity, alignment: .leading)
-        Text(moment.timeStamp, format: Date.FormatStyle(date: .numeric, time: .omitted))
+        MomentWidgetDateText(
+          timestamp: moment.timeStamp, referenceDate: referenceDate,
+          alignment: family == .systemMedium && !dynamicTypeSize.isAccessibilitySize ? .trailing : .leading
+        )
           .font(.caption)
           .foregroundStyle(.secondary)
           .lineLimit(1)

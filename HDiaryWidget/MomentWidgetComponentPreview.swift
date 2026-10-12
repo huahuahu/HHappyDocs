@@ -32,16 +32,17 @@
           case .header:
             MomentWidgetHeader(participant: entry.summary.participant)
           case let .moments(family):
-            MomentWidgetMomentsView(moments: entry.summary.moments, family: family)
+            MomentWidgetMomentsView(moments: entry.summary.moments, family: family, referenceDate: entry.date)
           case let .row(family):
             if let moment = entry.summary.moments.first {
-              MomentWidgetRow(moment: moment, family: family)
+              MomentWidgetRow(moment: moment, family: family, referenceDate: entry.date)
             }
           case .empty:
             MomentWidgetEmptyView()
           }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .environment(\.widgetDatesUseLiveTime, false)
         .containerBackground(.background, for: .widget)
       }
       .supportedFamilies([.systemMedium, .systemLarge])

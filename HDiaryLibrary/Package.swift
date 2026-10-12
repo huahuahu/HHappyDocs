@@ -173,6 +173,11 @@ let package = Package(
       ],
       swiftSettings: mainActorPackageSwiftSettings
     ),
+    .testTarget(
+      name: "HDiaryWidgetFeatureTests",
+      dependencies: ["HDiaryWidgetFeature"],
+      swiftSettings: packageSwiftSettings
+    ),
     .target(
       name: "HDiaryWidgetData",
       dependencies: [
