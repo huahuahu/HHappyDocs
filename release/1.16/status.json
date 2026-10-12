@@ -1,5 +1,5 @@
 {
-  "verifiedAt": "2026-10-11T22:52:28.686917+00:00",
+  "verifiedAt": "2026-10-12T12:26:53.284714+00:00",
   "appId": "6470147729",
   "bundleId": "com.tiger.suzhou.HDiary",
   "version": "1.16",
@@ -11,23 +11,26 @@
     "versionId": "f08db20f-323f-4198-aa32-f2b7a4ceb59e",
     "state": "WAITING_FOR_REVIEW",
     "releaseType": "AFTER_APPROVAL",
-    "submissionId": "f0214ab6-ebb3-4107-a355-359715892bed",
-    "submittedAt": "2026-10-11T22:52:06.804Z",
+    "submissionId": "72dfae6f-ad8d-4673-aa98-fcf3dbcb6960",
+    "submittedAt": "2026-10-12T12:25:45.738Z",
     "submissionState": "WAITING_FOR_REVIEW",
     "previousSubmission": {
-      "id": "328c27a3-c659-4961-9a06-eac477064d09",
+      "id": "f0214ab6-ebb3-4107-a355-359715892bed",
       "cancelled": true,
-      "reason": "Replace all App Store screenshots with newly captured dark appearance artwork."
-    }
+      "reason": "Use four light feature screenshots followed by one dark chart per locale and device, as requested."
+    },
+    "verifiedAt": "2026-10-12T12:26:53.284714+00:00"
   },
   "testFlight": {
     "autoNotifyEnabled": true,
     "internalBuildState": "IN_BETA_TESTING",
-    "externalBuildState": "IN_BETA_REVIEW",
-    "reviewState": "IN_REVIEW",
+    "externalBuildState": "IN_BETA_TESTING",
+    "reviewState": "APPROVED",
     "submittedAt": "2026-10-11T07:28:59-07:00",
     "internalGroupContainsBuild": true,
-    "externalGroupContainsBuild": true
+    "externalGroupContainsBuild": true,
+    "verifiedAt": "2026-10-12T12:26:53.284714+00:00",
+    "groupMembershipVerifiedAt": "2026-10-11T22:52:28.686917+00:00"
   },
   "screenshots": {
     "rawCount": 20,
@@ -43,14 +46,31 @@
       "APP_IPAD_PRO_3GEN_129"
     ],
     "optionalLegacyScreenshotCount": 0,
-    "appearance": "dark",
-    "assetDirectory": "screenshots/dark/store",
-    "remoteVerification": "screenshots/dark/remote-verification.json"
+    "appearance": "mixed",
+    "assetDirectory": "screenshots/mixed/store",
+    "remoteVerification": "screenshots/mixed/remote-verification.json",
+    "verifiedAt": "2026-10-12T12:26:21.540346+00:00",
+    "perGroupAppearances": [
+      "light",
+      "light",
+      "light",
+      "light",
+      "dark"
+    ],
+    "pageOrder": [
+      "moments",
+      "detail",
+      "participants",
+      "tags",
+      "chart"
+    ],
+    "remoteOrderingMatchesLocal": true
   },
   "metadata": {
     "localValidationErrors": 0,
     "localValidationWarnings": 0,
-    "remoteMatchesLocal": true
+    "remoteMatchesLocal": true,
+    "verifiedAt": "2026-10-11T22:52:28.686917+00:00"
   },
   "validation": {
     "beforeLegacyCleanup": {
@@ -67,6 +87,12 @@
     },
     "note": "asc 2.6.0 flags six empty optional legacy screenshot sets. Both required display types contain five COMPLETE images per locale. Apple accepted the review submission and confirmed WAITING_FOR_REVIEW.",
     "afterDarkReplacement": {
+      "errors": 6,
+      "warnings": 2,
+      "infos": 1,
+      "blocking": 6
+    },
+    "afterMixedReplacement": {
       "errors": 6,
       "warnings": 2,
       "infos": 1,
@@ -110,5 +136,21 @@
     "iphoneAndIPadListDetailLibraryNavigation": "passed",
     "lightCompositionUnchanged": true,
     "binaryReuploaded": false
+  },
+  "verificationScope": "App Store submission, selected screenshots, build processing and TestFlight states; prior source, metadata and CI evidence retained with historical timestamps.",
+  "mixedScreenshotVerification": {
+    "visualReviewCount": 20,
+    "localImageValidationErrors": 0,
+    "localImageValidationWarnings": 0,
+    "groupCount": 4,
+    "imagesPerGroup": 5,
+    "lightImagesPerGroup": 4,
+    "darkImagesPerGroup": 1,
+    "sourceImageBytesUnchanged": true,
+    "duplicateImagesPerGroup": 0,
+    "remoteChecksumsMatchLocal": true,
+    "remoteOrderingMatchesLocal": true,
+    "binaryReuploaded": false,
+    "note": "Previous dark screenshot duplicates appeared during replacement; final post-submission reads contain exactly the selected five screenshots in each of four groups."
   }
 }

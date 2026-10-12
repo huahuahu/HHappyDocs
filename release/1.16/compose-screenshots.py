@@ -6,6 +6,7 @@ import glob
 import hashlib
 import html
 import json
+import shutil
 import subprocess
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -177,9 +178,41 @@ def create_review(outputs, base, output_dir, theme):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--theme", choices=THEMES, default="light", help="Dark uses a separate screenshots/dark directory")
+    parser.add_argument("--theme", choices=(*THEMES, "mixed"), default="light",
+                        help="Dark uses screenshots/dark; mixed selects four light images and one dark chart into screenshots/mixed")
     parser.add_argument("--allow-partial", action="store_true", help="Compose completed groups while capture is in progress")
     options = parser.parse_args()
+    if options.theme == "mixed":
+        base = ROOT / "screenshots/mixed"
+        output_dir = base / "store"
+        selections = []
+        for locale in COPY:
+            for device in ("iphone", "ipad"):
+                for page in PAGES:
+                    appearance = "dark" if page == "05-chart" else "light"
+                    source_base = ROOT / ("screenshots/dark" if appearance == "dark" else "screenshots")
+                    source = source_base / "store" / locale / device / f"{page}.png"
+                    destination = output_dir / locale / device / source.name
+                    with Image.open(source) as image:
+                        expected_size = (1242, 2688) if device == "iphone" else (2064, 2752)
+                        if image.size != expected_size or image.mode != "RGB":
+                            raise ValueError(f"{source}: expected RGB {expected_size}, got {image.mode} {image.size}")
+                    selections.append((source, destination, appearance, expected_size))
+        manifest = []
+        for source, destination, appearance, size in selections:
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, destination)
+            manifest.append({
+                "path": str(destination.relative_to(ROOT)),
+                "source": str(source.relative_to(ROOT)), "appearance": appearance,
+                "width": size[0], "height": size[1], "mode": "RGB",
+                "sha256": hashlib.sha256(destination.read_bytes()).hexdigest(),
+            })
+        (base / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+        review_theme = {**THEMES["light"], "description": "前四张暖白浅色 · 第五张暗色统计 · 五张分别展示不同功能。"}
+        create_review([destination for _, destination, _, _ in selections], base, output_dir, review_theme)
+        print(f"Selected {len(selections)} screenshots: four light images and one dark chart per group")
+        return
     theme = THEMES[options.theme]
     base = ROOT / "screenshots" if options.theme == "light" else ROOT / "screenshots/dark"
     raw, output_dir, sun = base / "raw", base / "store", base / "sun.png"
