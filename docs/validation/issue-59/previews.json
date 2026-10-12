@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-12",
+  "notes": "WidgetKit Preview selected iPhone Duo / iOS 27.1. The requested zh-Hans override still rendered English dates; localization assertions use explicitly injected locales in unit/component tests.",
+  "medium": {
+    "displayName": "Entry · Medium",
+    "errors": [],
+    "previewSnapshotPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RenderPreview/Entry · Medium - 2026-10-12 at 20.48.40.png",
+    "renderedDestination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceLineNumber": 8,
+    "supportedCanvasControlOverrides": {
+      "timelineIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "supportedLocalizations": [
+      "en",
+      "zh-Hans"
+    ],
+    "supportedPreviewVariantOverrides": {
+      "Color Scheme": [
+        "Light Appearance",
+        "Dark Appearance"
+      ],
+      "Dynamic Type": [
+        "X Small",
+        "Small",
+        "Medium",
+        "Large",
+        "X Large",
+        "XX Large",
+        "XXX Large",
+        "AX 1",
+        "AX 2",
+        "AX 3",
+        "AX 4",
+        "AX 5"
+      ],
+      "Presentation": [
+        "Normal",
+        "Placeholder",
+        "Privacy Sensitive",
+        "Luminance Reduced"
+      ],
+      "Widget Family": [
+        "Small",
+        "Medium",
+        "Large",
+        "Extra Large Portrait"
+      ]
+    }
+  },
+  "large": {
+    "displayName": "Entry · Medium",
+    "errors": [],
+    "previewSnapshotPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RenderPreview/Entry · Medium - 2026-10-12 at 20.49.30.png",
+    "renderedDestination": {
+      "deviceModelName": "iPhone Duo",
+      "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "platformName": "iOS",
+      "systemVersion": "27.1"
+    },
+    "sourceLineNumber": 8,
+    "supportedCanvasControlOverrides": {
+      "timelineIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "supportedLocalizations": [
+      "zh-Hans",
+      "en"
+    ],
+    "supportedPreviewVariantOverrides": {
+      "Color Scheme": [
+        "Light Appearance",
+        "Dark Appearance"
+      ],
+      "Dynamic Type": [
+        "X Small",
+        "Small",
+        "Medium",
+        "Large",
+        "X Large",
+        "XX Large",
+        "XXX Large",
+        "AX 1",
+        "AX 2",
+        "AX 3",
+        "AX 4",
+        "AX 5"
+      ],
+      "Presentation": [
+        "Normal",
+        "Placeholder",
+        "Privacy Sensitive",
+        "Luminance Reduced"
+      ],
+      "Widget Family": [
+        "Small",
+        "Medium",
+        "Large",
+        "Extra Large Portrait"
+      ]
+    }
+  }
+}

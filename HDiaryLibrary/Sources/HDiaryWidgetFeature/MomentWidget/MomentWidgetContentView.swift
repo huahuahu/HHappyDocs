@@ -14,7 +14,7 @@
           MomentWidgetEmptyView()
         }
         else {
-          MomentWidgetMomentsView(moments: entry.summary.moments, family: family)
+          MomentWidgetMomentsView(moments: entry.summary.moments, family: family, referenceDate: entry.date)
             .frame(maxHeight: .infinity, alignment: .topLeading)
         }
       }

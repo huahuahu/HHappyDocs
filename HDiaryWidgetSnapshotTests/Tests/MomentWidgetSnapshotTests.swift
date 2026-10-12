@@ -16,6 +16,47 @@
       try snapshots(family: .systemLarge, height: 365, name: "large")
     }
 
+    func testDateLabels() throws {
+      try requireSnapshotEnvironment()
+      let now = MomentWidgetPreviewFixtures.date
+      let scenarios: [(String, [TimeInterval])] = [
+        ("relative-dates", [30.0 * 60, 3 * 3600, 86_400, 2 * 86_400, 6 * 86_400]),
+        ("older-dates", [7.0 * 86_400, 370 * 86_400]),
+      ]
+      for locale in ["zh_CN", "en_US"] {
+        for (scenario, ages) in scenarios {
+          let moments = ages.enumerated().map { index, age in
+            MomentWidgetSummary.Moment(
+              timeStamp: now.addingTimeInterval(-age),
+              title: locale == "zh_CN" ? "和朋友一起爬山，看到了山顶的日出" : "A lovely walk with friends to watch the sunrise over the hills",
+              id: UUID(uuidString: "00000000-0000-0000-0002-00000000000\(index)").unsafelyUnwrapped
+            )
+          }
+          let entry = MomentEntry(date: now, summary: .init(participant: MomentWidgetPreviewFixtures.participant, moments: moments))
+          for (family, height, name) in [(WidgetFamily.systemMedium, 164.0, "medium"), (.systemLarge, 365.0, "large")] {
+            let view = MomentWidgetContentView(entry: entry, family: family)
+              .environment(\.widgetDatesUseLiveTime, false)
+              .padding(16)
+              .frame(width: 350, height: height)
+              .background(.white)
+              .environment(\.locale, Locale(identifier: locale))
+              .environment(\.calendar, Calendar(identifier: .gregorian))
+              .environment(\.timeZone, TimeZone(secondsFromGMT: 8 * 3600).unsafelyUnwrapped)
+              .environment(\.colorScheme, .light)
+            let traits = UITraitCollection {
+              $0.userInterfaceStyle = .light
+              $0.displayScale = 3
+              $0.preferredContentSizeCategory = .large
+            }
+            assertSnapshot(
+              of: view, as: .image(precision: 1, perceptualPrecision: 1, layout: .fixed(width: 350, height: height), traits: traits),
+              named: "\(name)-\(scenario)-\(locale)", record: record, testName: "moment-widget-content"
+            )
+          }
+        }
+      }
+    }
+
     func testAccessibility5Rows() throws {
       try requireSnapshotEnvironment()
       let moment = try XCTUnwrap(MomentWidgetPreviewFixtures.longContent.summary.moments.first)
@@ -26,7 +67,10 @@
       }
       for (family, name) in [(WidgetFamily.systemMedium, "medium"), (.systemLarge, "large")] {
         // Test the one-line fallback at AX5 without pretending to reproduce WidgetKit's font metrics.
-        let row = MomentWidgetRow(moment: moment, family: family, titleLineLimit: 1)
+        let row = MomentWidgetRow(
+          moment: moment, family: family, referenceDate: MomentWidgetPreviewFixtures.date, titleLineLimit: 1
+        )
+          .environment(\.widgetDatesUseLiveTime, false)
           .padding(16)
           .frame(width: 350)
           .background(.white)
@@ -57,6 +101,7 @@
             $0.preferredContentSizeCategory = accessibility ? .accessibilityMedium : .large
           }
           let view = MomentWidgetContentView(entry: snapshot.scenario.entry, family: family)
+            .environment(\.widgetDatesUseLiveTime, false)
             // Fixed content canvas; the WidgetKit background, clipping and compositing are not simulated.
             .padding(16)
             .frame(width: 350, height: height)
