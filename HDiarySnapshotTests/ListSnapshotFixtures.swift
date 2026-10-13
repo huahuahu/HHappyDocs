@@ -9,6 +9,7 @@
     static let shared = Result { try ListSnapshotFixtures() }
 
     let moments: [MomentListPreviewScenario: MomentListPreviewFixture]
+    let momentDetails: [MomentDetailPreviewScenario: MomentDetailPreviewFixture]
     let tags: [AllTagsPreviewScenario: AllTagsPreviewFixture]
     let tagDetails: [TagDetailPreviewScenario: TagDetailPreviewFixture]
     let participants: [AllParticipantsPreviewScenario: AllParticipantsPreviewFixture]
@@ -17,6 +18,9 @@
     private init() throws {
       moments = try Dictionary(uniqueKeysWithValues: MomentListPreviewScenario.allCases.map {
         try ($0, MomentListPreviewFixture(scenario: $0))
+      })
+      momentDetails = try Dictionary(uniqueKeysWithValues: MomentDetailPreviewScenario.allCases.map {
+        try ($0, MomentDetailPreviewFixture(scenario: $0))
       })
       tags = try Dictionary(uniqueKeysWithValues: AllTagsPreviewScenario.allCases.map {
         try ($0, AllTagsPreviewFixture(scenario: $0))

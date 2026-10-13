@@ -1,10 +1,10 @@
 # 整页 Snapshot 单元测试
 
-`MomentListSnapshotTests`、`AllTagsSnapshotTests`、`TagDetailSnapshotTests`、`AllParticipantsSnapshotTests` 和 `ParticipantDetailSnapshotTests` 直接创建实际 SwiftUI 页面、与 App 共用的 `HDiaryTabShell` 外层结构和独立的 SwiftData 内存数据，用 `assertSnapshot(of:as:)` 的 SwiftUI 接口渲染并比较图片。通过专用的空白 `HDiarySnapshotHost` 提供渲染窗口，不启动业务 App，无 XCUIApplication 或点击操作。
+`MomentListSnapshotTests`、`MomentDetailSnapshotTests`、`AllTagsSnapshotTests`、`TagDetailSnapshotTests`、`AllParticipantsSnapshotTests` 和 `ParticipantDetailSnapshotTests` 直接创建实际 SwiftUI 页面、与 App 共用的 `HDiaryTabShell` 外层结构和独立的 SwiftData 内存数据，用 `assertSnapshot(of:as:)` 的 SwiftUI 接口渲染并比较图片。通过专用的空白 `HDiarySnapshotHost` 提供渲染窗口，不启动业务 App，无 XCUIApplication 或点击操作。
 
 `HDiarySnapshotTests` 是普通的 Xcode Unit Testing target；“Snapshot”只描述图片断言方式。SnapshotTesting 可以用于 Swift Package 的 `.testTarget`，简单组件的截图也不需要专门的宿主 App。但当前 SwiftPM 的测试 target 没有指定自定义 Host Application 的配置项。这里要捕获导航栏和 Tab 栏的系统玻璃效果，使用 `drawHierarchyInKeyWindow: true`，因此通过 Xcode 单元测试 target 的 `TEST_HOST` 配置现有的空白 `HDiarySnapshotHost`。测试直接导入 `HDiaryAppFeature` 等 Package 产品。
 
-测试源码、独立计划 `HDiarySnapshots.xctestplan` 和五十二张基准（26 个场景 × 2 种设备）保存在仓库根目录的 `HDiarySnapshotTests/`，宿主保存在 `HDiarySnapshotHost/`。XcodeGen 根据 `project.yml` 生成与实际目录对应的分组；添加或移除文件后重新生成工程。Package 的 `Tests/` 只保留 Package 自己的测试。测试计划、`README.md` 和 `__Snapshots__/` 不加入测试 bundle；SnapshotTesting 根据测试源码路径读取基准。App 的 `HDiary/Localizable.xcstrings` 通过 target membership 同时提供给宿主和测试，不复制翻译文件。
+测试源码、独立计划 `HDiarySnapshots.xctestplan` 和六十四张基准（32 个场景 × 2 种设备）保存在仓库根目录的 `HDiarySnapshotTests/`，宿主保存在 `HDiarySnapshotHost/`。XcodeGen 根据 `project.yml` 生成与实际目录对应的分组；添加或移除文件后重新生成工程。Package 的 `Tests/` 只保留 Package 自己的测试。测试计划、`README.md` 和 `__Snapshots__/` 不加入测试 bundle；SnapshotTesting 根据测试源码路径读取基准。App 的 `HDiary/Localizable.xcstrings` 通过 target membership 同时提供给宿主和测试，不复制翻译文件。
 
 相关说明：[SnapshotTesting 的 SwiftPM 用法](https://github.com/pointfreeco/swift-snapshot-testing/blob/1.19.6/README.md#swift-package-manager)、[维护者关于系统玻璃效果和宿主的说明](https://github.com/pointfreeco/swift-snapshot-testing/issues/1029#issuecomment-3366942138)。
 
@@ -13,6 +13,12 @@
 | Moment · grouped | 搜索栏、三个 Tab 的图标与标题、7 条日记的日期分组与数量；已删除记录不出现 |
 | Moment · expanded | 展开内容、长标题截断、标签、本地缩略图、纯文字行 |
 | Moment · empty | 原有空列表的导航标题、Tab 栏与空白布局；与实际 App 一致，空数据时没有搜索栏 |
+| Moment detail · populated | 真实详情的返回／编辑按钮、标题、固定日期时间、参与者、标签、评分、正文、本地图片和乐事 Tab |
+| Moment detail · minimal | 无参与者、标签、评分和图片时的标题、日期与短正文布局 |
+| Moment detail · long-content | 长标题换行、长正文的首屏布局和系统栏 |
+| Moment detail · dark | 完整详情的深色背景、文字、橙色强调色和图片 |
+| Moment detail · accessibility | accessibility3 字号下的标题、日期时间、参与者和标签换行 |
+| Moment detail · compact-accessibility | 320 pt 窄宽度、accessibility2 字号下的首屏布局 |
 | Tag · empty | 中文空态、返回和添加按钮；排序按钮及总数隐藏 |
 | Tag · populated | 默认名称排序、0/1/多条关联乐事、行间距、底部总数与工具栏 |
 | Tag · long-names | 长中文、英文和 emoji 标签的换行、行高与导航箭头布局 |
@@ -49,7 +55,11 @@
 
 `MomentItemView` 的评分使用随 Dynamic Type 缩放的 caption 字体，布局占位与显示尺寸一致。评分和日期通过 `ViewThatFits(in: .horizontal)` 优先并排显示；完整日期放不下时改为上下排列，日期可利用整行宽度自然换行。辅助功能、最大字号与窄宽度基准覆盖这一回归。
 
-Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Moments/MomentList/Preview/MomentListPreviewFixture.swift`。固定时间为 2026-10-03 12:00 UTC+8，固定公历、浅色、默认字号，图片无需网络或相册。每个场景使用独立内存容器，CloudKit 关闭。`ListSnapshotFixtures` 在首次渲染前同时准备 Moment、Tag、Tag detail、Participant 和 Participant detail 的所有场景，并保留容器到进程结束，避免已卸载 Tab 页面的 SwiftData 查询收到后续建库的保存通知而崩溃。
+Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Moments/MomentList/Preview/MomentListPreviewFixture.swift`。固定时间为 2026-10-03 12:00 UTC+8，固定公历、浅色、默认字号，图片无需网络或相册。每个场景使用独立内存容器，CloudKit 关闭。`ListSnapshotFixtures` 在首次渲染前同时准备 Moment、Moment detail、Tag、Tag detail、Participant 和 Participant detail 的所有场景，并保留容器到进程结束，避免已卸载 Tab 页面的 SwiftData 查询收到后续建库的保存通知而崩溃。
+
+乐事详情的六个测试直接渲染 `MomentDetailPreview`，与 App target 的 `MomentDetailPreviews.swift` Canvas 入口共用 `MomentDetailPreviewFixture`。固定日期为 2026-10-03 17:30 UTC+8，完整场景包含两个参与者、三个标签、四星评分、正文与本地生成的 PNG；精简场景保留未设置的评分和空关联。每个 fixture 使用独立内存容器并关闭云同步。宿主以正式乐事列表为父页面，预填 `.moment` 路由，保留正式返回／编辑按钮与乐事 Tab，沿用真实导航标题模式。快照捕获各设备的正常视口，长正文和大字号内容通过真实 ScrollView 展示；图片断言只覆盖当前视口，不验证手势滚动或编辑交互。
+
+已观察到乐事详情在 Duo 的 320 pt / accessibility2 场景中存在左缘文字及图标裁切。对应基准保留当前页面的呈现，这一已有布局问题记录在 [issue #60 验证说明](../docs/issue-60-preview/README.md) 中。
 
 在 Xcode 中运行：
 
@@ -60,7 +70,7 @@ Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Mo
 
 测试范围统一在 `HDiarySnapshots.xctestplan` 中管理：包含整个 `HDiarySnapshotTests` target，以及 `HDiaryAppFeatureTests` 中的 `MomentListFixtureTests`、`AllTagsFixtureTests`、`TagDetailFixtureTests`、`AllTagsViewTests`、`ParticipantAvatarImageTests` 和 `ParticipantAvatarLoaderTests` 六组测试。选择的是整组测试，组内新增用例会自动纳入。两个 target 均关闭并行执行，测试语言和地区固定为简体中文／中国。
 
-基准分别位于 `__Snapshots__/MomentListSnapshotTests/`、`__Snapshots__/AllTagsSnapshotTests/`、`__Snapshots__/TagDetailSnapshotTests/`、`__Snapshots__/AllParticipantsSnapshotTests/` 和 `__Snapshots__/ParticipantDetailSnapshotTests/`，每个场景分别使用 `-iphone.png` 与 `-iphone-duo.png` 后缀，图片说明由上表和测试名称维护，无需在图片上添加文字。普通比较不会自动更新基准。
+基准分别位于 `__Snapshots__/MomentListSnapshotTests/`、`__Snapshots__/MomentDetailSnapshotTests/`、`__Snapshots__/AllTagsSnapshotTests/`、`__Snapshots__/TagDetailSnapshotTests/`、`__Snapshots__/AllParticipantsSnapshotTests/` 和 `__Snapshots__/ParticipantDetailSnapshotTests/`，每个场景分别使用 `-iphone.png` 与 `-iphone-duo.png` 后缀，图片说明由上表和测试名称维护，无需在图片上添加文字。普通比较不会自动更新基准。
 
 审核设计变化后，只选中需要更新的测试，在 `HDiarySnapshots` 测试计划的配置环境变量中临时设置 `HDIARY_RECORD_SNAPSHOTS=1`，运行测试录制基准。录制时报告失败是 SnapshotTesting 提醒审核图片的正常行为。在两种设备上分别录制并检查新图片后，删除或禁用该环境变量，再分别按 Command-U 验证比较通过。
 
@@ -70,7 +80,7 @@ Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Mo
 
 数据验证放在 `HDiaryAppFeatureTests` 的 `MomentListFixtureTests`、`AllTagsFixtureTests` 和 `TagDetailFixtureTests`；独立计划选择这三个 suite、原有 `AllTagsViewTests` 及两个头像解码／加载 suite，连同 `HDiarySnapshotTests` 一起运行。它们在独立于截图 host 的测试 runner 中建库和删除数据，避免测试顺序影响渲染，同时在同一 CI 工作流验证数据和图片。标签测试还会通过新建 ModelContext 验证已保存的关联数量，详情数据测试同时检查日期、评分和不相关乐事的隔离。
 
-外层结构直接复用 App 的 TabView、Tab 标签和搜索修饰器。Moment 快照固定选中“乐事”，Tag、Participant 及各自详情快照固定选中“资料库”。Tag 使用独立 NavigationStack 及实际 `.libraryEntry(entry: .tag)` destination；Tag detail 以实际标签列表 destination 为父页面，预先推入 `.tag(tag:)` destination。由于预填路径跳过了父页面的导航栏过渡，详情 Preview 显式使用正常导航后继承的内联标题模式，返回和编辑按钮仍由真实页面提供。未选中的 Tab 使用空内容，不运行其业务逻辑。参与者列表使用实际 `.libraryEntry(entry: .participant)` destination；参与者详情以该列表为父页面，预先推入 `.participant` destination，提供独立的 `NavigationStore`。本测试覆盖列表、标签详情、参与者详情页面与外层结构，不覆盖搜索、排序菜单点击、编辑操作、增删、导航交互、Tab 切换或系统状态栏。
+外层结构直接复用 App 的 TabView、Tab 标签和搜索修饰器。Moment 及其详情快照固定选中“乐事”，Tag、Participant 及各自详情快照固定选中“资料库”。Tag 使用独立 NavigationStack 及实际 `.libraryEntry(entry: .tag)` destination；Tag detail 以实际标签列表 destination 为父页面，预先推入 `.tag(tag:)` destination。由于预填路径跳过了父页面的导航栏过渡，标签详情 Preview 显式使用正常导航后继承的内联标题模式，返回和编辑按钮仍由真实页面提供。未选中的 Tab 使用空内容，不运行其业务逻辑。参与者列表使用实际 `.libraryEntry(entry: .participant)` destination；参与者详情以该列表为父页面，预先推入 `.participant` destination，提供独立的 `NavigationStore`。本测试覆盖列表、乐事详情、标签详情、参与者详情页面与外层结构，不覆盖搜索、排序菜单点击、编辑操作、增删、导航交互、Tab 切换或系统状态栏。
 
 GitHub Actions 的 `iOS snapshots` 工作流在 push、pull request 和手动运行时，使用 `-scheme HDiarySnapshotHost -testPlan HDiarySnapshots` 运行独立计划，命令不再维护 `-only-testing` 清单。CI 使用 `xcode-27` runner，固定 Xcode 27.1，通过矩阵分别运行 iPhone 17 Pro / iOS 27.0 和 iPhone Duo / iOS 27.1；每个设备内部关闭并行测试和基准录制。依赖版本来自根目录提交的 `Package.resolved`；CI 先安装固定版本 XcodeGen 并生成工程，生成 hook 将锁文件恢复到工程 workspace 后，再通过 `-onlyUsePackageVersionsFromResolvedFile` 解析依赖。工作流检查 Xcode 公开版本，记录实际 build 号并用于依赖缓存隔离，仅在指定 runtime 未安装时下载、缓存和导入对应系统镜像；新版导出格式导入完整的 `.exportedBundle`，不选择包内的 Restore DMG。关闭失败时的 sysdiagnose 收集，保留 XCTest 图片附件，避免模拟器诊断超时拖慢运行。CI 使用新建模拟器的默认辅助功能设置，不写入系统 Accessibility 偏好；基准使用默认关闭的“非颜色区分”。不要为了让 CI 变绿而自动录制或覆盖基准。
 

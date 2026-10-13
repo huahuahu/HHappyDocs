@@ -1,0 +1,73 @@
+{
+  "issue": 60,
+  "verifiedAt": "2026-10-13",
+  "testPlan": "HDiarySnapshots",
+  "scheme": "HDiarySnapshotHost",
+  "recording": false,
+  "testProductsPath": "/Users/tigerguo/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/test-products/test_sim_2026-10-13T14-50-26-542Z_pid23552_620ec0bd.xctestproducts",
+  "comparison": {
+    "precision": 1,
+    "perceptualPrecision": 0.94
+  },
+  "baselines": {
+    "added": 12,
+    "existingUnchanged": 52,
+    "total": 64
+  },
+  "runs": [
+    {
+      "device": "iPhone 17 Pro",
+      "systemVersion": "27.0",
+      "simulatorId": "040ECFE5-4ED3-4795-AC27-23490CF57596",
+      "scope": "full snapshot plan",
+      "status": "passed",
+      "snapshotCases": 32,
+      "dataAndAvatarCases": 24,
+      "functionCount": 28,
+      "buildLogPath": "/Users/tigerguo/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/logs/test_sim_2026-10-13T14-53-34-472Z_pid23552_69c32c63.log",
+      "xcresultPath": "/Users/tigerguo/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/result-bundles/test_sim_2026-10-13T14-53-34-472Z_pid23552_e7989a63.xcresult"
+    },
+    {
+      "device": "iPhone 17 Pro",
+      "systemVersion": "27.0",
+      "scope": "MomentDetailSnapshotTests alone",
+      "status": "passed",
+      "snapshotCases": 6,
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/logs/test_sim_2026-10-13T14-54-39-364Z_pid23552_89bc2d09.log",
+      "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/result-bundles/test_sim_2026-10-13T14-54-39-364Z_pid23552_8856fbc9.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/test-products/test_sim_2026-10-13T14-50-26-542Z_pid23552_620ec0bd.xctestproducts"
+    },
+    {
+      "device": "iPhone Duo",
+      "systemVersion": "27.1",
+      "simulatorId": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+      "formFactor": "Closed portrait",
+      "scope": "full snapshot plan",
+      "status": "passed",
+      "snapshotCases": 32,
+      "dataAndAvatarCases": 24,
+      "functionCount": 28,
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/logs/test_sim_2026-10-13T14-56-38-018Z_pid23552_ce69025e.log",
+      "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/result-bundles/test_sim_2026-10-13T14-56-38-018Z_pid23552_ced863f4.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/test-products/test_sim_2026-10-13T14-50-26-542Z_pid23552_620ec0bd.xctestproducts"
+    },
+    {
+      "device": "iPhone Duo",
+      "systemVersion": "27.1",
+      "scope": "MomentDetailSnapshotTests alone",
+      "status": "passed",
+      "snapshotCases": 6,
+      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/logs/test_sim_2026-10-13T14-57-14-598Z_pid23552_d6318707.log",
+      "xcresultPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/result-bundles/test_sim_2026-10-13T14-57-14-599Z_pid23552_5f37716e.xcresult",
+      "testProductsPath": "~/Library/Developer/XcodeBuildMCP/workspaces/HHappyDocs-48a5bf4a6fa6/test-products/test_sim_2026-10-13T14-50-26-542Z_pid23552_620ec0bd.xctestproducts"
+    }
+  ],
+  "notes": [
+    "Counts above expand Swift Testing arguments. The tool reports 28 test functions for each full-plan run.",
+    "All final comparisons use recording disabled and the same test-products bundle.",
+    "The populated fixture has three fixed paragraphs so its image edge does not cross the iPhone glass Tab bar. The original two-paragraph fixture produced an order-dependent color difference in that region.",
+    "No snapshot warm-up, delay, retry, masking, or tolerance change is retained.",
+    "The Duo 320-point accessibility2 baseline records existing left-edge clipping.",
+    "Snapshots verify the initial viewport, not scrolling, editing, navigation interactions, or remote CI."
+  ]
+}

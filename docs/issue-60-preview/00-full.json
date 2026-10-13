@@ -1,0 +1,72 @@
+{
+  "remoteTool": "RenderPreview",
+  "arguments": {
+    "workspaceIdentifier": "workspace-fjJIGBHxQV",
+    "sourceFilePath": "HDiary/Preview Content/MomentDetailPreviews.swift",
+    "previewDefinitionIndexInFile": 0,
+    "timeout": 110
+  },
+  "timeoutMs": 120000,
+  "capturedAt": "2026-10-13T14:59:03.675Z",
+  "response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"displayName\":\"乐事详情 · 完整内容\",\"errors\":[],\"previewSnapshotPath\":\"\\/var\\/folders\\/xg\\/hh57n8x55bg16qydl87zp3lw0000gn\\/T\\/ActionArtifacts\\/default\\/RenderPreview\\/乐事详情 · 完整内容 - 2026-10-13 at 22.59.03.png\",\"renderedDestination\":{\"deviceModelName\":\"iPhone Duo\",\"identifier\":\"6344CAB1-C054-4343-A321-A24B045F1DA7\",\"platformName\":\"iOS\",\"systemVersion\":\"27.1\"},\"sourceLineNumber\":6,\"supportedLocalizations\":[\"zh-Hans\",\"en\"],\"supportedPreviewVariantOverrides\":{\"Color Scheme\":[\"Light Appearance\",\"Dark Appearance\"],\"Contrast\":[\"Standard Contrast\",\"Increased Contrast\"],\"Control Borders\":[\"Hidden\",\"Shown\"],\"Display\":[\"Outer\",\"Inner\"],\"Dynamic Type\":[\"X Small\",\"Small\",\"Medium\",\"Large\",\"X Large\",\"XX Large\",\"XXX Large\",\"AX 1\",\"AX 2\",\"AX 3\",\"AX 4\",\"AX 5\"],\"Orientation\":[\"Portrait\",\"Landscape Left\",\"Landscape Right\"]}}"
+      }
+    ],
+    "structuredContent": {
+      "displayName": "乐事详情 · 完整内容",
+      "errors": [],
+      "previewSnapshotPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RenderPreview/乐事详情 · 完整内容 - 2026-10-13 at 22.59.03.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "sourceLineNumber": 6,
+      "supportedLocalizations": [
+        "zh-Hans",
+        "en"
+      ],
+      "supportedPreviewVariantOverrides": {
+        "Color Scheme": [
+          "Light Appearance",
+          "Dark Appearance"
+        ],
+        "Contrast": [
+          "Standard Contrast",
+          "Increased Contrast"
+        ],
+        "Control Borders": [
+          "Hidden",
+          "Shown"
+        ],
+        "Display": [
+          "Outer",
+          "Inner"
+        ],
+        "Dynamic Type": [
+          "X Small",
+          "Small",
+          "Medium",
+          "Large",
+          "X Large",
+          "XX Large",
+          "XXX Large",
+          "AX 1",
+          "AX 2",
+          "AX 3",
+          "AX 4",
+          "AX 5"
+        ],
+        "Orientation": [
+          "Portrait",
+          "Landscape Left",
+          "Landscape Right"
+        ]
+      }
+    }
+  }
+}
