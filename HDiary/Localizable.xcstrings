@@ -2035,19 +2035,19 @@
       }
     },
     "moment.filter.hasMedia" : {
-      "comment" : "Label for the filter 'has media'",
+      "comment" : "Filter for moments containing photos, GIFs, or videos",
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Has media"
+            "value" : "Has photos or videos"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "包含媒体"
+            "value" : "有照片或视频"
           }
         }
       }
