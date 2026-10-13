@@ -264,15 +264,8 @@ private struct MomentTitleView: View {
 }
 
 #if DEBUG
-  @available(iOS 18.0, *)
-  #Preview(traits: .modifier(SampleDataModifier())) {
-    @Previewable @Query var moments: [Moment]
-    return NavigationStack {
-      MomentDetailView(moment: moments.first!, canEdit: true)
-        .navigationBarTitleDisplayMode(.inline)
-    }
-    .previewEnvironment()
-  }
+  // Full-page previews are hosted in HDiary/Preview Content/MomentDetailPreviews.swift
+  // so Canvas loads the app's localization catalog and AccentColor.
 
   #Preview("sync status") { @MainActor in
     NavigationStack(root: {

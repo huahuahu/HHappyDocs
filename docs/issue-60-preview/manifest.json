@@ -1,0 +1,183 @@
+{
+  "issue": 60,
+  "verifiedAt": "2026-10-13",
+  "configuredRunDestination": {
+    "name": "HDiary Snapshot iPhone 17 Pro",
+    "identifier": "040ECFE5-4ED3-4795-AC27-23490CF57596",
+    "systemVersion": "27.0"
+  },
+  "actualPreviewProcessDeviceIdentifier": "5E64F0FC-0012-44F1-A2BA-DF709319E48E",
+  "entries": [
+    {
+      "index": 0,
+      "name": "乐事详情 · 完整内容",
+      "status": "rendered",
+      "errors": [],
+      "capturedAt": "2026-10-13T14:59:03.675Z",
+      "sourceLineNumber": 6,
+      "sourceFilePath": "HDiary/Preview Content/MomentDetailPreviews.swift",
+      "fixedLayoutPoints": [
+        402,
+        874
+      ],
+      "screenshotPixels": [
+        689,
+        1500
+      ],
+      "screenshot": "00-full.png",
+      "rawRenderResponse": "00-full.json",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      }
+    },
+    {
+      "index": 1,
+      "name": "乐事详情 · 精简内容",
+      "status": "rendered",
+      "errors": [],
+      "capturedAt": "2026-10-13T13:30:30.754Z",
+      "sourceLineNumber": 10,
+      "sourceFilePath": "HDiary/Preview Content/MomentDetailPreviews.swift",
+      "fixedLayoutPoints": [
+        402,
+        874
+      ],
+      "screenshotPixels": [
+        689,
+        1500
+      ],
+      "screenshot": "01-minimal.png",
+      "rawRenderResponse": "01-minimal.json",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      }
+    },
+    {
+      "index": 2,
+      "name": "乐事详情 · 长标题与长正文",
+      "status": "rendered",
+      "errors": [],
+      "capturedAt": "2026-10-13T13:30:54.186Z",
+      "sourceLineNumber": 14,
+      "sourceFilePath": "HDiary/Preview Content/MomentDetailPreviews.swift",
+      "fixedLayoutPoints": [
+        402,
+        874
+      ],
+      "screenshotPixels": [
+        689,
+        1500
+      ],
+      "screenshot": "02-long.png",
+      "rawRenderResponse": "02-long.json",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      }
+    },
+    {
+      "index": 3,
+      "name": "乐事详情 · 深色模式",
+      "status": "rendered",
+      "errors": [],
+      "capturedAt": "2026-10-13T14:59:04.467Z",
+      "sourceLineNumber": 18,
+      "sourceFilePath": "HDiary/Preview Content/MomentDetailPreviews.swift",
+      "fixedLayoutPoints": [
+        402,
+        874
+      ],
+      "screenshotPixels": [
+        689,
+        1500
+      ],
+      "screenshot": "03-dark.png",
+      "rawRenderResponse": "03-dark.json",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      }
+    },
+    {
+      "index": 4,
+      "name": "乐事详情 · 辅助功能字号",
+      "status": "rendered",
+      "errors": [],
+      "capturedAt": "2026-10-13T13:32:46.699Z",
+      "sourceLineNumber": 22,
+      "sourceFilePath": "HDiary/Preview Content/MomentDetailPreviews.swift",
+      "fixedLayoutPoints": [
+        402,
+        874
+      ],
+      "screenshotPixels": [
+        689,
+        1500
+      ],
+      "screenshot": "04-accessibility.png",
+      "rawRenderResponse": "04-accessibility.json",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      }
+    },
+    {
+      "index": 5,
+      "name": "乐事详情 · 窄宽度大字号",
+      "status": "rendered",
+      "errors": [],
+      "capturedAt": "2026-10-13T13:33:02.949Z",
+      "sourceLineNumber": 26,
+      "sourceFilePath": "HDiary/Preview Content/MomentDetailPreviews.swift",
+      "fixedLayoutPoints": [
+        320,
+        874
+      ],
+      "screenshotPixels": [
+        549,
+        1500
+      ],
+      "screenshot": "05-narrow-accessibility.png",
+      "rawRenderResponse": "05-narrow-accessibility.json",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      }
+    }
+  ],
+  "interaction": {
+    "status": "not_verified",
+    "attempts": [
+      {
+        "target": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "result": "Session created; screenshot and hierarchy show SpringBoard only; applicationState=NotRun."
+      },
+      {
+        "target": "5E64F0FC-0012-44F1-A2BA-DF709319E48E",
+        "result": "DeviceInteractionStartSession rejected the private Preview simulator: Cannot select specified device."
+      }
+    ],
+    "endSessionResult": "DeviceInteractionEndSession called for the first session; result: Session does not exist anymore. Second attempt created no session.",
+    "remaining": [
+      "Back to list and re-enter detail",
+      "Navigation title consistency after re-entry",
+      "Open editing sheet",
+      "Scroll long content to final image",
+      "Scroll accessibility and narrow layouts to final image"
+    ]
+  }
+}

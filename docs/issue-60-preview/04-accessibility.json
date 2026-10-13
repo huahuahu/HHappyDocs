@@ -1,0 +1,72 @@
+{
+  "remoteTool": "RenderPreview",
+  "arguments": {
+    "sourceFilePath": "HDiary/Preview Content/MomentDetailPreviews.swift",
+    "workspaceIdentifier": "workspace-fjJIGBHxQV",
+    "previewDefinitionIndexInFile": 4,
+    "timeout": 110
+  },
+  "timeoutMs": 120000,
+  "capturedAt": "2026-10-13T13:32:46.699Z",
+  "response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"displayName\":\"乐事详情 · 辅助功能字号\",\"errors\":[],\"previewSnapshotPath\":\"\\/var\\/folders\\/xg\\/hh57n8x55bg16qydl87zp3lw0000gn\\/T\\/ActionArtifacts\\/default\\/RenderPreview\\/乐事详情 · 辅助功能字号 - 2026-10-13 at 21.32.46.png\",\"renderedDestination\":{\"deviceModelName\":\"iPhone Duo\",\"identifier\":\"6344CAB1-C054-4343-A321-A24B045F1DA7\",\"platformName\":\"iOS\",\"systemVersion\":\"27.1\"},\"sourceLineNumber\":22,\"supportedLocalizations\":[\"zh-Hans\",\"en\"],\"supportedPreviewVariantOverrides\":{\"Color Scheme\":[\"Light Appearance\",\"Dark Appearance\"],\"Contrast\":[\"Standard Contrast\",\"Increased Contrast\"],\"Control Borders\":[\"Hidden\",\"Shown\"],\"Display\":[\"Outer\",\"Inner\"],\"Dynamic Type\":[\"X Small\",\"Small\",\"Medium\",\"Large\",\"X Large\",\"XX Large\",\"XXX Large\",\"AX 1\",\"AX 2\",\"AX 3\",\"AX 4\",\"AX 5\"],\"Orientation\":[\"Portrait\",\"Landscape Left\",\"Landscape Right\"]}}"
+      }
+    ],
+    "structuredContent": {
+      "displayName": "乐事详情 · 辅助功能字号",
+      "errors": [],
+      "previewSnapshotPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RenderPreview/乐事详情 · 辅助功能字号 - 2026-10-13 at 21.32.46.png",
+      "renderedDestination": {
+        "deviceModelName": "iPhone Duo",
+        "identifier": "6344CAB1-C054-4343-A321-A24B045F1DA7",
+        "platformName": "iOS",
+        "systemVersion": "27.1"
+      },
+      "sourceLineNumber": 22,
+      "supportedLocalizations": [
+        "zh-Hans",
+        "en"
+      ],
+      "supportedPreviewVariantOverrides": {
+        "Color Scheme": [
+          "Light Appearance",
+          "Dark Appearance"
+        ],
+        "Contrast": [
+          "Standard Contrast",
+          "Increased Contrast"
+        ],
+        "Control Borders": [
+          "Hidden",
+          "Shown"
+        ],
+        "Display": [
+          "Outer",
+          "Inner"
+        ],
+        "Dynamic Type": [
+          "X Small",
+          "Small",
+          "Medium",
+          "Large",
+          "X Large",
+          "XX Large",
+          "XXX Large",
+          "AX 1",
+          "AX 2",
+          "AX 3",
+          "AX 4",
+          "AX 5"
+        ],
+        "Orientation": [
+          "Portrait",
+          "Landscape Left",
+          "Landscape Right"
+        ]
+      }
+    }
+  }
+}
