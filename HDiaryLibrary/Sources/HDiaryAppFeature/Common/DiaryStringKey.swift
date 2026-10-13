@@ -77,7 +77,7 @@ public enum DiaryStringKey {
   public enum Moment {
     enum Filter {
       public static let weekend = LocalizedStringResource("moment.filter.weekend", defaultValue: "Weekend", bundle: .module, comment: "Label for weekend filter")
-      public static let hasMedia = LocalizedStringResource("moment.filter.hasMedia", defaultValue: "Has media", bundle: .module, comment: "Label for the filter 'has media'")
+      public static let hasMedia = LocalizedStringResource("moment.filter.hasMedia", defaultValue: "Has photos or videos", bundle: .module, comment: "Filter for moments containing photos, GIFs, or videos")
       public static let all = LocalizedStringResource("moment.filter.all", defaultValue: "All", bundle: .module, comment: "Label for non filter, i.e. not any filter")
 
       public static let filter = LocalizedStringResource("moment.filter", defaultValue: "Filter", bundle: .module, comment: "Label for the context menu to select filter")

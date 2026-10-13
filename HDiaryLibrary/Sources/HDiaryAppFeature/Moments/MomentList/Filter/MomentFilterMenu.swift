@@ -23,12 +23,20 @@ import SwiftUI
   var body: some View {
     Menu {
       Picker(selection: $selectedFilter) {
-        Text(DiaryStringKey.Moment.Filter.all)
-          .tag(nil as MomentFilter?)
+        Label {
+          Text(DiaryStringKey.Moment.Filter.all)
+        } icon: {
+          Image(systemName: "list.bullet")
+        }
+        .tag(nil as MomentFilter?)
 
         ForEach(MomentFilter.allCases) { filter in
-          Text(filter.title)
-            .tag(Optional(filter))
+          Label {
+            Text(filter.title)
+          } icon: {
+            Image(systemName: filter == .weekends ? "sofa" : "photo")
+          }
+          .tag(Optional(filter))
         }
       } label: {
         Text(DiaryStringKey.Moment.Filter.filter)

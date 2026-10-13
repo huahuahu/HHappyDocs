@@ -25,8 +25,12 @@ struct TagSortMenu: View {
     Menu {
       Picker(selection: $selectedSortOrder) {
         ForEach(TagSortOrder.allCases) { tagSortOrder in
-          Text(tagSortOrder.label)
-            .tag(tagSortOrder)
+          Label {
+            Text(tagSortOrder.label)
+          } icon: {
+            Image(hDiarySymbol: tagSortOrder == .name ? .alphabeticalOrder : .number)
+          }
+          .tag(tagSortOrder)
         }
       } label: {
         Text(DiaryStringKey.Common.sort)
