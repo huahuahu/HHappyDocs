@@ -1,0 +1,4 @@
+interface:
+  display_name: "HDiary 版本发布"
+  short_description: "HDiary 发版全流程：版本递增、截图、打包、TestFlight、提审、手动发布与 tag"
+  default_prompt: "使用 $hdiary-release 为 HDiary 准备新版本，完成版本递增、截图、打包、TestFlight 和 App Store 提审，确认手动发布，并处理发布 tag。"
