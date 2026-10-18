@@ -1,0 +1,12 @@
+HDiary 1.17 (2)
+
+This build adapts moment-detail image previews to the available window space and image proportions, with a stable container for multi-image paging.
+
+Please focus on:
+1. Open moments containing landscape, portrait, square, panorama, and very tall images. Check image proportions, full-image visibility, and detail scrolling.
+2. Swipe between differently sized images in the same moment. The preview container should stay the same size, with working page dots and GIF indicators.
+3. Tap images to open the system preview. Check GIF playback, dismissal, and continued paging.
+4. Check text edges, image height, and toolbars on iPhone and iPad, in both orientations, narrow windows, and larger text sizes.
+5. Recheck creating and editing moments, tags, participants, sorting, and filtering.
+
+This build does not change the data model. If an image appears blank, keep the original file and report the device, OS version, and reproduction steps.

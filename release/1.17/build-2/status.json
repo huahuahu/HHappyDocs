@@ -1,0 +1,117 @@
+{
+  "appId": "6470147729",
+  "bundleId": "com.tiger.suzhou.HDiary",
+  "version": "1.17",
+  "build": "2",
+  "channel": "TestFlight internal",
+  "sourceCommit": "b35fce33009a76b17327448d2b774b48e3eec2e5",
+  "baseMainCommit": "793f868a3779fdf48e87e086a01f8f576a8d3cf4",
+  "tests": {
+    "expectedFailures": 0,
+    "failed": 0,
+    "notRun": 3,
+    "passed": 145,
+    "skipped": 0,
+    "total": 148,
+    "simulator": "HDiary Snapshot iPhone 17 Pro",
+    "runtime": "iOS 27.0",
+    "notRunReason": "Three macOS-only API tests are not applicable to the iOS simulator."
+  },
+  "artifacts": {
+    "directory": "build/releases/1.17/2",
+    "archive": "build/releases/1.17/2/HDiary.xcarchive",
+    "ipa": "build/releases/1.17/2/HDiary.ipa",
+    "ipaBytes": 12384071,
+    "ipaSha256": "c0e37b2dd1820b75f7e19b011b3f6c142fd7b083af4ead7dc399a5f939b983d2",
+    "archiveTreeSha256": "9f08b784817ddfa0ee5f80da286f37b3815424479a5c21cdf74f1cedbd5cf123",
+    "archiveTreeHashDefinition": "SHA-256 of compact sorted-key JSON [{path,sha256}] with lexically ordered archive file paths",
+    "appAndWidgetVersionVerified": true,
+    "distributionSignatureVerified": true,
+    "productionCloudKitEntitlementsVerified": true,
+    "dsymUUIDsMatch": true,
+    "debugScreenshotEntrypointsAbsent": true,
+    "journalingSuggestionsWeakLinked": true
+  },
+  "appStoreSubmission": {
+    "performed": false,
+    "releaseType": null,
+    "reason": "Only TestFlight requested."
+  },
+  "externalBetaReviewSubmitted": false,
+  "tag": {
+    "created": false,
+    "pushed": false,
+    "reason": "TestFlight-only iteration."
+  },
+  "gitPushPerformed": false,
+  "buildId": "824a75a7-f501-4dc6-8405-22ec5a2324ab",
+  "verifiedAt": "2026-10-18T18:34:38+08:00",
+  "processingState": "VALID",
+  "internalBuildState": "IN_BETA_TESTING",
+  "externalBuildState": "READY_FOR_BETA_SUBMISSION",
+  "expirationDate": "2027-01-16T02:32:13-08:00",
+  "group": {
+    "id": "4aa0f2b2-2bb7-40c7-a4a9-7749b45eb3e2",
+    "name": "huahuahu-itnernal",
+    "internal": true,
+    "associationVerified": true,
+    "existingAutomaticAccess": true
+  },
+  "testNotes": {
+    "locales": [
+      "zh-Hans",
+      "en-US"
+    ],
+    "readBackMatches": true,
+    "normalization": "Ignore final whitespace"
+  },
+  "validation": {
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "blocking": 0
+  },
+  "ci": {
+    "sourceCommit": "793f868a3779fdf48e87e086a01f8f576a8d3cf4",
+    "runs": [
+      {
+        "conclusion": "",
+        "databaseId": 39118211976,
+        "name": "iOS snapshots",
+        "status": "in_progress",
+        "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/39118211976"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 39118211964,
+        "name": "iOS",
+        "status": "completed",
+        "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/39118211964"
+      }
+    ],
+    "verifiedAt": "2026-10-18T18:34:38+08:00"
+  },
+  "simulatorSmoke": {
+    "passed": [
+      "Debug fixture launch",
+      "landscape-to-portrait paging with stable container",
+      "Quick Look opens full portrait original",
+      "Quick Look dismissal preserves page 2 of 6",
+      "scroll reaches image bottom and page indicator"
+    ],
+    "report": "build/releases/1.17/2/smoke/report.md",
+    "notVerified": [
+      "Release IPA or TestFlight device install",
+      "GIF playback in this release run",
+      "landscape orientation",
+      "Duo and iPad in this release run",
+      "CloudKit sync",
+      "complete user-data regression"
+    ]
+  },
+  "buildNumberReservation": {
+    "exportUploadId": "2ec3cede-72b6-41c7-b40b-98de95c307a1",
+    "binaryUploadId": "824a75a7-f501-4dc6-8405-22ec5a2324ab",
+    "explanation": "Xcode local export reserved the build number; the matching reservation ID was verified in its ContentDelivery.log. Only one IPA was uploaded with asc."
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "ipaPath": "/Users/tigerguo/git/HHappyDocs/build/releases/1.17/2/HDiary.ipa",
+  "ipaBytes": 12384071,
+  "ipaSha256": "c0e37b2dd1820b75f7e19b011b3f6c142fd7b083af4ead7dc399a5f939b983d2",
+  "archiveTreeSha256": "9f08b784817ddfa0ee5f80da286f37b3815424479a5c21cdf74f1cedbd5cf123",
+  "archiveTreeHashDefinition": "SHA-256 of compact sorted-key JSON [{path,sha256}] with lexically ordered archive file paths",
+  "bundles": [
+    {
+      "bundleId": "com.tiger.suzhou.HDiary",
+      "version": "1.17",
+      "build": "2",
+      "platform": "iphoneos",
+      "sdk": "iphoneos27.1",
+      "signatureVerified": true,
+      "teamId": "F29WG8477A",
+      "entitlements": {
+        "application-identifier": "F29WG8477A.com.tiger.suzhou.HDiary",
+        "aps-environment": "production",
+        "beta-reports-active": true,
+        "com.apple.developer.icloud-container-environment": "Production",
+        "com.apple.developer.icloud-container-identifiers": [
+          "iCloud.com.tigerhuahuahu.suzhou.hdiary"
+        ],
+        "com.apple.developer.icloud-services": [
+          "CloudKit"
+        ],
+        "com.apple.developer.journal.allow": [
+          "suggestions"
+        ],
+        "com.apple.developer.team-identifier": "F29WG8477A",
+        "com.apple.security.application-groups": [
+          "group.com.tiger.suzhou.HDiary"
+        ],
+        "get-task-allow": false
+      },
+      "profileName": "iOS Team Store Provisioning Profile: com.tiger.suzhou.HDiary",
+      "profileExpiration": "2027-07-26T03:34:22Z",
+      "debugScreenshotEntrypointsAbsent": true,
+      "binarySha256": "1f0fb3b26be1701ed01eae394041c79bb9e77b86e8112b698ec6b8d3462f229e",
+      "uuid": "7BE364A8-4A6A-3A9E-9838-8AE332938458",
+      "dsymUuidMatches": true
+    },
+    {
+      "bundleId": "com.tiger.suzhou.HDiary.HDiaryWidget",
+      "version": "1.17",
+      "build": "2",
+      "platform": "iphoneos",
+      "sdk": "iphoneos27.1",
+      "signatureVerified": true,
+      "teamId": "F29WG8477A",
+      "entitlements": {
+        "application-identifier": "F29WG8477A.com.tiger.suzhou.HDiary.HDiaryWidget",
+        "beta-reports-active": true,
+        "com.apple.developer.team-identifier": "F29WG8477A",
+        "com.apple.security.application-groups": [
+          "group.com.tiger.suzhou.HDiary"
+        ],
+        "get-task-allow": false
+      },
+      "profileName": "iOS Team Store Provisioning Profile: com.tiger.suzhou.HDiary.HDiaryWidget",
+      "profileExpiration": "2027-07-26T03:34:22Z",
+      "debugScreenshotEntrypointsAbsent": true,
+      "binarySha256": "ea37cb25a41bcd7a76631f6eddca1aa7d3e78c0f14330d1b8084379623fa5316",
+      "uuid": "32CB88F0-1AFB-367D-AB25-CECB46327BC0",
+      "dsymUuidMatches": true
+    }
+  ]
+}
