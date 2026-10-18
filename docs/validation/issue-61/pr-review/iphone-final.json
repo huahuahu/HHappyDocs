@@ -1,80 +1,397 @@
 {
-  "capturedAt": "2026-10-18T02:25:23.510Z",
+  "capturedAt": "2026-10-18T02:51:30.712Z",
   "device": "iphone",
   "activeTestPlanName": "HDiarySnapshots",
   "schemeName": "HDiarySnapshotHost",
+  "invocation": "RunAllTests",
   "counts": {
     "expectedFailures": 0,
     "failed": 0,
-    "notRun": 0,
-    "passed": 9,
+    "notRun": 26,
+    "passed": 62,
     "skipped": 0,
-    "total": 9
+    "total": 88
   },
-  "results": [
+  "executedCountsByTarget": {
+    "HDiarySnapshotTests": 38,
+    "HDiaryAppFeatureTests": 24
+  },
+  "notRunReason": "26 HDiaryAppFeatureTests cases excluded by selectedTests in HDiarySnapshots.xctestplan",
+  "xcresultBundlePath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunAllTests/Test-HDiarySnapshotHost-2026.10.18_10-50-55-+0800.xcresult",
+  "verification": "xcresulttool test-results tests; count Arguments nodes and non-parameterized leaf Test Case nodes",
+  "executedResults": [
     {
-      "displayName": ".avatarVariants",
-      "errorMessages": [],
-      "identifier": "AllParticipantsSnapshotTests/allParticipants(_:)",
-      "state": "Passed",
-      "targetName": "HDiarySnapshotTests"
+      "target": "HDiarySnapshotTests",
+      "name": "testEmptyList()",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentListSnapshotTests/testEmptyList",
+      "result": "Passed"
     },
     {
-      "displayName": ".accessibility",
-      "errorMessages": [],
-      "identifier": "AllTagsSnapshotTests/allTags(_:)",
-      "state": "Passed",
-      "targetName": "HDiarySnapshotTests"
+      "target": "HDiarySnapshotTests",
+      "name": "testExpandedList()",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentListSnapshotTests/testExpandedList",
+      "result": "Passed"
     },
     {
-      "displayName": ".longContent",
-      "errorMessages": [],
-      "identifier": "MomentDetailSnapshotTests/momentDetail(_:)",
-      "state": "Passed",
-      "targetName": "HDiarySnapshotTests"
+      "target": "HDiarySnapshotTests",
+      "name": "testGroupedList()",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentListSnapshotTests/testGroupedList",
+      "result": "Passed"
     },
     {
-      "displayName": "testGroupedList()",
-      "errorMessages": [],
-      "identifier": "MomentListSnapshotTests/testGroupedList()",
-      "state": "Passed",
-      "targetName": "HDiarySnapshotTests"
+      "target": "HDiarySnapshotTests",
+      "name": ".accessibility",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllParticipantsSnapshotTests/allParticipants(_:)?args=b2bcbb5a6f48eb3802614bea23e1a0b4c268ab397a9a908cae02b1efd282d4d7",
+      "result": "Passed"
     },
     {
-      "displayName": "testExpandedList()",
-      "errorMessages": [],
-      "identifier": "MomentListSnapshotTests/testExpandedList()",
-      "state": "Passed",
-      "targetName": "HDiarySnapshotTests"
+      "target": "HDiarySnapshotTests",
+      "name": ".avatarVariants",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllParticipantsSnapshotTests/allParticipants(_:)?args=39feef46dc74a651515826bc2789ac0bfc477c25da4e8d0c434303962aa31cfa",
+      "result": "Passed"
     },
     {
-      "displayName": "testEmptyList()",
-      "errorMessages": [],
-      "identifier": "MomentListSnapshotTests/testEmptyList()",
-      "state": "Passed",
-      "targetName": "HDiarySnapshotTests"
+      "target": "HDiarySnapshotTests",
+      "name": ".dark",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllParticipantsSnapshotTests/allParticipants(_:)?args=7b9365c5e1321c0b8b2e1c980c2859b4515849c848e059f6789ff9ab5c89b2d3",
+      "result": "Passed"
     },
     {
-      "displayName": ".landscape",
-      "errorMessages": [],
-      "identifier": "MomentMediaSnapshotTests/media(_:)",
-      "state": "Passed",
-      "targetName": "HDiarySnapshotTests"
+      "target": "HDiarySnapshotTests",
+      "name": ".empty",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllParticipantsSnapshotTests/allParticipants(_:)?args=e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+      "result": "Passed"
     },
     {
-      "displayName": ".empty",
-      "errorMessages": [],
-      "identifier": "ParticipantDetailSnapshotTests/participantDetail(_:)",
-      "state": "Passed",
-      "targetName": "HDiarySnapshotTests"
+      "target": "HDiarySnapshotTests",
+      "name": ".populated",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllParticipantsSnapshotTests/allParticipants(_:)?args=9c1f19181ad81cb5fba67511b8b06548b0c0ac6eca1ce222afdb0d66c2f1262e",
+      "result": "Passed"
     },
     {
-      "displayName": ".dark",
-      "errorMessages": [],
-      "identifier": "TagDetailSnapshotTests/tagDetail(_:)",
-      "state": "Passed",
-      "targetName": "HDiarySnapshotTests"
+      "target": "HDiarySnapshotTests",
+      "name": ".singleParticipant",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllParticipantsSnapshotTests/allParticipants(_:)?args=3ebe5cb4e311d3d9403b83a0a0231517e23d98037f4b484a8f745968410edfac",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".accessibility",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllTagsSnapshotTests/allTags(_:)?args=b2bcbb5a6f48eb3802614bea23e1a0b4c268ab397a9a908cae02b1efd282d4d7",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".dark",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllTagsSnapshotTests/allTags(_:)?args=7b9365c5e1321c0b8b2e1c980c2859b4515849c848e059f6789ff9ab5c89b2d3",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".empty",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllTagsSnapshotTests/allTags(_:)?args=e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".longNames",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllTagsSnapshotTests/allTags(_:)?args=622c58dacb25e754c0b77f062c532cf42be8299ef7a9c964ec1c891cbf330fe2",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".populated",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/AllTagsSnapshotTests/allTags(_:)?args=9c1f19181ad81cb5fba67511b8b06548b0c0ac6eca1ce222afdb0d66c2f1262e",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".accessibility",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentDetailSnapshotTests/momentDetail(_:)?args=b2bcbb5a6f48eb3802614bea23e1a0b4c268ab397a9a908cae02b1efd282d4d7",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".compactAccessibility",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentDetailSnapshotTests/momentDetail(_:)?args=d2ec7882047752c4f7e3a8eb143c4404b7df75a37c81ecd6c7536fdabb803391",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".dark",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentDetailSnapshotTests/momentDetail(_:)?args=7b9365c5e1321c0b8b2e1c980c2859b4515849c848e059f6789ff9ab5c89b2d3",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".longContent",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentDetailSnapshotTests/momentDetail(_:)?args=194c0d1da2075d26c9ac9796019ad0633b3e2685896ef57a10dc2e57e2b71273",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".minimal",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentDetailSnapshotTests/momentDetail(_:)?args=245d52144039737c0dffee508903c062cd2d351940dcf341cb36aac5fca67ced",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".populated",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentDetailSnapshotTests/momentDetail(_:)?args=9c1f19181ad81cb5fba67511b8b06548b0c0ac6eca1ce222afdb0d66c2f1262e",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".landscape",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentMediaSnapshotTests/media(_:)?args=b85767e6a45421d11a5a3fab9bd1774db074d52da303518172dc28af438a2408",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".mixed",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentMediaSnapshotTests/media(_:)?args=0aa52ffaa672c5a43dd1b5cf6239a3c3de78a77b37f6dca3f8ea10b9153c84c7",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".panorama",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentMediaSnapshotTests/media(_:)?args=c0496a23331e9c5eb5c2b6027af76193e9a320c734a0bf9cb2dd3a0ddcb708e6",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".portrait",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentMediaSnapshotTests/media(_:)?args=f83063078d9a39dc55d845621d33901692efec0bf00539a5fb352328a0e6e474",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".square",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentMediaSnapshotTests/media(_:)?args=ed4cd4e9160a7573526a52574efbe04e38fb45c189b9fb4b7a2d2e07f5ed2bfb",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".tall",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/MomentMediaSnapshotTests/media(_:)?args=85777c312897ccbb0156e7491fdbe61a20cdfecffe409961e93d2fa29d31e922",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".accessibility",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/ParticipantDetailSnapshotTests/participantDetail(_:)?args=b2bcbb5a6f48eb3802614bea23e1a0b4c268ab397a9a908cae02b1efd282d4d7",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".dark",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/ParticipantDetailSnapshotTests/participantDetail(_:)?args=7b9365c5e1321c0b8b2e1c980c2859b4515849c848e059f6789ff9ab5c89b2d3",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".empty",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/ParticipantDetailSnapshotTests/participantDetail(_:)?args=e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".populated",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/ParticipantDetailSnapshotTests/participantDetail(_:)?args=9c1f19181ad81cb5fba67511b8b06548b0c0ac6eca1ce222afdb0d66c2f1262e",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".transparentAvatar",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/ParticipantDetailSnapshotTests/participantDetail(_:)?args=18e8ed1c9ed74f6c0c20f285137e7f9d8a504ad3ce178dc5d8ea16a6ff8c1aaf",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".accessibility",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/TagDetailSnapshotTests/tagDetail(_:)?args=b2bcbb5a6f48eb3802614bea23e1a0b4c268ab397a9a908cae02b1efd282d4d7",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".accessibilityMax",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/TagDetailSnapshotTests/tagDetail(_:)?args=521ef23a770a39eb8dc7ae83c3320538cb9bde1335bf35d0deeadf8c9b129a39",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".compactAccessibility",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/TagDetailSnapshotTests/tagDetail(_:)?args=d2ec7882047752c4f7e3a8eb143c4404b7df75a37c81ecd6c7536fdabb803391",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".dark",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/TagDetailSnapshotTests/tagDetail(_:)?args=7b9365c5e1321c0b8b2e1c980c2859b4515849c848e059f6789ff9ab5c89b2d3",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".empty",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/TagDetailSnapshotTests/tagDetail(_:)?args=e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".longContent",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/TagDetailSnapshotTests/tagDetail(_:)?args=194c0d1da2075d26c9ac9796019ad0633b3e2685896ef57a10dc2e57e2b71273",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiarySnapshotTests",
+      "name": ".populated",
+      "identifier": "test://com.apple.xcode/HDiary/HDiarySnapshotTests/TagDetailSnapshotTests/tagDetail(_:)?args=9c1f19181ad81cb5fba67511b8b06548b0c0ac6eca1ce222afdb0d66c2f1262e",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "testEmptyTagsDoNotShowTotalTagCount()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/AllTagsViewTests/testEmptyTagsDoNotShowTotalTagCount",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "testNonEmptyTagsShowTotalTagCount()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/AllTagsViewTests/testNonEmptyTagsShowTotalTagCount",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "标签数据使用保存后的真实乐事关系",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/AllTagsFixtureTests/preservesMomentCounts()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "删除一份标签数据不影响其他场景",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/AllTagsFixtureTests/isolatesScenarios()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "截图数据隔离：删除一份数据不会污染另一个场景",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/MomentListFixtureTests/isolatesScenarios()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "0 bytes",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarImageTests/missingOrInvalidImageUsesPlaceholder(data:)?args=12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "13 bytes",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarImageTests/missingOrInvalidImageUsesPlaceholder(data:)?args=9f57a698c417066fd30fcd3e77e0d2139d6897552b536f645db4d7d1e313db6f",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "nil",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarImageTests/missingOrInvalidImageUsesPlaceholder(data:)?args=74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "2",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarImageTests/transparentImageUsesPlaceholderEvenWithAValidHeader(maxPixelSize:)?args=d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "nil",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarImageTests/transparentImageUsesPlaceholderEvenWithAValidHeader(maxPixelSize:)?args=74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "visibleArtworkOnTransparentBackgroundIsPreserved()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarImageTests/visibleArtworkOnTransparentBackgroundIsPreserved()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "opaqueImageKeepsItsOriginalColor()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarImageTests/opaqueImageKeepsItsOriginalColor()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "thumbnailIsBounded()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarImageTests/thumbnailIsBounded()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "onlyTheCurrentLoadedOriginalCanBePreviewed()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarLoaderTests/onlyTheCurrentLoadedOriginalCanBePreviewed()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "newViewUsesCachedPhotoBeforeItsTaskStarts()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarLoaderTests/newViewUsesCachedPhotoBeforeItsTaskStarts()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "1 bytes",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarLoaderTests/absentOrInvalidPhotoUsesStablePlaceholder(data:)?args=1f2e6bb5c504e451083fcf150b915a758469f7ca6a0eec01263fca90fb54bfb6",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "nil",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarLoaderTests/absentOrInvalidPhotoUsesStablePlaceholder(data:)?args=74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "replacementKeepsPhotoAndLateResultCannotReplaceLatestPhoto()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarLoaderTests/replacementKeepsPhotoAndLateResultCannotReplaceLatestPhoto()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "deletionAndParticipantChangeNeverReusePreviousPersonsPhoto()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarLoaderTests/deletionAndParticipantChangeNeverReusePreviousPersonsPhoto()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "cancellationDoesNotCacheAPermanentPlaceholder()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarLoaderTests/cancellationDoesNotCacheAPermanentPlaceholder()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "largerAvatarUpgradesResolutionWhileKeepingVisiblePhoto()",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/ParticipantAvatarLoaderTests/largerAvatarUpgradesResolutionWhileKeepingVisiblePhoto()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "标签详情保存十条固定日期、评分的真实关联乐事",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/TagDetailFixtureTests/preservesCityMoments()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "无关联乐事的标签在其他标签有数据时仍为空",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/TagDetailFixtureTests/emptyTagHasNoRelatedMoments()",
+      "result": "Passed"
+    },
+    {
+      "target": "HDiaryAppFeatureTests",
+      "name": "标签详情的场景使用彼此隔离的离线内存数据库",
+      "identifier": "test://com.apple.xcode/HDiaryLibrary/HDiaryAppFeatureTests/TagDetailFixtureTests/isolatesScenarios()",
+      "result": "Passed"
     }
   ],
-  "summary": "9 tests: 9 passed, 0 failed, 0 skipped, 0 expected failures, 0 not run"
+  "summary": "88 tests: 62 passed, 0 failed, 0 skipped, 0 expected failures, 26 not run"
 }

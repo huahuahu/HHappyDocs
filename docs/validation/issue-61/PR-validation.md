@@ -45,16 +45,18 @@ GIF 的第二帧把方图编码到横向画布，仅用于验证动画及预览�
 
 - 2026-10-14 初版：Debug 构建成功，iPhone 17 Pro / iOS 27.0 与 iPhone Duo / iOS 27.1 的整个 `HDiarySnapshotTests` 各 38 个场景通过。
 - 2026-10-17 最终固定容器：Debug 构建成功，两台 iPhone 的六项媒体场景各 6/6 通过，原始结果见 [iPhone](after/fixed-container/snapshots/iphone-final.json)、[Duo](after/fixed-container/snapshots/duo-final.json)。该轮未重复其他 32 个场景。
-- 共新增 12 张媒体快照基准；原有详情页基准更新 6 张，反映完整显示及窄窗口裁切改善。固定容器调整仅再更新两张 mixed 基准。快照比较阈值不变。
+- 共新增 12 张媒体快照基准；原有详情页基准更新 7 张，反映完整显示及窄窗口裁切改善。固定容器调整仅再更新两张 mixed 基准。快照比较阈值不变。
 - 2026-10-18 PR 准备：工程重复生成、依赖锁和项目引用校验通过，`git diff --check` 通过。
 
 ### PR 检查发现与修复（2026-10-18）
 
 首轮 CI 中，iPhone 完整快照、Widget 快照及 App Debug / Release 构建和测试通过。Duo 日志报告标签深色和详情窄屏大字号两处不匹配；本地完整回放同样复现了窄屏内容向左溢出。仅通过 `onGeometryChange` 读取尺寸没有限制内容的实际布局宽度。
 
-改为外层 GeometryReader 直接提供尺寸，并将内容宽度约束到当前视口。审核确认窄屏的标题、日期及标签在可用区域内换行，左缘文字和图标完整；另一个大字号详情场景仅参与者图标的细小尺寸变化。只更新这两张受影响的详情基准，未改比较阈值或标签基准。
+改为外层 GeometryReader 直接提供尺寸，并将内容宽度约束到当前视口。审核确认 Duo 窄屏的标题、日期及标签在可用区域内换行，左缘文字和图标完整；两台设备的大字号详情场景仅参与者图标的细小尺寸变化。该修复共更新三张受影响的详情基准，未改比较阈值或标签基准。iPhone 图标差异区域为 `(62, 1420)–(166, 1530)`，区域外像素完全一致。
 
-修复后原生 Xcode 对 iPhone 和 Duo 的整个 `HDiarySnapshotTests` 均回放通过：各 9 个测试方法，包含 38 个场景，0 失败、0 跳过。结果见 [iPhone](pr-review/iphone-final.json)、[Duo](pr-review/duo-final.json)。标签深色基准未修改，该轮也通过；此前失败的差异集中在少数边缘像素。
+早先按方法调用 `RunSomeTests` 返回的 9 项通过，实际只执行了 3 个 XCTest 和 6 个参数场景，不能证明完整的 38 个快照场景通过。此前对此覆盖范围的记录有误，已用下述完整计划结果替换。
+
+最终使用原生 Xcode `RunAllTests` 执行 `HDiarySnapshotHost` 的完整 `HDiarySnapshots` 计划：iPhone 17 Pro / iOS 27.0 与 iPhone Duo / iOS 27.1 各 62 项通过、0 失败、0 跳过。通过 `xcresulttool get test-results tests` 展开结果树，分别核实 **38 个快照场景和 24 个相关功能/夹具测试**；参数化测试按 `Arguments` 节点逐项计数。原生汇总另列 26 项未执行，这是该计划通过 `selectedTests` 原本排除的 AppFeature 测试。结果及逐项明细见 [iPhone](pr-review/iphone-final.json)、[Duo](pr-review/duo-final.json)。标签深色基准未修改，完整回放通过；此前失败的差异集中在少数边缘像素。
 
 初版 iPhone 的 populated 快照曾出现 Tab 栏下缘阴影细微差异。两次完整回放实际像素一致，审核后仅更新该张因布局变化本就需要更新的基准，完整回放通过；未放宽比较阈值。
 
