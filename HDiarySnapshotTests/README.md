@@ -62,7 +62,7 @@ Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Mo
 
 乐事详情的六个测试直接渲染 `MomentDetailPreview`，与 App target 的 `MomentDetailPreviews.swift` Canvas 入口共用 `MomentDetailPreviewFixture`。固定日期为 2026-10-03 17:30 UTC+8，完整场景包含两个参与者、三个标签、四星评分、正文与本地生成的 PNG；精简场景保留未设置的评分和空关联。每个 fixture 使用独立内存容器并关闭云同步。宿主以正式乐事列表为父页面，预填 `.moment` 路由，保留正式返回／编辑按钮与乐事 Tab，沿用真实导航标题模式。快照捕获各设备的正常视口，长正文和大字号内容通过真实 ScrollView 展示；图片断言只覆盖当前视口，不验证手势滚动或编辑交互。
 
-乐事详情在 Duo 的 320 pt / accessibility2 场景中曾存在左缘文字及图标裁切，历史表现记录在 [issue #60 验证说明](../docs/issue-60-preview/README.md) 中。issue #61 在 ScrollView 外读取可用空间后，该窄宽度场景的内容也受实际容器宽度约束；已审核并更新对应基准，前后差异见 [issue #61 验证记录](../docs/validation/issue-61/PR-validation.md)。
+乐事详情在 Duo 的 320 pt / accessibility2 场景中曾存在左缘文字及图标裁切，历史表现记录在 [issue #60 验证说明](../docs/issue-60-preview/README.md) 中。当前通过 `onGeometryChange` 只观察 `ScrollView` 的宽度并传给媒体组件，正文按父容器提议的宽度布局；不依赖视口高度。历史修复及对应基准见 [issue #61 验证记录](../docs/validation/issue-61/PR-validation.md)。
 
 在 Xcode 中运行：
 
@@ -89,4 +89,4 @@ GitHub Actions 的 `iOS snapshots` 工作流在 push、pull request 和手动运
 
 运行结束后，在 Actions 的 `list-snapshots-iphone` 和 `list-snapshots-iphone-duo` artifact 中分别下载 `xcodebuild.log`、可由 Xcode 打开的 `Lists.xcresult`，以及截图附件。图片不匹配时包含 reference、actual 和 difference 附件，便于审核是否为预期的界面变化。报告保留 14 天。
 
-图片比例夹具来自 `MomentMediaPreviewFixture`，包含四角标记与圆形以辨别裁切和拉伸。Debug App 可设置进程环境变量 `HDIARY_MEDIA_PREVIEW` 为 `landscape`、`portrait`、`square`、`tall`、`panorama` 或 `mixed`，在同一内存数据和正式详情路由上进行设备交互；Release 不包含此入口。单图按自身比例计算容器，多图统一取整组的高度需求并限制在当前视口内，翻页不改变容器宽高。快照仅比较各场景首屏；翻页尺寸稳定性、GIF 动画、Quick Look、分页取消、旋转和宽窗口的运行证据见 [issue #61 验证记录](../docs/validation/issue-61/PR-validation.md)。
+图片比例夹具来自 `MomentMediaPreviewFixture`，包含四角标记与圆形以辨别裁切和拉伸。Debug App 可设置进程环境变量 `HDIARY_MEDIA_PREVIEW` 为 `landscape`、`portrait`、`square`、`tall`、`panorama` 或 `mixed`，在同一内存数据和正式详情路由上进行设备交互；Release 不包含此入口。单图按自身比例计算容器，多图统一取整组按当前宽度展示时的最大高度需求；总高度（包含分页圆点）上限为容器宽度的 4/3，与视口高度无关，翻页不改变容器宽高。全景图保留至少 80 pt 的图片交互区域，仍受总高度上限约束。超出首屏的部分随详情页纵向滚动查看。快照仅比较各场景首屏；原有分页和 Quick Look 交互的历史运行证据见 [issue #61 验证记录](../docs/validation/issue-61/PR-validation.md)。

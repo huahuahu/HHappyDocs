@@ -30,13 +30,13 @@ import SwiftUI
   public struct HMediaItemPageView: View {
     @ScaledMetric private var gifIndicaterPadding = 5.0
 
-    public init(itemAndThumbails: [MediaItemAndThumbnail], availableSize: CGSize) {
+    public init(itemAndThumbails: [MediaItemAndThumbnail], availableWidth: CGFloat) {
       self.itemAndThumbails = itemAndThumbails
-      self.availableSize = availableSize
+      self.availableWidth = availableWidth.isFinite ? max(0, availableWidth) : 0
     }
 
     let itemAndThumbails: [MediaItemAndThumbnail]
-    let availableSize: CGSize
+    let availableWidth: CGFloat
     @State private var currentIndex = 0
     @State private var localPath: URL?
 
@@ -51,6 +51,7 @@ import SwiftUI
       }
       .tabViewStyle(.page)
       .indexViewStyle(.page(backgroundDisplayMode: .always))
+      .frame(maxWidth: .infinity)
       .frame(height: pageHeight)
       .clipped()
       .overlay(alignment: .topLeading) {
@@ -73,7 +74,7 @@ import SwiftUI
     }
 
     private var maximumHeight: CGFloat {
-      availableSize.height.isFinite ? max(0, availableSize.height * 0.8) : 0
+      availableWidth * 4 / 3
     }
 
     private var pageIndicatorHeight: CGFloat {
@@ -81,14 +82,14 @@ import SwiftUI
     }
 
     private var pageHeight: CGFloat {
-      let width = availableSize.width.isFinite ? max(0, availableSize.width) : 0
       // Size the whole collection together so paging keeps the surrounding layout stable.
       let imageHeight = itemAndThumbails.reduce(CGFloat(80)) { height, item in
         let size = item.thumbnail.size
         let ratio = size.width > 0 && size.height > 0 ? size.width / size.height : 1
-        return max(height, width / (ratio.isFinite && ratio > 0 ? ratio : 1))
+        return max(height, availableWidth / (ratio.isFinite && ratio > 0 ? ratio : 1))
       }
-      // Keep panoramas tappable; fit tall images within the scroll viewport, including the page dots.
+      // Keep panoramas tappable and cap the whole page at a 3:4 portrait frame,
+      // including the page dots, independently of the scroll viewport's height.
       return min(maximumHeight, imageHeight + pageIndicatorHeight)
     }
   }
@@ -143,6 +144,7 @@ import SwiftUI
 
   #if DEBUG
     #Preview(body: {
+      @Previewable @State var availableWidth: CGFloat = 0
       let item1 = HMediaItem.fromJpegImage(.actions)
       let item2 = HMediaItem.fromJpegImage(.add)
       let mediaAndThumbnails: [MediaItemAndThumbnail] = [
@@ -150,9 +152,12 @@ import SwiftUI
         MediaItemAndThumbnail(data: item2.data, pathExtension: "Gif", thumbnail: .add),
       ]
 
-      return GeometryReader { geometry in
-        HMediaItemPageView(itemAndThumbails: mediaAndThumbnails, availableSize: geometry.size)
-      }
+      return HMediaItemPageView(itemAndThumbails: mediaAndThumbnails, availableWidth: availableWidth)
+        .onGeometryChange(for: CGFloat.self) { geometry in
+          geometry.size.width
+        } action: { width in
+          availableWidth = width
+        }
     })
 
   #endif

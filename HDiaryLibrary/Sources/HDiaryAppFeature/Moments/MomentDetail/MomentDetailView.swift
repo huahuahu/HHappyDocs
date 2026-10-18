@@ -57,40 +57,43 @@ struct MomentDetailView: View {
 
 private struct MomentDetailInnerView: View {
   @ScaledMetric private var verticalPadding = 10
+  @State private var availableWidth: CGFloat = 0
   let moment: Moment
   @Environment(MomentCloudStateManager.self) private var momentCloudStateManager
   @Environment(\.modelContext) private var modelContext
 
   var body: some View {
-    GeometryReader { geometry in
-      ScrollView {
-        let mediaItems = moment.sortedMediaItemAndThumbnails
-        VStack(
-          alignment: .leading,
-          spacing: verticalPadding,
-          content: {
-            titleView
-            timestampView
-            if !moment.sortedParticipants.isEmpty {
-              participantView
-            }
-
-            if !moment.sortedTags.isEmpty {
-              TagListView(tags: moment.sortedTags)
-            }
-            ratingView
-            HStack {
-              Text(moment.content)
-                .padding()
-            }
-            if !mediaItems.isEmpty {
-              HMediaItemPageView(itemAndThumbails: mediaItems, availableSize: geometry.size)
-            }
+    ScrollView {
+      let mediaItems = moment.sortedMediaItemAndThumbnails
+      VStack(
+        alignment: .leading,
+        spacing: verticalPadding,
+        content: {
+          titleView
+          timestampView
+          if !moment.sortedParticipants.isEmpty {
+            participantView
           }
-        )
-        // Large text can give a child a wider ideal size than the scroll viewport.
-        .frame(width: geometry.size.width, alignment: .leading)
-      }
+
+          if !moment.sortedTags.isEmpty {
+            TagListView(tags: moment.sortedTags)
+          }
+          ratingView
+          HStack {
+            Text(moment.content)
+              .padding()
+          }
+          if !mediaItems.isEmpty {
+            HMediaItemPageView(itemAndThumbails: mediaItems, availableWidth: availableWidth)
+          }
+        }
+      )
+      .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+    }
+    .onGeometryChange(for: CGFloat.self) { geometry in
+      geometry.size.width
+    } action: { width in
+      availableWidth = width.isFinite ? max(0, width) : 0
     }
     .navigationTitle(Text(DiaryStringKey.momentDetailViewNavigationTitle))
   }
