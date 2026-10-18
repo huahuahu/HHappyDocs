@@ -1,0 +1,11 @@
+HDiary 1.17 (1)
+
+This build adds icons to moment filters and tag sorting options and clarifies the media filter label as “Has photos or videos”.
+
+Please test:
+1. Switch between all moments, weekends, and moments with photos or videos. Check the icons, selection marks, and filtered results.
+2. Switch tag sorting between name and count. Check that the selected option matches the resulting order.
+3. Check moment details, editing, photos, and navigation to people and tags, including Dark Mode and larger text sizes.
+4. Check iCloud sync and Home Screen widgets, including moment content and date labels.
+
+Please include your device, OS version, and reproduction steps with any feedback.

@@ -8,8 +8,8 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-MARKETING_VERSION = 1.16
-CURRENT_PROJECT_VERSION = 2
+MARKETING_VERSION = 1.17
+CURRENT_PROJECT_VERSION = 1
 DEVELOPMENT_TEAM = F29WG8477A
 CODE_SIGN_STYLE = Automatic
 GENERATE_INFOPLIST_FILE = YES

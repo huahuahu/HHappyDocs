@@ -1,0 +1,107 @@
+{
+  "appId": "6470147729",
+  "bundleId": "com.tiger.suzhou.HDiary",
+  "version": "1.17",
+  "build": "1",
+  "buildId": "d5e34417-4993-479b-a4f6-da4aa4311948",
+  "channel": "TestFlight internal",
+  "sourceCommit": "848c90ba526dac23b6f5a0189ace53fe4a97c847",
+  "equivalentSourceCommit": "9369f7d562720c780750834aae235440c9559f1d",
+  "latestMainCommit": "8dee945b295011a405ad1d74dfa462874ce42c75",
+  "sourceEquivalence": {
+    "verified": true,
+    "onlyChangedPaths": [
+      ".github/workflows/snapshots.yml"
+    ],
+    "explanation": "During release preparation, main gained a CI-only commit; the local version bump was rebased. All archive inputs remain identical."
+  },
+  "verifiedAt": "2026-10-14T22:25:55+08:00",
+  "processingState": "VALID",
+  "internalBuildState": "IN_BETA_TESTING",
+  "externalBuildState": "READY_FOR_BETA_SUBMISSION",
+  "expirationDate": "2027-01-12T06:18:45-08:00",
+  "group": {
+    "id": "4aa0f2b2-2bb7-40c7-a4a9-7749b45eb3e2",
+    "name": "huahuahu-itnernal",
+    "internal": true,
+    "associationVerified": true,
+    "existingAutomaticAccess": true
+  },
+  "testNotes": {
+    "locales": [
+      "zh-Hans",
+      "en-US"
+    ],
+    "readBackMatches": true,
+    "normalization": "ASC removes the final newline"
+  },
+  "validation": {
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "blocking": 0
+  },
+  "tests": {
+    "simulator": "HDiary Snapshot iPhone 17 Pro",
+    "runtime": "iOS 27.0",
+    "counts": {
+      "expectedFailures": 0,
+      "failed": 0,
+      "notRun": 3,
+      "passed": 145,
+      "skipped": 0,
+      "total": 148
+    },
+    "notRunReason": "3 tests compile only on macOS"
+  },
+  "simulatorSmoke": {
+    "passed": [
+      "DEBUG fixture launch",
+      "moments list visible",
+      "Library tab switch",
+      "tag list and counts visible"
+    ],
+    "notVerified": [
+      "filter menu selection",
+      "sort menu icons and selection",
+      "Release IPA or TestFlight device install"
+    ],
+    "toolLimitation": "Native interaction session was lost before opening the sort menu. One recovery was attempted.",
+    "observation": "A transient background/black frame occurred once; reactivation and a retry opened the tag list. Cause undetermined; no crash established.",
+    "report": "build/releases/1.17/1/smoke/report.md"
+  },
+  "artifacts": {
+    "directory": "build/releases/1.17/1",
+    "ipa": "build/releases/1.17/1/HDiary.ipa",
+    "archive": "build/releases/1.17/1/HDiary.xcarchive",
+    "ipaSha256": "5566726b747385f3d578989f58a3a90fc5d784791f28e269da4c78a8c472cf38",
+    "archiveTreeSha256": "a19e6a8a0d08913b44d653b4e00f3ab16f3e9f6ede66a3f5e763114fa0bb445c",
+    "archiveTreeHashDefinition": "SHA-256 of compact sorted-key JSON [{path,sha256}] with lexically ordered archive file paths",
+    "appAndWidgetVersionVerified": true,
+    "distributionSignatureVerified": true,
+    "productionCloudKitEntitlementsVerified": true,
+    "dsymUUIDsMatch": true,
+    "debugScreenshotEntrypointsAbsent": true,
+    "journalingSuggestionsWeakLinked": true
+  },
+  "exportWorkaround": "Export initially failed because system rsync invoked Homebrew rsync with incompatible flags; retry with a system-only PATH succeeded without changing the archive.",
+  "ci": {
+    "sourceAppCommit": "a941c27",
+    "iphoneSnapshots": "success",
+    "duoSnapshots": "timed out",
+    "buildAndTest": "cancelled",
+    "freshLocalTests": "145 passed, 0 failed"
+  },
+  "appStoreSubmission": {
+    "performed": false,
+    "releaseType": null,
+    "reason": "Only TestFlight requested; no 1.17 App Store version created."
+  },
+  "externalBetaReviewSubmitted": false,
+  "tag": {
+    "created": false,
+    "pushed": false,
+    "reason": "TestFlight-only iteration; defer the formal version tag."
+  },
+  "gitPushPerformed": false
+}
