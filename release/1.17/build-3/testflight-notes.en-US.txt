@@ -1,0 +1,9 @@
+Focus: Moment detail images are larger in landscape. Page height now follows the container width, capped at four-thirds of that width.
+
+Open moments with portrait, tall, panoramic, and mixed-size photos. Check:
+1. Rotate the device or narrow the window: text and image edges should remain visible with the correct aspect ratio.
+2. Swipe between images: the page container should keep a stable height. Scroll vertically to reach the image bottom and page dots.
+3. Tap an image to view the original, then dismiss it and confirm the selected page is preserved. Check GIF labels and playback.
+4. Check the detail layout on iPhone Duo and with larger text sizes.
+
+Please include your device, OS version, and image type when reporting issues.
