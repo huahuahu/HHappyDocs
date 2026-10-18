@@ -1,0 +1,84 @@
+{
+  "remoteTool": "RunSomeTests",
+  "arguments": {
+    "workspaceIdentifier": "workspace-NqN7mDdtUW",
+    "tests": [
+      {
+        "targetName": "HDiarySnapshotTests",
+        "testIdentifier": "MomentMediaSnapshotTests/media(_:)"
+      }
+    ]
+  },
+  "timeoutMs": 60000,
+  "capturedAt": "2026-10-17T04:27:05.834Z",
+  "response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"activeTestPlanName\":\"HDiarySnapshots\",\"counts\":{\"expectedFailures\":0,\"failed\":0,\"notRun\":0,\"passed\":6,\"skipped\":0,\"total\":6},\"fullConsoleLogsPath\":\"\\/var\\/folders\\/xg\\/hh57n8x55bg16qydl87zp3lw0000gn\\/T\\/ActionArtifacts\\/default\\/RunSomeTests\\/test-console-log-2026-10-17T12-26-53+08-00.txt\",\"fullSummaryPath\":\"\\/var\\/folders\\/xg\\/hh57n8x55bg16qydl87zp3lw0000gn\\/T\\/ActionArtifacts\\/default\\/RunSomeTests\\/B795C1E4-9144-4AB3-8045-13741F95F3E7.txt\",\"results\":[{\"displayName\":\".landscape\",\"errorMessages\":[],\"identifier\":\"MomentMediaSnapshotTests\\/media(_:)\",\"state\":\"Passed\",\"targetName\":\"HDiarySnapshotTests\"},{\"displayName\":\".portrait\",\"errorMessages\":[],\"identifier\":\"MomentMediaSnapshotTests\\/media(_:)\",\"state\":\"Passed\",\"targetName\":\"HDiarySnapshotTests\"},{\"displayName\":\".square\",\"errorMessages\":[],\"identifier\":\"MomentMediaSnapshotTests\\/media(_:)\",\"state\":\"Passed\",\"targetName\":\"HDiarySnapshotTests\"},{\"displayName\":\".tall\",\"errorMessages\":[],\"identifier\":\"MomentMediaSnapshotTests\\/media(_:)\",\"state\":\"Passed\",\"targetName\":\"HDiarySnapshotTests\"},{\"displayName\":\".panorama\",\"errorMessages\":[],\"identifier\":\"MomentMediaSnapshotTests\\/media(_:)\",\"state\":\"Passed\",\"targetName\":\"HDiarySnapshotTests\"},{\"displayName\":\".mixed\",\"errorMessages\":[],\"identifier\":\"MomentMediaSnapshotTests\\/media(_:)\",\"state\":\"Passed\",\"targetName\":\"HDiarySnapshotTests\"}],\"schemeName\":\"HDiarySnapshotHost\",\"summary\":\"6 tests: 6 passed, 0 failed, 0 skipped, 0 expected failures, 0 not run\",\"totalResults\":6,\"truncated\":false,\"xcresultBundlePath\":\"\\/var\\/folders\\/xg\\/hh57n8x55bg16qydl87zp3lw0000gn\\/T\\/ActionArtifacts\\/default\\/RunSomeTests\\/Test-HDiarySnapshotHost-2026.10.17_12-26-53-+0800.xcresult\"}"
+      }
+    ],
+    "structuredContent": {
+      "activeTestPlanName": "HDiarySnapshots",
+      "counts": {
+        "expectedFailures": 0,
+        "failed": 0,
+        "notRun": 0,
+        "passed": 6,
+        "skipped": 0,
+        "total": 6
+      },
+      "fullConsoleLogsPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/test-console-log-2026-10-17T12-26-53+08-00.txt",
+      "fullSummaryPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/B795C1E4-9144-4AB3-8045-13741F95F3E7.txt",
+      "results": [
+        {
+          "displayName": ".landscape",
+          "errorMessages": [],
+          "identifier": "MomentMediaSnapshotTests/media(_:)",
+          "state": "Passed",
+          "targetName": "HDiarySnapshotTests"
+        },
+        {
+          "displayName": ".portrait",
+          "errorMessages": [],
+          "identifier": "MomentMediaSnapshotTests/media(_:)",
+          "state": "Passed",
+          "targetName": "HDiarySnapshotTests"
+        },
+        {
+          "displayName": ".square",
+          "errorMessages": [],
+          "identifier": "MomentMediaSnapshotTests/media(_:)",
+          "state": "Passed",
+          "targetName": "HDiarySnapshotTests"
+        },
+        {
+          "displayName": ".tall",
+          "errorMessages": [],
+          "identifier": "MomentMediaSnapshotTests/media(_:)",
+          "state": "Passed",
+          "targetName": "HDiarySnapshotTests"
+        },
+        {
+          "displayName": ".panorama",
+          "errorMessages": [],
+          "identifier": "MomentMediaSnapshotTests/media(_:)",
+          "state": "Passed",
+          "targetName": "HDiarySnapshotTests"
+        },
+        {
+          "displayName": ".mixed",
+          "errorMessages": [],
+          "identifier": "MomentMediaSnapshotTests/media(_:)",
+          "state": "Passed",
+          "targetName": "HDiarySnapshotTests"
+        }
+      ],
+      "schemeName": "HDiarySnapshotHost",
+      "summary": "6 tests: 6 passed, 0 failed, 0 skipped, 0 expected failures, 0 not run",
+      "totalResults": 6,
+      "truncated": false,
+      "xcresultBundlePath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/Test-HDiarySnapshotHost-2026.10.17_12-26-53-+0800.xcresult"
+    }
+  }
+}

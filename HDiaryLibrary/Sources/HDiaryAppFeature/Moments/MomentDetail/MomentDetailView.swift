@@ -57,12 +57,14 @@ struct MomentDetailView: View {
 
 private struct MomentDetailInnerView: View {
   @ScaledMetric private var verticalPadding = 10
+  @State private var viewportSize: CGSize = .zero
   let moment: Moment
   @Environment(MomentCloudStateManager.self) private var momentCloudStateManager
   @Environment(\.modelContext) private var modelContext
 
   var body: some View {
     ScrollView {
+      let mediaItems = moment.sortedMediaItemAndThumbnails
       VStack(
         alignment: .leading,
         spacing: verticalPadding,
@@ -81,19 +83,18 @@ private struct MomentDetailInnerView: View {
             Text(moment.content)
               .padding()
           }
-          if !moment.sortedMediaItemAndThumbnails.isEmpty {
-            imageListView
+          if !mediaItems.isEmpty {
+            HMediaItemPageView(itemAndThumbails: mediaItems, availableSize: viewportSize)
           }
         }
       )
     }
+    .onGeometryChange(for: CGSize.self) { geometry in
+      geometry.size
+    } action: { newSize in
+      viewportSize = newSize
+    }
     .navigationTitle(Text(DiaryStringKey.momentDetailViewNavigationTitle))
-  }
-
-  @MainActor @ViewBuilder
-  var imageListView: some View {
-    HMediaItemPageView(itemAndThumbails: moment.sortedMediaItemAndThumbnails)
-      .frame(minHeight: 300)
   }
 
   @ViewBuilder
