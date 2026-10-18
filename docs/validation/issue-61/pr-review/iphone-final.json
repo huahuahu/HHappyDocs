@@ -1,0 +1,80 @@
+{
+  "capturedAt": "2026-10-18T02:25:23.510Z",
+  "device": "iphone",
+  "activeTestPlanName": "HDiarySnapshots",
+  "schemeName": "HDiarySnapshotHost",
+  "counts": {
+    "expectedFailures": 0,
+    "failed": 0,
+    "notRun": 0,
+    "passed": 9,
+    "skipped": 0,
+    "total": 9
+  },
+  "results": [
+    {
+      "displayName": ".avatarVariants",
+      "errorMessages": [],
+      "identifier": "AllParticipantsSnapshotTests/allParticipants(_:)",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": ".accessibility",
+      "errorMessages": [],
+      "identifier": "AllTagsSnapshotTests/allTags(_:)",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": ".longContent",
+      "errorMessages": [],
+      "identifier": "MomentDetailSnapshotTests/momentDetail(_:)",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": "testGroupedList()",
+      "errorMessages": [],
+      "identifier": "MomentListSnapshotTests/testGroupedList()",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": "testExpandedList()",
+      "errorMessages": [],
+      "identifier": "MomentListSnapshotTests/testExpandedList()",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": "testEmptyList()",
+      "errorMessages": [],
+      "identifier": "MomentListSnapshotTests/testEmptyList()",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": ".landscape",
+      "errorMessages": [],
+      "identifier": "MomentMediaSnapshotTests/media(_:)",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": ".empty",
+      "errorMessages": [],
+      "identifier": "ParticipantDetailSnapshotTests/participantDetail(_:)",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    },
+    {
+      "displayName": ".dark",
+      "errorMessages": [],
+      "identifier": "TagDetailSnapshotTests/tagDetail(_:)",
+      "state": "Passed",
+      "targetName": "HDiarySnapshotTests"
+    }
+  ],
+  "summary": "9 tests: 9 passed, 0 failed, 0 skipped, 0 expected failures, 0 not run"
+}

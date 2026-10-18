@@ -57,42 +57,40 @@ struct MomentDetailView: View {
 
 private struct MomentDetailInnerView: View {
   @ScaledMetric private var verticalPadding = 10
-  @State private var viewportSize: CGSize = .zero
   let moment: Moment
   @Environment(MomentCloudStateManager.self) private var momentCloudStateManager
   @Environment(\.modelContext) private var modelContext
 
   var body: some View {
-    ScrollView {
-      let mediaItems = moment.sortedMediaItemAndThumbnails
-      VStack(
-        alignment: .leading,
-        spacing: verticalPadding,
-        content: {
-          titleView
-          timestampView
-          if !moment.sortedParticipants.isEmpty {
-            participantView
-          }
+    GeometryReader { geometry in
+      ScrollView {
+        let mediaItems = moment.sortedMediaItemAndThumbnails
+        VStack(
+          alignment: .leading,
+          spacing: verticalPadding,
+          content: {
+            titleView
+            timestampView
+            if !moment.sortedParticipants.isEmpty {
+              participantView
+            }
 
-          if !moment.sortedTags.isEmpty {
-            TagListView(tags: moment.sortedTags)
+            if !moment.sortedTags.isEmpty {
+              TagListView(tags: moment.sortedTags)
+            }
+            ratingView
+            HStack {
+              Text(moment.content)
+                .padding()
+            }
+            if !mediaItems.isEmpty {
+              HMediaItemPageView(itemAndThumbails: mediaItems, availableSize: geometry.size)
+            }
           }
-          ratingView
-          HStack {
-            Text(moment.content)
-              .padding()
-          }
-          if !mediaItems.isEmpty {
-            HMediaItemPageView(itemAndThumbails: mediaItems, availableSize: viewportSize)
-          }
-        }
-      )
-    }
-    .onGeometryChange(for: CGSize.self) { geometry in
-      geometry.size
-    } action: { newSize in
-      viewportSize = newSize
+        )
+        // Large text can give a child a wider ideal size than the scroll viewport.
+        .frame(width: geometry.size.width, alignment: .leading)
+      }
     }
     .navigationTitle(Text(DiaryStringKey.momentDetailViewNavigationTitle))
   }
