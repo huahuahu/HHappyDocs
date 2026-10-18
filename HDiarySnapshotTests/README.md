@@ -1,10 +1,10 @@
 # 整页 Snapshot 单元测试
 
-`MomentListSnapshotTests`、`MomentDetailSnapshotTests`、`AllTagsSnapshotTests`、`TagDetailSnapshotTests`、`AllParticipantsSnapshotTests` 和 `ParticipantDetailSnapshotTests` 直接创建实际 SwiftUI 页面、与 App 共用的 `HDiaryTabShell` 外层结构和独立的 SwiftData 内存数据，用 `assertSnapshot(of:as:)` 的 SwiftUI 接口渲染并比较图片。通过专用的空白 `HDiarySnapshotHost` 提供渲染窗口，不启动业务 App，无 XCUIApplication 或点击操作。
+`MomentListSnapshotTests`、`MomentDetailSnapshotTests`、`MomentMediaSnapshotTests`、`AllTagsSnapshotTests`、`TagDetailSnapshotTests`、`AllParticipantsSnapshotTests` 和 `ParticipantDetailSnapshotTests` 直接创建实际 SwiftUI 页面、与 App 共用的 `HDiaryTabShell` 外层结构和独立的 SwiftData 内存数据，用 `assertSnapshot(of:as:)` 的 SwiftUI 接口渲染并比较图片。通过专用的空白 `HDiarySnapshotHost` 提供渲染窗口，不启动业务 App，无 XCUIApplication 或点击操作。
 
 `HDiarySnapshotTests` 是普通的 Xcode Unit Testing target；“Snapshot”只描述图片断言方式。SnapshotTesting 可以用于 Swift Package 的 `.testTarget`，简单组件的截图也不需要专门的宿主 App。但当前 SwiftPM 的测试 target 没有指定自定义 Host Application 的配置项。这里要捕获导航栏和 Tab 栏的系统玻璃效果，使用 `drawHierarchyInKeyWindow: true`，因此通过 Xcode 单元测试 target 的 `TEST_HOST` 配置现有的空白 `HDiarySnapshotHost`。测试直接导入 `HDiaryAppFeature` 等 Package 产品。
 
-测试源码、独立计划 `HDiarySnapshots.xctestplan` 和六十四张基准（32 个场景 × 2 种设备）保存在仓库根目录的 `HDiarySnapshotTests/`，宿主保存在 `HDiarySnapshotHost/`。XcodeGen 根据 `project.yml` 生成与实际目录对应的分组；添加或移除文件后重新生成工程。Package 的 `Tests/` 只保留 Package 自己的测试。测试计划、`README.md` 和 `__Snapshots__/` 不加入测试 bundle；SnapshotTesting 根据测试源码路径读取基准。App 的 `HDiary/Localizable.xcstrings` 通过 target membership 同时提供给宿主和测试，不复制翻译文件。
+测试源码、独立计划 `HDiarySnapshots.xctestplan` 和七十六张基准（38 个场景 × 2 种设备）保存在仓库根目录的 `HDiarySnapshotTests/`，宿主保存在 `HDiarySnapshotHost/`。XcodeGen 根据 `project.yml` 生成与实际目录对应的分组；添加或移除文件后重新生成工程。Package 的 `Tests/` 只保留 Package 自己的测试。测试计划、`README.md` 和 `__Snapshots__/` 不加入测试 bundle；SnapshotTesting 根据测试源码路径读取基准。App 的 `HDiary/Localizable.xcstrings` 通过 target membership 同时提供给宿主和测试，不复制翻译文件。
 
 相关说明：[SnapshotTesting 的 SwiftPM 用法](https://github.com/pointfreeco/swift-snapshot-testing/blob/1.19.6/README.md#swift-package-manager)、[维护者关于系统玻璃效果和宿主的说明](https://github.com/pointfreeco/swift-snapshot-testing/issues/1029#issuecomment-3366942138)。
 
@@ -19,6 +19,9 @@
 | Moment detail · dark | 完整详情的深色背景、文字、橙色强调色和图片 |
 | Moment detail · accessibility | accessibility3 字号下的标题、日期时间、参与者和标签换行 |
 | Moment detail · compact-accessibility | 320 pt 窄宽度、accessibility2 字号下的首屏布局 |
+| Moment media · landscape / portrait / square | 横、竖、方图在真实详情页中的比例和预览尺寸 |
+| Moment media · tall / panorama | 长图高度上限、全景图最小交互区域及完整边框 |
+| Moment media · mixed | 按整组六张混合比例图片计算的统一容器、首张图片留白和原生页码区域 |
 | Tag · empty | 中文空态、返回和添加按钮；排序按钮及总数隐藏 |
 | Tag · populated | 默认名称排序、0/1/多条关联乐事、行间距、底部总数与工具栏 |
 | Tag · long-names | 长中文、英文和 emoji 标签的换行、行高与导航箭头布局 |
@@ -59,7 +62,7 @@ Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Mo
 
 乐事详情的六个测试直接渲染 `MomentDetailPreview`，与 App target 的 `MomentDetailPreviews.swift` Canvas 入口共用 `MomentDetailPreviewFixture`。固定日期为 2026-10-03 17:30 UTC+8，完整场景包含两个参与者、三个标签、四星评分、正文与本地生成的 PNG；精简场景保留未设置的评分和空关联。每个 fixture 使用独立内存容器并关闭云同步。宿主以正式乐事列表为父页面，预填 `.moment` 路由，保留正式返回／编辑按钮与乐事 Tab，沿用真实导航标题模式。快照捕获各设备的正常视口，长正文和大字号内容通过真实 ScrollView 展示；图片断言只覆盖当前视口，不验证手势滚动或编辑交互。
 
-已观察到乐事详情在 Duo 的 320 pt / accessibility2 场景中存在左缘文字及图标裁切。对应基准保留当前页面的呈现，这一已有布局问题记录在 [issue #60 验证说明](../docs/issue-60-preview/README.md) 中。
+乐事详情在 Duo 的 320 pt / accessibility2 场景中曾存在左缘文字及图标裁切，历史表现记录在 [issue #60 验证说明](../docs/issue-60-preview/README.md) 中。issue #61 在 ScrollView 外读取可用空间后，该窄宽度场景的内容也受实际容器宽度约束；已审核并更新对应基准，前后差异见 [issue #61 验证记录](../docs/validation/issue-61/PR-validation.md)。
 
 在 Xcode 中运行：
 
@@ -70,7 +73,7 @@ Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Mo
 
 测试范围统一在 `HDiarySnapshots.xctestplan` 中管理：包含整个 `HDiarySnapshotTests` target，以及 `HDiaryAppFeatureTests` 中的 `MomentListFixtureTests`、`AllTagsFixtureTests`、`TagDetailFixtureTests`、`AllTagsViewTests`、`ParticipantAvatarImageTests` 和 `ParticipantAvatarLoaderTests` 六组测试。选择的是整组测试，组内新增用例会自动纳入。两个 target 均关闭并行执行，测试语言和地区固定为简体中文／中国。
 
-基准分别位于 `__Snapshots__/MomentListSnapshotTests/`、`__Snapshots__/MomentDetailSnapshotTests/`、`__Snapshots__/AllTagsSnapshotTests/`、`__Snapshots__/TagDetailSnapshotTests/`、`__Snapshots__/AllParticipantsSnapshotTests/` 和 `__Snapshots__/ParticipantDetailSnapshotTests/`，每个场景分别使用 `-iphone.png` 与 `-iphone-duo.png` 后缀，图片说明由上表和测试名称维护，无需在图片上添加文字。普通比较不会自动更新基准。
+基准分别位于 `__Snapshots__/MomentListSnapshotTests/`、`__Snapshots__/MomentDetailSnapshotTests/`、`__Snapshots__/MomentMediaSnapshotTests/`、`__Snapshots__/AllTagsSnapshotTests/`、`__Snapshots__/TagDetailSnapshotTests/`、`__Snapshots__/AllParticipantsSnapshotTests/` 和 `__Snapshots__/ParticipantDetailSnapshotTests/`，每个场景分别使用 `-iphone.png` 与 `-iphone-duo.png` 后缀，图片说明由上表和测试名称维护，无需在图片上添加文字。普通比较不会自动更新基准。
 
 审核设计变化后，只选中需要更新的测试，在 `HDiarySnapshots` 测试计划的配置环境变量中临时设置 `HDIARY_RECORD_SNAPSHOTS=1`，运行测试录制基准。录制时报告失败是 SnapshotTesting 提醒审核图片的正常行为。在两种设备上分别录制并检查新图片后，删除或禁用该环境变量，再分别按 Command-U 验证比较通过。
 
@@ -85,3 +88,5 @@ Moment 数据与三个 Preview 共用 `HDiaryLibrary/Sources/HDiaryAppFeature/Mo
 GitHub Actions 的 `iOS snapshots` 工作流在 push、pull request 和手动运行时，使用 `-scheme HDiarySnapshotHost -testPlan HDiarySnapshots` 运行独立计划，命令不再维护 `-only-testing` 清单。CI 使用 `xcode-27` runner，固定 Xcode 27.1，通过矩阵分别运行 iPhone 17 Pro / iOS 27.0 和 iPhone Duo / iOS 27.1；每个设备内部关闭并行测试和基准录制。依赖版本来自根目录提交的 `Package.resolved`；CI 先安装固定版本 XcodeGen 并生成工程，生成 hook 将锁文件恢复到工程 workspace 后，再通过 `-onlyUsePackageVersionsFromResolvedFile` 解析依赖。工作流检查 Xcode 公开版本，记录实际 build 号并用于依赖缓存隔离，仅在指定 runtime 未安装时下载、缓存和导入对应系统镜像；新版导出格式导入完整的 `.exportedBundle`，不选择包内的 Restore DMG。关闭失败时的 sysdiagnose 收集，保留 XCTest 图片附件，避免模拟器诊断超时拖慢运行。CI 使用新建模拟器的默认辅助功能设置，不写入系统 Accessibility 偏好；基准使用默认关闭的“非颜色区分”。不要为了让 CI 变绿而自动录制或覆盖基准。
 
 运行结束后，在 Actions 的 `list-snapshots-iphone` 和 `list-snapshots-iphone-duo` artifact 中分别下载 `xcodebuild.log`、可由 Xcode 打开的 `Lists.xcresult`，以及截图附件。图片不匹配时包含 reference、actual 和 difference 附件，便于审核是否为预期的界面变化。报告保留 14 天。
+
+图片比例夹具来自 `MomentMediaPreviewFixture`，包含四角标记与圆形以辨别裁切和拉伸。Debug App 可设置进程环境变量 `HDIARY_MEDIA_PREVIEW` 为 `landscape`、`portrait`、`square`、`tall`、`panorama` 或 `mixed`，在同一内存数据和正式详情路由上进行设备交互；Release 不包含此入口。单图按自身比例计算容器，多图统一取整组的高度需求并限制在当前视口内，翻页不改变容器宽高。快照仅比较各场景首屏；翻页尺寸稳定性、GIF 动画、Quick Look、分页取消、旋转和宽窗口的运行证据见 [issue #61 验证记录](../docs/validation/issue-61/PR-validation.md)。

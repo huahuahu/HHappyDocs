@@ -15,7 +15,9 @@
   public struct HDiaryFeatureApp: App {
     public init() {
       #if DEBUG
-        if AppStoreScreenshotFixture.active != nil { return }
+        if AppStoreScreenshotFixture.active != nil || MomentMediaPreviewFixture.active != nil {
+          return
+        }
       #endif
       WidgetSnapshotSyncRuntime.shared.start(
         primaryContainer: HDiaryContainer.currentContainer
@@ -25,7 +27,10 @@
     public var body: some Scene {
       WindowGroup {
         #if DEBUG
-          if let fixture = AppStoreScreenshotFixture.active {
+          if let fixture = MomentMediaPreviewFixture.active {
+            MomentDetailPreview(fixture: fixture)
+          }
+          else if let fixture = AppStoreScreenshotFixture.active {
             AppStoreScreenshotView(fixture: fixture)
           }
           else {

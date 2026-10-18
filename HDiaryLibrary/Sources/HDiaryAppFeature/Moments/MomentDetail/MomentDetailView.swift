@@ -62,38 +62,37 @@ private struct MomentDetailInnerView: View {
   @Environment(\.modelContext) private var modelContext
 
   var body: some View {
-    ScrollView {
-      VStack(
-        alignment: .leading,
-        spacing: verticalPadding,
-        content: {
-          titleView
-          timestampView
-          if !moment.sortedParticipants.isEmpty {
-            participantView
-          }
+    GeometryReader { geometry in
+      ScrollView {
+        let mediaItems = moment.sortedMediaItemAndThumbnails
+        VStack(
+          alignment: .leading,
+          spacing: verticalPadding,
+          content: {
+            titleView
+            timestampView
+            if !moment.sortedParticipants.isEmpty {
+              participantView
+            }
 
-          if !moment.sortedTags.isEmpty {
-            TagListView(tags: moment.sortedTags)
+            if !moment.sortedTags.isEmpty {
+              TagListView(tags: moment.sortedTags)
+            }
+            ratingView
+            HStack {
+              Text(moment.content)
+                .padding()
+            }
+            if !mediaItems.isEmpty {
+              HMediaItemPageView(itemAndThumbails: mediaItems, availableSize: geometry.size)
+            }
           }
-          ratingView
-          HStack {
-            Text(moment.content)
-              .padding()
-          }
-          if !moment.sortedMediaItemAndThumbnails.isEmpty {
-            imageListView
-          }
-        }
-      )
+        )
+        // Large text can give a child a wider ideal size than the scroll viewport.
+        .frame(width: geometry.size.width, alignment: .leading)
+      }
     }
     .navigationTitle(Text(DiaryStringKey.momentDetailViewNavigationTitle))
-  }
-
-  @MainActor @ViewBuilder
-  var imageListView: some View {
-    HMediaItemPageView(itemAndThumbails: moment.sortedMediaItemAndThumbnails)
-      .frame(minHeight: 300)
   }
 
   @ViewBuilder
