@@ -1,0 +1,108 @@
+{
+  "appId": "6470147729",
+  "bundleId": "com.tiger.suzhou.HDiary",
+  "version": "1.17",
+  "build": "3",
+  "channel": "TestFlight internal",
+  "sourceCommit": "980b9f59e2813ee0705db713f1dc9ec8dbd427c7",
+  "baseMainCommit": "753b0663515472a8bfcd07a3fd4a87c09f344c04",
+  "implementationPR": "https://github.com/huahuahu/HHappyDocs/pull/70",
+  "buildId": "175a1614-5dea-4c69-9de5-d7fbbb7369ed",
+  "verifiedAt": "2026-10-19T06:51:40+08:00",
+  "processingState": "VALID",
+  "internalBuildState": "IN_BETA_TESTING",
+  "externalBuildState": "READY_FOR_BETA_SUBMISSION",
+  "expirationDate": "2027-01-16T14:47:51-08:00",
+  "group": {
+    "id": "4aa0f2b2-2bb7-40c7-a4a9-7749b45eb3e2",
+    "name": "huahuahu-itnernal",
+    "internal": true,
+    "associationVerified": true,
+    "existingAutomaticAccess": true
+  },
+  "testNotes": {
+    "locales": [
+      "zh-Hans",
+      "en-US"
+    ],
+    "readBackMatches": true,
+    "normalization": "Ignore final whitespace"
+  },
+  "validation": {
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "blocking": 0
+  },
+  "tests": {
+    "snapshotParameterCasesPassed": 24,
+    "devices": [
+      "iPhone 17 Pro / iOS 27.0",
+      "iPhone Duo / iOS 27.1"
+    ],
+    "sourceValidationReport": "validation.md",
+    "testflightDeviceInstallVerified": false
+  },
+  "artifacts": {
+    "directory": "build/releases/1.17/3",
+    "archive": "build/releases/1.17/3/HDiary.xcarchive",
+    "ipa": "build/releases/1.17/3/HDiary.ipa",
+    "ipaBytes": 12386262,
+    "ipaSha256": "5cfb0f57d59abe5e49e681e2e9edc5872f41516bb21397ececd607ea8ad65a02",
+    "archiveTreeSha256": "962743be2eb93bd02da1a0b7c7ddb7971192f79642122b5267db78bdda038140",
+    "archiveTreeHashDefinition": "SHA-256 of compact sorted-key JSON [{path,sha256}] with lexically ordered archive file paths",
+    "appAndWidgetVersionVerified": true,
+    "distributionSignatureVerified": true,
+    "productionCloudKitEntitlementsVerified": true,
+    "dsymUUIDsMatch": true,
+    "debugScreenshotEntrypointsAbsent": true,
+    "journalingSuggestionsWeakLinked": true
+  },
+  "buildNumberReservation": {
+    "exportUploadId": "ab15bda3-d9fe-4e9b-bd95-5f4183b1ecf0",
+    "binaryUploadId": "175a1614-5dea-4c69-9de5-d7fbbb7369ed",
+    "explanation": "Xcode local export reserved build 3; the matching reservation ID was verified in ContentDelivery.log. Only one IPA was uploaded with asc."
+  },
+  "ci": {
+    "verifiedAt": "2026-10-19T06:51:40+08:00",
+    "implementationPR": 70,
+    "checks": [
+      {
+        "name": "Build and test HDiary",
+        "status": "IN_PROGRESS",
+        "conclusion": "",
+        "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/39173191826/job/117810368174"
+      },
+      {
+        "name": "Snapshots (iphone)",
+        "status": "COMPLETED",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/39173191822/job/117810368542"
+      },
+      {
+        "name": "Snapshots (iphone-duo)",
+        "status": "IN_PROGRESS",
+        "conclusion": "",
+        "url": "https://github.com/huahuahu/HHappyDocs/actions/runs/39173191822/job/117810368224"
+      },
+      {
+        "name": "GitGuardian Security Checks",
+        "status": "COMPLETED",
+        "conclusion": "SUCCESS",
+        "url": "https://dashboard.gitguardian.com"
+      }
+    ],
+    "requiredChecksReported": false
+  },
+  "appStoreSubmission": {
+    "performed": false,
+    "releaseType": null,
+    "reason": "Only TestFlight requested."
+  },
+  "externalBetaReviewSubmitted": false,
+  "tag": {
+    "created": false,
+    "pushed": false,
+    "reason": "TestFlight-only iteration."
+  }
+}
