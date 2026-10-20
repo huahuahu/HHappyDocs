@@ -15,9 +15,11 @@ import SwiftUI
 
 @MainActor
 struct ParticipantAddView: View {
+  @State private var participant = Participant.create(name: "", nickName: "")
+
   var body: some View {
     ParticipantAddEditInnerView(
-      participant: Participant.create(name: "", nickName: ""),
+      participant: participant,
       isNewParticipant: true
     )
   }
@@ -141,18 +143,8 @@ extension ParticipantAddEditInnerView {
     let participant: Participant
 
     var body: some View {
-      //    _ = Self._printChanges()
-      @Bindable var participant = participant
-      HStack {
-        Spacer()
-        AvatarSelectionView(image: .init(get: {
-          participant.getAvatarImage()
-        }, set: { image, _ in
-          participant.avatar = image?.heicData()
-        }))
-        Spacer()
-      }
-      .listRowBackground(Color.clear)
+      AvatarSelectionView(participant: participant)
+        .listRowBackground(Color.clear)
     }
   }
 }

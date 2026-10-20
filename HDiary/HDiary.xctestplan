@@ -78,6 +78,13 @@
         "identifier": "HDiarySearchTests",
         "name": "HDiarySearchTests"
       }
+    },
+    {
+      "target": {
+        "containerPath": "container:HSharedCode",
+        "identifier": "HUIComponentTests",
+        "name": "HUIComponentTests"
+      }
     }
   ],
   "version": 1

@@ -232,6 +232,27 @@ public enum DiaryStringKey {
   public static let participantNote = LocalizedStringResource("library.participant.note", defaultValue: "note", bundle: .module, comment: "Used when need show participant's note")
 
   enum Participant {
+    static let changeAvatar = LocalizedStringResource(
+      "participant.avatarEditing.change", defaultValue: "Change Avatar", bundle: .module,
+      comment: "Avatar photo picker button"
+    )
+    static let avatarEditingHint = LocalizedStringResource(
+      "participant.avatarEditing.hint", defaultValue: "Choose a photo, then tap Done after cropping to change the avatar.", bundle: .module,
+      comment: "Explains when an avatar change takes effect"
+    )
+    static let loadingAvatar = LocalizedStringResource(
+      "participant.avatarEditing.loading", defaultValue: "Loading photo…", bundle: .module,
+      comment: "Progress while loading a selected avatar photo"
+    )
+    static let avatarLoadFailed = LocalizedStringResource(
+      "participant.avatarEditing.failureTitle", defaultValue: "Unable to load photo", bundle: .module,
+      comment: "Avatar photo loading error title"
+    )
+    static let avatarLoadFailureMessage = LocalizedStringResource(
+      "participant.avatarEditing.failureMessage", defaultValue: "Your avatar has not changed. Try again, or choose another photo. For iCloud photos, check your connection.", bundle: .module,
+      comment: "Avatar loading error recovery"
+    )
+
     static let avatarPreviewFailed = LocalizedStringResource(
       "participant.avatarPreview.failed", defaultValue: "Unable to preview avatar", bundle: .module,
       comment: "Title of the alert when preparing an avatar preview file fails"

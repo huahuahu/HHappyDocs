@@ -1,80 +1,71 @@
-//
-//  AvatarSelectionView.swift
-//  HDiary
-//
-//  Created by tigerguo on 2023/6/26.
-//
-
 #if os(iOS)
+  import HDiaryConstants
+  import HDiaryModel
+  import HUIComponent
+  import PhotosUI
+  import SwiftUI
 
-import HDiaryConstants
-import HDiaryModel
-import HUIComponent
-import PhotosUI
-import SwiftUI
+  struct AvatarSelectionView: View {
+    let participant: Participant
+    @State private var item: PhotosPickerItem?
+    @State private var editor: AvatarEditingSession
+    @ScaledMetric private var size = Design.Avatar.size
 
-@MainActor
-struct AvatarSelectionView: View {
-  @State private var item: PhotosPickerItem?
-  @Binding var image: UIImage?
-  @State private var hasNewSelectedImage = false
-
-  @ScaledMetric private var size = Design.Avatar.size
-
-  init(image: Binding<UIImage?>) {
-    self._image = image
-  }
-
-  var body: some View {
-    PhotosPicker(
-      selection: $item,
-      matching: .images,
-      preferredItemEncoding: .current
-    ) {
-      AvatarImageView(size: size, image: image ?? UIImage(resource: .defaultPerson))
+    init(participant: Participant, editor: AvatarEditingSession = AvatarEditingSession()) {
+      self.participant = participant
+      self._editor = State(initialValue: editor)
     }
-    .onChange(of: item) { _, newItem in
-      if let newItem {
-        Task {
-          do {
-            let photo = try await newItem.loadTransferable(type: HPhoto.self)
-            await MainActor.run {
-              image = photo?.image
-              hasNewSelectedImage = true
+
+    var body: some View {
+      @Bindable var editor = editor
+      VStack(spacing: 12) {
+        PhotosPicker(selection: $item, matching: .images, preferredItemEncoding: .current) {
+          VStack(spacing: 12) {
+            ParticipantAvatarView(participant: participant, size: min(size, 160))
+            Label {
+              Text(DiaryStringKey.Participant.changeAvatar)
+            } icon: {
+              Image(systemName: "photo")
             }
           }
-          catch {
-            Log.common.error("Failed to pick avatar")
-          }
+          .frame(maxWidth: .infinity)
+          .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
+        .foregroundStyle(.tint)
+        .disabled(editor.request != nil)
+        .accessibilityLabel(Text(DiaryStringKey.Participant.changeAvatar))
+        .accessibilityHint(Text(DiaryStringKey.Participant.avatarEditingHint))
+        .accessibilityIdentifier("avatar.choose")
+
+        if editor.request != nil {
+          ProgressView {
+            Text(DiaryStringKey.Participant.loadingAvatar)
+          }
+          Button(DiaryStringKey.Common.cancel, role: .cancel) { editor.reset() }
+            .accessibilityIdentifier("avatar.cancelLoading")
+        }
+      }
+      .onChange(of: item) { _, selectedItem in
+        guard let selectedItem else { return }
+        // Reset immediately so selecting the same photo again is a new selection.
+        item = nil
+        editor.begin(selectedItem)
+      }
+      .task(id: editor.request?.id) {
+        await editor.load()
+      }
+      .fullScreenCover(item: $editor.crop, onDismiss: editor.reset) { crop in
+        HImageCropper(originalImage: crop.image, imageSize: CGSize(width: 320, height: 320)) { image in
+          try editor.commit(image, to: participant)
+        }
+      }
+      .alert(Text(DiaryStringKey.Participant.avatarLoadFailed), isPresented: $editor.showsLoadError) {
+        Button(DiaryStringKey.Participant.retryAvatarPreview) { editor.retry() }
+        Button(DiaryStringKey.Common.cancel, role: .cancel) { editor.reset() }
+      } message: {
+        Text(DiaryStringKey.Participant.avatarLoadFailureMessage)
       }
     }
-    .sheet(isPresented: $hasNewSelectedImage, content: {
-      cropView(for: image ?? UIImage(resource: .defaultPerson))
-    })
   }
-
-  @ViewBuilder
-  func cropView(for image: UIImage) -> some View {
-    HImageCropper(
-      originalImage: image,
-      imageSize: .init(width: 300, height: 300),
-      onCropFinish: { image in
-        Task { @MainActor in
-          self.image = image
-          item = nil
-        }
-      }
-    )
-  }
-}
-
-#Preview {
-  AvatarSelectionView(image: .init(get: {
-    .add
-  }, set: { _ in
-    Log.common.log(level: DiagnosticLogging.level(for: .debug), "Preview selected a new avatar")
-  }))
-}
-
 #endif

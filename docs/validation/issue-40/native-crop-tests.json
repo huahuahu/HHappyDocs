@@ -1,0 +1,413 @@
+{
+  "validatedAt": "2026-10-20",
+  "activeTestPlanName": "HDiary",
+  "counts": {
+    "expectedFailures": 0,
+    "failed": 0,
+    "notRun": 0,
+    "passed": 56,
+    "skipped": 0,
+    "total": 56
+  },
+  "fullConsoleLogsPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/test-console-log-2026-10-20T19-40-34+08-00.txt",
+  "fullSummaryPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/E3EFAD42-27C6-4066-8879-10F68F18ED5D.txt",
+  "results": [
+    {
+      "displayName": "loadingAndCancellingNeverChangeOriginalBytes()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/loadingAndCancellingNeverChangeOriginalBytes()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "samePhotoCanBeSelectedAfterEveryDismissalAndAnotherPhotoCanFollow()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/samePhotoCanBeSelectedAfterEveryDismissalAndAnotherPhotoCanFollow()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "loadFailureCanRetryTheOriginalSelection()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/loadFailureCanRetryTheOriginalSelection()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "encodingFailurePreservesOriginalAndCropForRetry()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/encodingFailurePreservesOriginalAndCropForRetry()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "false",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/confirmedAvatarSurvivesSavingAndRefetching(newParticipant:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "true",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/confirmedAvatarSurvivesSavingAndRefetching(newParticipant:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "lateOldRequestCannotReplaceANewerSelection()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/lateOldRequestCannotReplaceANewerSelection()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "false",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/cancellationIgnoresLateResults(taskCancellation:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "true",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/cancellationIgnoresLateResults(taskCancellation:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "nil",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarImageTests/missingOrInvalidImageUsesPlaceholder(data:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "0 bytes",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarImageTests/missingOrInvalidImageUsesPlaceholder(data:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "13 bytes",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarImageTests/missingOrInvalidImageUsesPlaceholder(data:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "nil",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarImageTests/transparentImageUsesPlaceholderEvenWithAValidHeader(maxPixelSize:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "2",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarImageTests/transparentImageUsesPlaceholderEvenWithAValidHeader(maxPixelSize:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "visibleArtworkOnTransparentBackgroundIsPreserved()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarImageTests/visibleArtworkOnTransparentBackgroundIsPreserved()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "opaqueImageKeepsItsOriginalColor()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarImageTests/opaqueImageKeepsItsOriginalColor()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "thumbnailIsBounded()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarImageTests/thumbnailIsBounded()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "onlyTheCurrentLoadedOriginalCanBePreviewed()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarLoaderTests/onlyTheCurrentLoadedOriginalCanBePreviewed()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "newViewUsesCachedPhotoBeforeItsTaskStarts()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarLoaderTests/newViewUsesCachedPhotoBeforeItsTaskStarts()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "nil",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarLoaderTests/absentOrInvalidPhotoUsesStablePlaceholder(data:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "1 bytes",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarLoaderTests/absentOrInvalidPhotoUsesStablePlaceholder(data:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "replacementKeepsPhotoAndLateResultCannotReplaceLatestPhoto()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarLoaderTests/replacementKeepsPhotoAndLateResultCannotReplaceLatestPhoto()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "deletionAndParticipantChangeNeverReusePreviousPersonsPhoto()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarLoaderTests/deletionAndParticipantChangeNeverReusePreviousPersonsPhoto()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "cancellationDoesNotCacheAPermanentPlaceholder()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarLoaderTests/cancellationDoesNotCacheAPermanentPlaceholder()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "largerAvatarUpgradesResolutionWhileKeepingVisiblePhoto()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarLoaderTests/largerAvatarUpgradesResolutionWhileKeepingVisiblePhoto()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "repeatedTapsPrepareOnlyOnePreviewAndDismissalAllowsReopening()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarPreviewTests/repeatedTapsPrepareOnlyOnePreviewAndDismissalAllowsReopening()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "sourceChangeIgnoresLatePreparationAndUsesCurrentOriginal()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarPreviewTests/sourceChangeIgnoresLatePreparationAndUsesCurrentOriginal()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "cancellationNeverPresentsOrShowsAnErrorAndAllowsRetry()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarPreviewTests/cancellationNeverPresentsOrShowsAnErrorAndAllowsRetry()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "writeFailureShowsFeedbackAndCanRetryAfterStorageRecovers()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarPreviewTests/writeFailureShowsFeedbackAndCanRetryAfterStorageRecovers()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "false",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarPreviewTests/fileKeepsOriginalBytesAndFullResolution(jpeg:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "true",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarPreviewTests/fileKeepsOriginalBytesAndFullResolution(jpeg:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "dismissalAndSourceChangesRetainFilesUntilTheNextSession()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarPreviewTests/dismissalAndSourceChangesRetainFilesUntilTheNextSession()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "reclaimedTemporaryDirectoryIsRecreatedOnTheNextPreview()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarPreviewTests/reclaimedTemporaryDirectoryIsRecreatedOnTheNextPreview()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "invalidDataCannotCreateAPreviewFile()",
+      "errorMessages": [],
+      "identifier": "ParticipantAvatarPreviewTests/invalidDataCannotCreateAPreviewFile()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "(402.0, 874.0)",
+      "errorMessages": [],
+      "identifier": "HImageCropCanvasTests/fullCanvasUsesTheCircleAsItsContentBoundary(size:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "(874.0, 402.0)",
+      "errorMessages": [],
+      "identifier": "HImageCropCanvasTests/fullCanvasUsesTheCircleAsItsContentBoundary(size:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "(300.0, 260.0)",
+      "errorMessages": [],
+      "identifier": "HImageCropCanvasTests/fullCanvasUsesTheCircleAsItsContentBoundary(size:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "false",
+      "errorMessages": [],
+      "identifier": "HImageCropCanvasTests/nativePanToEitherEdgeExportsTheVisibleColor(rightEdge:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "true",
+      "errorMessages": [],
+      "identifier": "HImageCropCanvasTests/nativePanToEitherEdgeExportsTheVisibleColor(rightEdge:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "-10000.0",
+      "errorMessages": [],
+      "identifier": "HImageCropCanvasTests/confirmingDuringPanOvershootSettlesBeforeExport(offset:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "10000.0",
+      "errorMessages": [],
+      "identifier": "HImageCropCanvasTests/confirmingDuringPanOvershootSettlesBeforeExport(offset:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "rotatingRetainsTheSelectedPhotoRegion()",
+      "errorMessages": [],
+      "identifier": "HImageCropCanvasTests/rotatingRetainsTheSelectedPhotoRegion()",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "accessibleZoomPreservesTheSelectedCenterAndResetRestoresIt()",
+      "errorMessages": [],
+      "identifier": "HImageCropCanvasTests/accessibleZoomPreservesTheSelectedCenterAndResetRestoresIt()",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "(900.0, 300.0)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/extremeOffsetsNeverExposeOutsideTheImage(imageSize:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "(300.0, 900.0)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/extremeOffsetsNeverExposeOutsideTheImage(imageSize:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "(300.0, 300.0)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/extremeOffsetsNeverExposeOutsideTheImage(imageSize:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "exportUsesTheSelectedRegionAndHasBoundedResolution()",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/exportUsesTheSelectedRegionAndHasBoundedResolution()",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "UIImageOrientation(rawValue: 0)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/orientationMatchesAnUprightReference(orientation:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "UIImageOrientation(rawValue: 1)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/orientationMatchesAnUprightReference(orientation:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "UIImageOrientation(rawValue: 2)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/orientationMatchesAnUprightReference(orientation:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "UIImageOrientation(rawValue: 3)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/orientationMatchesAnUprightReference(orientation:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "UIImageOrientation(rawValue: 4)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/orientationMatchesAnUprightReference(orientation:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "UIImageOrientation(rawValue: 5)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/orientationMatchesAnUprightReference(orientation:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "UIImageOrientation(rawValue: 6)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/orientationMatchesAnUprightReference(orientation:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "UIImageOrientation(rawValue: 7)",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/orientationMatchesAnUprightReference(orientation:)",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    },
+    {
+      "displayName": "invalidImageFailsInsteadOfProducingAnEmptyAvatar()",
+      "errorMessages": [],
+      "identifier": "HImageCropGeometryTests/invalidImageFailsInsteadOfProducingAnEmptyAvatar()",
+      "state": "Passed",
+      "targetName": "HUIComponentTests"
+    }
+  ],
+  "schemeName": "HDiary",
+  "summary": "56 tests: 56 passed, 0 failed, 0 skipped, 0 expected failures, 0 not run",
+  "totalResults": 56,
+  "truncated": false,
+  "xcresultBundlePath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/Test-HDiary-2026.10.20_19-40-34-+0800.xcresult"
+}
