@@ -8,6 +8,7 @@
   struct AvatarSelectionView: View {
     let participant: Participant
     @State private var item: PhotosPickerItem?
+    @State private var showsPhotoPicker = false
     @State private var editor: AvatarEditingSession
     @ScaledMetric private var size = Design.Avatar.size
 
@@ -19,7 +20,9 @@
     var body: some View {
       @Bindable var editor = editor
       VStack(spacing: 12) {
-        PhotosPicker(selection: $item, matching: .images, preferredItemEncoding: .current) {
+        Button {
+          showsPhotoPicker = true
+        } label: {
           VStack(spacing: 12) {
             ParticipantAvatarView(participant: participant, size: min(size, 160))
             Label {
@@ -46,6 +49,7 @@
             .accessibilityIdentifier("avatar.cancelLoading")
         }
       }
+      .photosPicker(isPresented: $showsPhotoPicker, selection: $item, matching: .images, preferredItemEncoding: .current)
       .onChange(of: item) { _, selectedItem in
         guard let selectedItem else { return }
         // Reset immediately so selecting the same photo again is a new selection.

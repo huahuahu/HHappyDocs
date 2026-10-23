@@ -38,7 +38,7 @@
         let crop = try #require(editor.crop)
         #expect(cropIDs.insert(crop.id).inserted)
         #expect(editor.request == nil)
-        // sheet(item:) clears its binding for both Cancel and interactive dismissal.
+        // Dismissing the crop clears its item binding before the session resets.
         editor.crop = nil
         editor.reset()
       }
@@ -71,15 +71,17 @@
       let participant = Participant.create(name: "Original", nickName: "")
       let original = Data([4, 5])
       participant.avatar = original
-      var fail = true
-      let editor = AvatarEditingSession(loadPhoto: { _ in Self.photo() }, encode: { fail ? nil : $0.pngData() })
+      var encodingAttempts = 0
+      let editor = AvatarEditingSession(loadPhoto: { _ in Self.photo() }, encode: { image in
+        encodingAttempts += 1
+        return encodingAttempts == 1 ? nil : image.pngData()
+      })
       editor.begin(PhotosPickerItem(itemIdentifier: "photo"))
       await editor.load()
       let crop = try #require(editor.crop)
       #expect(throws: AvatarEditingSession.Failure.self) { try editor.commit(crop.image, to: participant) }
       #expect(participant.avatar == original)
       #expect(editor.crop?.id == crop.id)
-      fail = false
       try editor.commit(crop.image, to: participant)
       #expect(participant.avatar == crop.image.pngData())
     }

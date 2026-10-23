@@ -1,0 +1,118 @@
+{
+  "buildIsRunning": false,
+  "buildLogEntries": [
+    {
+      "buildTask": "Compile AvatarSelectionView.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile AvatarEditingValidationView.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile AvatarImageView.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile ParticipantAvatarImage.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile ParticipantAvatarImageStore.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile ParticipantAvatarLoader.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile ParticipantAvatarView.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile AvatarEditingSession.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile ParticipantAvatarPreviewValidationView.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile ParticipantPreviewAvatar.swift",
+      "emittedIssues": []
+    },
+    {
+      "buildTask": "Compile AvatarPreviewValidation.swift",
+      "emittedIssues": []
+    }
+  ],
+  "buildResult": "The build succeeded",
+  "fullLogPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/GetBuildLog/FC68B89A-42C7-4954-9C32-391918EA8B83.txt",
+  "totalFound": 11,
+  "truncated": false,
+  "testBuild": {
+    "buildIsRunning": false,
+    "buildLogEntries": [
+      {
+        "buildTask": "Compile AvatarSelectionView.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile AvatarEditingValidationView.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile AvatarImageView.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile ParticipantAvatarImage.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile ParticipantAvatarImageStore.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile ParticipantAvatarLoader.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile ParticipantAvatarView.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile AvatarEditingSession.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile ParticipantAvatarPreviewValidationView.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile ParticipantPreviewAvatar.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile AvatarEditingSessionTests.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile ParticipantAvatarImageTests.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile ParticipantAvatarLoaderTests.swift",
+        "emittedIssues": []
+      },
+      {
+        "buildTask": "Compile ParticipantAvatarPreviewTests.swift",
+        "emittedIssues": []
+      }
+    ],
+    "buildResult": "The build succeeded",
+    "fullLogPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/GetBuildLog/8F4E4B89-6D94-4E70-A24D-4A6789C4BE67.txt",
+    "totalFound": 14,
+    "truncated": false
+  }
+}
