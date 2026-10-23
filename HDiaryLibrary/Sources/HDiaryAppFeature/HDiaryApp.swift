@@ -15,7 +15,7 @@
   public struct HDiaryFeatureApp: App {
     public init() {
       #if DEBUG
-        if AppStoreScreenshotFixture.active != nil || MomentMediaPreviewFixture.active != nil {
+        if AppStoreScreenshotFixture.active != nil || MomentMediaPreviewFixture.active != nil || AvatarEditingValidationView.isEnabled {
           return
         }
       #endif
@@ -27,7 +27,10 @@
     public var body: some Scene {
       WindowGroup {
         #if DEBUG
-          if let fixture = MomentMediaPreviewFixture.active {
+          if AvatarEditingValidationView.isEnabled {
+            AvatarEditingValidationView()
+          }
+          else if let fixture = MomentMediaPreviewFixture.active {
             MomentDetailPreview(fixture: fixture)
           }
           else if let fixture = AppStoreScreenshotFixture.active {

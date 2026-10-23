@@ -1,0 +1,83 @@
+{
+  "activeTestPlanName": "HDiary",
+  "counts": {
+    "expectedFailures": 0,
+    "failed": 0,
+    "notRun": 0,
+    "passed": 9,
+    "skipped": 0,
+    "total": 9
+  },
+  "fullConsoleLogsPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/test-console-log-2026-10-23T19-33-21+08-00.txt",
+  "fullSummaryPath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/25CBE008-0233-4E3C-8995-9AB4A5683291.txt",
+  "results": [
+    {
+      "displayName": "loadingAndCancellingNeverChangeOriginalBytes()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/loadingAndCancellingNeverChangeOriginalBytes()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "samePhotoCanBeSelectedAfterEveryDismissalAndAnotherPhotoCanFollow()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/samePhotoCanBeSelectedAfterEveryDismissalAndAnotherPhotoCanFollow()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "loadFailureCanRetryTheOriginalSelection()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/loadFailureCanRetryTheOriginalSelection()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "encodingFailurePreservesOriginalAndCropForRetry()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/encodingFailurePreservesOriginalAndCropForRetry()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "false",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/confirmedAvatarSurvivesSavingAndRefetching(newParticipant:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "true",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/confirmedAvatarSurvivesSavingAndRefetching(newParticipant:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "lateOldRequestCannotReplaceANewerSelection()",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/lateOldRequestCannotReplaceANewerSelection()",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "false",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/cancellationIgnoresLateResults(taskCancellation:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    },
+    {
+      "displayName": "true",
+      "errorMessages": [],
+      "identifier": "AvatarEditingSessionTests/cancellationIgnoresLateResults(taskCancellation:)",
+      "state": "Passed",
+      "targetName": "HDiaryAppFeatureTests"
+    }
+  ],
+  "schemeName": "HDiary",
+  "summary": "9 tests: 9 passed, 0 failed, 0 skipped, 0 expected failures, 0 not run",
+  "totalResults": 9,
+  "truncated": false,
+  "xcresultBundlePath": "/var/folders/xg/hh57n8x55bg16qydl87zp3lw0000gn/T/ActionArtifacts/default/RunSomeTests/Test-HDiary-2026.10.23_19-33-21-+0800.xcresult"
+}
